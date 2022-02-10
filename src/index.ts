@@ -13,7 +13,10 @@ const btnStart: HTMLButtonElement = document.getElementById(
 btnStart.addEventListener('click', start);
 
 // Load data
-Data.setup(start);
+Data.setup(() => {
+  realm = new Realm();
+  updateView();
+});
 
 // Initialize variables
 let realm: Realm;
@@ -22,9 +25,21 @@ let realm: Realm;
 function start() {
   realm = new Realm();
   updateView();
+
+  // Scroll to the content
+  const contentEl: HTMLDivElement = document.getElementById(
+    'content'
+  )! as HTMLDivElement;
+  contentEl.scrollIntoView({ behavior: 'smooth' });
 }
 
 function updateView() {
+  // Show the content
+  const contentEl: HTMLDivElement = document.getElementById(
+    'content'
+  )! as HTMLDivElement;
+  contentEl.classList.remove('d-none');
+
   // Choose a photo for the hero
   const heroEl: HTMLDivElement = document.getElementById(
     'hero'
@@ -47,13 +62,6 @@ function updateView() {
   applyText('sigil-meaning', realm.sigilMeaning);
 
   applyIcon('sigil', realm.sigilIcon);
-
-  // Show the content and scroll to it
-  const contentEl: HTMLDivElement = document.getElementById(
-    'content'
-  )! as HTMLDivElement;
-  contentEl.classList.remove('d-none');
-  contentEl.scrollIntoView({ behavior: 'smooth' });
 
   // Change dice icon
   const dice: string[] = ['one', 'two', 'three', 'four', 'five', 'six'];
