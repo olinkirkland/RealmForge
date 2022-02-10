@@ -22,10 +22,15 @@ export class Realm {
   public regions: string[] = [];
   public coastal: boolean = false;
 
+  public sigilName: string = 'dove';
+  public sigilIcon: string = 'dove';
+  public sigilMeaning: string = 'peace';
+
   constructor() {
     this.determineParentEntity();
     this.determineDirection();
     this.determineGovernmentRank();
+    this.determineSigil();
 
     // Choose geography and climate based on the direction
     if (this.directionWithinParentEntity.includes('north')) {
@@ -72,5 +77,11 @@ export class Realm {
   public determineGovernmentRank() {
     this.governmentRank = Util.randomKey(Data.governmentRanks);
     this.leaderTitle = Util.randomValue(Data.governmentRanks);
+  }
+
+  public determineSigil() {
+    this.sigilName = Util.randomKey(Data.sigils);
+    this.sigilIcon = Data.sigils[this.sigilName].icon;
+    this.sigilMeaning = Util.randomValue(Data.sigils[this.sigilName].meanings);
   }
 }

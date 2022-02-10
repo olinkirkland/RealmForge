@@ -3,6 +3,7 @@ export class Data {
   public static directions: any;
   public static images: string[];
   public static governmentRanks: any;
+  public static sigils: any;
 
   public static parentEntityDescriptorsBefore: string[];
   public static parentEntityDescriptorsAfter: string[];
@@ -25,9 +26,10 @@ export class Data {
     Data.directions = u.directions;
     Data.images = u.images;
     Data.governmentRanks = u.governmentRanks;
+    Data.sigils = u.sigils;
 
-    Data.parentEntityDescriptorsBefore = u.parentEntity.descriptorsBefore;
-    Data.parentEntityDescriptorsAfter = u.parentEntity.descriptorsAfter;
-    Data.parentEntityGovernments = u.parentEntity.governments;
+    Data.parentEntityDescriptorsBefore = u.parentEntities.descriptorsBefore;
+    Data.parentEntityDescriptorsAfter = u.parentEntities.descriptorsAfter;
+    Data.parentEntityGovernments = u.parentEntities.governments;
   }
 }

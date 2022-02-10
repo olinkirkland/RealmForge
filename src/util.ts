@@ -2,7 +2,6 @@ export class Util {
   static randomKey(u: any): string {
     let keys: string[] = Object.keys(u);
     let k: string = keys[Math.floor(Math.random() * keys.length)];
-    console.log(k);
     return k;
   }
 

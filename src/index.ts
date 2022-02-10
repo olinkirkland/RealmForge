@@ -34,9 +34,6 @@ function updateView() {
     `background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${determineHeroImageUrl()})`
   );
 
-  // Choose a sigil
-  
-
   // Apply values to view
   applyText('name', realm.name);
   applyText('government-rank', realm.governmentRank);
@@ -46,6 +43,10 @@ function updateView() {
     realm.directionAdjWithinParentEntity
   );
   applyText('capital-city', realm.capitalCityName);
+  applyText('sigil-name', realm.sigilName);
+  applyText('sigil-meaning', realm.sigilMeaning);
+
+  applyIcon('sigil', realm.sigilIcon);
 
   // Show the content and scroll to it
   const contentEl: HTMLDivElement = document.getElementById(
@@ -73,12 +74,28 @@ function determineHeroImageUrl(): string {
 }
 
 function applyText(query: string, text: string) {
-  const nationNameEls: NodeList = document.querySelectorAll('span.' + query);
-  nationNameEls.forEach((node: Node) => {
+  const els: NodeList = document.querySelectorAll('span.' + query);
+  els.forEach((node: Node) => {
     const el: HTMLElement = node as HTMLElement;
     el.classList.add('keyword');
     if (el.classList.contains('prepend-article'))
       text = Util.aOrAn(text) + ' ' + text;
     el.textContent = text;
+  });
+}
+
+function applyIcon(query: string, icon: string) {
+  const els: NodeList = document.querySelectorAll('i.' + query);
+  els.forEach((node: Node) => {
+    const el: HTMLElement = node as HTMLElement;
+
+    // Remove the previous icon
+    el.classList.forEach((className) => {
+      if (className.includes('fa-') && className !== 'fa-2x') {
+        el.classList.remove(className);
+      }
+    });
+
+    el.classList.add('fa-' + icon);
   });
 }
