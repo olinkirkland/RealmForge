@@ -1,4 +1,22 @@
 {
+  "directions": {
+    "middle": "central",
+    "north": "northern",
+    "east": "eastern",
+    "south": "southern",
+    "west": "western",
+    "north-east": "north-eastern",
+    "south-east": "south-eastern",
+    "north-west": "north-western",
+    "south-west": "south-western"
+  },
+  "biomes": {
+    "mountain": "mountainous",
+    "boreal-forest": "forested",
+    "temperate-forest": "forested",
+    "grassland": "flat",
+    "tundra": "flat"
+  },
   "names": [
     {
       "suffixScore": 0,

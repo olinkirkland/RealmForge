@@ -1,13 +1,7 @@
 export class Data {
-  public static biomes: [
-    'mountain',
-    'boreal-forest',
-    'temperate-forest',
-    'grassland',
-    'tundra'
-  ];
+  public static biomes: string[];
 
-  public static content: Object;
+  public static directions: string[];
 
   static setup() {
     // Load names
@@ -16,7 +10,11 @@ export class Data {
         return response.json();
       })
       .then((data) => {
-        Data.content = data;
+        Data.parse(data);
       });
+  }
+
+  static parse(u: any) {
+    Data.biomes = u['biomes'];
   }
 }
