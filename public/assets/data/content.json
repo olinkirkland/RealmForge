@@ -29,10 +29,18 @@
       "empire": "imperial",
       "kingdom": "kingdom",
       "imperium": "imperial",
-      "league": "league",
       "dominion": "dominion",
       "confederacy": "confederacy"
     }
+  },
+  "sigils": {
+    "horse": "horse-head",
+    "dove": "dove",
+    "feather": "feather-pointed",
+    "cat": "cat",
+    "frog": "frog",
+    "fish": "fish",
+    "": ""
   },
   "governmentRanks": {
     "principality": "prince",

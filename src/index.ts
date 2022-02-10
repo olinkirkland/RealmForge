@@ -34,6 +34,9 @@ function updateView() {
     `background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${determineHeroImageUrl()})`
   );
 
+  // Choose a sigil
+  
+
   // Apply values to view
   applyText('name', realm.name);
   applyText('government-rank', realm.governmentRank);

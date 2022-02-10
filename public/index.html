@@ -55,56 +55,54 @@
     <title>Realm Forge | Generate Detailed Realms</title>
   </head>
   <body>
-    <div class="container">
-      <header class="py-3text-center pb-3 mb-4 border-bottom">
-        <span class="">Realm Forge</span>
-        <i class="fas fa-feather-alt mx-2"></i>
-        <span class="text-muted">by Olin Kirkland</span>
-      </header>
+    <header class="container py-4 mb-4 text-center border-bottom">
+      <span class="">Realm Forge</span>
+      <i class="fas fa-feather-alt mx-2"></i>
+      <span class="text-muted">by Olin Kirkland</span>
+    </header>
 
-      <div class="py-3 p-5 mb-4 bg-light rounded-3 text-center border">
-        <div class="container-fluid py-5">
-          <h1 class="display-5 fw-bold">Realm Forge</h1>
-          <p class="fs-4">Generate a detailed Realm with just one click.</p>
-          <button
-            id="btnStart"
-            class="btn btn-primary text-capitalize"
-            type="button"
-          >
-            <i class="fas fa-dice-three me-1"></i>
-            <span>Forge a new Realm</span>
-          </button>
-        </div>
+    <div class="container p-5 mb-4 bg-light rounded-3 text-center border">
+      <div class="py-5">
+        <h1 class="display-5 fw-bold">Realm Forge</h1>
+        <p class="fs-4">Generate a detailed Realm with just one click.</p>
+        <button
+          id="btnStart"
+          class="btn btn-primary text-capitalize"
+          type="button"
+        >
+          <i class="fas fa-dice-three me-1"></i>
+          <span>Forge a new Realm</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="content" class="container p-0 d-none">
+      <div id="hero" class="d-flex flex-column">
+        <h1 class="display-1 text-center"><span class="name"></span></h1>
+        <i class="sigil text-white fa-2x fas fa-dove"></i>
       </div>
 
-      <div id="content" class="d-none">
-        <div id="hero">
-          <h1 class="display-1 text-center"><span class="name"></span></h1>
-        </div>
-
-        <div class="row align-items-md-stretch">
-          <div class="col-md-6">
-            <div class="h-100 p-5 bg-light border rounded-3">
-              <h2 class="mb-3">
-                A Brief Overview of <span class="name"></span>
-              </h2>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia
-                dolorum doloribus nemo iusto sunt vero harum ex sapiente
-                assumenda.
-              </p>
-              <ul class="list-group mb-3">
-                <li class="list-group-item">
-                  <span class="name"></span> is
-                  <span class="prepend-article government-rank"></span> in the
-                  <span class="direction-within-parent-entity"></span>
-                  part of <span class="parent-entity"></span>.
-                </li>
-                <li class="list-group-item">
-                  <span class="name"></span>'s main cities include its capital,
-                  <span class="capital-city"></span>.
-                </li>
-                <!-- <li class="list-group-item">
+      <div class="row align-items-md-stretch py-4">
+        <div class="col-md-6">
+          <div class="h-100 p-5 bg-light border rounded-3">
+            <h2 class="mb-3">A Brief Overview of <span class="name"></span></h2>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia
+              dolorum doloribus nemo iusto sunt vero harum ex sapiente
+              assumenda.
+            </p>
+            <ul class="list-group mb-3">
+              <li class="list-group-item">
+                <span class="name"></span> is
+                <span class="prepend-article government-rank"></span> in the
+                <span class="direction-within-parent-entity"></span>
+                part of <span class="parent-entity"></span>.
+              </li>
+              <li class="list-group-item">
+                <span class="name"></span>'s main cities include its capital,
+                <span class="capital-city"></span>.
+              </li>
+              <!-- <li class="list-group-item">
                   <span class="name"></span> shares international borders with
                   %neighboring_parent_entity% and %neighboring_parent_entity%.
                 </li>
@@ -113,37 +111,36 @@
                   <span class="parent-entity"></span> are %neighboring_sibling%,
                   %neighboring_sibling%, and %neighboring_sibling%.
                 </li> -->
-              </ul>
-            </div>
+            </ul>
           </div>
-          <div class="col-md-6">
-            <div class="h-100 p-5 bg-light border rounded-3">
-              <h2 class="mb-3">Geography of <span class="name"></span></h2>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Assumenda earum commodi illo modi deserunt soluta placeat quis
-                asperiores, illum reiciendis necessitatibus aspernatur beatae
-                dolorem? Ut, magni ducimus! Consequuntur, beatae.
-              </p>
+        </div>
+        <div class="col-md-6">
+          <div class="h-100 p-5 bg-light border rounded-3">
+            <h2 class="mb-3">Geography of <span class="name"></span></h2>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda
+              earum commodi illo modi deserunt soluta placeat quis asperiores,
+              illum reiciendis necessitatibus aspernatur beatae dolorem? Ut,
+              magni ducimus! Consequuntur, beatae.
+            </p>
 
-              <!-- Bordering Realms -->
+            <!-- Bordering Realms -->
 
-              <!-- Climate -->
+            <!-- Climate -->
 
-              <!-- Ecoregions -->
+            <!-- Ecoregions -->
 
-              <!-- Biodiversity -->
+            <!-- Biodiversity -->
 
-              <!-- Political Regions -->
-            </div>
+            <!-- Political Regions -->
           </div>
         </div>
       </div>
-
-      <footer class="py-3 mt-3 text-muted border-top text-center">
-        Copyright &copy; 2022 by Olin Kirkland
-      </footer>
     </div>
+
+    <footer class="py-4 text-muted border-top text-center">
+      Copyright &copy; 2022 by Olin Kirkland
+    </footer>
 
     <!-- Bootstrap JavaScript -->
     <script
