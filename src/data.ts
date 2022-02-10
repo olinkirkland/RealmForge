@@ -7,16 +7,16 @@ export class Data {
     'tundra'
   ];
 
-  public static lang: string[];
+  public static content: Object;
 
   static setup() {
     // Load names
-    fetch('./assets/presets/lang.json')
+    fetch('./assets/data/content.json')
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        Data.lang = data;
+        Data.content = data;
       });
   }
 }

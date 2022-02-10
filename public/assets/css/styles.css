@@ -3,11 +3,12 @@
   padding: 0;
 }
 
-.realm-name {
-  font-weight: bold;
+.name,
+.parent-entity,
+.capital-city {
   text-transform: capitalize;
 }
 
-.realm-climate-adj {
+.keyword {
   font-weight: bold;
 }

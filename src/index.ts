@@ -15,7 +15,9 @@ btnStart.addEventListener('click', start);
 Data.setup();
 
 // Initialize variables
-let realm;
+let realm: Realm;
+
+start();
 
 // Start the generation process
 function start() {
@@ -25,11 +27,15 @@ function start() {
 }
 
 function updateView() {
-  // // Add the correct nation name
-  // const nationNameEls: NodeList = document.querySelectorAll('span.realm-name');
-  // nationNameEls.forEach((el) => {
-  //   el.textContent = realm.name;
-  // });
+  // Apply values to view
+  applyText('name', realm.name);
+  applyText('government-rank', realm.governmentRank);
+  applyText('parent-entity', realm.parentEntityName);
+  applyText(
+    'direction-within-parent-entity',
+    realm.directionWithinParentEntity
+  );
+  applyText('capital-city', realm.capitalCityName);
 
   // Show the content and scroll to it
   const contentEl: HTMLDivElement = document.getElementById(
@@ -37,4 +43,25 @@ function updateView() {
   )! as HTMLDivElement;
   contentEl.classList.remove('d-none');
   contentEl.scrollIntoView({ behavior: 'smooth' });
+
+  // Change dice icon
+  const dice: string[] = ['one', 'two', 'three', 'four', 'five', 'six'];
+  const iconEl: HTMLElement = document.querySelector(
+    '#btnStart > i'
+  )! as HTMLElement;
+  dice.forEach((str) => {
+    iconEl.classList.remove('fa-dice-' + str);
+  });
+  iconEl.classList.add(
+    'fa-dice-' + dice[Math.floor(Math.random() * dice.length)]
+  );
+}
+
+function applyText(query: string, text: string) {
+  const nationNameEls: NodeList = document.querySelectorAll('span.' + query);
+  nationNameEls.forEach((node: Node) => {
+    const el: HTMLElement = node as HTMLElement;
+    el.classList.add('keyword');
+    el.textContent = text;
+  });
 }
