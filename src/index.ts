@@ -1,3 +1,4 @@
+import { Util } from './util';
 import { Data } from './data';
 import { Realm } from './realm';
 
@@ -12,28 +13,34 @@ const btnStart: HTMLButtonElement = document.getElementById(
 btnStart.addEventListener('click', start);
 
 // Load data
-Data.setup();
+Data.setup(start);
 
 // Initialize variables
 let realm: Realm;
 
-start();
-
 // Start the generation process
 function start() {
   realm = new Realm();
-
   updateView();
 }
 
 function updateView() {
+  // Choose a photo for the hero
+  const heroEl: HTMLDivElement = document.getElementById(
+    'hero'
+  )! as HTMLDivElement;
+  heroEl.setAttribute(
+    'style',
+    `background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${determineHeroImageUrl()})`
+  );
+
   // Apply values to view
   applyText('name', realm.name);
   applyText('government-rank', realm.governmentRank);
   applyText('parent-entity', realm.parentEntityName);
   applyText(
     'direction-within-parent-entity',
-    realm.directionWithinParentEntity
+    realm.directionAdjWithinParentEntity
   );
   applyText('capital-city', realm.capitalCityName);
 
@@ -57,11 +64,18 @@ function updateView() {
   );
 }
 
+function determineHeroImageUrl(): string {
+  // Todo use realm information to determine the image
+  return Util.randomValue(Data.images);
+}
+
 function applyText(query: string, text: string) {
   const nationNameEls: NodeList = document.querySelectorAll('span.' + query);
   nationNameEls.forEach((node: Node) => {
     const el: HTMLElement = node as HTMLElement;
     el.classList.add('keyword');
+    if (el.classList.contains('prepend-article'))
+      text = Util.aOrAn(text) + ' ' + text;
     el.textContent = text;
   });
 }

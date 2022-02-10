@@ -1,6 +1,28 @@
+/* General */
+
 * {
   margin: 0;
   padding: 0;
+}
+
+/* Content */
+
+#hero {
+  height: 24rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  color: white;
+}
+
+#hero .name {
+  font-family: 'Berkshire Swash', cursive;
 }
 
 .name,
