@@ -34,30 +34,25 @@
     }
   },
   "sigils": {
-    "horse": {
-      "icon": "chess-knight",
-      "meaning": ["strength", "fearlessness", "loyalty"]
-    },
+    "stallion": { "icon": "chess-knight", "meanings": ["strength", "courage"] },
     "dove": { "icon": "dove", "meanings": ["peace", "wisdom"] },
     "feather": {
-      "icon": "feather",
+      "icon": "feather-pointed",
       "meanings": ["loyalty", "courage"]
     },
     "cat": { "icon": "cat", "meanings": ["sharp wits", "ferocity"] },
     "frog": { "icon": "frog", "meanings": ["patience", "strength"] },
-    "fish": { "icon": "fish", "meanings": ["affinity for nature", "agility"] },
     "cross": { "icon": "cross", "meanings": ["virtue", "purity", "piety"] },
-    "eye": { "icon": "eye", "meanings": ["watchfulness", "attentiveness"] },
-    "tower": {
-      "icon": "chess-rook",
-      "meanings": ["strength", "solidarity", "steadfastness"]
-    },
+    "eye": { "icon": "eye", "meanings": ["vigilance", "perception"] },
+    "tower": { "icon": "chess-rook", "meanings": ["strength", "solidarity"] },
     "crown": { "icon": "chess-king", "meanings": ["loyalty", "royal lineage"] },
-    "tree": {
-      "icon": "tree",
-      "meanings": ["heritage", "family", "affinity for nature"]
-    },
-    "lucky clover": { "icon": "clover", "meanings": ["good fortune", "luck"] }
+    "sapling": { "icon": "seedling", "meanings": ["heritage", "family"] },
+    "lucky clover": { "icon": "clover", "meanings": ["good fortune", "luck"] },
+    "closed fist": { "icon": "hand-fist", "meanings": ["unity", "willpower"] },
+    "snowflake": { "icon": "snowflake", "meanings": ["beauty", "charm"] },
+    "sun": { "icon": "sun", "meanings": ["harvest", "honesty"] },
+    "jewel": { "icon": "gem", "meanings": ["wealth", "value"] },
+    "skull": { "icon": "skull", "meanings": ["valor", "ruthlessness"] }
   },
   "governmentRanks": {
     "principality": "prince",
