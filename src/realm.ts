@@ -1,6 +1,7 @@
 import { Data } from './data';
 import { Util } from './util';
 
+type Biome = { biome: string; size: string; direction: string };
 export class Realm {
   public name: string = 'oldmarch';
   public adj: string = 'oldmarch';
@@ -15,11 +16,14 @@ export class Realm {
   public directionWithinParentEntity: string = 'south';
   public directionAdjWithinParentEntity: string = 'south';
 
-  public climate: string = 'temperate';
+  public size: string = 'small';
+  public climate: string[] = ['temperate'];
+
   public season: string = 'varied';
   public seasonSummer: string[] = ['long', 'harsh'];
   public seasonWinter: string[] = ['long', 'mild'];
-  public regions: string[] = [];
+
+  public biomes: Biome[] = [];
   public coastal: boolean = false;
 
   public sigilName: string = 'dove';
@@ -29,17 +33,22 @@ export class Realm {
   constructor() {
     this.determineParentEntity();
     this.determineDirection();
+    this.determineSize();
     this.determineGovernmentRank();
     this.determineSigil();
 
     // Choose geography and climate based on the direction
     if (this.directionWithinParentEntity.includes('north')) {
-      this.climate = 'cold';
+      this.climate = ['cold'];
     } else if (this.directionWithinParentEntity.includes('south')) {
-      this.climate = 'warm';
+      this.climate = ['warm'];
     } else {
-      this.climate = 'temperate';
+      this.climate = ['temperate'];
     }
+
+    this.climate.push(Util.randomKey(['wet', 'dry']));
+
+    this.determineBiomes();
   }
 
   public determineParentEntity() {
@@ -74,6 +83,10 @@ export class Realm {
       Data.directions[this.directionWithinParentEntity];
   }
 
+  public determineSize() {
+    this.size = Util.randomKey(Data.sizes);
+  }
+
   public determineGovernmentRank() {
     this.governmentRank = Util.randomKey(Data.governmentRanks);
     this.leaderTitle = Util.randomValue(Data.governmentRanks);
@@ -83,5 +96,39 @@ export class Realm {
     this.sigilName = Util.randomKey(Data.sigils);
     this.sigilIcon = Data.sigils[this.sigilName].icon;
     this.sigilMeaning = Util.randomValue(Data.sigils[this.sigilName].meanings);
+  }
+
+  public determineBiomes() {
+    // mountain | boreal-forest | temperate-forest | grassland | tundra
+
+    let availableBiomes: string[] = Data.biomes.filter((str) => {
+      // Dry? Remove boreal-forest and temperate-forest
+      if (this.climate.includes('dry')) {
+        Util.arrayRemove(availableBiomes, 'boreal-forest');
+        Util.arrayRemove(availableBiomes, 'temperate-forest');
+      }
+
+      // Wet? Remove grassland and tundra
+      if (this.climate.includes('wet')) {
+        Util.arrayRemove(availableBiomes, 'grassland');
+        Util.arrayRemove(availableBiomes, 'tundra');
+      }
+
+      return true;
+    });
+
+    let availableSizeIndex: number = Data.sizes.indexOf(this.size);
+
+    // Add the primary biome, reroll once if mountains
+    let b: string = Util.randomKey(availableBiomes);
+    if (b == 'mountains') b = Util.randomKey(availableBiomes);
+
+    let sizeIndex: number = Math.floor(Math.random() * availableSizeIndex);
+
+    // let primaryBiome: Biome = { b,  };
+
+    if (Math.random() < 0.6) {
+      // Add a second biome
+    }
   }
 }

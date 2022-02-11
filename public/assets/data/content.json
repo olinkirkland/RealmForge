@@ -10,12 +10,17 @@
     "north-west": "north-western",
     "south-west": "south-western"
   },
-  "biomes": {
-    "mountain": "mountainous",
-    "boreal-forest": "forested",
-    "temperate-forest": "forested",
-    "grassland": "flat",
-    "tundra": "flat"
+  "biomes": [
+    "mountain",
+    "boreal-forest",
+    "temperate-forest",
+    "grassland",
+    "tundra"
+  ],
+  "sizes": ["small", "medium-sized", "large"],
+  "seasons": {
+    "descriptors1": ["short", "long"],
+    "descriptors2": ["harsh", "mild"]
   },
   "images": [
     "https://images.unsplash.com/photo-1511884642898-4c92249e20b6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80",

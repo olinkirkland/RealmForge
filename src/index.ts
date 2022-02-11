@@ -25,21 +25,9 @@ let realm: Realm;
 function start() {
   realm = new Realm();
   updateView();
-
-  // Scroll to the content
-  const contentEl: HTMLDivElement = document.getElementById(
-    'content'
-  )! as HTMLDivElement;
-  contentEl.scrollIntoView({ behavior: 'smooth' });
 }
 
 function updateView() {
-  // Show the content
-  const contentEl: HTMLDivElement = document.getElementById(
-    'content'
-  )! as HTMLDivElement;
-  contentEl.classList.remove('d-none');
-
   // Choose a photo for the hero
   const heroEl: HTMLDivElement = document.getElementById(
     'hero'

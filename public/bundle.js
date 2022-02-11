@@ -1,11 +1,3 @@
-/*
- * ATTENTION: The "eval" devtool has been used (maybe by default in mode: "development").
- * This devtool is neither made for production nor for readable output files.
- * It uses "eval()" calls to create a separate source file in the browser devtools.
- * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
- * or disable the default devtool with "devtool: false".
- * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
- */
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
@@ -16,17 +8,37 @@
   \*********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"Data\": () => (/* binding */ Data)\n/* harmony export */ });\nclass Data {\r\n    static setup(callback) {\r\n        // Load names\r\n        fetch('./assets/data/content.json')\r\n            .then((response) => {\r\n            return response.json();\r\n        })\r\n            .then((data) => {\r\n            Data.parse(data);\r\n            callback();\r\n        });\r\n    }\r\n    static parse(u) {\r\n        Data.biomes = u.biomes;\r\n        Data.directions = u.directions;\r\n        Data.images = u.images;\r\n        Data.governmentRanks = u.governmentRanks;\r\n        Data.sigils = u.sigils;\r\n        Data.parentEntityDescriptorsBefore = u.parentEntities.descriptorsBefore;\r\n        Data.parentEntityDescriptorsAfter = u.parentEntities.descriptorsAfter;\r\n        Data.parentEntityGovernments = u.parentEntities.governments;\r\n    }\r\n}\r\n\n\n//# sourceURL=webpack://ts-webpack/./src/data.ts?");
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Data": () => (/* binding */ Data)
+/* harmony export */ });
+class Data {
+    static setup(callback) {
+        // Load names
+        fetch('./assets/data/content.json')
+            .then((response) => {
+            return response.json();
+        })
+            .then((data) => {
+            Data.parse(data);
+            callback();
+        });
+    }
+    static parse(u) {
+        Data.biomes = u.biomes;
+        Data.directions = u.directions;
+        Data.images = u.images;
+        Data.governmentRanks = u.governmentRanks;
+        Data.sigils = u.sigils;
+        Data.sizes = u.sizes;
+        Data.seasonDescriptors1 = u.seasons.descriptors1;
+        Data.seasonDescriptors2 = u.seasons.descriptors2;
+        Data.parentEntityDescriptorsBefore = u.parentEntities.descriptorsBefore;
+        Data.parentEntityDescriptorsAfter = u.parentEntities.descriptorsAfter;
+        Data.parentEntityGovernments = u.parentEntities.governments;
+    }
+}
 
-/***/ }),
-
-/***/ "./src/index.ts":
-/*!**********************!*\
-  !*** ./src/index.ts ***!
-  \**********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./util */ \"./src/util.ts\");\n/* harmony import */ var _data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./data */ \"./src/data.ts\");\n/* harmony import */ var _realm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./realm */ \"./src/realm.ts\");\n\r\n\r\n\r\n/**\r\n * Hint: Use 'npm run build' from console to compile + watch the TS code on save\r\n */\r\n// Handle start button\r\nconst btnStart = document.getElementById('btnStart');\r\nbtnStart.addEventListener('click', start);\r\n// Load data\r\n_data__WEBPACK_IMPORTED_MODULE_1__.Data.setup(() => {\r\n    realm = new _realm__WEBPACK_IMPORTED_MODULE_2__.Realm();\r\n    updateView();\r\n});\r\n// Initialize variables\r\nlet realm;\r\n// Start the generation process\r\nfunction start() {\r\n    realm = new _realm__WEBPACK_IMPORTED_MODULE_2__.Realm();\r\n    updateView();\r\n    // Scroll to the content\r\n    const contentEl = document.getElementById('content');\r\n    contentEl.scrollIntoView({ behavior: 'smooth' });\r\n}\r\nfunction updateView() {\r\n    // Show the content\r\n    const contentEl = document.getElementById('content');\r\n    contentEl.classList.remove('d-none');\r\n    // Choose a photo for the hero\r\n    const heroEl = document.getElementById('hero');\r\n    heroEl.setAttribute('style', `background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${determineHeroImageUrl()})`);\r\n    // Apply values to view\r\n    applyText('name', realm.name);\r\n    applyText('government-rank', realm.governmentRank);\r\n    applyText('parent-entity', realm.parentEntityName);\r\n    applyText('direction-within-parent-entity', realm.directionAdjWithinParentEntity);\r\n    applyText('capital-city', realm.capitalCityName);\r\n    applyText('sigil-name', realm.sigilName);\r\n    applyText('sigil-meaning', realm.sigilMeaning);\r\n    applyIcon('sigil', realm.sigilIcon);\r\n    // Change dice icon\r\n    const dice = ['one', 'two', 'three', 'four', 'five', 'six'];\r\n    const iconEl = document.querySelector('#btnStart > i');\r\n    dice.forEach((str) => {\r\n        iconEl.classList.remove('fa-dice-' + str);\r\n    });\r\n    iconEl.classList.add('fa-dice-' + dice[Math.floor(Math.random() * dice.length)]);\r\n}\r\nfunction determineHeroImageUrl() {\r\n    // Todo use realm information to determine the image\r\n    return _util__WEBPACK_IMPORTED_MODULE_0__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_1__.Data.images);\r\n}\r\nfunction applyText(query, text) {\r\n    const els = document.querySelectorAll('span.' + query);\r\n    els.forEach((node) => {\r\n        const el = node;\r\n        el.classList.add('keyword');\r\n        if (el.classList.contains('prepend-article'))\r\n            text = _util__WEBPACK_IMPORTED_MODULE_0__.Util.aOrAn(text) + ' ' + text;\r\n        el.textContent = text;\r\n    });\r\n}\r\nfunction applyIcon(query, icon) {\r\n    const els = document.querySelectorAll('i.' + query);\r\n    els.forEach((node) => {\r\n        const el = node;\r\n        // Remove the previous icon\r\n        el.classList.forEach((className) => {\r\n            if (className.includes('fa-') && className !== 'fa-2x') {\r\n                el.classList.remove(className);\r\n            }\r\n        });\r\n        el.classList.add('fa-' + icon);\r\n    });\r\n}\r\n\n\n//# sourceURL=webpack://ts-webpack/./src/index.ts?");
 
 /***/ }),
 
@@ -36,7 +48,117 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _uti
   \**********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"Realm\": () => (/* binding */ Realm)\n/* harmony export */ });\n/* harmony import */ var _data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./data */ \"./src/data.ts\");\n/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./util */ \"./src/util.ts\");\n\r\n\r\nclass Realm {\r\n    constructor() {\r\n        this.name = 'oldmarch';\r\n        this.adj = 'oldmarch';\r\n        this.capitalCityName = 'highbridge';\r\n        this.governmentRank = 'territory';\r\n        this.leaderTitle = 'lord';\r\n        this.parentEntityName = 'the empire';\r\n        this.parentEntityAdj = 'imperial';\r\n        this.directionWithinParentEntity = 'south';\r\n        this.directionAdjWithinParentEntity = 'south';\r\n        this.climate = 'temperate';\r\n        this.season = 'varied';\r\n        this.seasonSummer = ['long', 'harsh'];\r\n        this.seasonWinter = ['long', 'mild'];\r\n        this.regions = [];\r\n        this.coastal = false;\r\n        this.sigilName = 'dove';\r\n        this.sigilIcon = 'dove';\r\n        this.sigilMeaning = 'peace';\r\n        this.determineParentEntity();\r\n        this.determineDirection();\r\n        this.determineGovernmentRank();\r\n        this.determineSigil();\r\n        // Choose geography and climate based on the direction\r\n        if (this.directionWithinParentEntity.includes('north')) {\r\n            this.climate = 'cold';\r\n        }\r\n        else if (this.directionWithinParentEntity.includes('south')) {\r\n            this.climate = 'warm';\r\n        }\r\n        else {\r\n            this.climate = 'temperate';\r\n        }\r\n    }\r\n    determineParentEntity() {\r\n        let arr = ['the'];\r\n        if (Math.random() < 0.8) {\r\n            let firstDescriptor = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.parentEntityDescriptorsBefore);\r\n            arr.push(firstDescriptor);\r\n            if (Math.random() < 0.2) {\r\n                let secondDescriptor = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.parentEntityDescriptorsBefore);\r\n                if (secondDescriptor != firstDescriptor)\r\n                    arr.push(secondDescriptor);\r\n            }\r\n        }\r\n        let government = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(_data__WEBPACK_IMPORTED_MODULE_0__.Data.parentEntityGovernments);\r\n        this.parentEntityAdj = _data__WEBPACK_IMPORTED_MODULE_0__.Data.parentEntityGovernments[government];\r\n        arr.push(government);\r\n        if (Math.random() < 0.1) {\r\n            arr.push(_util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.parentEntityDescriptorsAfter));\r\n        }\r\n        this.parentEntityName = arr.join(' ');\r\n    }\r\n    determineDirection() {\r\n        this.directionWithinParentEntity = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(_data__WEBPACK_IMPORTED_MODULE_0__.Data.directions);\r\n        this.directionAdjWithinParentEntity =\r\n            _data__WEBPACK_IMPORTED_MODULE_0__.Data.directions[this.directionWithinParentEntity];\r\n    }\r\n    determineGovernmentRank() {\r\n        this.governmentRank = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(_data__WEBPACK_IMPORTED_MODULE_0__.Data.governmentRanks);\r\n        this.leaderTitle = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.governmentRanks);\r\n    }\r\n    determineSigil() {\r\n        this.sigilName = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(_data__WEBPACK_IMPORTED_MODULE_0__.Data.sigils);\r\n        this.sigilIcon = _data__WEBPACK_IMPORTED_MODULE_0__.Data.sigils[this.sigilName].icon;\r\n        this.sigilMeaning = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.sigils[this.sigilName].meanings);\r\n    }\r\n}\r\n\n\n//# sourceURL=webpack://ts-webpack/./src/realm.ts?");
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Realm": () => (/* binding */ Realm)
+/* harmony export */ });
+/* harmony import */ var _data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./data */ "./src/data.ts");
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./util */ "./src/util.ts");
+
+
+class Realm {
+    constructor() {
+        this.name = 'oldmarch';
+        this.adj = 'oldmarch';
+        this.capitalCityName = 'highbridge';
+        this.governmentRank = 'territory';
+        this.leaderTitle = 'lord';
+        this.parentEntityName = 'the empire';
+        this.parentEntityAdj = 'imperial';
+        this.directionWithinParentEntity = 'south';
+        this.directionAdjWithinParentEntity = 'south';
+        this.size = 'small';
+        this.climate = ['temperate'];
+        this.season = 'varied';
+        this.seasonSummer = ['long', 'harsh'];
+        this.seasonWinter = ['long', 'mild'];
+        this.biomes = [];
+        this.coastal = false;
+        this.sigilName = 'dove';
+        this.sigilIcon = 'dove';
+        this.sigilMeaning = 'peace';
+        this.determineParentEntity();
+        this.determineDirection();
+        this.determineSize();
+        this.determineGovernmentRank();
+        this.determineSigil();
+        // Choose geography and climate based on the direction
+        if (this.directionWithinParentEntity.includes('north')) {
+            this.climate = ['cold'];
+        }
+        else if (this.directionWithinParentEntity.includes('south')) {
+            this.climate = ['warm'];
+        }
+        else {
+            this.climate = ['temperate'];
+        }
+        this.climate.push(_util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(['wet', 'dry']));
+        this.determineBiomes();
+    }
+    determineParentEntity() {
+        let arr = ['the'];
+        if (Math.random() < 0.8) {
+            let firstDescriptor = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.parentEntityDescriptorsBefore);
+            arr.push(firstDescriptor);
+            if (Math.random() < 0.2) {
+                let secondDescriptor = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.parentEntityDescriptorsBefore);
+                if (secondDescriptor != firstDescriptor)
+                    arr.push(secondDescriptor);
+            }
+        }
+        let government = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(_data__WEBPACK_IMPORTED_MODULE_0__.Data.parentEntityGovernments);
+        this.parentEntityAdj = _data__WEBPACK_IMPORTED_MODULE_0__.Data.parentEntityGovernments[government];
+        arr.push(government);
+        if (Math.random() < 0.1) {
+            arr.push(_util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.parentEntityDescriptorsAfter));
+        }
+        this.parentEntityName = arr.join(' ');
+    }
+    determineDirection() {
+        this.directionWithinParentEntity = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(_data__WEBPACK_IMPORTED_MODULE_0__.Data.directions);
+        this.directionAdjWithinParentEntity =
+            _data__WEBPACK_IMPORTED_MODULE_0__.Data.directions[this.directionWithinParentEntity];
+    }
+    determineSize() {
+        this.size = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(_data__WEBPACK_IMPORTED_MODULE_0__.Data.sizes);
+    }
+    determineGovernmentRank() {
+        this.governmentRank = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(_data__WEBPACK_IMPORTED_MODULE_0__.Data.governmentRanks);
+        this.leaderTitle = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.governmentRanks);
+    }
+    determineSigil() {
+        this.sigilName = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(_data__WEBPACK_IMPORTED_MODULE_0__.Data.sigils);
+        this.sigilIcon = _data__WEBPACK_IMPORTED_MODULE_0__.Data.sigils[this.sigilName].icon;
+        this.sigilMeaning = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.sigils[this.sigilName].meanings);
+    }
+    determineBiomes() {
+        // mountain | boreal-forest | temperate-forest | grassland | tundra
+        let availableBiomes = _data__WEBPACK_IMPORTED_MODULE_0__.Data.biomes.filter((str) => {
+            // Dry? Remove boreal-forest and temperate-forest
+            if (this.climate.includes('dry')) {
+                _util__WEBPACK_IMPORTED_MODULE_1__.Util.arrayRemove(availableBiomes, 'boreal-forest');
+                _util__WEBPACK_IMPORTED_MODULE_1__.Util.arrayRemove(availableBiomes, 'temperate-forest');
+            }
+            // Wet? Remove grassland and tundra
+            if (this.climate.includes('wet')) {
+                _util__WEBPACK_IMPORTED_MODULE_1__.Util.arrayRemove(availableBiomes, 'grassland');
+                _util__WEBPACK_IMPORTED_MODULE_1__.Util.arrayRemove(availableBiomes, 'tundra');
+            }
+            return true;
+        });
+        let availableSizeIndex = _data__WEBPACK_IMPORTED_MODULE_0__.Data.sizes.indexOf(this.size);
+        // Add the primary biome, reroll once if mountains
+        let b = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(availableBiomes);
+        if (b == 'mountains')
+            b = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(availableBiomes);
+        let sizeIndex = Math.floor(Math.random() * availableSizeIndex);
+        // let primaryBiome: Biome = { b,  };
+        if (Math.random() < 0.6) {
+            // Add a second biome
+        }
+    }
+}
+
 
 /***/ }),
 
@@ -46,7 +168,30 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \*********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"Util\": () => (/* binding */ Util)\n/* harmony export */ });\nclass Util {\r\n    static randomKey(u) {\r\n        let keys = Object.keys(u);\r\n        let k = keys[Math.floor(Math.random() * keys.length)];\r\n        return k;\r\n    }\r\n    static randomValue(u) {\r\n        return u[Util.randomKey(u)];\r\n    }\r\n    static aOrAn(str) {\r\n        const regex = new RegExp('^[aeiou].*', 'i');\r\n        return regex.test(str) ? 'an' : 'a';\r\n    }\r\n}\r\n\n\n//# sourceURL=webpack://ts-webpack/./src/util.ts?");
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Util": () => (/* binding */ Util)
+/* harmony export */ });
+class Util {
+    static arrayRemove(arr, elementToRemove) {
+        return arr.filter(function (element) {
+            return element != elementToRemove;
+        });
+    }
+    static randomKey(u) {
+        let keys = Object.keys(u);
+        let k = keys[Math.floor(Math.random() * keys.length)];
+        return k;
+    }
+    static randomValue(u) {
+        return u[Util.randomKey(u)];
+    }
+    static aOrAn(str) {
+        const regex = new RegExp('^[aeiou].*', 'i');
+        return regex.test(str) ? 'an' : 'a';
+    }
+}
+
 
 /***/ })
 
@@ -106,11 +251,88 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /******/ 	})();
 /******/ 	
 /************************************************************************/
-/******/ 	
-/******/ 	// startup
-/******/ 	// Load entry module and return exports
-/******/ 	// This entry module can't be inlined because the eval devtool is used.
-/******/ 	var __webpack_exports__ = __webpack_require__("./src/index.ts");
-/******/ 	
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+(() => {
+/*!**********************!*\
+  !*** ./src/index.ts ***!
+  \**********************/
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./util */ "./src/util.ts");
+/* harmony import */ var _data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./data */ "./src/data.ts");
+/* harmony import */ var _realm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./realm */ "./src/realm.ts");
+
+
+
+/**
+ * Hint: Use 'npm run build' from console to compile + watch the TS code on save
+ */
+// Handle start button
+const btnStart = document.getElementById('btnStart');
+btnStart.addEventListener('click', start);
+// Load data
+_data__WEBPACK_IMPORTED_MODULE_1__.Data.setup(() => {
+    realm = new _realm__WEBPACK_IMPORTED_MODULE_2__.Realm();
+    updateView();
+});
+// Initialize variables
+let realm;
+// Start the generation process
+function start() {
+    realm = new _realm__WEBPACK_IMPORTED_MODULE_2__.Realm();
+    updateView();
+}
+function updateView() {
+    // Choose a photo for the hero
+    const heroEl = document.getElementById('hero');
+    heroEl.setAttribute('style', `background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${determineHeroImageUrl()})`);
+    // Apply values to view
+    applyText('name', realm.name);
+    applyText('government-rank', realm.governmentRank);
+    applyText('parent-entity', realm.parentEntityName);
+    applyText('direction-within-parent-entity', realm.directionAdjWithinParentEntity);
+    applyText('capital-city', realm.capitalCityName);
+    applyText('sigil-name', realm.sigilName);
+    applyText('sigil-meaning', realm.sigilMeaning);
+    applyIcon('sigil', realm.sigilIcon);
+    // Change dice icon
+    const dice = ['one', 'two', 'three', 'four', 'five', 'six'];
+    const iconEl = document.querySelector('#btnStart > i');
+    dice.forEach((str) => {
+        iconEl.classList.remove('fa-dice-' + str);
+    });
+    iconEl.classList.add('fa-dice-' + dice[Math.floor(Math.random() * dice.length)]);
+}
+function determineHeroImageUrl() {
+    // Todo use realm information to determine the image
+    return _util__WEBPACK_IMPORTED_MODULE_0__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_1__.Data.images);
+}
+function applyText(query, text) {
+    const els = document.querySelectorAll('span.' + query);
+    els.forEach((node) => {
+        const el = node;
+        el.classList.add('keyword');
+        if (el.classList.contains('prepend-article'))
+            text = _util__WEBPACK_IMPORTED_MODULE_0__.Util.aOrAn(text) + ' ' + text;
+        el.textContent = text;
+    });
+}
+function applyIcon(query, icon) {
+    const els = document.querySelectorAll('i.' + query);
+    els.forEach((node) => {
+        const el = node;
+        // Remove the previous icon
+        el.classList.forEach((className) => {
+            if (className.includes('fa-') && className !== 'fa-2x') {
+                el.classList.remove(className);
+            }
+        });
+        el.classList.add('fa-' + icon);
+    });
+}
+
+})();
+
 /******/ })()
 ;
+//# sourceMappingURL=bundle.js.map
