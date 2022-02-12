@@ -7,8 +7,7 @@ export class Data {
   public static governmentRanks: any;
   public static sigils: any;
   public static sizes: string[];
-  public static seasonDescriptors1: string[];
-  public static seasonDescriptors2: string[];
+  public static seasonDescriptors: any;
 
   public static parentEntityDescriptorsBefore: string[];
   public static parentEntityDescriptorsAfter: string[];
@@ -33,8 +32,7 @@ export class Data {
     Data.governmentRanks = u.governmentRanks;
     Data.sigils = u.sigils;
     Data.sizes = u.sizes;
-    Data.seasonDescriptors1 = u.seasons.descriptors1;
-    Data.seasonDescriptors2 = u.seasons.descriptors2;
+    Data.seasonDescriptors = u.seasons;
 
     Data.parentEntityDescriptorsBefore = u.parentEntities.descriptorsBefore;
     Data.parentEntityDescriptorsAfter = u.parentEntities.descriptorsAfter;

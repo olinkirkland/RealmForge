@@ -17,9 +17,9 @@ export class Realm {
   public directionAdjWithinParentEntity: string = 'south';
 
   public size: string = 'small';
-  public climate: string[] = ['temperate'];
+  public temperature: string = 'temperate';
+  public humidity: string = 'wet';
 
-  public season: string = 'varied';
   public seasonSummer: string[] = ['long', 'harsh'];
   public seasonWinter: string[] = ['long', 'mild'];
 
@@ -36,18 +36,7 @@ export class Realm {
     this.determineSize();
     this.determineGovernmentRank();
     this.determineSigil();
-
-    // Choose geography and climate based on the direction
-    if (this.directionWithinParentEntity.includes('north')) {
-      this.climate = ['cold'];
-    } else if (this.directionWithinParentEntity.includes('south')) {
-      this.climate = ['warm'];
-    } else {
-      this.climate = ['temperate'];
-    }
-
-    this.climate.push(Util.randomKey(['wet', 'dry']));
-
+    this.determineClimate();
     this.determineBiomes();
   }
 
@@ -81,10 +70,14 @@ export class Realm {
     this.directionWithinParentEntity = Util.randomKey(Data.directions);
     this.directionAdjWithinParentEntity =
       Data.directions[this.directionWithinParentEntity];
+
+    // 40% chance to be coastal, 0% if location is middle
+    this.coastal =
+      Math.random() < 0.4 && this.directionWithinParentEntity != 'middle';
   }
 
   public determineSize() {
-    this.size = Util.randomKey(Data.sizes);
+    this.size = Util.randomValue(Data.sizes);
   }
 
   public determineGovernmentRank() {
@@ -98,20 +91,73 @@ export class Realm {
     this.sigilMeaning = Util.randomValue(Data.sigils[this.sigilName].meanings);
   }
 
+  public determineClimate() {
+    // Choose geography and climate based on the direction
+    if (this.directionWithinParentEntity.includes('north')) {
+      this.temperature = 'cold';
+    } else if (this.directionWithinParentEntity.includes('south')) {
+      this.temperature = 'warm';
+    } else {
+      this.temperature = 'temperate';
+    }
+
+    this.humidity = Util.randomValue(['wet', 'dry']);
+    if (this.coastal) {
+      this.humidity = 'wet';
+    }
+
+    // Description of winter
+    this.seasonWinter = [];
+    const winter: any = Data.seasonDescriptors.winter;
+    let availableWinterDescriptors: string[] = winter[this.humidity].concat(
+      winter[this.temperature]
+    );
+
+    for (let i = 0; i < 2; i++) {
+      const d: string = Util.randomValue(availableWinterDescriptors);
+      this.seasonWinter.push(d);
+      availableWinterDescriptors = Util.arrayRemove(
+        availableWinterDescriptors,
+        d
+      );
+      if (Math.random() < 0.5) break;
+    }
+
+    // Description of summer
+    this.seasonSummer = [];
+    const summer: any = Data.seasonDescriptors.summer;
+    let availableSummerDescriptors: string[] = summer[this.humidity].concat(
+      summer[this.temperature]
+    );
+
+    for (let i = 0; i < 2; i++) {
+      const d: string = Util.randomValue(availableSummerDescriptors);
+      if (this.seasonWinter.includes(d)) {
+        i--;
+        continue;
+      }
+      this.seasonSummer.push(d);
+      availableSummerDescriptors = Util.arrayRemove(
+        availableSummerDescriptors,
+        d
+      );
+      if (Math.random() < 0.5) break;
+    }
+  }
+
   public determineBiomes() {
     // mountain | boreal-forest | temperate-forest | grassland | tundra
 
     let availableBiomes: string[] = Data.biomes.filter((str) => {
-      // Dry? Remove boreal-forest and temperate-forest
-      if (this.climate.includes('dry')) {
-        Util.arrayRemove(availableBiomes, 'boreal-forest');
-        Util.arrayRemove(availableBiomes, 'temperate-forest');
-      }
-
-      // Wet? Remove grassland and tundra
-      if (this.climate.includes('wet')) {
-        Util.arrayRemove(availableBiomes, 'grassland');
-        Util.arrayRemove(availableBiomes, 'tundra');
+      switch (this.humidity) {
+        case 'dry':
+          // Dry? Remove boreal-forest and temperate-forest
+          return ['boreal-forest', 'temperate-forest'].includes(str);
+          break;
+        case 'wet':
+          // Wet? Remove grassland and tundra
+          return ['grassland', 'tundra'].includes(str);
+          break;
       }
 
       return true;

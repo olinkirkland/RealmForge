@@ -41,16 +41,27 @@ function updateView() {
   applyText('name', realm.name);
   applyText('government-rank', realm.governmentRank);
   applyText('parent-entity', realm.parentEntityName);
+  applyText('parent-entity-adj', realm.parentEntityAdj);
   applyText(
     'direction-within-parent-entity',
+    realm.directionWithinParentEntity
+  );
+  applyText(
+    'direction-adj-within-parent-entity',
     realm.directionAdjWithinParentEntity
   );
   applyText('capital-city', realm.capitalCityName);
   applyText('sigil-name', realm.sigilName);
   applyText('sigil-meaning', realm.sigilMeaning);
 
+  applyText('size', realm.size);
+
+  applyText('climate', realm.temperature);
+  applyText('season-summer', realm.seasonSummer.join(', '));
+  applyText('season-winter', realm.seasonWinter.join(', '));
+
   realm.biomes.forEach((biome) => {
-    
+    // if)
   });
 
   applyIcon('sigil', realm.sigilIcon);
@@ -78,9 +89,12 @@ function applyText(query: string, text: string) {
   els.forEach((node: Node) => {
     const el: HTMLElement = node as HTMLElement;
     el.classList.add('keyword');
-    if (el.classList.contains('prepend-article'))
-      text = Util.aOrAn(text) + ' ' + text;
-    el.textContent = text;
+
+    if (el.classList.contains('prepend-article')) {
+      el.textContent = Util.aOrAn(text) + ' ' + text;
+    } else {
+      el.textContent = text;
+    }
   });
 }
 

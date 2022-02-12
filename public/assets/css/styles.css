@@ -26,7 +26,7 @@ li {
 }
 
 .muted {
-  color: rgba(68, 68, 68, 0.5);
+  opacity: 0.5;
 }
 
 .btn {
@@ -38,16 +38,15 @@ li {
 
   color: #f8f8f8;
   background-color: rgb(51, 51, 51, 1);
-  border-radius: 5px;
   text-decoration: none;
 
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 5px 25px 0px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 25px 0px;
   transition: box-shadow 1s;
 }
 
 .btn:hover {
   background-color: rgb(51, 51, 51, 0.95);
-  box-shadow: rgba(100, 100, 111, 0.5) 0px 7px 25px 0px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 5px 25px 0px;
   transition: box-shadow 1s;
 }
 
@@ -101,6 +100,11 @@ section.container--controls {
 
 /* HERO */
 
+.hero-frame {
+  padding: 0.4rem;
+  border: 1px solid rgb(68, 68, 68, 0.1);
+}
+
 #hero {
   height: 32rem;
 
@@ -109,7 +113,7 @@ section.container--controls {
   align-items: center;
   justify-content: center;
 
-  background-position: bottom;
+  background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 
@@ -134,7 +138,7 @@ article {
   gap: 1.2rem;
   padding: 3.2rem;
   border: 1px dashed #444444;
-  box-shadow: rgba(100, 100, 111, 0.1) 0px 5px 25px 0px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 25px 0px;
 }
 
 article li {
@@ -143,7 +147,6 @@ article li {
 
 article li i {
   color: #444444;
-  opacity: 0.6;
   margin-right: 0.4rem;
 }
 

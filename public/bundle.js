@@ -31,8 +31,7 @@ class Data {
         Data.governmentRanks = u.governmentRanks;
         Data.sigils = u.sigils;
         Data.sizes = u.sizes;
-        Data.seasonDescriptors1 = u.seasons.descriptors1;
-        Data.seasonDescriptors2 = u.seasons.descriptors2;
+        Data.seasonDescriptors = u.seasons;
         Data.parentEntityDescriptorsBefore = u.parentEntities.descriptorsBefore;
         Data.parentEntityDescriptorsAfter = u.parentEntities.descriptorsAfter;
         Data.parentEntityGovernments = u.parentEntities.governments;
@@ -68,8 +67,8 @@ class Realm {
         this.directionWithinParentEntity = 'south';
         this.directionAdjWithinParentEntity = 'south';
         this.size = 'small';
-        this.climate = ['temperate'];
-        this.season = 'varied';
+        this.temperature = 'temperate';
+        this.humidity = 'wet';
         this.seasonSummer = ['long', 'harsh'];
         this.seasonWinter = ['long', 'mild'];
         this.biomes = [];
@@ -82,17 +81,7 @@ class Realm {
         this.determineSize();
         this.determineGovernmentRank();
         this.determineSigil();
-        // Choose geography and climate based on the direction
-        if (this.directionWithinParentEntity.includes('north')) {
-            this.climate = ['cold'];
-        }
-        else if (this.directionWithinParentEntity.includes('south')) {
-            this.climate = ['warm'];
-        }
-        else {
-            this.climate = ['temperate'];
-        }
-        this.climate.push(_util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(['wet', 'dry']));
+        this.determineClimate();
         this.determineBiomes();
     }
     determineParentEntity() {
@@ -118,9 +107,12 @@ class Realm {
         this.directionWithinParentEntity = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(_data__WEBPACK_IMPORTED_MODULE_0__.Data.directions);
         this.directionAdjWithinParentEntity =
             _data__WEBPACK_IMPORTED_MODULE_0__.Data.directions[this.directionWithinParentEntity];
+        // 40% chance to be coastal, 0% if location is middle
+        this.coastal =
+            Math.random() < 0.4 && this.directionWithinParentEntity != 'middle';
     }
     determineSize() {
-        this.size = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(_data__WEBPACK_IMPORTED_MODULE_0__.Data.sizes);
+        this.size = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.sizes);
     }
     determineGovernmentRank() {
         this.governmentRank = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(_data__WEBPACK_IMPORTED_MODULE_0__.Data.governmentRanks);
@@ -131,18 +123,60 @@ class Realm {
         this.sigilIcon = _data__WEBPACK_IMPORTED_MODULE_0__.Data.sigils[this.sigilName].icon;
         this.sigilMeaning = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.sigils[this.sigilName].meanings);
     }
+    determineClimate() {
+        // Choose geography and climate based on the direction
+        if (this.directionWithinParentEntity.includes('north')) {
+            this.temperature = 'cold';
+        }
+        else if (this.directionWithinParentEntity.includes('south')) {
+            this.temperature = 'warm';
+        }
+        else {
+            this.temperature = 'temperate';
+        }
+        this.humidity = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(['wet', 'dry']);
+        if (this.coastal) {
+            this.humidity = 'wet';
+        }
+        // Description of winter
+        this.seasonWinter = [];
+        const winter = _data__WEBPACK_IMPORTED_MODULE_0__.Data.seasonDescriptors.winter;
+        let availableWinterDescriptors = winter[this.humidity].concat(winter[this.temperature]);
+        for (let i = 0; i < 2; i++) {
+            const d = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(availableWinterDescriptors);
+            this.seasonWinter.push(d);
+            availableWinterDescriptors = _util__WEBPACK_IMPORTED_MODULE_1__.Util.arrayRemove(availableWinterDescriptors, d);
+            if (Math.random() < 0.5)
+                break;
+        }
+        // Description of summer
+        this.seasonSummer = [];
+        const summer = _data__WEBPACK_IMPORTED_MODULE_0__.Data.seasonDescriptors.summer;
+        let availableSummerDescriptors = summer[this.humidity].concat(summer[this.temperature]);
+        for (let i = 0; i < 2; i++) {
+            const d = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(availableSummerDescriptors);
+            if (this.seasonWinter.includes(d)) {
+                i--;
+                continue;
+            }
+            this.seasonSummer.push(d);
+            availableSummerDescriptors = _util__WEBPACK_IMPORTED_MODULE_1__.Util.arrayRemove(availableSummerDescriptors, d);
+            if (Math.random() < 0.5)
+                break;
+        }
+    }
     determineBiomes() {
         // mountain | boreal-forest | temperate-forest | grassland | tundra
         let availableBiomes = _data__WEBPACK_IMPORTED_MODULE_0__.Data.biomes.filter((str) => {
-            // Dry? Remove boreal-forest and temperate-forest
-            if (this.climate.includes('dry')) {
-                _util__WEBPACK_IMPORTED_MODULE_1__.Util.arrayRemove(availableBiomes, 'boreal-forest');
-                _util__WEBPACK_IMPORTED_MODULE_1__.Util.arrayRemove(availableBiomes, 'temperate-forest');
-            }
-            // Wet? Remove grassland and tundra
-            if (this.climate.includes('wet')) {
-                _util__WEBPACK_IMPORTED_MODULE_1__.Util.arrayRemove(availableBiomes, 'grassland');
-                _util__WEBPACK_IMPORTED_MODULE_1__.Util.arrayRemove(availableBiomes, 'tundra');
+            switch (this.humidity) {
+                case 'dry':
+                    // Dry? Remove boreal-forest and temperate-forest
+                    return ['boreal-forest', 'temperate-forest'].includes(str);
+                    break;
+                case 'wet':
+                    // Wet? Remove grassland and tundra
+                    return ['grassland', 'tundra'].includes(str);
+                    break;
             }
             return true;
         });
@@ -310,11 +344,18 @@ function updateView() {
     applyText('name', realm.name);
     applyText('government-rank', realm.governmentRank);
     applyText('parent-entity', realm.parentEntityName);
-    applyText('direction-within-parent-entity', realm.directionAdjWithinParentEntity);
+    applyText('parent-entity-adj', realm.parentEntityAdj);
+    applyText('direction-within-parent-entity', realm.directionWithinParentEntity);
+    applyText('direction-adj-within-parent-entity', realm.directionAdjWithinParentEntity);
     applyText('capital-city', realm.capitalCityName);
     applyText('sigil-name', realm.sigilName);
     applyText('sigil-meaning', realm.sigilMeaning);
+    applyText('size', realm.size);
+    applyText('climate', realm.temperature);
+    applyText('season-summer', realm.seasonSummer.join(', '));
+    applyText('season-winter', realm.seasonWinter.join(', '));
     realm.biomes.forEach((biome) => {
+        // if)
     });
     applyIcon('sigil', realm.sigilIcon);
     // Change dice icon
@@ -334,9 +375,12 @@ function applyText(query, text) {
     els.forEach((node) => {
         const el = node;
         el.classList.add('keyword');
-        if (el.classList.contains('prepend-article'))
-            text = _util__WEBPACK_IMPORTED_MODULE_0__.Util.aOrAn(text) + ' ' + text;
-        el.textContent = text;
+        if (el.classList.contains('prepend-article')) {
+            el.textContent = _util__WEBPACK_IMPORTED_MODULE_0__.Util.aOrAn(text) + ' ' + text;
+        }
+        else {
+            el.textContent = text;
+        }
     });
 }
 function applyIcon(query, icon) {

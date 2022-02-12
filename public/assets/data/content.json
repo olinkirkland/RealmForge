@@ -19,8 +19,20 @@
   ],
   "sizes": ["small", "medium-sized", "large"],
   "seasons": {
-    "descriptors1": ["short", "long"],
-    "descriptors2": ["harsh", "mild"]
+    "summer": {
+      "warm": ["warm", "hot", "stifling", "long"],
+      "cold": ["cool", "mild"],
+      "wet": ["humid", "wet"],
+      "dry": ["dry"],
+      "temperate": ["mild", "pleasant"]
+    },
+    "winter": {
+      "warm": ["mild", "short"],
+      "cold": ["harsh", "cold", "brisk"],
+      "wet": ["snowy", "wet"],
+      "dry": ["crisp"],
+      "temperate": ["mild", "pleasant"]
+    }
   },
   "images": [
     "./assets/images/hero_images/boreal-forest-1.png",
@@ -52,7 +64,6 @@
       "meanings": ["loyalty", "courage"]
     },
     "cat": { "icon": "cat", "meanings": ["sharp wits", "ferocity"] },
-    "frog": { "icon": "frog", "meanings": ["patience", "strength"] },
     "cross": { "icon": "cross", "meanings": ["virtue", "purity", "piety"] },
     "eye": { "icon": "eye", "meanings": ["vigilance", "perception"] },
     "tower": { "icon": "chess-rook", "meanings": ["strength", "solidarity"] },
