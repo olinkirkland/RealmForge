@@ -49,6 +49,10 @@ function updateView() {
   applyText('sigil-name', realm.sigilName);
   applyText('sigil-meaning', realm.sigilMeaning);
 
+  realm.biomes.forEach((biome) => {
+    
+  });
+
   applyIcon('sigil', realm.sigilIcon);
 
   // Change dice icon

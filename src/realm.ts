@@ -117,18 +117,42 @@ export class Realm {
       return true;
     });
 
-    let availableSizeIndex: number = Data.sizes.indexOf(this.size);
-
     // Add the primary biome, reroll once if mountains
     let b: string = Util.randomKey(availableBiomes);
     if (b == 'mountains') b = Util.randomKey(availableBiomes);
 
-    let sizeIndex: number = Math.floor(Math.random() * availableSizeIndex);
+    Util.arrayRemove(availableBiomes, b);
 
-    // let primaryBiome: Biome = { b,  };
+    let availableSizeIndex: number = Data.sizes.indexOf(this.size);
+    let sizeIndex: number = Math.floor(Math.random() * availableSizeIndex);
+    availableSizeIndex -= sizeIndex;
+    let primaryBiome: Biome = {
+      biome: b,
+      size: Data.sizes[sizeIndex],
+      direction: Util.randomKey(Data.directions)
+    };
+
+    this.biomes.push(primaryBiome);
 
     if (Math.random() < 0.6) {
+      // Choose a direction that isn't the same direction as the primary Biome's direction
+      // Also cannot be a combined direction like north-east or south-west, must be one of the four cardinal directions or 'middle'
+      let secondaryDirection: string;
+      do {
+        secondaryDirection = Util.randomKey(Data.directions);
+      } while (
+        secondaryDirection == primaryBiome.direction &&
+        secondaryDirection.includes('-')
+      );
+
+      let secondaryBiome: Biome = {
+        biome: Util.randomKey(availableBiomes),
+        size: Data.sizes[Math.floor(Math.random() * availableSizeIndex)],
+        direction: secondaryDirection
+      };
+
       // Add a second biome
+      this.biomes.push(secondaryBiome);
     }
   }
 }

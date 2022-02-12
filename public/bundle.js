@@ -146,15 +146,35 @@ class Realm {
             }
             return true;
         });
-        let availableSizeIndex = _data__WEBPACK_IMPORTED_MODULE_0__.Data.sizes.indexOf(this.size);
         // Add the primary biome, reroll once if mountains
         let b = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(availableBiomes);
         if (b == 'mountains')
             b = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(availableBiomes);
+        _util__WEBPACK_IMPORTED_MODULE_1__.Util.arrayRemove(availableBiomes, b);
+        let availableSizeIndex = _data__WEBPACK_IMPORTED_MODULE_0__.Data.sizes.indexOf(this.size);
         let sizeIndex = Math.floor(Math.random() * availableSizeIndex);
-        // let primaryBiome: Biome = { b,  };
+        availableSizeIndex -= sizeIndex;
+        let primaryBiome = {
+            biome: b,
+            size: _data__WEBPACK_IMPORTED_MODULE_0__.Data.sizes[sizeIndex],
+            direction: _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(_data__WEBPACK_IMPORTED_MODULE_0__.Data.directions)
+        };
+        this.biomes.push(primaryBiome);
         if (Math.random() < 0.6) {
+            // Choose a direction that isn't the same direction as the primary Biome's direction
+            // Also cannot be a combined direction like north-east or south-west, must be one of the four cardinal directions or 'middle'
+            let secondaryDirection;
+            do {
+                secondaryDirection = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(_data__WEBPACK_IMPORTED_MODULE_0__.Data.directions);
+            } while (secondaryDirection == primaryBiome.direction &&
+                secondaryDirection.includes('-'));
+            let secondaryBiome = {
+                biome: _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(availableBiomes),
+                size: _data__WEBPACK_IMPORTED_MODULE_0__.Data.sizes[Math.floor(Math.random() * availableSizeIndex)],
+                direction: secondaryDirection
+            };
             // Add a second biome
+            this.biomes.push(secondaryBiome);
         }
     }
 }
@@ -294,6 +314,8 @@ function updateView() {
     applyText('capital-city', realm.capitalCityName);
     applyText('sigil-name', realm.sigilName);
     applyText('sigil-meaning', realm.sigilMeaning);
+    realm.biomes.forEach((biome) => {
+    });
     applyIcon('sigil', realm.sigilIcon);
     // Change dice icon
     const dice = ['one', 'two', 'three', 'four', 'five', 'six'];

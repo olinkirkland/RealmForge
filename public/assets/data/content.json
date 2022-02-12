@@ -23,9 +23,16 @@
     "descriptors2": ["harsh", "mild"]
   },
   "images": [
-    "https://images.unsplash.com/photo-1511884642898-4c92249e20b6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80",
-    "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80",
-    "https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80"
+    "./assets/images/hero_images/boreal-forest-1.png",
+    "./assets/images/hero_images/boreal-forest-2.png",
+    "./assets/images/hero_images/city-1.png",
+    "./assets/images/hero_images/city-2.png",
+    "./assets/images/hero_images/city-3.png",
+    "./assets/images/hero_images/city-cold.png",
+    "./assets/images/hero_images/foo.txt",
+    "./assets/images/hero_images/grassland.png",
+    "./assets/images/hero_images/mountains.png",
+    "./assets/images/hero_images/river-mountains.png"
   ],
   "parentEntities": {
     "descriptorsBefore": ["divine", "holy", "royal", "ordained"],
