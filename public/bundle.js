@@ -74,13 +74,14 @@ class Realm {
         this.name = 'oldmarch';
         this.adj = 'oldmarch';
         this.capitalCityName = 'highbridge';
+        this.sizeIndex = 0;
+        this.size = 'small';
         this.governmentRank = 'territory';
         this.leaderTitle = 'lord';
         this.parentEntityName = 'the empire';
         this.parentEntityAdj = 'imperial';
         this.directionWithinParentEntity = 'south';
         this.directionAdjWithinParentEntity = 'south';
-        this.size = 'small';
         this.temperature = 'temperate';
         this.humidity = 'wet';
         this.seasonSummer = ['long', 'harsh'];
@@ -126,11 +127,16 @@ class Realm {
             _util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() < 0.4 && this.directionWithinParentEntity != 'middle';
     }
     determineSize() {
-        this.size = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.sizes);
+        this.sizeIndex = Number(_util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(_data__WEBPACK_IMPORTED_MODULE_0__.Data.sizes));
+        this.size = _data__WEBPACK_IMPORTED_MODULE_0__.Data.sizes[this.sizeIndex];
     }
     determineGovernmentRank() {
-        this.governmentRank = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(_data__WEBPACK_IMPORTED_MODULE_0__.Data.governmentRanks);
-        this.leaderTitle = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.governmentRanks);
+        let govt;
+        do {
+            govt = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.governmentRanks);
+        } while (!govt.size.includes(this.sizeIndex));
+        this.governmentRank = govt.rank;
+        this.leaderTitle = govt.ruler;
     }
     determineSigil() {
         this.sigilName = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(_data__WEBPACK_IMPORTED_MODULE_0__.Data.sigils);
@@ -198,7 +204,7 @@ class Realm {
         if (b == 'mountains')
             b = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(availableBiomes);
         _util__WEBPACK_IMPORTED_MODULE_1__.Util.arrayRemove(availableBiomes, b);
-        let availableSizeIndex = _data__WEBPACK_IMPORTED_MODULE_0__.Data.sizes.indexOf(this.size);
+        let availableSizeIndex = _data__WEBPACK_IMPORTED_MODULE_0__.Data.sizes.indexOf(this.size) * 2;
         let sizeIndex = Math.floor(_util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() * availableSizeIndex);
         availableSizeIndex -= sizeIndex;
         let primaryBiome = {
@@ -223,13 +229,6 @@ class Realm {
             // Add a second biome
             this.biomes.push(secondaryBiome);
         }
-    }
-    biomesBlurb() {
-        let str = '';
-        this.biomes.forEach((biome) => {
-            str += biome.type;
-        });
-        return str;
     }
 }
 
@@ -270,9 +269,7 @@ class Util {
         Util.m_z = (36969 * (Util.m_z & 65535) + (Util.m_z >> 16)) & Util.mask;
         Util.m_w = (18000 * (Util.m_w & 65535) + (Util.m_w >> 16)) & Util.mask;
         let result = ((Util.m_z << 16) + (Util.m_w & 65535)) >>> 0;
-        result /= 4294967296;
-        console.log(result);
-        return result;
+        return result / 4294967296;
     }
     static arrayRemove(arr, elementToRemove) {
         return arr.filter(function (element) {
@@ -409,7 +406,6 @@ function generateSeedAndStart() {
 }
 // Start the generation process
 function start() {
-    console.log('=== Start ===');
     _util__WEBPACK_IMPORTED_MODULE_0__.Util.seedRandomNumberGenerator();
     realm = new _realm__WEBPACK_IMPORTED_MODULE_2__.Realm();
     updateView();
@@ -432,7 +428,7 @@ function updateView() {
     applyText('climate', realm.temperature);
     applyText('season-summer', realm.seasonSummer.join(', '));
     applyText('season-winter', realm.seasonWinter.join(', '));
-    applyText('biomes-blurb', realm.biomesBlurb());
+    applyText('biomes-blurb', writeBiomesBlurb());
     applyIcon('sigil', realm.sigilIcon);
 }
 function determineHeroImageUrl() {
@@ -443,7 +439,6 @@ function applyText(query, text) {
     const els = document.querySelectorAll('span.' + query);
     els.forEach((node) => {
         const el = node;
-        el.classList.add('keyword');
         if (el.classList.contains('prepend-article')) {
             el.textContent = _util__WEBPACK_IMPORTED_MODULE_0__.Util.aOrAn(text) + ' ' + text;
         }
@@ -464,6 +459,13 @@ function applyIcon(query, icon) {
         });
         el.classList.add('fa-' + icon);
     });
+}
+function writeBiomesBlurb() {
+    let arr = [];
+    realm.biomes.forEach((biome) => {
+        arr.push(`${biome.size} ${biome.type} in the ${biome.direction}`);
+    });
+    return arr.join(' and ');
 }
 
 })();

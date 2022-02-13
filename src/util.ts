@@ -32,9 +32,7 @@ export class Util {
     Util.m_z = (36969 * (Util.m_z & 65535) + (Util.m_z >> 16)) & Util.mask;
     Util.m_w = (18000 * (Util.m_w & 65535) + (Util.m_w >> 16)) & Util.mask;
     let result = ((Util.m_z << 16) + (Util.m_w & 65535)) >>> 0;
-    result /= 4294967296;
-    console.log(result);
-    return result;
+    return result / 4294967296;
   }
 
   static arrayRemove(arr: string[], elementToRemove: string) {

@@ -8,7 +8,7 @@ export class Data {
   public static images: string[];
   public static governmentRanks: any;
   public static sigils: any;
-  public static sizes: string[];
+  public static sizes: any;
   public static seasonDescriptors: any;
 
   public static parentEntityDescriptorsBefore: string[];

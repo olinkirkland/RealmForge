@@ -17,7 +17,7 @@
     "grassland",
     "tundra"
   ],
-  "sizes": ["small", "medium-sized", "large"],
+  "sizes": ["very small", "small", "mid-sized", "large", "very large"],
   "seasons": {
     "summer": {
       "warm": ["warm", "hot", "stifling", "long"],
@@ -74,15 +74,15 @@
     "jewel": { "icon": "gem", "meanings": ["wealth", "value"] },
     "skull": { "icon": "skull", "meanings": ["valor", "ruthlessness"] }
   },
-  "governmentRanks": {
-    "principality": "prince",
-    "electorate": "elector",
-    "duchy": "duke",
-    "county": "count",
-    "lordship": "lord",
-    "free city": "mayor",
-    "territory": "lord"
-  },
+  "governmentRanks": [
+    { "rank": "free city", "ruler": "mayor", "size": [0] },
+    { "rank": "lordship", "ruler": "lord", "size": [0] },
+    { "rank": "county", "ruler": "count", "size": [1] },
+    { "rank": "principality", "ruler": "prince", "size": [1, 2] },
+    { "rank": "duchy", "ruler": "duke", "size": [3, 4] },
+    { "rank": "territory", "ruler": "lord", "size": [4, 5] },
+    { "rank": "electorate", "ruler": "elector", "size": [4, 5] }
+  ],
   "names": [
     {
       "suffixScore": 0,

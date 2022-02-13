@@ -50,7 +50,6 @@ function generateSeedAndStart() {
 
 // Start the generation process
 function start() {
-  console.log('=== Start ===');
   Util.seedRandomNumberGenerator();
   realm = new Realm();
   updateView();
@@ -89,7 +88,7 @@ function updateView() {
   applyText('season-summer', realm.seasonSummer.join(', '));
   applyText('season-winter', realm.seasonWinter.join(', '));
 
-  applyText('biomes-blurb', realm.biomesBlurb());
+  applyText('biomes-blurb', writeBiomesBlurb());
 
   applyIcon('sigil', realm.sigilIcon);
 }
@@ -103,8 +102,6 @@ function applyText(query: string, text: string) {
   const els: NodeList = document.querySelectorAll('span.' + query);
   els.forEach((node: Node) => {
     const el: HTMLElement = node as HTMLElement;
-    el.classList.add('keyword');
-
     if (el.classList.contains('prepend-article')) {
       el.textContent = Util.aOrAn(text) + ' ' + text;
     } else {
@@ -127,4 +124,14 @@ function applyIcon(query: string, icon: string) {
 
     el.classList.add('fa-' + icon);
   });
+}
+
+function writeBiomesBlurb(): string {
+  let arr: string[] = [];
+
+  realm.biomes.forEach((biome) => {
+    arr.push(`${biome.size} ${biome.type} in the ${biome.direction}`);
+  });
+
+  return arr.join(' and ');
 }

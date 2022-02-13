@@ -64,9 +64,6 @@ li {
 .parent-entity,
 .capital-city {
   text-transform: capitalize;
-}
-
-.keyword {
   font-weight: bold;
 }
 
@@ -148,7 +145,7 @@ article {
   flex-direction: column;
   padding: 3.2rem;
   border: 1px dashed #444444;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 25px 0px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 5px 0px;
 }
 
 article h2 {

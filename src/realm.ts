@@ -7,6 +7,9 @@ export class Realm {
   public adj: string = 'oldmarch';
   public capitalCityName: string = 'highbridge';
 
+  public sizeIndex: number = 0;
+  public size: string = 'small';
+
   public governmentRank: string = 'territory';
   public leaderTitle: string = 'lord';
 
@@ -16,7 +19,6 @@ export class Realm {
   public directionWithinParentEntity: string = 'south';
   public directionAdjWithinParentEntity: string = 'south';
 
-  public size: string = 'small';
   public temperature: string = 'temperate';
   public humidity: string = 'wet';
 
@@ -78,12 +80,18 @@ export class Realm {
   }
 
   public determineSize() {
-    this.size = Util.randomValue(Data.sizes);
+    this.sizeIndex = Number(Util.randomKey(Data.sizes));
+    this.size = Data.sizes[this.sizeIndex];
   }
 
   public determineGovernmentRank() {
-    this.governmentRank = Util.randomKey(Data.governmentRanks);
-    this.leaderTitle = Util.randomValue(Data.governmentRanks);
+    let govt: { rank: string; ruler: string; size: number[] };
+    do {
+      govt = Util.randomValue(Data.governmentRanks);
+    } while (!govt.size.includes(this.sizeIndex));
+
+    this.governmentRank = govt.rank;
+    this.leaderTitle = govt.ruler;
   }
 
   public determineSigil() {
@@ -169,7 +177,7 @@ export class Realm {
 
     Util.arrayRemove(availableBiomes, b);
 
-    let availableSizeIndex: number = Data.sizes.indexOf(this.size);
+    let availableSizeIndex: number = Data.sizes.indexOf(this.size) * 2;
     let sizeIndex: number = Math.floor(Util.rand() * availableSizeIndex);
     availableSizeIndex -= sizeIndex;
     let primaryBiome: Biome = {
@@ -200,14 +208,5 @@ export class Realm {
       // Add a second biome
       this.biomes.push(secondaryBiome);
     }
-  }
-  public biomesBlurb(): string {
-    let str: string = '';
-
-    this.biomes.forEach((biome) => {
-      str += biome.type;
-    });
-
-    return str;
   }
 }
