@@ -1,7 +1,7 @@
 import { Data } from './data';
 import { Util } from './util';
 
-type Biome = { biome: string; size: string; direction: string };
+type Biome = { type: string; size: string; direction: string };
 export class Realm {
   public name: string = 'oldmarch';
   public adj: string = 'oldmarch';
@@ -164,7 +164,7 @@ export class Realm {
     });
 
     // Add the primary biome, reroll once if mountains
-    let b: string = Util.randomKey(availableBiomes);
+    let b: string = Util.randomValue(availableBiomes);
     if (b == 'mountains') b = Util.randomKey(availableBiomes);
 
     Util.arrayRemove(availableBiomes, b);
@@ -173,7 +173,7 @@ export class Realm {
     let sizeIndex: number = Math.floor(Math.random() * availableSizeIndex);
     availableSizeIndex -= sizeIndex;
     let primaryBiome: Biome = {
-      biome: b,
+      type: b,
       size: Data.sizes[sizeIndex],
       direction: Util.randomKey(Data.directions)
     };
@@ -192,7 +192,7 @@ export class Realm {
       );
 
       let secondaryBiome: Biome = {
-        biome: Util.randomKey(availableBiomes),
+        type: Util.randomValue(availableBiomes),
         size: Data.sizes[Math.floor(Math.random() * availableSizeIndex)],
         direction: secondaryDirection
       };
@@ -200,5 +200,14 @@ export class Realm {
       // Add a second biome
       this.biomes.push(secondaryBiome);
     }
+  }
+  public biomesBlurb(): string {
+    let str: string = '';
+
+    this.biomes.forEach((biome) => {
+      str += biome.type;
+    });
+
+    return str;
   }
 }

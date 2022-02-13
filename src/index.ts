@@ -60,9 +60,7 @@ function updateView() {
   applyText('season-summer', realm.seasonSummer.join(', '));
   applyText('season-winter', realm.seasonWinter.join(', '));
 
-  realm.biomes.forEach((biome) => {
-    // if)
-  });
+  applyText('biomes-blurb', realm.biomesBlurb());
 
   applyIcon('sigil', realm.sigilIcon);
 

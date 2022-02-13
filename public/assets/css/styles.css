@@ -122,7 +122,8 @@ section.container--controls {
 
 #hero h1 .name {
   font-size: 6.4rem;
-  font-family: 'Berkshire Swash', cursive;
+  font-family: 'Lobster Two', cursive;
+  font-weight: 400;
 }
 
 /* CONTENT */
@@ -135,24 +136,31 @@ section.container--controls {
 article {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
   padding: 3.2rem;
   border: 1px dashed #444444;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 25px 0px;
 }
 
+article h2 {
+  margin-bottom: 2.4rem;
+}
+
 article li {
-  margin-bottom: 1.2rem;
+  margin-bottom: 1.8rem;
+}
+
+article li h3 {
+  opacity: 0.6;
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin-bottom: 0.4rem;
 }
 
 article li i {
   color: #444444;
   margin-right: 0.4rem;
 }
-
-/* OVERVIEW */
-
-/* GEOGRAPHY */
 
 /* FOOTER */
 footer.container {

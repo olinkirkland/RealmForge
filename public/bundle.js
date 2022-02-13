@@ -181,7 +181,7 @@ class Realm {
             return true;
         });
         // Add the primary biome, reroll once if mountains
-        let b = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(availableBiomes);
+        let b = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(availableBiomes);
         if (b == 'mountains')
             b = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(availableBiomes);
         _util__WEBPACK_IMPORTED_MODULE_1__.Util.arrayRemove(availableBiomes, b);
@@ -189,7 +189,7 @@ class Realm {
         let sizeIndex = Math.floor(Math.random() * availableSizeIndex);
         availableSizeIndex -= sizeIndex;
         let primaryBiome = {
-            biome: b,
+            type: b,
             size: _data__WEBPACK_IMPORTED_MODULE_0__.Data.sizes[sizeIndex],
             direction: _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(_data__WEBPACK_IMPORTED_MODULE_0__.Data.directions)
         };
@@ -203,13 +203,20 @@ class Realm {
             } while (secondaryDirection == primaryBiome.direction &&
                 secondaryDirection.includes('-'));
             let secondaryBiome = {
-                biome: _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(availableBiomes),
+                type: _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(availableBiomes),
                 size: _data__WEBPACK_IMPORTED_MODULE_0__.Data.sizes[Math.floor(Math.random() * availableSizeIndex)],
                 direction: secondaryDirection
             };
             // Add a second biome
             this.biomes.push(secondaryBiome);
         }
+    }
+    biomesBlurb() {
+        let str = '';
+        this.biomes.forEach((biome) => {
+            str += biome.type;
+        });
+        return str;
     }
 }
 
@@ -354,9 +361,7 @@ function updateView() {
     applyText('climate', realm.temperature);
     applyText('season-summer', realm.seasonSummer.join(', '));
     applyText('season-winter', realm.seasonWinter.join(', '));
-    realm.biomes.forEach((biome) => {
-        // if)
-    });
+    applyText('biomes-blurb', realm.biomesBlurb());
     applyIcon('sigil', realm.sigilIcon);
     // Change dice icon
     const dice = ['one', 'two', 'three', 'four', 'five', 'six'];

@@ -50,10 +50,9 @@
     "descriptorsAfter": ["of god"],
     "governments": {
       "empire": "imperial",
-      "kingdom": "kingdom",
+      "kingdom": "royal",
       "imperium": "imperial",
-      "dominion": "dominion",
-      "confederacy": "confederacy"
+      "confederacy": "confederate"
     }
   },
   "sigils": {
@@ -69,7 +68,6 @@
     "tower": { "icon": "chess-rook", "meanings": ["strength", "solidarity"] },
     "crown": { "icon": "chess-king", "meanings": ["loyalty", "royal lineage"] },
     "sapling": { "icon": "seedling", "meanings": ["heritage", "family"] },
-    "four-leaf clover": { "icon": "clover", "meanings": ["fortune", "luck"] },
     "closed fist": { "icon": "hand-fist", "meanings": ["unity", "willpower"] },
     "snowflake": { "icon": "snowflake", "meanings": ["beauty", "charm"] },
     "sun": { "icon": "sun", "meanings": ["harvest", "honesty"] },
@@ -82,7 +80,7 @@
     "duchy": "duke",
     "county": "count",
     "lordship": "lord",
-    "free imperial city": "mayor",
+    "free city": "mayor",
     "territory": "lord"
   },
   "names": [
