@@ -4,7 +4,7 @@ export class Data {
   public static words: string[];
 
   public static biomes: string[];
-  public static directions: any;
+  public static directions: any[];
   public static images: string[];
   public static governmentRanks: any;
   public static sigils: any;

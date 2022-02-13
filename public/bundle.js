@@ -119,9 +119,9 @@ class Realm {
         this.parentEntityName = arr.join(' ');
     }
     determineDirection() {
-        this.directionWithinParentEntity = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(_data__WEBPACK_IMPORTED_MODULE_0__.Data.directions);
-        this.directionAdjWithinParentEntity =
-            _data__WEBPACK_IMPORTED_MODULE_0__.Data.directions[this.directionWithinParentEntity];
+        const dir = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.directions);
+        this.directionWithinParentEntity = dir.noun;
+        this.directionAdjWithinParentEntity = dir.adj;
         // 40% chance to be coastal, 0% if location is middle
         this.coastal =
             _util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() < 0.4 && this.directionWithinParentEntity != 'middle';
@@ -210,7 +210,7 @@ class Realm {
         let primaryBiome = {
             type: b,
             size: _data__WEBPACK_IMPORTED_MODULE_0__.Data.sizes[sizeIndex],
-            direction: _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(_data__WEBPACK_IMPORTED_MODULE_0__.Data.directions)
+            direction: _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.directions)
         };
         this.biomes.push(primaryBiome);
         if (_util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() < 0.6) {
@@ -218,7 +218,7 @@ class Realm {
             // Also cannot be a combined direction like north-east or south-west, must be one of the four cardinal directions or 'middle'
             let secondaryDirection;
             do {
-                secondaryDirection = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(_data__WEBPACK_IMPORTED_MODULE_0__.Data.directions);
+                secondaryDirection = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.directions);
             } while (secondaryDirection == primaryBiome.direction &&
                 secondaryDirection.includes('-'));
             let secondaryBiome = {

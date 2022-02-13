@@ -70,9 +70,12 @@ export class Realm {
   }
 
   public determineDirection() {
-    this.directionWithinParentEntity = Util.randomKey(Data.directions);
-    this.directionAdjWithinParentEntity =
-      Data.directions[this.directionWithinParentEntity];
+    const dir: { noun: string; adj: string } = Util.randomValue(
+      Data.directions
+    );
+
+    this.directionWithinParentEntity = dir.noun;
+    this.directionAdjWithinParentEntity = dir.adj;
 
     // 40% chance to be coastal, 0% if location is middle
     this.coastal =
@@ -183,7 +186,7 @@ export class Realm {
     let primaryBiome: Biome = {
       type: b,
       size: Data.sizes[sizeIndex],
-      direction: Util.randomKey(Data.directions)
+      direction: Util.randomValue(Data.directions)
     };
 
     this.biomes.push(primaryBiome);
@@ -193,7 +196,7 @@ export class Realm {
       // Also cannot be a combined direction like north-east or south-west, must be one of the four cardinal directions or 'middle'
       let secondaryDirection: string;
       do {
-        secondaryDirection = Util.randomKey(Data.directions);
+        secondaryDirection = Util.randomValue(Data.directions);
       } while (
         secondaryDirection == primaryBiome.direction &&
         secondaryDirection.includes('-')
