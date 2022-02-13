@@ -25,6 +25,15 @@ li {
   line-height: 1.6;
 }
 
+.container {
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+.fade-in {
+  opacity: 1;
+}
+
 .muted {
   opacity: 0.5;
 }
@@ -35,6 +44,7 @@ li {
   align-items: center;
   gap: 1rem;
   padding: 1.2rem 2rem;
+  cursor: pointer;
 
   color: #f8f8f8;
   background-color: rgb(51, 51, 51, 1);

@@ -42,12 +42,13 @@ export class Realm {
 
   public determineParentEntity() {
     let arr: string[] = ['the'];
-    if (Math.random() < 0.8) {
+
+    if (Util.rand() < 0.8) {
       let firstDescriptor: string = Util.randomValue(
         Data.parentEntityDescriptorsBefore
       );
       arr.push(firstDescriptor);
-      if (Math.random() < 0.2) {
+      if (Util.rand() < 0.2) {
         let secondDescriptor: string = Util.randomValue(
           Data.parentEntityDescriptorsBefore
         );
@@ -59,7 +60,7 @@ export class Realm {
     this.parentEntityAdj = Data.parentEntityGovernments[government];
     arr.push(government);
 
-    if (Math.random() < 0.1) {
+    if (Util.rand() < 0.1) {
       arr.push(Util.randomValue(Data.parentEntityDescriptorsAfter));
     }
 
@@ -73,7 +74,7 @@ export class Realm {
 
     // 40% chance to be coastal, 0% if location is middle
     this.coastal =
-      Math.random() < 0.4 && this.directionWithinParentEntity != 'middle';
+      Util.rand() < 0.4 && this.directionWithinParentEntity != 'middle';
   }
 
   public determineSize() {
@@ -120,7 +121,7 @@ export class Realm {
         availableWinterDescriptors,
         d
       );
-      if (Math.random() < 0.5) break;
+      if (Util.rand() < 0.5) break;
     }
 
     // Description of summer
@@ -133,7 +134,6 @@ export class Realm {
     for (let i = 0; i < 2; i++) {
       const d: string = Util.randomValue(availableSummerDescriptors);
       if (this.seasonWinter.includes(d)) {
-        i--;
         continue;
       }
       this.seasonSummer.push(d);
@@ -141,7 +141,7 @@ export class Realm {
         availableSummerDescriptors,
         d
       );
-      if (Math.random() < 0.5) break;
+      if (Util.rand() < 0.5) break;
     }
   }
 
@@ -170,7 +170,7 @@ export class Realm {
     Util.arrayRemove(availableBiomes, b);
 
     let availableSizeIndex: number = Data.sizes.indexOf(this.size);
-    let sizeIndex: number = Math.floor(Math.random() * availableSizeIndex);
+    let sizeIndex: number = Math.floor(Util.rand() * availableSizeIndex);
     availableSizeIndex -= sizeIndex;
     let primaryBiome: Biome = {
       type: b,
@@ -180,7 +180,7 @@ export class Realm {
 
     this.biomes.push(primaryBiome);
 
-    if (Math.random() < 0.6) {
+    if (Util.rand() < 0.6) {
       // Choose a direction that isn't the same direction as the primary Biome's direction
       // Also cannot be a combined direction like north-east or south-west, must be one of the four cardinal directions or 'middle'
       let secondaryDirection: string;
@@ -193,7 +193,7 @@ export class Realm {
 
       let secondaryBiome: Biome = {
         type: Util.randomValue(availableBiomes),
-        size: Data.sizes[Math.floor(Math.random() * availableSizeIndex)],
+        size: Data.sizes[Math.floor(Util.rand() * availableSizeIndex)],
         direction: secondaryDirection
       };
 

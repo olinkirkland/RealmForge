@@ -14,14 +14,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 class Data {
     static setup(callback) {
-        // Load names
+        let toLoad = {};
+        // Load data
         fetch('./assets/data/content.json')
             .then((response) => {
             return response.json();
         })
-            .then((data) => {
-            Data.parse(data);
-            callback();
+            .then((content) => {
+            Data.parse(content);
+            toLoad.data = true;
+            if (toLoad.data && toLoad.words)
+                callback();
+        });
+        // Load words
+        fetch('./assets/data/words.json')
+            .then((response) => {
+            return response.json();
+        })
+            .then((words) => {
+            Data.words = words;
+            toLoad.words = true;
+            if (toLoad.data && toLoad.words)
+                callback();
         });
     }
     static parse(u) {
@@ -86,10 +100,10 @@ class Realm {
     }
     determineParentEntity() {
         let arr = ['the'];
-        if (Math.random() < 0.8) {
+        if (_util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() < 0.8) {
             let firstDescriptor = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.parentEntityDescriptorsBefore);
             arr.push(firstDescriptor);
-            if (Math.random() < 0.2) {
+            if (_util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() < 0.2) {
                 let secondDescriptor = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.parentEntityDescriptorsBefore);
                 if (secondDescriptor != firstDescriptor)
                     arr.push(secondDescriptor);
@@ -98,7 +112,7 @@ class Realm {
         let government = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(_data__WEBPACK_IMPORTED_MODULE_0__.Data.parentEntityGovernments);
         this.parentEntityAdj = _data__WEBPACK_IMPORTED_MODULE_0__.Data.parentEntityGovernments[government];
         arr.push(government);
-        if (Math.random() < 0.1) {
+        if (_util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() < 0.1) {
             arr.push(_util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.parentEntityDescriptorsAfter));
         }
         this.parentEntityName = arr.join(' ');
@@ -109,7 +123,7 @@ class Realm {
             _data__WEBPACK_IMPORTED_MODULE_0__.Data.directions[this.directionWithinParentEntity];
         // 40% chance to be coastal, 0% if location is middle
         this.coastal =
-            Math.random() < 0.4 && this.directionWithinParentEntity != 'middle';
+            _util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() < 0.4 && this.directionWithinParentEntity != 'middle';
     }
     determineSize() {
         this.size = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.sizes);
@@ -146,7 +160,7 @@ class Realm {
             const d = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(availableWinterDescriptors);
             this.seasonWinter.push(d);
             availableWinterDescriptors = _util__WEBPACK_IMPORTED_MODULE_1__.Util.arrayRemove(availableWinterDescriptors, d);
-            if (Math.random() < 0.5)
+            if (_util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() < 0.5)
                 break;
         }
         // Description of summer
@@ -156,12 +170,11 @@ class Realm {
         for (let i = 0; i < 2; i++) {
             const d = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(availableSummerDescriptors);
             if (this.seasonWinter.includes(d)) {
-                i--;
                 continue;
             }
             this.seasonSummer.push(d);
             availableSummerDescriptors = _util__WEBPACK_IMPORTED_MODULE_1__.Util.arrayRemove(availableSummerDescriptors, d);
-            if (Math.random() < 0.5)
+            if (_util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() < 0.5)
                 break;
         }
     }
@@ -186,7 +199,7 @@ class Realm {
             b = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(availableBiomes);
         _util__WEBPACK_IMPORTED_MODULE_1__.Util.arrayRemove(availableBiomes, b);
         let availableSizeIndex = _data__WEBPACK_IMPORTED_MODULE_0__.Data.sizes.indexOf(this.size);
-        let sizeIndex = Math.floor(Math.random() * availableSizeIndex);
+        let sizeIndex = Math.floor(_util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() * availableSizeIndex);
         availableSizeIndex -= sizeIndex;
         let primaryBiome = {
             type: b,
@@ -194,7 +207,7 @@ class Realm {
             direction: _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(_data__WEBPACK_IMPORTED_MODULE_0__.Data.directions)
         };
         this.biomes.push(primaryBiome);
-        if (Math.random() < 0.6) {
+        if (_util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() < 0.6) {
             // Choose a direction that isn't the same direction as the primary Biome's direction
             // Also cannot be a combined direction like north-east or south-west, must be one of the four cardinal directions or 'middle'
             let secondaryDirection;
@@ -204,7 +217,7 @@ class Realm {
                 secondaryDirection.includes('-'));
             let secondaryBiome = {
                 type: _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(availableBiomes),
-                size: _data__WEBPACK_IMPORTED_MODULE_0__.Data.sizes[Math.floor(Math.random() * availableSizeIndex)],
+                size: _data__WEBPACK_IMPORTED_MODULE_0__.Data.sizes[Math.floor(_util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() * availableSizeIndex)],
                 direction: secondaryDirection
             };
             // Add a second biome
@@ -233,25 +246,56 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Util": () => (/* binding */ Util)
 /* harmony export */ });
+/* harmony import */ var _data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./data */ "./src/data.ts");
+
 class Util {
+    static generateSeed() {
+        let arr = [];
+        for (let i = 0; i < 3; i++) {
+            arr.push(Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.words, false));
+        }
+        Util.seed = arr.join('-');
+        Util.seedRandomNumberGenerator();
+    }
+    static seedRandomNumberGenerator() {
+        let h = 1779033703 ^ Util.seed.length;
+        for (var i = 0; i < Util.seed.length; i++) {
+            h = Math.imul(h ^ Util.seed.charCodeAt(i), 3432918353);
+            h = (h << 13) | (h >>> 19);
+        }
+        Util.m_w = (123456789 + h) & Util.mask;
+        Util.m_z = (987654321 - h) & Util.mask;
+    }
+    static rand() {
+        Util.m_z = (36969 * (Util.m_z & 65535) + (Util.m_z >> 16)) & Util.mask;
+        Util.m_w = (18000 * (Util.m_w & 65535) + (Util.m_w >> 16)) & Util.mask;
+        let result = ((Util.m_z << 16) + (Util.m_w & 65535)) >>> 0;
+        result /= 4294967296;
+        console.log(result);
+        return result;
+    }
     static arrayRemove(arr, elementToRemove) {
         return arr.filter(function (element) {
             return element != elementToRemove;
         });
     }
-    static randomKey(u) {
+    static randomKey(u, seeded = true) {
         let keys = Object.keys(u);
-        let k = keys[Math.floor(Math.random() * keys.length)];
-        return k;
+        return seeded
+            ? keys[Math.floor(Util.rand() * keys.length)]
+            : keys[Math.floor(Math.random() * keys.length)];
     }
-    static randomValue(u) {
-        return u[Util.randomKey(u)];
+    static randomValue(u, seeded = true) {
+        return u[Util.randomKey(u, seeded)];
     }
     static aOrAn(str) {
         const regex = new RegExp('^[aeiou].*', 'i');
         return regex.test(str) ? 'an' : 'a';
     }
 }
+Util.m_w = 123456789;
+Util.m_z = 987654321;
+Util.mask = 4294967295;
 
 
 /***/ })
@@ -328,18 +372,45 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Hint: Use 'npm run build' from console to compile + watch the TS code on save
  */
+// Delay intro animations
+const sectionEls = document.querySelectorAll('.container');
+sectionEls.forEach((node, index) => {
+    const el = node;
+    setTimeout(() => {
+        el.classList.add('fade-in');
+    }, 250 * index);
+});
 // Handle start button
 const btnStart = document.getElementById('btnStart');
-btnStart.addEventListener('click', start);
+btnStart.addEventListener('click', generateSeedAndStart);
 // Load data
 _data__WEBPACK_IMPORTED_MODULE_1__.Data.setup(() => {
-    realm = new _realm__WEBPACK_IMPORTED_MODULE_2__.Realm();
-    updateView();
+    // Does the url contain a seed (query)?
+    // www.google.com?foo
+    //    -> foo
+    // www.google.com?bar#
+    //    -> bar
+    const url = window.location.href;
+    const arr = url.match(/\?([a-z0-9,-]+)/);
+    if (arr && arr.length > 1) {
+        _util__WEBPACK_IMPORTED_MODULE_0__.Util.seed = arr[1];
+        start();
+    }
+    else {
+        generateSeedAndStart();
+    }
 });
 // Initialize variables
 let realm;
+function generateSeedAndStart() {
+    _util__WEBPACK_IMPORTED_MODULE_0__.Util.generateSeed();
+    const url = 'http://127.0.0.1:5501/public/index.html?';
+    window.location.replace(url + _util__WEBPACK_IMPORTED_MODULE_0__.Util.seed);
+}
 // Start the generation process
 function start() {
+    console.log('=== Start ===');
+    _util__WEBPACK_IMPORTED_MODULE_0__.Util.seedRandomNumberGenerator();
     realm = new _realm__WEBPACK_IMPORTED_MODULE_2__.Realm();
     updateView();
 }
@@ -363,13 +434,6 @@ function updateView() {
     applyText('season-winter', realm.seasonWinter.join(', '));
     applyText('biomes-blurb', realm.biomesBlurb());
     applyIcon('sigil', realm.sigilIcon);
-    // Change dice icon
-    const dice = ['one', 'two', 'three', 'four', 'five', 'six'];
-    const iconEl = document.querySelector('#btnStart > i');
-    dice.forEach((str) => {
-        iconEl.classList.remove('fa-dice-' + str);
-    });
-    iconEl.classList.add('fa-dice-' + dice[Math.floor(Math.random() * dice.length)]);
 }
 function determineHeroImageUrl() {
     // Todo use realm information to determine the image

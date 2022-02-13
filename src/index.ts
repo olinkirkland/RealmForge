@@ -6,23 +6,52 @@ import { Realm } from './realm';
  * Hint: Use 'npm run build' from console to compile + watch the TS code on save
  */
 
+// Delay intro animations
+const sectionEls: NodeList = document.querySelectorAll('.container');
+sectionEls.forEach((node: Node, index: number) => {
+  const el: HTMLElement = node as HTMLElement;
+  setTimeout(() => {
+    el.classList.add('fade-in');
+  }, 250 * index);
+});
+
 // Handle start button
 const btnStart: HTMLButtonElement = document.getElementById(
   'btnStart'
 )! as HTMLButtonElement;
-btnStart.addEventListener('click', start);
+btnStart.addEventListener('click', generateSeedAndStart);
 
 // Load data
 Data.setup(() => {
-  realm = new Realm();
-  updateView();
+  // Does the url contain a seed (query)?
+  // www.google.com?foo
+  //    -> foo
+  // www.google.com?bar#
+  //    -> bar
+
+  const url = window.location.href;
+  const arr = url.match(/\?([a-z0-9,-]+)/);
+  if (arr && arr.length > 1) {
+    Util.seed = arr[1];
+    start();
+  } else {
+    generateSeedAndStart();
+  }
 });
 
 // Initialize variables
 let realm: Realm;
 
+function generateSeedAndStart() {
+  Util.generateSeed();
+  const url: string = 'http://127.0.0.1:5501/public/index.html?';
+  window.location.replace(url + Util.seed);
+}
+
 // Start the generation process
 function start() {
+  console.log('=== Start ===');
+  Util.seedRandomNumberGenerator();
   realm = new Realm();
   updateView();
 }
@@ -63,18 +92,6 @@ function updateView() {
   applyText('biomes-blurb', realm.biomesBlurb());
 
   applyIcon('sigil', realm.sigilIcon);
-
-  // Change dice icon
-  const dice: string[] = ['one', 'two', 'three', 'four', 'five', 'six'];
-  const iconEl: HTMLElement = document.querySelector(
-    '#btnStart > i'
-  )! as HTMLElement;
-  dice.forEach((str) => {
-    iconEl.classList.remove('fa-dice-' + str);
-  });
-  iconEl.classList.add(
-    'fa-dice-' + dice[Math.floor(Math.random() * dice.length)]
-  );
 }
 
 function determineHeroImageUrl(): string {
