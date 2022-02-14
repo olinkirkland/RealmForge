@@ -278,18 +278,13 @@ class Util {
             return element != elementToRemove;
         });
     }
-    // static randomKey(u: any, seeded: boolean = true): string {
-    //   let keys: string[] = Object.keys(u);
-    //   return seeded
-    //     ? keys[Math.floor(Util.rand() * keys.length)]
-    //     : keys[Math.floor(Math.random() * keys.length)];
-    // }
     // Returns a random value from an array
     static randomValue(u, seeded = true) {
         return seeded
             ? u[Math.floor(Util.rand() * u.length)]
             : u[Math.floor(Math.random() * u.length)];
     }
+    // Returns 'a' or 'an' if str's first char is a consonant or a vowel
     static aOrAn(str) {
         const regex = new RegExp('^[aeiou].*', 'i');
         return regex.test(str) ? 'an' : 'a';
@@ -406,8 +401,10 @@ _data__WEBPACK_IMPORTED_MODULE_1__.Data.setup(() => {
 let realm;
 function generateSeedAndStart() {
     _util__WEBPACK_IMPORTED_MODULE_0__.Util.generateSeed();
-    const url = 'http://127.0.0.1:5501/public/index.html?';
-    window.location.replace(url + _util__WEBPACK_IMPORTED_MODULE_0__.Util.seed);
+    let url = window.location.href;
+    url = url.substring(0, url.indexOf('?'));
+    if (window.location.href)
+        window.location.replace(url + '?' + _util__WEBPACK_IMPORTED_MODULE_0__.Util.seed);
 }
 // Start the generation process
 function start() {

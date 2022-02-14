@@ -41,13 +41,6 @@ export class Util {
     });
   }
 
-  // static randomKey(u: any, seeded: boolean = true): string {
-  //   let keys: string[] = Object.keys(u);
-  //   return seeded
-  //     ? keys[Math.floor(Util.rand() * keys.length)]
-  //     : keys[Math.floor(Math.random() * keys.length)];
-  // }
-
   // Returns a random value from an array
   static randomValue(u: any[], seeded: boolean = true): any {
     return seeded
@@ -55,6 +48,7 @@ export class Util {
       : u[Math.floor(Math.random() * u.length)];
   }
 
+  // Returns 'a' or 'an' if str's first char is a consonant or a vowel
   static aOrAn(str: string): string {
     const regex = new RegExp('^[aeiou].*', 'i');
     return regex.test(str) ? 'an' : 'a';

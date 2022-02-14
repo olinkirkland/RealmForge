@@ -29,8 +29,8 @@ Data.setup(() => {
   // www.google.com?bar#
   //    -> bar
 
-  const url = window.location.href;
-  const arr = url.match(/\?([a-z0-9,-]+)/);
+  const url: string = window.location.href;
+  const arr: RegExpMatchArray | null = url.match(/\?([a-z0-9,-]+)/);
   if (arr && arr.length > 1) {
     Util.seed = arr[1];
     start();
@@ -44,8 +44,11 @@ let realm: Realm;
 
 function generateSeedAndStart() {
   Util.generateSeed();
-  const url: string = 'http://127.0.0.1:5501/public/index.html?';
-  window.location.replace(url + Util.seed);
+
+  let url: string = window.location.href;
+  url = url.substring(0, url.indexOf('?'));
+
+  if (window.location.href) window.location.replace(url + '?' + Util.seed);
 }
 
 // Start the generation process
