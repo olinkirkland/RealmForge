@@ -135,11 +135,11 @@ function applyBiomesBlurb() {
 
   if (realm.biomes.length == 1) {
     let b: Biome = realm.biomes[0];
-    text = `<span class="Name"></span> is largely made up of a ${b.type}`;
+    text = `<span class="name"></span> is made up of ${b.type}.`;
   } else if (realm.biomes.length == 2) {
     let b1: Biome = realm.biomes[0];
     let b2: Biome = realm.biomes[1];
-    text = `<span class="name"></span>'s ecoregions consist mostly of ${b1.type} with a ${b2.size} ${b2.type} in the ${b2.direction.noun}.`;
+    text = `The ecoregions of <span class="name"></span> consist mostly of ${b1.type} with a ${b2.size} ${b2.type} in the ${b2.direction.noun}.`;
   }
 
   const el: HTMLElement = document.querySelector('.biomes-blurb')!;
