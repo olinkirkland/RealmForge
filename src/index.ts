@@ -130,7 +130,7 @@ function writeBiomesBlurb(): string {
   let arr: string[] = [];
 
   realm.biomes.forEach((biome) => {
-    arr.push(`${biome.size} ${biome.type} in the ${biome.direction}`);
+    arr.push(`${biome.size} ${biome.type} in the ${biome.direction.noun}`);
   });
 
   return arr.join(' and ');

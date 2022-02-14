@@ -110,9 +110,10 @@ class Realm {
                     arr.push(secondDescriptor);
             }
         }
-        let government = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(_data__WEBPACK_IMPORTED_MODULE_0__.Data.parentEntityGovernments);
-        this.parentEntityAdj = _data__WEBPACK_IMPORTED_MODULE_0__.Data.parentEntityGovernments[government];
-        arr.push(government);
+        let government = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.parentEntityGovernments);
+        this.parentEntityName = government.noun;
+        this.parentEntityAdj = government.adj;
+        arr.push(this.parentEntityName);
         if (_util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() < 0.1) {
             arr.push(_util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.parentEntityDescriptorsAfter));
         }
@@ -127,7 +128,7 @@ class Realm {
             _util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() < 0.4 && this.directionWithinParentEntity != 'middle';
     }
     determineSize() {
-        this.sizeIndex = Number(_util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(_data__WEBPACK_IMPORTED_MODULE_0__.Data.sizes));
+        this.sizeIndex = Math.floor(_util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() * _data__WEBPACK_IMPORTED_MODULE_0__.Data.sizes.length);
         this.size = _data__WEBPACK_IMPORTED_MODULE_0__.Data.sizes[this.sizeIndex];
     }
     determineGovernmentRank() {
@@ -139,9 +140,10 @@ class Realm {
         this.leaderTitle = govt.ruler;
     }
     determineSigil() {
-        this.sigilName = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(_data__WEBPACK_IMPORTED_MODULE_0__.Data.sigils);
-        this.sigilIcon = _data__WEBPACK_IMPORTED_MODULE_0__.Data.sigils[this.sigilName].icon;
-        this.sigilMeaning = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.sigils[this.sigilName].meanings);
+        let sigil = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.sigils);
+        this.sigilName = sigil.name;
+        this.sigilIcon = sigil.icon;
+        this.sigilMeaning = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(sigil.meanings);
     }
     determineClimate() {
         // Choose geography and climate based on the direction
@@ -202,7 +204,7 @@ class Realm {
         // Add the primary biome, reroll once if mountains
         let b = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(availableBiomes);
         if (b == 'mountains')
-            b = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomKey(availableBiomes);
+            b = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(availableBiomes);
         _util__WEBPACK_IMPORTED_MODULE_1__.Util.arrayRemove(availableBiomes, b);
         let availableSizeIndex = _data__WEBPACK_IMPORTED_MODULE_0__.Data.sizes.indexOf(this.size) * 2;
         let sizeIndex = Math.floor(_util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() * availableSizeIndex);
@@ -219,8 +221,8 @@ class Realm {
             let secondaryDirection;
             do {
                 secondaryDirection = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.directions);
-            } while (secondaryDirection == primaryBiome.direction &&
-                secondaryDirection.includes('-'));
+            } while (secondaryDirection.noun == primaryBiome.direction.noun ||
+                secondaryDirection.noun.includes('-'));
             let secondaryBiome = {
                 type: _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(availableBiomes),
                 size: _data__WEBPACK_IMPORTED_MODULE_0__.Data.sizes[Math.floor(_util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() * availableSizeIndex)],
@@ -276,14 +278,17 @@ class Util {
             return element != elementToRemove;
         });
     }
-    static randomKey(u, seeded = true) {
-        let keys = Object.keys(u);
-        return seeded
-            ? keys[Math.floor(Util.rand() * keys.length)]
-            : keys[Math.floor(Math.random() * keys.length)];
-    }
+    // static randomKey(u: any, seeded: boolean = true): string {
+    //   let keys: string[] = Object.keys(u);
+    //   return seeded
+    //     ? keys[Math.floor(Util.rand() * keys.length)]
+    //     : keys[Math.floor(Math.random() * keys.length)];
+    // }
+    // Returns a random value from an array
     static randomValue(u, seeded = true) {
-        return u[Util.randomKey(u, seeded)];
+        return seeded
+            ? u[Math.floor(Util.rand() * u.length)]
+            : u[Math.floor(Math.random() * u.length)];
     }
     static aOrAn(str) {
         const regex = new RegExp('^[aeiou].*', 'i');
@@ -463,7 +468,7 @@ function applyIcon(query, icon) {
 function writeBiomesBlurb() {
     let arr = [];
     realm.biomes.forEach((biome) => {
-        arr.push(`${biome.size} ${biome.type} in the ${biome.direction}`);
+        arr.push(`${biome.size} ${biome.type} in the ${biome.direction.noun}`);
     });
     return arr.join(' and ');
 }

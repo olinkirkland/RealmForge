@@ -1,7 +1,11 @@
 import { Data } from './data';
 import { Util } from './util';
 
-type Biome = { type: string; size: string; direction: string };
+type Biome = {
+  type: string;
+  size: string;
+  direction: { noun: string; adj: string };
+};
 export class Realm {
   public name: string = 'oldmarch';
   public adj: string = 'oldmarch';
@@ -58,9 +62,12 @@ export class Realm {
       }
     }
 
-    let government: string = Util.randomKey(Data.parentEntityGovernments);
-    this.parentEntityAdj = Data.parentEntityGovernments[government];
-    arr.push(government);
+    let government: { noun: string; adj: string } = Util.randomValue(
+      Data.parentEntityGovernments
+    );
+    this.parentEntityName = government.noun;
+    this.parentEntityAdj = government.adj;
+    arr.push(this.parentEntityName);
 
     if (Util.rand() < 0.1) {
       arr.push(Util.randomValue(Data.parentEntityDescriptorsAfter));
@@ -83,7 +90,7 @@ export class Realm {
   }
 
   public determineSize() {
-    this.sizeIndex = Number(Util.randomKey(Data.sizes));
+    this.sizeIndex = Math.floor(Util.rand() * Data.sizes.length);
     this.size = Data.sizes[this.sizeIndex];
   }
 
@@ -98,9 +105,11 @@ export class Realm {
   }
 
   public determineSigil() {
-    this.sigilName = Util.randomKey(Data.sigils);
-    this.sigilIcon = Data.sigils[this.sigilName].icon;
-    this.sigilMeaning = Util.randomValue(Data.sigils[this.sigilName].meanings);
+    let sigil: { name: string; icon: string; meanings: string[] } =
+      Util.randomValue(Data.sigils);
+    this.sigilName = sigil.name;
+    this.sigilIcon = sigil.icon;
+    this.sigilMeaning = Util.randomValue(sigil.meanings);
   }
 
   public determineClimate() {
@@ -176,7 +185,7 @@ export class Realm {
 
     // Add the primary biome, reroll once if mountains
     let b: string = Util.randomValue(availableBiomes);
-    if (b == 'mountains') b = Util.randomKey(availableBiomes);
+    if (b == 'mountains') b = Util.randomValue(availableBiomes);
 
     Util.arrayRemove(availableBiomes, b);
 
@@ -194,12 +203,12 @@ export class Realm {
     if (Util.rand() < 0.6) {
       // Choose a direction that isn't the same direction as the primary Biome's direction
       // Also cannot be a combined direction like north-east or south-west, must be one of the four cardinal directions or 'middle'
-      let secondaryDirection: string;
+      let secondaryDirection: { noun: string; adj: string };
       do {
         secondaryDirection = Util.randomValue(Data.directions);
       } while (
-        secondaryDirection == primaryBiome.direction &&
-        secondaryDirection.includes('-')
+        secondaryDirection.noun == primaryBiome.direction.noun ||
+        secondaryDirection.noun.includes('-')
       );
 
       let secondaryBiome: Biome = {

@@ -41,15 +41,18 @@ export class Util {
     });
   }
 
-  static randomKey(u: any, seeded: boolean = true): string {
-    let keys: string[] = Object.keys(u);
-    return seeded
-      ? keys[Math.floor(Util.rand() * keys.length)]
-      : keys[Math.floor(Math.random() * keys.length)];
-  }
+  // static randomKey(u: any, seeded: boolean = true): string {
+  //   let keys: string[] = Object.keys(u);
+  //   return seeded
+  //     ? keys[Math.floor(Util.rand() * keys.length)]
+  //     : keys[Math.floor(Math.random() * keys.length)];
+  // }
 
-  static randomValue(u: any, seeded: boolean = true): any {
-    return u[Util.randomKey(u, seeded)];
+  // Returns a random value from an array
+  static randomValue(u: any[], seeded: boolean = true): any {
+    return seeded
+      ? u[Math.floor(Util.rand() * u.length)]
+      : u[Math.floor(Math.random() * u.length)];
   }
 
   static aOrAn(str: string): string {

@@ -48,32 +48,61 @@
   "parentEntities": {
     "descriptorsBefore": ["divine", "holy", "royal", "ordained"],
     "descriptorsAfter": ["of god"],
-    "governments": {
-      "empire": "imperial",
-      "kingdom": "royal",
-      "imperium": "imperial",
-      "confederacy": "confederate"
-    }
+    "governments": [
+      { "noun": "empire", "adj": "imperial" },
+      { "noun": "kingdom", "adj": "royal" },
+      { "noun": "imperium", "adj": "imperial" },
+      { "noun": "confederacy", "adj": "confederate" }
+    ]
   },
-  "sigils": {
-    "stallion": { "icon": "chess-knight", "meanings": ["strength", "courage"] },
-    "dove": { "icon": "dove", "meanings": ["peace", "wisdom"] },
-    "feather": {
+  "sigils": [
+    {
+      "name": "stallion",
+      "icon": "chess-knight",
+      "meanings": ["strength", "courage"]
+    },
+    { "name": "dove", "icon": "dove", "meanings": ["peace", "wisdom"] },
+    {
+      "name": "feather",
       "icon": "feather-pointed",
       "meanings": ["loyalty", "courage"]
     },
-    "cat": { "icon": "cat", "meanings": ["sharp wits", "ferocity"] },
-    "cross": { "icon": "cross", "meanings": ["virtue", "purity", "piety"] },
-    "eye": { "icon": "eye", "meanings": ["vigilance", "perception"] },
-    "tower": { "icon": "chess-rook", "meanings": ["strength", "solidarity"] },
-    "crown": { "icon": "chess-king", "meanings": ["loyalty", "royal lineage"] },
-    "sapling": { "icon": "seedling", "meanings": ["heritage", "family"] },
-    "closed fist": { "icon": "hand-fist", "meanings": ["unity", "willpower"] },
-    "snowflake": { "icon": "snowflake", "meanings": ["beauty", "charm"] },
-    "sun": { "icon": "sun", "meanings": ["harvest", "honesty"] },
-    "jewel": { "icon": "gem", "meanings": ["wealth", "value"] },
-    "skull": { "icon": "skull", "meanings": ["valor", "ruthlessness"] }
-  },
+    { "name": "cat", "icon": "cat", "meanings": ["sharp wits", "ferocity"] },
+    {
+      "name": "cross",
+      "icon": "cross",
+      "meanings": ["virtue", "purity", "piety"]
+    },
+    { "name": "eye", "icon": "eye", "meanings": ["vigilance", "perception"] },
+    {
+      "name": "tower",
+      "icon": "chess-rook",
+      "meanings": ["strength", "solidarity"]
+    },
+    {
+      "name": "crown",
+      "icon": "chess-king",
+      "meanings": ["loyalty", "royal lineage"]
+    },
+    {
+      "name": "sapling",
+      "icon": "seedling",
+      "meanings": ["heritage", "family"]
+    },
+    {
+      "name": "closed fist",
+      "icon": "hand-fist",
+      "meanings": ["unity", "willpower"]
+    },
+    {
+      "name": "snowflake",
+      "icon": "snowflake",
+      "meanings": ["beauty", "charm"]
+    },
+    { "name": "sun", "icon": "sun", "meanings": ["harvest", "honesty"] },
+    { "name": "jewel", "icon": "gem", "meanings": ["wealth", "value"] },
+    { "name": "skull", "icon": "skull", "meanings": ["valor", "ruthlessness"] }
+  ],
   "governmentRanks": [
     { "rank": "free city", "ruler": "mayor", "size": [0] },
     { "rank": "lordship", "ruler": "lord", "size": [0] },
