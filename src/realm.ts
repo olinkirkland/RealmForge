@@ -1,7 +1,7 @@
 import { Data } from './data';
 import { Util } from './util';
 
-type Biome = {
+export type Biome = {
   type: string;
   size: string;
   direction: { noun: string; adj: string };
@@ -187,14 +187,14 @@ export class Realm {
     let b: string = Util.randomValue(availableBiomes);
     if (b == 'mountains') b = Util.randomValue(availableBiomes);
 
-    Util.arrayRemove(availableBiomes, b);
+    availableBiomes = Util.arrayRemove(availableBiomes, b);
 
     let availableSizeIndex: number = Data.sizes.indexOf(this.size) * 2;
     let sizeIndex: number = Math.floor(Util.rand() * availableSizeIndex);
     availableSizeIndex -= sizeIndex;
     let primaryBiome: Biome = {
       type: b,
-      size: Data.sizes[sizeIndex],
+      size: Data.sizes[Math.max(1, sizeIndex)],
       direction: Util.randomValue(Data.directions)
     };
 

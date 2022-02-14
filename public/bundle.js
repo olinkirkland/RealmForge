@@ -205,13 +205,13 @@ class Realm {
         let b = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(availableBiomes);
         if (b == 'mountains')
             b = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(availableBiomes);
-        _util__WEBPACK_IMPORTED_MODULE_1__.Util.arrayRemove(availableBiomes, b);
+        availableBiomes = _util__WEBPACK_IMPORTED_MODULE_1__.Util.arrayRemove(availableBiomes, b);
         let availableSizeIndex = _data__WEBPACK_IMPORTED_MODULE_0__.Data.sizes.indexOf(this.size) * 2;
         let sizeIndex = Math.floor(_util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() * availableSizeIndex);
         availableSizeIndex -= sizeIndex;
         let primaryBiome = {
             type: b,
-            size: _data__WEBPACK_IMPORTED_MODULE_0__.Data.sizes[sizeIndex],
+            size: _data__WEBPACK_IMPORTED_MODULE_0__.Data.sizes[Math.max(1, sizeIndex)],
             direction: _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.directions)
         };
         this.biomes.push(primaryBiome);
@@ -416,7 +416,9 @@ function updateView() {
     // Choose a photo for the hero
     const heroEl = document.getElementById('hero');
     heroEl.setAttribute('style', `background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${determineHeroImageUrl()})`);
-    // Apply values to view
+    // Blurbs
+    applyBiomesBlurb();
+    // Words
     applyText('name', realm.name);
     applyText('government-rank', realm.governmentRank);
     applyText('parent-entity', realm.parentEntityName);
@@ -430,7 +432,6 @@ function updateView() {
     applyText('climate', realm.temperature);
     applyText('season-summer', realm.seasonSummer.join(', '));
     applyText('season-winter', realm.seasonWinter.join(', '));
-    applyText('biomes-blurb', writeBiomesBlurb());
     applyIcon('sigil', realm.sigilIcon);
 }
 function determineHeroImageUrl() {
@@ -462,12 +463,19 @@ function applyIcon(query, icon) {
         el.classList.add('fa-' + icon);
     });
 }
-function writeBiomesBlurb() {
-    let arr = [];
-    realm.biomes.forEach((biome) => {
-        arr.push(`${biome.size} ${biome.type} in the ${biome.direction.noun}`);
-    });
-    return arr.join(' and ');
+function applyBiomesBlurb() {
+    let text = '';
+    if (realm.biomes.length == 1) {
+        let b = realm.biomes[0];
+        text = `<span class="Name"></span> is largely made up of a ${b.type}`;
+    }
+    else if (realm.biomes.length == 2) {
+        let b1 = realm.biomes[0];
+        let b2 = realm.biomes[1];
+        text = `<span class="name"></span>'s ecoregions consist mostly of ${b1.type} with a ${b2.size} ${b2.type} in the ${b2.direction.noun}.`;
+    }
+    const el = document.querySelector('.biomes-blurb');
+    el.innerHTML = text;
 }
 
 })();
