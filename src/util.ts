@@ -65,7 +65,7 @@ export class Util {
 
   // Tweet a realm
   static shareByTweet(realm: Realm) {
-    let tweet: string = `Visit ${Util.capitalize(realm.name)}, a ${
+    let tweet: string = `Explore ${Util.capitalize(realm.name)}, a ${
       realm.size
     } ${realm.parentEntityAdj} ${realm.governmentRank}.`;
 
