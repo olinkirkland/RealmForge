@@ -325,6 +325,18 @@ class Util {
         str += ', and ' + last;
         return str;
     }
+    // Tweet a realm
+    static shareByTweet(realm) {
+        let tweet = `Visit ${Util.capitalize(realm.name)}, a ${realm.size} ${realm.parentEntityAdj} ${realm.governmentRank}.`;
+        window.open('https://twitter.com/intent/tweet?url=' +
+            window.location.href +
+            '&text=' +
+            tweet, '_blank');
+    }
+    // Capitalize first letter
+    static capitalize(str) {
+        return str.charAt(0).toUpperCase() + str.substring(1);
+    }
 }
 Util.m_w = 123456789;
 Util.m_z = 987654321;
@@ -408,6 +420,11 @@ __webpack_require__.r(__webpack_exports__);
 // Handle start button
 const btnStart = document.getElementById('btnStart');
 btnStart.addEventListener('click', generateSeedAndStart);
+// Handle tweet button
+const btnShareTwitter = document.getElementById('btnShareTwitter');
+btnShareTwitter.addEventListener('click', () => {
+    _util__WEBPACK_IMPORTED_MODULE_0__.Util.shareByTweet(realm);
+});
 // Load data
 _data__WEBPACK_IMPORTED_MODULE_1__.Data.setup(() => {
     // Does the url contain a seed (query)?

@@ -14,6 +14,14 @@ const btnStart: HTMLButtonElement = document.getElementById(
 )! as HTMLButtonElement;
 btnStart.addEventListener('click', generateSeedAndStart);
 
+// Handle tweet button
+const btnShareTwitter: HTMLButtonElement = document.getElementById(
+  'btnShareTwitter'
+)! as HTMLButtonElement;
+btnShareTwitter.addEventListener('click', () => {
+  Util.shareByTweet(realm);
+});
+
 // Load data
 Data.setup(() => {
   // Does the url contain a seed (query)?

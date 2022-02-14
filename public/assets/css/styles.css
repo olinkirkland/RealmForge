@@ -87,7 +87,7 @@ li {
 .parent-entity,
 .capital-city {
   text-transform: capitalize;
-  /* font-weight: bold; */
+  font-weight: bold;
 }
 
 .container {

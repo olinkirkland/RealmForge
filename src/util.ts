@@ -1,4 +1,5 @@
 import { Data } from './data';
+import { Realm } from './realm';
 
 export class Util {
   public static seed: string;
@@ -60,5 +61,25 @@ export class Util {
     let str: string = arr.join(', ');
     str += ', and ' + last;
     return str;
+  }
+
+  // Tweet a realm
+  static shareByTweet(realm: Realm) {
+    let tweet: string = `Visit ${Util.capitalize(realm.name)}, a ${
+      realm.size
+    } ${realm.parentEntityAdj} ${realm.governmentRank}.`;
+
+    window.open(
+      'https://twitter.com/intent/tweet?url=' +
+        window.location.href +
+        '&text=' +
+        tweet,
+      '_blank'
+    );
+  }
+
+  // Capitalize first letter
+  static capitalize(str: string): string {
+    return str.charAt(0).toUpperCase() + str.substring(1);
   }
 }
