@@ -2,6 +2,7 @@ import { Util } from './util';
 import { Data } from './data';
 import { Realm } from './realm';
 import { Biome } from './realm';
+import { River } from './realm';
 
 /**
  * Hint: Use 'npm run build' from console to compile + watch the TS code on save
@@ -70,6 +71,8 @@ function updateView() {
 
   // Blurbs
   applyBiomesBlurb();
+  applyRiversBlurb();
+  toggleVisibility('sigil-present-on-heraldry', realm.sigilPresentOnHeraldry);
 
   // Words
   applyText('name', realm.name);
@@ -114,6 +117,18 @@ function applyText(query: string, text: string) {
   });
 }
 
+function toggleVisibility(query: string, visible: boolean) {
+  const els: NodeList = document.querySelectorAll('span.' + query);
+  els.forEach((node: Node) => {
+    const el: HTMLElement = node as HTMLElement;
+    if (visible) {
+      el.classList.remove('hidden');
+    } else {
+      el.classList.add('hidden');
+    }
+  });
+}
+
 function applyIcon(query: string, icon: string) {
   const els: NodeList = document.querySelectorAll('i.' + query);
   els.forEach((node: Node) => {
@@ -139,9 +154,29 @@ function applyBiomesBlurb() {
   } else if (realm.biomes.length == 2) {
     let b1: Biome = realm.biomes[0];
     let b2: Biome = realm.biomes[1];
-    text = `The ecoregions of <span class="name"></span> consist mostly of ${b1.type} with a ${b2.size} ${b2.type} in the ${b2.direction.noun}.`;
+    text = `The ecoregions of <span class="name"></span> consist mostly of ${b1.type} with a ${b2.size} ${b2.type} region in the ${b2.direction.noun}.`;
   }
 
   const el: HTMLElement = document.querySelector('.biomes-blurb')!;
+  el.innerHTML = text;
+}
+
+function applyRiversBlurb() {
+  let text: string = '';
+
+  if (realm.rivers.length == 0) {
+    text = `No notable rivers pass through <span class="name"></span>.`;
+  } else if (realm.rivers.length == 1) {
+    let r: River = realm.rivers[0];
+    text =
+      `The main river that flows through <span class="name"></span> is the ${r.name}. Its main tributaries are the ` +
+      Util.joinArrayWithAnd(r.tributaries);
+  } else if (realm.rivers.length == 2) {
+    let b1: Biome = realm.biomes[0];
+    let b2: Biome = realm.biomes[1];
+    text = `The ecoregions of <span class="name"></span> consist mostly of ${b1.type} with a ${b2.size} ${b2.type} region in the ${b2.direction.noun}.`;
+  }
+
+  const el: HTMLElement = document.querySelector('.rivers-blurb')!;
   el.innerHTML = text;
 }

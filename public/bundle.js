@@ -87,17 +87,21 @@ class Realm {
         this.seasonSummer = ['long', 'harsh'];
         this.seasonWinter = ['long', 'mild'];
         this.biomes = [];
+        this.rivers = [];
         this.coastal = false;
         this.sigilName = 'dove';
         this.sigilIcon = 'dove';
         this.sigilMeaning = 'peace';
+        this.sigilPresentOnHeraldry = false;
         this.determineParentEntity();
         this.determineDirection();
         this.determineSize();
         this.determineGovernmentRank();
-        this.determineSigil();
         this.determineClimate();
         this.determineBiomes();
+        this.determineRivers();
+        this.determineSigil();
+        this.determineHeraldry();
     }
     determineParentEntity() {
         let arr = ['the'];
@@ -144,6 +148,10 @@ class Realm {
         this.sigilName = sigil.name;
         this.sigilIcon = sigil.icon;
         this.sigilMeaning = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(sigil.meanings);
+        this.sigilPresentOnHeraldry = _util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() < 0.2;
+    }
+    determineHeraldry() {
+        // Choose heraldry based on biomes and animals among other things
     }
     determineClimate() {
         // Choose geography and climate based on the direction
@@ -232,6 +240,27 @@ class Realm {
             this.biomes.push(secondaryBiome);
         }
     }
+    determineRivers() {
+        let riverMinMax = [0, 0];
+        switch (this.humidity) {
+            case 'dry':
+                riverMinMax = [0, 1];
+                break;
+            case 'temperate':
+                riverMinMax = [1, 3];
+                break;
+            case 'wet':
+                riverMinMax = [2, 3];
+                break;
+        }
+        let riverCount = _util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() * (riverMinMax[1] - riverMinMax[0]) + riverMinMax[0];
+        // For small realms (<3 on the sizeIndex) there shouldn't be more than two rivers passing through
+        if (this.sizeIndex < 3) {
+            riverCount = Math.min(riverCount, 2);
+        }
+        // Add rivers
+        for (let i = 0; i < riverCount; i++) { }
+    }
 }
 
 
@@ -288,6 +317,13 @@ class Util {
     static aOrAn(str) {
         const regex = new RegExp('^[aeiou].*', 'i');
         return regex.test(str) ? 'an' : 'a';
+    }
+    // Returns a string joining an array of at least two entries with commas and the word 'and' between the penultimate and ultimate entries
+    static joinArrayWithAnd(arr) {
+        const last = arr.pop();
+        let str = arr.join(', ');
+        str += ', and ' + last;
+        return str;
     }
 }
 Util.m_w = 123456789;
@@ -418,6 +454,8 @@ function updateView() {
     heroEl.setAttribute('style', `background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${determineHeroImageUrl()})`);
     // Blurbs
     applyBiomesBlurb();
+    applyRiversBlurb();
+    toggleVisibility('sigil-present-on-heraldry', realm.sigilPresentOnHeraldry);
     // Words
     applyText('name', realm.name);
     applyText('government-rank', realm.governmentRank);
@@ -450,6 +488,18 @@ function applyText(query, text) {
         }
     });
 }
+function toggleVisibility(query, visible) {
+    const els = document.querySelectorAll('span.' + query);
+    els.forEach((node) => {
+        const el = node;
+        if (visible) {
+            el.classList.remove('hidden');
+        }
+        else {
+            el.classList.add('hidden');
+        }
+    });
+}
 function applyIcon(query, icon) {
     const els = document.querySelectorAll('i.' + query);
     els.forEach((node) => {
@@ -472,9 +522,28 @@ function applyBiomesBlurb() {
     else if (realm.biomes.length == 2) {
         let b1 = realm.biomes[0];
         let b2 = realm.biomes[1];
-        text = `The ecoregions of <span class="name"></span> consist mostly of ${b1.type} with a ${b2.size} ${b2.type} in the ${b2.direction.noun}.`;
+        text = `The ecoregions of <span class="name"></span> consist mostly of ${b1.type} with a ${b2.size} ${b2.type} region in the ${b2.direction.noun}.`;
     }
     const el = document.querySelector('.biomes-blurb');
+    el.innerHTML = text;
+}
+function applyRiversBlurb() {
+    let text = '';
+    if (realm.rivers.length == 0) {
+        text = `No notable rivers pass through <span class="name"></span>.`;
+    }
+    else if (realm.rivers.length == 1) {
+        let r = realm.rivers[0];
+        text =
+            `The main river that flows through <span class="name"></span> is the ${r.name}. Its main tributaries are the ` +
+                _util__WEBPACK_IMPORTED_MODULE_0__.Util.joinArrayWithAnd(r.tributaries);
+    }
+    else if (realm.rivers.length == 2) {
+        let b1 = realm.biomes[0];
+        let b2 = realm.biomes[1];
+        text = `The ecoregions of <span class="name"></span> consist mostly of ${b1.type} with a ${b2.size} ${b2.type} region in the ${b2.direction.noun}.`;
+    }
+    const el = document.querySelector('.rivers-blurb');
     el.innerHTML = text;
 }
 

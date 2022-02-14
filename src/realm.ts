@@ -1,11 +1,23 @@
 import { Data } from './data';
 import { Util } from './util';
 
+export type Direction = {
+  noun: string;
+  adj: string;
+};
+
 export type Biome = {
   type: string;
   size: string;
-  direction: { noun: string; adj: string };
+  direction: Direction;
 };
+
+export type River = {
+  name: string;
+  direction: Direction;
+  tributaries: string[];
+};
+
 export class Realm {
   public name: string = 'oldmarch';
   public adj: string = 'oldmarch';
@@ -30,20 +42,25 @@ export class Realm {
   public seasonWinter: string[] = ['long', 'mild'];
 
   public biomes: Biome[] = [];
+  public rivers: River[] = [];
+
   public coastal: boolean = false;
 
   public sigilName: string = 'dove';
   public sigilIcon: string = 'dove';
   public sigilMeaning: string = 'peace';
+  public sigilPresentOnHeraldry: boolean = false;
 
   constructor() {
     this.determineParentEntity();
     this.determineDirection();
     this.determineSize();
     this.determineGovernmentRank();
-    this.determineSigil();
     this.determineClimate();
     this.determineBiomes();
+    this.determineRivers();
+    this.determineSigil();
+    this.determineHeraldry();
   }
 
   public determineParentEntity() {
@@ -110,6 +127,11 @@ export class Realm {
     this.sigilName = sigil.name;
     this.sigilIcon = sigil.icon;
     this.sigilMeaning = Util.randomValue(sigil.meanings);
+    this.sigilPresentOnHeraldry = Util.rand() < 0.2;
+  }
+
+  public determineHeraldry() {
+    // Choose heraldry based on biomes and animals among other things
   }
 
   public determineClimate() {
@@ -220,5 +242,30 @@ export class Realm {
       // Add a second biome
       this.biomes.push(secondaryBiome);
     }
+  }
+
+  public determineRivers() {
+    let riverMinMax: number[] = [0, 0];
+    switch (this.humidity) {
+      case 'dry':
+        riverMinMax = [0, 1];
+        break;
+      case 'temperate':
+        riverMinMax = [1, 3];
+        break;
+      case 'wet':
+        riverMinMax = [2, 3];
+        break;
+    }
+
+    let riverCount: number =
+      Util.rand() * (riverMinMax[1] - riverMinMax[0]) + riverMinMax[0];
+    // For small realms (<3 on the sizeIndex) there shouldn't be more than two rivers passing through
+    if (this.sizeIndex < 3) {
+      riverCount = Math.min(riverCount, 2);
+    }
+
+    // Add rivers
+    for (let i = 0; i < riverCount; i++) {}
   }
 }

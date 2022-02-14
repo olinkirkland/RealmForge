@@ -38,6 +38,10 @@ li {
   opacity: 0.5;
 }
 
+.hidden {
+  display: none;
+}
+
 .btn {
   position: relative;
   display: flex;
@@ -146,6 +150,10 @@ article {
   padding: 3.2rem;
   border: 1px dashed #444444;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 5px 0px;
+}
+
+article.big {
+  grid-row-end: span 2;
 }
 
 article h2 {

@@ -53,4 +53,12 @@ export class Util {
     const regex = new RegExp('^[aeiou].*', 'i');
     return regex.test(str) ? 'an' : 'a';
   }
+
+  // Returns a string joining an array of at least two entries with commas and the word 'and' between the penultimate and ultimate entries
+  static joinArrayWithAnd(arr: string[]): string {
+    const last = arr.pop();
+    let str: string = arr.join(', ');
+    str += ', and ' + last;
+    return str;
+  }
 }
