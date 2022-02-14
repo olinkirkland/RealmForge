@@ -369,14 +369,6 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Hint: Use 'npm run build' from console to compile + watch the TS code on save
  */
-// Delay intro animations
-const sectionEls = document.querySelectorAll('.container');
-sectionEls.forEach((node, index) => {
-    const el = node;
-    setTimeout(() => {
-        el.classList.add('fade-in');
-    }, 250 * index);
-});
 // Handle start button
 const btnStart = document.getElementById('btnStart');
 btnStart.addEventListener('click', generateSeedAndStart);
@@ -411,6 +403,14 @@ function start() {
     _util__WEBPACK_IMPORTED_MODULE_0__.Util.seedRandomNumberGenerator();
     realm = new _realm__WEBPACK_IMPORTED_MODULE_2__.Realm();
     updateView();
+    // Delay intro animations
+    const sectionEls = document.querySelectorAll('.container');
+    sectionEls.forEach((node, index) => {
+        const el = node;
+        setTimeout(() => {
+            el.classList.add('fade-in');
+        }, 250 * index);
+    });
 }
 function updateView() {
     // Choose a photo for the hero

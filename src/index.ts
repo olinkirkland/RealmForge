@@ -6,15 +6,6 @@ import { Realm } from './realm';
  * Hint: Use 'npm run build' from console to compile + watch the TS code on save
  */
 
-// Delay intro animations
-const sectionEls: NodeList = document.querySelectorAll('.container');
-sectionEls.forEach((node: Node, index: number) => {
-  const el: HTMLElement = node as HTMLElement;
-  setTimeout(() => {
-    el.classList.add('fade-in');
-  }, 250 * index);
-});
-
 // Handle start button
 const btnStart: HTMLButtonElement = document.getElementById(
   'btnStart'
@@ -56,6 +47,14 @@ function start() {
   Util.seedRandomNumberGenerator();
   realm = new Realm();
   updateView();
+  // Delay intro animations
+  const sectionEls: NodeList = document.querySelectorAll('.container');
+  sectionEls.forEach((node: Node, index: number) => {
+    const el: HTMLElement = node as HTMLElement;
+    setTimeout(() => {
+      el.classList.add('fade-in');
+    }, 250 * index);
+  });
 }
 
 function updateView() {
