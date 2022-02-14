@@ -46,7 +46,6 @@ li {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 1rem;
   padding: 1.2rem 2rem;
   cursor: pointer;
 
@@ -64,17 +63,37 @@ li {
   transition: box-shadow 1s;
 }
 
+.btn--text {
+  display: inline-block;
+
+  color: #444444;
+
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+  border-bottom: 1px solid #444444;
+  transition: border-bottom 0.6s;
+}
+
+.btn--text:hover {
+  background: none;
+  box-shadow: none;
+  border-bottom: 1px solid rgba(68, 68, 68, 0);
+  transition: border-bottom 0.6s;
+}
+
 .name,
 .parent-entity,
 .capital-city {
   text-transform: capitalize;
-  font-weight: bold;
+  /* font-weight: bold; */
 }
 
 .container {
   width: 96rem;
   margin: 0 auto;
-  padding: 3.2rem;
+  padding: 1.2rem 3.2rem;
 }
 
 /* HEADER */
@@ -107,6 +126,10 @@ section.container--controls {
   text-align: center;
   font-size: 1.8rem;
   margin-bottom: 4rem;
+}
+
+#controls a {
+  margin-bottom: 1.2rem;
 }
 
 /* HERO */
