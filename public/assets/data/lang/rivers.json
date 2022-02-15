@@ -1,0 +1,102 @@
+[
+  {
+    "asSuffix": 0,
+    "name": "reg",
+    "tags": ["any"],
+    "variations": ["regen"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 0,
+    "name": "don",
+    "tags": ["any"],
+    "variations": ["donner"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 0,
+    "name": "erd",
+    "tags": ["any"],
+    "variations": ["er", "erden"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 0,
+    "name": "wei",
+    "tags": ["any"],
+    "variations": ["weir", "weiher"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 0,
+    "name": "wald",
+    "tags": ["boreal-forest", "temperate-forest"],
+    "flags": ["no-standalone"],
+    "variations": ["walden", "vald", "val"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 0,
+    "name": "salz",
+    "tags": ["any"],
+    "flags": ["no-standalone"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 0,
+    "name": "aue",
+    "tags": ["any"],
+    "flags": ["no-suffixes"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 0,
+    "name": "wies",
+    "tags": ["grassland"],
+    "variations": ["wiesen"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 0,
+    "name": "ber",
+    "tags": ["mountain"],
+    "variations": ["berg"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 0,
+    "name": "schwarz",
+    "tags": ["any"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 0,
+    "name": "weiß",
+    "tags": ["any"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 1,
+    "name": "au",
+    "tags": ["any"],
+    "asRoot": 0
+  },
+  {
+    "asSuffix": 1,
+    "name": "e",
+    "tags": ["any"],
+    "asRoot": 0
+  },
+  {
+    "asSuffix": 1,
+    "name": "en",
+    "tags": ["any"],
+    "asRoot": 0
+  },
+  {
+    "asSuffix": 1,
+    "name": "er",
+    "tags": ["any"],
+    "asRoot": 0
+  }
+]

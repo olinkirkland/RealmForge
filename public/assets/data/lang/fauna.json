@@ -1,0 +1,139 @@
+[
+  {
+    "asSuffix": 0,
+    "name": "bärn",
+    "tags": ["bear", "animal", "any"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 1,
+    "name": "bern",
+    "tags": ["bear", "animal", "any"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 0,
+    "name": "wolf",
+    "tags": ["wolf", "animal", "any"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 0,
+    "name": "fisch",
+    "tags": ["fish", "animal", "any"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 0,
+    "name": "hund",
+    "tags": ["hound", "animal", "any"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 0,
+    "name": "biber",
+    "tags": ["beaver", "animal", "any"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 0,
+    "name": "schwan",
+    "tags": ["swan", "animal", "any"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 0,
+    "name": "has",
+    "tags": ["hare", "animal", "any"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 0,
+    "name": "eulen",
+    "tags": ["owl", "animal", "any"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 0,
+    "name": "eber",
+    "tags": ["pig", "animal", "any"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 0,
+    "name": "wild",
+    "tags": ["game", "animal", "any"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 0,
+    "name": "bock",
+    "tags": ["goat", "animal", "any"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 0,
+    "name": "gäns",
+    "tags": ["goose", "animal", "any"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 0,
+    "name": "hirsch",
+    "tags": ["deer", "animal", "any"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 0,
+    "name": "kitz",
+    "tags": ["fawn", "animal", "any"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 0,
+    "name": "henn",
+    "tags": ["hen", "animal", "any"],
+    "variations": ["hennen"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 0,
+    "name": "katz",
+    "tags": ["cat", "animal", "any"],
+    "variations": ["katzen"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 0,
+    "name": "ochs",
+    "tags": ["ox", "animal", "any"],
+    "variations": ["ochsen"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 5,
+    "name": "roß",
+    "tags": ["horse", "animal", "any"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 0,
+    "name": "stut",
+    "tags": ["horse", "animal", "any"],
+    "variations": ["stutt", "stuten"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 1,
+    "name": "ham",
+    "tags": ["goat", "animal", "any"],
+    "variations": ["hams", "hamels"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 1,
+    "name": "falken",
+    "tags": ["falcon", "animal", "any"],
+    "asRoot": 1
+  }
+]

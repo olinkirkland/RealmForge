@@ -1,0 +1,426 @@
+[
+  {
+    "asSuffix": 0,
+    "name": "blau",
+    "tags": ["blue", "generic"],
+    "asRoot": 2
+  },
+  {
+    "asSuffix": 0,
+    "name": "weiß",
+    "tags": ["white", "generic"],
+    "variations": ["weißen"],
+    "asRoot": 2
+  },
+  {
+    "asSuffix": 0,
+    "name": "braun",
+    "tags": ["brown", "generic"],
+    "asRoot": 2
+  },
+  {
+    "asSuffix": 0,
+    "name": "schwarz",
+    "tags": ["black", "generic"],
+    "asRoot": 2
+  },
+  {
+    "asSuffix": 0,
+    "name": "rot",
+    "tags": ["red", "generic"],
+    "variations": ["roth"],
+    "asRoot": 9
+  },
+  {
+    "asSuffix": 0,
+    "name": "grün",
+    "tags": ["green", "generic"],
+    "asRoot": 7
+  },
+  {
+    "asSuffix": 0,
+    "name": "hell",
+    "tags": ["light", "generic"],
+    "variations": ["hellen"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 0,
+    "name": "dunkel",
+    "tags": ["dark", "generic"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 0,
+    "name": "silber",
+    "tags": ["silver", "generic"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 1,
+    "name": "gold",
+    "tags": ["gold", "generic"],
+    "asRoot": 4
+  },
+  {
+    "asSuffix": 0,
+    "name": "sieg",
+    "tags": ["victory", "generic"],
+    "asRoot": 5
+  },
+  {
+    "asSuffix": 0,
+    "name": "heu",
+    "tags": ["hay", "generic"],
+    "asRoot": 3
+  },
+  {
+    "asSuffix": 0,
+    "name": "frei",
+    "tags": ["free", "generic"],
+    "asRoot": 9
+  },
+  {
+    "asSuffix": 0,
+    "name": "straß",
+    "tags": ["road", "generic"],
+    "asRoot": 2
+  },
+  {
+    "asSuffix": 0,
+    "name": "laut",
+    "tags": ["clear", "generic"],
+    "variations": ["lauten"],
+    "asRoot": 7
+  },
+  {
+    "asSuffix": 0,
+    "name": "glück",
+    "tags": ["lucky", "generic"],
+    "variations": ["glücks"],
+    "asRoot": 2
+  },
+  {
+    "asSuffix": 6,
+    "name": "horn",
+    "tags": ["horn", "generic"],
+    "asRoot": 3
+  },
+  {
+    "asSuffix": 0,
+    "name": "lüb",
+    "tags": ["warm", "hot", "weather"],
+    "variations": ["lüben"],
+    "asRoot": 6
+  },
+  {
+    "asSuffix": 1,
+    "name": "alt",
+    "tags": ["old", "descriptor"],
+    "variations": ["alten"],
+    "asRoot": 21
+  },
+  {
+    "asSuffix": 1,
+    "name": "neu",
+    "tags": ["new", "descriptor"],
+    "asRoot": 49
+  },
+  {
+    "asSuffix": 0,
+    "name": "hoch",
+    "tags": ["high", "descriptor"],
+    "asRoot": 6
+  },
+  {
+    "asSuffix": 0,
+    "name": "hohen",
+    "tags": ["high", "descriptor"],
+    "asRoot": 13
+  },
+  {
+    "asSuffix": 0,
+    "name": "nieder",
+    "tags": ["low", "descriptor"],
+    "asRoot": 14
+  },
+  {
+    "asSuffix": 3,
+    "name": "eng",
+    "tags": ["narrow", "descriptor"],
+    "asRoot": 5
+  },
+  {
+    "asSuffix": 1,
+    "name": "breit",
+    "tags": ["wide", "descriptor"],
+    "asRoot": 6
+  },
+  {
+    "asSuffix": 1,
+    "name": "hart",
+    "tags": ["hard", "descriptor"],
+    "asRoot": 5
+  },
+  {
+    "asSuffix": 0,
+    "name": "nord",
+    "tags": ["north", "location"],
+    "asRoot": 6
+  },
+  {
+    "asSuffix": 0,
+    "name": "ost",
+    "tags": ["east", "location"],
+    "asRoot": 12
+  },
+  {
+    "asSuffix": 0,
+    "name": "süd",
+    "tags": ["south", "location"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 0,
+    "name": "west",
+    "tags": ["west", "location"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 0,
+    "name": "ober",
+    "tags": ["higher", "location"],
+    "asRoot": 43
+  },
+  {
+    "asSuffix": 0,
+    "name": "unter",
+    "tags": ["lower", "location"],
+    "asRoot": 15
+  },
+  {
+    "asSuffix": 11,
+    "name": "wald",
+    "tags": ["borealForest", "temperateForest", "geography"],
+    "asRoot": 22
+  },
+  {
+    "asSuffix": 235,
+    "name": "berg",
+    "tags": ["hill", "geography"],
+    "asRoot": 9
+  },
+  {
+    "asSuffix": 10,
+    "name": "fels",
+    "tags": ["hill", "geography"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 70,
+    "name": "stein",
+    "tags": ["stone", "geography"],
+    "asRoot": 12
+  },
+  {
+    "asSuffix": 4,
+    "name": "steig",
+    "tags": ["road", "geography"],
+    "asRoot": 0
+  },
+  {
+    "asSuffix": 6,
+    "name": "land",
+    "tags": ["region", "geography"],
+    "asRoot": 6
+  },
+  {
+    "asSuffix": 162,
+    "name": "bach",
+    "tags": ["stream", "geography"],
+    "asRoot": 2
+  },
+  {
+    "asSuffix": 54,
+    "name": "feld",
+    "tags": ["field", "grassland", "savannah", "geography"],
+    "asRoot": 4
+  },
+  {
+    "asSuffix": 1,
+    "name": "erz",
+    "tags": ["ore", "geography"],
+    "asRoot": 0
+  },
+  {
+    "asSuffix": 2,
+    "name": "moor",
+    "tags": ["moor", "geography"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 4,
+    "name": "heid",
+    "tags": ["field", "grassland", "savannah", "geography"],
+    "asRoot": 6
+  },
+  {
+    "asSuffix": 0,
+    "name": "weid",
+    "tags": ["field", "grassland", "savannah", "geography"],
+    "asRoot": 3
+  },
+  {
+    "asSuffix": 34,
+    "name": "tal",
+    "tags": ["valley", "geography"],
+    "asRoot": 0
+  },
+  {
+    "asSuffix": 15,
+    "name": "furt",
+    "tags": ["ford", "river", "geography"],
+    "asRoot": 2
+  },
+  {
+    "asSuffix": 2,
+    "name": "eis",
+    "tags": ["iron", "geography"],
+    "variations": ["eisen"],
+    "asRoot": 10
+  },
+  {
+    "asSuffix": 7,
+    "name": "beck",
+    "tags": ["lake", "geography"],
+    "variations": ["becken"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 4,
+    "name": "bruck",
+    "tags": ["bridge", "geography"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 1,
+    "name": "brücken",
+    "tags": ["bridge", "geography"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 1,
+    "name": "mühl",
+    "tags": ["mill", "building"],
+    "asRoot": 9
+  },
+  {
+    "asSuffix": 130,
+    "name": "burg",
+    "tags": ["castle", "building"],
+    "asRoot": 11
+  },
+  {
+    "asSuffix": 13,
+    "name": "markt",
+    "tags": ["market", "building"],
+    "asRoot": 6
+  },
+  {
+    "asSuffix": 52,
+    "name": "stadt",
+    "tags": ["city", "building"],
+    "asRoot": 10
+  },
+  {
+    "asSuffix": 19,
+    "name": "brunn",
+    "tags": ["well", "building"],
+    "variations": ["brunnen"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 4,
+    "name": "garten",
+    "tags": ["garden", "building"],
+    "asRoot": 0
+  },
+  {
+    "asSuffix": 64,
+    "name": "kirchen",
+    "tags": ["church", "building"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 1,
+    "name": "kloster",
+    "tags": ["monastery", "building"],
+    "asRoot": 1
+  },
+  {
+    "asSuffix": 4,
+    "name": "hafen",
+    "tags": ["port", "building"],
+    "asRoot": 0
+  },
+  {
+    "asSuffix": 108,
+    "name": "heim",
+    "tags": ["town"],
+    "asRoot": 3
+  },
+  {
+    "asSuffix": 9,
+    "name": "hof",
+    "tags": ["town"],
+    "asRoot": 7
+  },
+  {
+    "asSuffix": 3,
+    "name": "hall",
+    "tags": ["town"],
+    "asRoot": 6
+  },
+  {
+    "asSuffix": 21,
+    "name": "eck",
+    "tags": ["town"],
+    "asRoot": 3
+  },
+  {
+    "asSuffix": 114,
+    "name": "ing",
+    "tags": ["town"],
+    "asRoot": 4
+  },
+  {
+    "asSuffix": 105,
+    "name": "ingen",
+    "tags": ["town"],
+    "asRoot": 0
+  },
+  {
+    "asSuffix": 10,
+    "name": "zell",
+    "tags": ["town"],
+    "asRoot": 2
+  },
+  {
+    "asSuffix": 20,
+    "name": "egg",
+    "tags": ["town"],
+    "asRoot": 8
+  },
+  {
+    "asSuffix": 247,
+    "name": "dorf",
+    "tags": ["town"],
+    "asRoot": 4
+  },
+  {
+    "asSuffix": 38,
+    "name": "hausen",
+    "tags": ["town"],
+    "asRoot": 0
+  }
+]

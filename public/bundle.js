@@ -31,6 +31,21 @@ class Data {
                 propertyName: 'faunaNameParts',
                 url: 'lang/fauna.json',
                 loaded: false
+            },
+            {
+                propertyName: 'floraNameParts',
+                url: 'lang/flora.json',
+                loaded: false
+            },
+            {
+                propertyName: 'rulersNameParts',
+                url: 'lang/rulers.json',
+                loaded: false
+            },
+            {
+                propertyName: 'personNameParts',
+                url: 'lang/persons.json',
+                loaded: false
             }
         ];
         loadList.forEach((item) => {
@@ -296,6 +311,8 @@ class Realm {
         const tags = ['any'];
         // Determine root
         let validRoots = _data__WEBPACK_IMPORTED_MODULE_0__.Data.riverNameParts.concat(_data__WEBPACK_IMPORTED_MODULE_0__.Data.faunaNameParts)
+            .concat(_data__WEBPACK_IMPORTED_MODULE_0__.Data.floraNameParts)
+            .concat(_data__WEBPACK_IMPORTED_MODULE_0__.Data.rulersNameParts)
             .filter((namePart) => {
             // Root cannot be used by another river
             // Have at least one point as a root name part

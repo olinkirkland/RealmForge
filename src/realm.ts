@@ -301,6 +301,8 @@ export class Realm {
     // Determine root
     let validRoots: NamePart[] = Data.riverNameParts
       .concat(Data.faunaNameParts)
+      .concat(Data.floraNameParts)
+      .concat(Data.rulersNameParts)
       .filter((namePart) => {
         // Root cannot be used by another river
         // Have at least one point as a root name part

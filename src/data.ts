@@ -15,6 +15,9 @@ export class Data {
   public static placeNameParts: NamePart[];
   public static riverNameParts: NamePart[];
   public static faunaNameParts: NamePart[];
+  public static floraNameParts: NamePart[];
+  public static rulersNameParts: NamePart[];
+  public static personsNameParts: NamePart[];
 
   public static biomes: string[];
   public static directions: any[];
@@ -45,6 +48,21 @@ export class Data {
       {
         propertyName: 'faunaNameParts',
         url: 'lang/fauna.json',
+        loaded: false
+      },
+      {
+        propertyName: 'floraNameParts',
+        url: 'lang/flora.json',
+        loaded: false
+      },
+      {
+        propertyName: 'rulersNameParts',
+        url: 'lang/rulers.json',
+        loaded: false
+      },
+      {
+        propertyName: 'personNameParts',
+        url: 'lang/persons.json',
         loaded: false
       }
     ];
