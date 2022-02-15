@@ -11,8 +11,10 @@ export type NamePart = {
 export class Data {
   public static content: any;
   public static words: string[];
+
   public static placeNameParts: NamePart[];
   public static riverNameParts: NamePart[];
+  public static faunaNameParts: NamePart[];
 
   public static biomes: string[];
   public static directions: any[];
@@ -32,12 +34,17 @@ export class Data {
       { propertyName: 'words', url: 'words.json', loaded: false },
       {
         propertyName: 'placeNameParts',
-        url: 'place-name-parts.json',
+        url: 'lang/places.json',
         loaded: false
       },
       {
         propertyName: 'riverNameParts',
-        url: 'river-name-parts.json',
+        url: 'lang/rivers.json',
+        loaded: false
+      },
+      {
+        propertyName: 'faunaNameParts',
+        url: 'lang/fauna.json',
         loaded: false
       }
     ];

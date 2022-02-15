@@ -288,25 +288,35 @@ export class Realm {
         tributaries: []
       });
     }
+
+    let arr: string[] = [];
+    for (let i = 0; i < 20; i++)
+      arr.push(Util.readWord(this.determineRiverName()));
+    console.log(arr.join(', '));
   }
 
   private determineRiverName(): Word {
     const tags: string[] = ['any'];
 
-    let validRoots: NamePart[] = [...Data.riverNameParts];
-    validRoots.filter((namePart) => {
-      // Have at least one point as a root name part
-      // Have a matching tag
+    // Determine root
+    let validRoots: NamePart[] = Data.riverNameParts
+      .concat(Data.faunaNameParts)
+      .filter((namePart) => {
+        // Root cannot be used by another river
+        // Have at least one point as a root name part
+        // Have at least one matching tag
 
-      return (
-        namePart.asRoot > 0 && namePart.tags.some((tag) => tags.includes(tag))
-      );
-    });
+        return (
+          this.rivers.every((river) => river.name.root.name != namePart.name) &&
+          namePart.asRoot > 0 &&
+          namePart.tags.some((tag) => tags.includes(tag))
+        );
+      });
 
-    let validSuffixes: NamePart[] = [...Data.riverNameParts];
-    validRoots.filter((namePart) => {
+    // Determine suffix
+    let validSuffixes: NamePart[] = Data.riverNameParts.filter((namePart) => {
       // Have at least one point as a suffix name part
-      // Have a matching tag
+      // Have at least one matching tag
 
       return (
         namePart.asSuffix > 0 && namePart.tags.some((tag) => tags.includes(tag))

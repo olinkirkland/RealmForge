@@ -19,12 +19,17 @@ class Data {
             { propertyName: 'words', url: 'words.json', loaded: false },
             {
                 propertyName: 'placeNameParts',
-                url: 'place-name-parts.json',
+                url: 'lang/places.json',
                 loaded: false
             },
             {
                 propertyName: 'riverNameParts',
-                url: 'river-name-parts.json',
+                url: 'lang/rivers.json',
+                loaded: false
+            },
+            {
+                propertyName: 'faunaNameParts',
+                url: 'lang/fauna.json',
                 loaded: false
             }
         ];
@@ -282,19 +287,27 @@ class Realm {
                 tributaries: []
             });
         }
+        let arr = [];
+        for (let i = 0; i < 20; i++)
+            arr.push(_util__WEBPACK_IMPORTED_MODULE_1__.Util.readWord(this.determineRiverName()));
+        console.log(arr.join(', '));
     }
     determineRiverName() {
         const tags = ['any'];
-        let validRoots = [..._data__WEBPACK_IMPORTED_MODULE_0__.Data.riverNameParts];
-        validRoots.filter((namePart) => {
+        // Determine root
+        let validRoots = _data__WEBPACK_IMPORTED_MODULE_0__.Data.riverNameParts.concat(_data__WEBPACK_IMPORTED_MODULE_0__.Data.faunaNameParts)
+            .filter((namePart) => {
+            // Root cannot be used by another river
             // Have at least one point as a root name part
-            // Have a matching tag
-            return (namePart.asRoot > 0 && namePart.tags.some((tag) => tags.includes(tag)));
+            // Have at least one matching tag
+            return (this.rivers.every((river) => river.name.root.name != namePart.name) &&
+                namePart.asRoot > 0 &&
+                namePart.tags.some((tag) => tags.includes(tag)));
         });
-        let validSuffixes = [..._data__WEBPACK_IMPORTED_MODULE_0__.Data.riverNameParts];
-        validRoots.filter((namePart) => {
+        // Determine suffix
+        let validSuffixes = _data__WEBPACK_IMPORTED_MODULE_0__.Data.riverNameParts.filter((namePart) => {
             // Have at least one point as a suffix name part
-            // Have a matching tag
+            // Have at least one matching tag
             return (namePart.asSuffix > 0 && namePart.tags.some((tag) => tags.includes(tag)));
         });
         let root = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(validRoots);
