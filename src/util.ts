@@ -70,6 +70,11 @@ export class Util {
   // with commas and the word 'and' between the last two entries
   static joinArrayWithAnd(arr: string[]): string {
     const last = arr.pop();
+
+    if (arr.length == 1) {
+      return arr[0] + ' and ' + last;
+    }
+
     let str: string = arr.join(', ');
     str += ', and ' + last;
     return str;
@@ -97,7 +102,7 @@ export class Util {
 
   // Combines word parts into a string
   static readWord(word: Word): string {
-    return word.root + word.suffix;
+    return word.root.name + word.suffix.name;
   }
 
   // Returns any number lower than 20 as a word ('one', 'two', ... 'nineteen')

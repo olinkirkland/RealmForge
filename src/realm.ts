@@ -1,4 +1,4 @@
-import { Data } from './data';
+import { Data, NamePart } from './data';
 import { Util } from './util';
 
 export type Direction = {
@@ -20,8 +20,8 @@ export type River = {
 };
 
 export type Word = {
-  root: string;
-  suffix: string;
+  root: NamePart;
+  suffix: NamePart;
 };
 
 export class Realm {
@@ -267,13 +267,13 @@ export class Realm {
     let riverCount: number = Math.floor(
       Util.rand() * (riverMinMax[1] - riverMinMax[0]) + riverMinMax[0]
     );
+
     // For small realms (less than 3 on the sizeIndex) there shouldn't be more than two rivers passing through
     if (this.sizeIndex < 3) {
       riverCount = Math.min(riverCount, 2);
     }
 
     // Add rivers
-    console.log('river count: ' + riverCount);
     for (let i = 0; i < riverCount; i++) {
       // If the realm contains a mountain biome, rivers should flow from it
       let flowsFrom: Direction = Util.randomValue(Data.directions);
@@ -291,7 +291,32 @@ export class Realm {
   }
 
   private determineRiverName(): Word {
-    let riverName: Word = { root: 'Reg', suffix: 'en' };
+    const tags: string[] = ['any'];
+
+    let validRoots: NamePart[] = [...Data.riverNameParts];
+    validRoots.filter((namePart) => {
+      // Have at least one point as a root name part
+      // Have a matching tag
+
+      return (
+        namePart.asRoot > 0 && namePart.tags.some((tag) => tags.includes(tag))
+      );
+    });
+
+    let validSuffixes: NamePart[] = [...Data.riverNameParts];
+    validRoots.filter((namePart) => {
+      // Have at least one point as a suffix name part
+      // Have a matching tag
+
+      return (
+        namePart.asSuffix > 0 && namePart.tags.some((tag) => tags.includes(tag))
+      );
+    });
+
+    let root: NamePart = Util.randomValue(validRoots);
+    let suffix: NamePart = Util.randomValue(validSuffixes);
+
+    let riverName: Word = { root: root, suffix: suffix };
     return riverName;
   }
 }

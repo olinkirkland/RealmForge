@@ -42,6 +42,10 @@ li {
   display: none;
 }
 
+.capitalized {
+  text-transform: capitalize;
+}
+
 .btn {
   position: relative;
   display: flex;

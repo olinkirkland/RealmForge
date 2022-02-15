@@ -5,7 +5,7 @@ export type NamePart = {
   name: string;
   tags: string[];
   asSuffix: number;
-  asPrefix: number;
+  asRoot: number;
 };
 
 export class Data {

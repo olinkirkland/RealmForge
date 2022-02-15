@@ -270,7 +270,6 @@ class Realm {
             riverCount = Math.min(riverCount, 2);
         }
         // Add rivers
-        console.log('river count: ' + riverCount);
         for (let i = 0; i < riverCount; i++) {
             // If the realm contains a mountain biome, rivers should flow from it
             let flowsFrom = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.directions);
@@ -285,7 +284,22 @@ class Realm {
         }
     }
     determineRiverName() {
-        let riverName = { root: 'Reg', suffix: 'en' };
+        const tags = ['any'];
+        let validRoots = [..._data__WEBPACK_IMPORTED_MODULE_0__.Data.riverNameParts];
+        validRoots.filter((namePart) => {
+            // Have at least one point as a root name part
+            // Have a matching tag
+            return (namePart.asRoot > 0 && namePart.tags.some((tag) => tags.includes(tag)));
+        });
+        let validSuffixes = [..._data__WEBPACK_IMPORTED_MODULE_0__.Data.riverNameParts];
+        validRoots.filter((namePart) => {
+            // Have at least one point as a suffix name part
+            // Have a matching tag
+            return (namePart.asSuffix > 0 && namePart.tags.some((tag) => tags.includes(tag)));
+        });
+        let root = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(validRoots);
+        let suffix = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(validSuffixes);
+        let riverName = { root: root, suffix: suffix };
         return riverName;
     }
 }
@@ -358,6 +372,9 @@ class Util {
     // with commas and the word 'and' between the last two entries
     static joinArrayWithAnd(arr) {
         const last = arr.pop();
+        if (arr.length == 1) {
+            return arr[0] + ' and ' + last;
+        }
         let str = arr.join(', ');
         str += ', and ' + last;
         return str;
@@ -376,7 +393,7 @@ class Util {
     }
     // Combines word parts into a string
     static readWord(word) {
-        return word.root + word.suffix;
+        return word.root.name + word.suffix.name;
     }
     // Returns any number lower than 20 as a word ('one', 'two', ... 'nineteen')
     static wordFromNumber(n) {
@@ -621,7 +638,7 @@ function applyRiversBlurb() {
     }
     else if (realm.rivers.length == 1) {
         let r = realm.rivers[0];
-        text = `The main river that flows through <span class="name"></span> is the ${_util__WEBPACK_IMPORTED_MODULE_0__.Util.readWord(r.name)}. The ${_util__WEBPACK_IMPORTED_MODULE_0__.Util.readWord(r.name)} starts in the ${r.flowsFrom} and flows toward the ${r.flowsTo}.`;
+        text = `The main river that flows through <span class="name"></span> is the <span class="capitalized">${_util__WEBPACK_IMPORTED_MODULE_0__.Util.readWord(r.name)}</span>. The <span class="capitalized">${_util__WEBPACK_IMPORTED_MODULE_0__.Util.readWord(r.name)}</span> starts in the ${r.flowsFrom.noun} and flows toward the ${r.flowsTo.noun}.`;
         if (r.tributaries.length > 0) {
             text +=
                 '<br>Its main tributaries are the ' +
@@ -629,11 +646,9 @@ function applyRiversBlurb() {
         }
     }
     else {
-        text = `<span class="name"></span> contains <span class="word-number">${realm.rivers.length}</span> rivers:<ul>${realm.rivers
-            .map((river) => {
-            return `<li>${_util__WEBPACK_IMPORTED_MODULE_0__.Util.readWord(river.name)}</li>`;
-        })
-            .join(' ')}</ul>`;
+        text = `<span class="name"></span> contains <span class="word-number">${realm.rivers.length}</span> rivers: ${_util__WEBPACK_IMPORTED_MODULE_0__.Util.joinArrayWithAnd(realm.rivers.map((river) => {
+            return `the <span class="capitalized">${_util__WEBPACK_IMPORTED_MODULE_0__.Util.readWord(river.name)}</span>`;
+        }))}.`;
     }
     const el = document.querySelector('.rivers-blurb');
     el.innerHTML = text;

@@ -178,11 +178,13 @@ function applyRiversBlurb() {
     text = `No notable rivers pass through <span class="name"></span>.`;
   } else if (realm.rivers.length == 1) {
     let r: River = realm.rivers[0];
-    text = `The main river that flows through <span class="name"></span> is the ${Util.readWord(
+    text = `The main river that flows through <span class="name"></span> is the <span class="capitalized">${Util.readWord(
       r.name
-    )}. The ${Util.readWord(r.name)} starts in the ${
-      r.flowsFrom
-    } and flows toward the ${r.flowsTo}.`;
+    )}</span>. The <span class="capitalized">${Util.readWord(
+      r.name
+    )}</span> starts in the ${r.flowsFrom.noun} and flows toward the ${
+      r.flowsTo.noun
+    }.`;
     if (r.tributaries.length > 0) {
       text +=
         '<br>Its main tributaries are the ' +
@@ -191,11 +193,13 @@ function applyRiversBlurb() {
   } else {
     text = `<span class="name"></span> contains <span class="word-number">${
       realm.rivers.length
-    }</span> rivers:<ul>${realm.rivers
-      .map((river) => {
-        return `<li>${Util.readWord(river.name)}</li>`;
+    }</span> rivers: ${Util.joinArrayWithAnd(
+      realm.rivers.map((river) => {
+        return `the <span class="capitalized">${Util.readWord(
+          river.name
+        )}</span>`;
       })
-      .join(' ')}</ul>`;
+    )}.`;
   }
 
   const el: HTMLElement = document.querySelector('.rivers-blurb')!;
