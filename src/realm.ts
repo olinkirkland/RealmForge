@@ -13,9 +13,15 @@ export type Biome = {
 };
 
 export type River = {
-  name: string;
-  direction: Direction;
+  name: Word;
+  flowsFrom: Direction;
+  flowsTo: Direction;
   tributaries: string[];
+};
+
+export type Word = {
+  root: string;
+  suffix: string;
 };
 
 export class Realm {
@@ -258,14 +264,34 @@ export class Realm {
         break;
     }
 
-    let riverCount: number =
-      Util.rand() * (riverMinMax[1] - riverMinMax[0]) + riverMinMax[0];
-    // For small realms (<3 on the sizeIndex) there shouldn't be more than two rivers passing through
+    let riverCount: number = Math.floor(
+      Util.rand() * (riverMinMax[1] - riverMinMax[0]) + riverMinMax[0]
+    );
+    // For small realms (less than 3 on the sizeIndex) there shouldn't be more than two rivers passing through
     if (this.sizeIndex < 3) {
       riverCount = Math.min(riverCount, 2);
     }
 
     // Add rivers
-    for (let i = 0; i < riverCount; i++) {}
+    console.log('river count: ' + riverCount);
+    for (let i = 0; i < riverCount; i++) {
+      // If the realm contains a mountain biome, rivers should flow from it
+      let flowsFrom: Direction = Util.randomValue(Data.directions);
+
+      // If the realm contains a coast, rivers should flow to it
+      let flowsTo: Direction = Util.randomValue(Data.directions);
+
+      this.rivers.push({
+        name: this.determineRiverName(),
+        flowsTo: flowsTo,
+        flowsFrom: flowsFrom,
+        tributaries: []
+      });
+    }
+  }
+
+  private determineRiverName(): Word {
+    let riverName: Word = { root: 'Reg', suffix: 'en' };
+    return riverName;
   }
 }

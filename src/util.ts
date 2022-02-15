@@ -1,5 +1,5 @@
 import { Data } from './data';
-import { Realm } from './realm';
+import { Realm, Word } from './realm';
 
 export class Util {
   public static seed: string;
@@ -51,11 +51,23 @@ export class Util {
 
   // Returns 'a' or 'an' if str's first char is a consonant or a vowel
   static aOrAn(str: string): string {
-    const regex = new RegExp('^[aeiou].*', 'i');
-    return regex.test(str) ? 'an' : 'a';
+    return Util.startsWithVowel(str) ? 'an' : 'a';
   }
 
-  // Returns a string joining an array of at least two entries with commas and the word 'and' between the penultimate and ultimate entries
+  // Returns true if the string starts with a vowel
+  static startsWithVowel(str: string): boolean {
+    const regex = new RegExp('^[aeiou].*', 'i');
+    return regex.test(str);
+  }
+
+  // Returns true if the string starts with a vowel
+  static endsWithVowel(str: string): boolean {
+    const regex = new RegExp('.*^[aeiou]', 'i');
+    return regex.test(str);
+  }
+
+  // Returns a string joining an array of at least two entries
+  // with commas and the word 'and' between the last two entries
   static joinArrayWithAnd(arr: string[]): string {
     const last = arr.pop();
     let str: string = arr.join(', ');
@@ -81,5 +93,9 @@ export class Util {
   // Capitalize first letter
   static capitalize(str: string): string {
     return str.charAt(0).toUpperCase() + str.substring(1);
+  }
+
+  static readWord(word: Word): string {
+    return word.root + word.suffix;
   }
 }

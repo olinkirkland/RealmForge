@@ -1,7 +1,18 @@
+import { validate } from '../node_modules/schema-utils/declarations/validate';
 import { Util } from './util';
 
+export type NamePart = {
+  name: string;
+  tags: string[];
+  asSuffix: number;
+  asPrefix: number;
+};
+
 export class Data {
+  public static content: any;
   public static words: string[];
+  public static placeNameParts: NamePart[];
+  public static riverNameParts: NamePart[];
 
   public static biomes: string[];
   public static directions: any[];
@@ -16,34 +27,48 @@ export class Data {
   public static parentEntityGovernments: any;
 
   static setup(callback: Function) {
-    let toLoad: any = {};
+    let loadList: { propertyName: string; url: string; loaded: boolean }[] = [
+      { propertyName: 'content', url: 'content.json', loaded: false },
+      { propertyName: 'words', url: 'words.json', loaded: false },
+      {
+        propertyName: 'placeNameParts',
+        url: 'place-name-parts.json',
+        loaded: false
+      },
+      {
+        propertyName: 'riverNameParts',
+        url: 'river-name-parts.json',
+        loaded: false
+      }
+    ];
 
-    // Load data
-    fetch('./assets/data/content.json')
-      .then((response) => {
-        return response.json();
-      })
-      .then((content) => {
-        Data.parse(content);
+    loadList.forEach((item) => {
+      const url: string = `./assets/data/${item.url}`;
 
-        toLoad.data = true;
-        if (toLoad.data && toLoad.words) callback();
-      });
+      fetch(url)
+        .then((response) => {
+          return response.json();
+        })
+        .then((loadedContent) => {
+          Object.getPrototypeOf(Data)[item.propertyName as keyof Data] =
+            loadedContent;
+          item.loaded = true;
+          console.log(`Loaded ${item.url}`);
 
-    // Load words
-    fetch('./assets/data/words.json')
-      .then((response) => {
-        return response.json();
-      })
-      .then((words) => {
-        Data.words = words;
-
-        toLoad.words = true;
-        if (toLoad.data && toLoad.words) callback();
-      });
+          if (
+            loadList.every((t) => {
+              return t.loaded;
+            })
+          ) {
+            Data.parse();
+            callback();
+          }
+        });
+    });
   }
 
-  static parse(u: any) {
+  static parse() {
+    const u: any = Data.content;
     Data.biomes = u.biomes;
     Data.directions = u.directions;
     Data.images = u.images;
@@ -51,7 +76,6 @@ export class Data {
     Data.sigils = u.sigils;
     Data.sizes = u.sizes;
     Data.seasonDescriptors = u.seasons;
-
     Data.parentEntityDescriptorsBefore = u.parentEntities.descriptorsBefore;
     Data.parentEntityDescriptorsAfter = u.parentEntities.descriptorsAfter;
     Data.parentEntityGovernments = u.parentEntities.governments;

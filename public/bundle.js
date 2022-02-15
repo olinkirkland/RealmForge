@@ -14,31 +14,42 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 class Data {
     static setup(callback) {
-        let toLoad = {};
-        // Load data
-        fetch('./assets/data/content.json')
-            .then((response) => {
-            return response.json();
-        })
-            .then((content) => {
-            Data.parse(content);
-            toLoad.data = true;
-            if (toLoad.data && toLoad.words)
-                callback();
-        });
-        // Load words
-        fetch('./assets/data/words.json')
-            .then((response) => {
-            return response.json();
-        })
-            .then((words) => {
-            Data.words = words;
-            toLoad.words = true;
-            if (toLoad.data && toLoad.words)
-                callback();
+        let loadList = [
+            { propertyName: 'content', url: 'content.json', loaded: false },
+            { propertyName: 'words', url: 'words.json', loaded: false },
+            {
+                propertyName: 'placeNameParts',
+                url: 'place-name-parts.json',
+                loaded: false
+            },
+            {
+                propertyName: 'riverNameParts',
+                url: 'river-name-parts.json',
+                loaded: false
+            }
+        ];
+        loadList.forEach((item) => {
+            const url = `./assets/data/${item.url}`;
+            fetch(url)
+                .then((response) => {
+                return response.json();
+            })
+                .then((loadedContent) => {
+                Object.getPrototypeOf(Data)[item.propertyName] =
+                    loadedContent;
+                item.loaded = true;
+                console.log(`Loaded ${item.url}`);
+                if (loadList.every((t) => {
+                    return t.loaded;
+                })) {
+                    Data.parse();
+                    callback();
+                }
+            });
         });
     }
-    static parse(u) {
+    static parse() {
+        const u = Data.content;
         Data.biomes = u.biomes;
         Data.directions = u.directions;
         Data.images = u.images;
@@ -253,13 +264,29 @@ class Realm {
                 riverMinMax = [2, 3];
                 break;
         }
-        let riverCount = _util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() * (riverMinMax[1] - riverMinMax[0]) + riverMinMax[0];
-        // For small realms (<3 on the sizeIndex) there shouldn't be more than two rivers passing through
+        let riverCount = Math.floor(_util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() * (riverMinMax[1] - riverMinMax[0]) + riverMinMax[0]);
+        // For small realms (less than 3 on the sizeIndex) there shouldn't be more than two rivers passing through
         if (this.sizeIndex < 3) {
             riverCount = Math.min(riverCount, 2);
         }
         // Add rivers
-        for (let i = 0; i < riverCount; i++) { }
+        console.log('river count: ' + riverCount);
+        for (let i = 0; i < riverCount; i++) {
+            // If the realm contains a mountain biome, rivers should flow from it
+            let flowsFrom = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.directions);
+            // If the realm contains a coast, rivers should flow to it
+            let flowsTo = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.directions);
+            this.rivers.push({
+                name: this.determineRiverName(),
+                flowsTo: flowsTo,
+                flowsFrom: flowsFrom,
+                tributaries: []
+            });
+        }
+    }
+    determineRiverName() {
+        let riverName = { root: 'Reg', suffix: 'en' };
+        return riverName;
     }
 }
 
@@ -315,10 +342,20 @@ class Util {
     }
     // Returns 'a' or 'an' if str's first char is a consonant or a vowel
     static aOrAn(str) {
-        const regex = new RegExp('^[aeiou].*', 'i');
-        return regex.test(str) ? 'an' : 'a';
+        return Util.startsWithVowel(str) ? 'an' : 'a';
     }
-    // Returns a string joining an array of at least two entries with commas and the word 'and' between the penultimate and ultimate entries
+    // Returns true if the string starts with a vowel
+    static startsWithVowel(str) {
+        const regex = new RegExp('^[aeiou].*', 'i');
+        return regex.test(str);
+    }
+    // Returns true if the string starts with a vowel
+    static endsWithVowel(str) {
+        const regex = new RegExp('.*^[aeiou]', 'i');
+        return regex.test(str);
+    }
+    // Returns a string joining an array of at least two entries
+    // with commas and the word 'and' between the last two entries
     static joinArrayWithAnd(arr) {
         const last = arr.pop();
         let str = arr.join(', ');
@@ -336,6 +373,9 @@ class Util {
     // Capitalize first letter
     static capitalize(str) {
         return str.charAt(0).toUpperCase() + str.substring(1);
+    }
+    static readWord(word) {
+        return word.root + word.suffix;
     }
 }
 Util.m_w = 123456789;
@@ -523,6 +563,7 @@ function applyIcon(query, icon) {
         const el = node;
         // Remove the previous icon
         el.classList.forEach((className) => {
+            let text = '';
             if (className.includes('fa-') && className !== 'fa-2x') {
                 el.classList.remove(className);
             }
@@ -551,14 +592,19 @@ function applyRiversBlurb() {
     }
     else if (realm.rivers.length == 1) {
         let r = realm.rivers[0];
-        text =
-            `The main river that flows through <span class="name"></span> is the ${r.name}. Its main tributaries are the ` +
-                _util__WEBPACK_IMPORTED_MODULE_0__.Util.joinArrayWithAnd(r.tributaries);
+        text = `The main river that flows through <span class="name"></span> is the ${_util__WEBPACK_IMPORTED_MODULE_0__.Util.readWord(r.name)}. The ${_util__WEBPACK_IMPORTED_MODULE_0__.Util.readWord(r.name)} starts in the ${r.flowsFrom} and flows toward the ${r.flowsTo}.`;
+        if (r.tributaries.length > 0) {
+            text +=
+                '<br>Its main tributaries are the ' +
+                    _util__WEBPACK_IMPORTED_MODULE_0__.Util.joinArrayWithAnd(r.tributaries);
+        }
     }
-    else if (realm.rivers.length == 2) {
-        let b1 = realm.biomes[0];
-        let b2 = realm.biomes[1];
-        text = `The ecoregions of <span class="name"></span> consist mostly of ${b1.type} with a ${b2.size} ${b2.type} region in the ${b2.direction.noun}.`;
+    else {
+        text = `<span class="name"></span> contains several rivers:<ul>${realm.rivers
+            .map((river) => {
+            return `<li>${_util__WEBPACK_IMPORTED_MODULE_0__.Util.readWord(river.name)}</li>`;
+        })
+            .join(' ')}</ul>`;
     }
     const el = document.querySelector('.rivers-blurb');
     el.innerHTML = text;

@@ -1,8 +1,6 @@
 import { Util } from './util';
 import { Data } from './data';
-import { Realm } from './realm';
-import { Biome } from './realm';
-import { River } from './realm';
+import { Realm, Biome, River } from './realm';
 
 /**
  * Hint: Use 'npm run build' from console to compile + watch the TS code on save
@@ -144,6 +142,7 @@ function applyIcon(query: string, icon: string) {
 
     // Remove the previous icon
     el.classList.forEach((className) => {
+      let text: string = '';
       if (className.includes('fa-') && className !== 'fa-2x') {
         el.classList.remove(className);
       }
@@ -176,13 +175,22 @@ function applyRiversBlurb() {
     text = `No notable rivers pass through <span class="name"></span>.`;
   } else if (realm.rivers.length == 1) {
     let r: River = realm.rivers[0];
-    text =
-      `The main river that flows through <span class="name"></span> is the ${r.name}. Its main tributaries are the ` +
-      Util.joinArrayWithAnd(r.tributaries);
-  } else if (realm.rivers.length == 2) {
-    let b1: Biome = realm.biomes[0];
-    let b2: Biome = realm.biomes[1];
-    text = `The ecoregions of <span class="name"></span> consist mostly of ${b1.type} with a ${b2.size} ${b2.type} region in the ${b2.direction.noun}.`;
+    text = `The main river that flows through <span class="name"></span> is the ${Util.readWord(
+      r.name
+    )}. The ${Util.readWord(r.name)} starts in the ${
+      r.flowsFrom
+    } and flows toward the ${r.flowsTo}.`;
+    if (r.tributaries.length > 0) {
+      text +=
+        '<br>Its main tributaries are the ' +
+        Util.joinArrayWithAnd(r.tributaries);
+    }
+  } else {
+    text = `<span class="name"></span> contains several rivers:<ul>${realm.rivers
+      .map((river) => {
+        return `<li>${Util.readWord(river.name)}</li>`;
+      })
+      .join(' ')}</ul>`;
   }
 
   const el: HTMLElement = document.querySelector('.rivers-blurb')!;
