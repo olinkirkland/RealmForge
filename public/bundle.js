@@ -374,8 +374,35 @@ class Util {
     static capitalize(str) {
         return str.charAt(0).toUpperCase() + str.substring(1);
     }
+    // Combines word parts into a string
     static readWord(word) {
         return word.root + word.suffix;
+    }
+    // Returns any number lower than 20 as a word ('one', 'two', ... 'nineteen')
+    static wordFromNumber(n) {
+        const words = [
+            'zero',
+            'one',
+            'two',
+            'three',
+            'four',
+            'five',
+            'six',
+            'seven',
+            'eight',
+            'nine',
+            'ten',
+            'eleven',
+            'twelve',
+            'thirteen',
+            'fourteen',
+            'fifteen',
+            'sixteen',
+            'seventeen',
+            'eighteen',
+            'nineteen'
+        ];
+        return n < words.length ? words[n] : n.toString();
     }
 }
 Util.m_w = 123456789;
@@ -528,6 +555,8 @@ function updateView() {
     applyText('season-summer', realm.seasonSummer.join(', '));
     applyText('season-winter', realm.seasonWinter.join(', '));
     applyIcon('sigil', realm.sigilIcon);
+    // Utility
+    replaceNumbers();
 }
 function determineHeroImageUrl() {
     // Todo use realm information to determine the image
@@ -600,7 +629,7 @@ function applyRiversBlurb() {
         }
     }
     else {
-        text = `<span class="name"></span> contains several rivers:<ul>${realm.rivers
+        text = `<span class="name"></span> contains <span class="word-number">${realm.rivers.length}</span> rivers:<ul>${realm.rivers
             .map((river) => {
             return `<li>${_util__WEBPACK_IMPORTED_MODULE_0__.Util.readWord(river.name)}</li>`;
         })
@@ -608,6 +637,13 @@ function applyRiversBlurb() {
     }
     const el = document.querySelector('.rivers-blurb');
     el.innerHTML = text;
+}
+function replaceNumbers() {
+    const els = document.querySelectorAll('.word-number');
+    els.forEach((node) => {
+        const el = node;
+        el.textContent = _util__WEBPACK_IMPORTED_MODULE_0__.Util.wordFromNumber(Number.parseInt(el.textContent ? el.textContent : '0'));
+    });
 }
 
 })();

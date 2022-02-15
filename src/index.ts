@@ -104,6 +104,9 @@ function updateView() {
   applyText('season-winter', realm.seasonWinter.join(', '));
 
   applyIcon('sigil', realm.sigilIcon);
+
+  // Utility
+  replaceNumbers();
 }
 
 function determineHeroImageUrl(): string {
@@ -186,7 +189,9 @@ function applyRiversBlurb() {
         Util.joinArrayWithAnd(r.tributaries);
     }
   } else {
-    text = `<span class="name"></span> contains several rivers:<ul>${realm.rivers
+    text = `<span class="name"></span> contains <span class="word-number">${
+      realm.rivers.length
+    }</span> rivers:<ul>${realm.rivers
       .map((river) => {
         return `<li>${Util.readWord(river.name)}</li>`;
       })
@@ -195,4 +200,14 @@ function applyRiversBlurb() {
 
   const el: HTMLElement = document.querySelector('.rivers-blurb')!;
   el.innerHTML = text;
+}
+
+function replaceNumbers() {
+  const els: NodeList = document.querySelectorAll('.word-number');
+  els.forEach((node: Node) => {
+    const el: HTMLElement = node as HTMLElement;
+    el.textContent = Util.wordFromNumber(
+      Number.parseInt(el.textContent ? el.textContent : '0')
+    );
+  });
 }

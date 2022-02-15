@@ -95,7 +95,36 @@ export class Util {
     return str.charAt(0).toUpperCase() + str.substring(1);
   }
 
+  // Combines word parts into a string
   static readWord(word: Word): string {
     return word.root + word.suffix;
+  }
+
+  // Returns any number lower than 20 as a word ('one', 'two', ... 'nineteen')
+  static wordFromNumber(n: number): string {
+    const words: string[] = [
+      'zero',
+      'one',
+      'two',
+      'three',
+      'four',
+      'five',
+      'six',
+      'seven',
+      'eight',
+      'nine',
+      'ten',
+      'eleven',
+      'twelve',
+      'thirteen',
+      'fourteen',
+      'fifteen',
+      'sixteen',
+      'seventeen',
+      'eighteen',
+      'nineteen'
+    ];
+
+    return n < words.length ? words[n] : n.toString();
   }
 }
