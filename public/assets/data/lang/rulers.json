@@ -2,39 +2,39 @@
   {
     "asSuffix": 0,
     "name": "grafen",
-    "tags": ["county", "owner"],
+    "tags": ["county", "needs-suffix"],
     "asRoot": 1
   },
   {
     "asSuffix": 0,
     "name": "königs",
-    "tags": ["king", "any", "owner"],
+    "tags": ["king", "any", "needs-suffix"],
     "asRoot": 1
   },
   {
     "asSuffix": 0,
     "name": "prinzen",
-    "tags": ["principality", "owner"],
+    "tags": ["principality", "needs-suffix"],
     "asRoot": 1
   },
   {
     "asSuffix": 0,
     "name": "fürsten",
-    "tags": ["principality", "owner"],
+    "tags": ["principality", "needs-suffix"],
     "asRoot": 1
   },
   {
     "asSuffix": 0,
     "name": "adels",
     "tags": ["noble", "any"],
-    "variations": ["adel", "ade", "owner"],
+    "variations": ["adel", "ade", "needs-suffix"],
     "asRoot": 1
   },
   {
     "asSuffix": 0,
     "name": "herzog",
     "tags": ["duchy"],
-    "variations": ["herzogs", "herzogen", "owner"],
+    "variations": ["herzogs", "herzogen", "needs-suffix"],
     "asRoot": 1
   },
   {

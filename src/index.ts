@@ -95,7 +95,7 @@ function updateView() {
   toggleVisibility('sigil-present-on-heraldry', realm.sigilPresentOnHeraldry);
 
   // Words
-  applyText('name', realm.name);
+  applyText('name', Util.readWord(realm.realmName));
   applyText('government-rank', realm.governmentRank);
   applyText('parent-entity', realm.parentEntityName);
   applyText('parent-entity-adj', realm.parentEntityAdj);
@@ -175,7 +175,7 @@ function applyBiomesBlurb() {
 
   if (realm.biomes.length == 1) {
     let b: Biome = realm.biomes[0];
-    text = `<span class="name"></span> is made up of ${b.type}.`;
+    text = `Much of <span class="name"></span> is occupied by a ${b.type} ecoregion.`;
   } else if (realm.biomes.length == 2) {
     let b1: Biome = realm.biomes[0];
     let b2: Biome = realm.biomes[1];

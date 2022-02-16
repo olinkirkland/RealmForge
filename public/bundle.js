@@ -108,8 +108,6 @@ __webpack_require__.r(__webpack_exports__);
 class Realm {
     constructor() {
         this.tags = ['any'];
-        this.name = 'oldmarch';
-        this.adj = 'oldmarch';
         this.capitalCityName = 'highbridge';
         this.sizeIndex = 0;
         this.size = 'small';
@@ -139,6 +137,8 @@ class Realm {
         this.determineBiomes();
         this.determineRivers();
         this.determineSigil();
+        this.determineRealmName();
+        this.determineCities();
         this.determineHeraldry();
     }
     determineParentEntity() {
@@ -339,7 +339,7 @@ class Realm {
         const tributaryCount = Math.floor(_util__WEBPACK_IMPORTED_MODULE_1__.Util.rand(1, 4));
         for (let i = 0; i < tributaryCount; i++) {
             let tributary = {
-                name: i == 0 && _util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() < 0.3
+                name: i == 0 && _util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() < 0.6
                     ? this.determineTributaryName(riverName)
                     : this.determineRiverName(),
                 flowsTo: _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.directions),
@@ -440,6 +440,45 @@ class Realm {
         });
         return namePart;
     }
+    determineRealmName() {
+        /**
+         * Determine root
+         */
+        let validRoots = _data__WEBPACK_IMPORTED_MODULE_0__.Data.placeNameParts.concat(_data__WEBPACK_IMPORTED_MODULE_0__.Data.rulersNameParts)
+            .concat(_data__WEBPACK_IMPORTED_MODULE_0__.Data.faunaNameParts)
+            .concat(_data__WEBPACK_IMPORTED_MODULE_0__.Data.floraNameParts)
+            .filter((namePart) => {
+            // Have at least one point as a root name part
+            // Have at least one matching tag
+            return namePart.tags.some((tag) => this.tags.includes(tag));
+        });
+        let root = this.chooseNamePartByPoints(validRoots, 'asRoot');
+        if (root.variations) {
+            root.variations.push(root.name);
+            root.name = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(root.variations);
+        }
+        /**
+         * Determine suffix
+         */
+        let validSuffixes = _data__WEBPACK_IMPORTED_MODULE_0__.Data.placeNameParts.filter((namePart) => {
+            // Have at least one point as a suffix name part
+            // Have at least one matching tag
+            return (namePart.asSuffix > 0 &&
+                namePart.tags.some((tag) => this.tags.includes(tag)));
+        });
+        do {
+            let suffix = this.chooseNamePartByPoints(validSuffixes, 'asSuffix');
+            if (suffix.variations) {
+                suffix.variations.push(suffix.name);
+                suffix.name = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(suffix.variations);
+            }
+            this.realmName = { root: root, suffix: suffix };
+        } while (!this.isRealmNameValid(this.realmName));
+    }
+    isRealmNameValid(word) {
+        return true;
+    }
+    determineCities() { }
 }
 
 
@@ -573,7 +612,7 @@ class Util {
     }
     // Tweet a realm
     static shareByTweet(realm) {
-        let tweet = `Explore ${Util.capitalize(realm.name)}, a ${realm.size} ${realm.parentEntityAdj} ${realm.governmentRank}.`;
+        let tweet = `Explore ${Util.capitalize(Util.readWord(realm.realmName))}, a ${realm.size} ${realm.parentEntityAdj} ${realm.governmentRank}.`;
         window.open('https://twitter.com/intent/tweet?url=' +
             window.location.href +
             '&text=' +
@@ -760,7 +799,7 @@ function updateView() {
     applyRiversBlurb();
     toggleVisibility('sigil-present-on-heraldry', realm.sigilPresentOnHeraldry);
     // Words
-    applyText('name', realm.name);
+    applyText('name', _util__WEBPACK_IMPORTED_MODULE_0__.Util.readWord(realm.realmName));
     applyText('government-rank', realm.governmentRank);
     applyText('parent-entity', realm.parentEntityName);
     applyText('parent-entity-adj', realm.parentEntityAdj);
@@ -824,7 +863,7 @@ function applyBiomesBlurb() {
     let text = '';
     if (realm.biomes.length == 1) {
         let b = realm.biomes[0];
-        text = `<span class="name"></span> is made up of ${b.type}.`;
+        text = `Much of <span class="name"></span> is occupied by a ${b.type} ecoregion.`;
     }
     else if (realm.biomes.length == 2) {
         let b1 = realm.biomes[0];

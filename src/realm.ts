@@ -24,8 +24,7 @@ export type Word = {
 export class Realm {
   private tags: string[] = ['any'];
 
-  public name: string = 'oldmarch';
-  public adj: string = 'oldmarch';
+  public realmName!: Word;
   public capitalCityName: string = 'highbridge';
 
   public sizeIndex: number = 0;
@@ -66,6 +65,10 @@ export class Realm {
     this.determineBiomes();
     this.determineRivers();
     this.determineSigil();
+
+    this.determineRealmName();
+    this.determineCities();
+
     this.determineHeraldry();
   }
 
@@ -328,7 +331,7 @@ export class Realm {
     for (let i = 0; i < tributaryCount; i++) {
       let tributary: River = {
         name:
-          i == 0 && Util.rand() < 0.3
+          i == 0 && Util.rand() < 0.6
             ? this.determineTributaryName(riverName)
             : this.determineRiverName(),
         flowsTo: Util.randomValue(Data.directions),
@@ -473,4 +476,60 @@ export class Realm {
 
     return namePart;
   }
+
+  private determineRealmName() {
+    /**
+     * Determine root
+     */
+
+    let validRoots: NamePart[] = Data.placeNameParts
+      .concat(Data.rulersNameParts)
+      .concat(Data.faunaNameParts)
+      .concat(Data.floraNameParts)
+      .filter((namePart) => {
+        // Have at least one point as a root name part
+        // Have at least one matching tag
+        return namePart.tags.some((tag) => this.tags.includes(tag));
+      });
+
+    let root: NamePart = this.chooseNamePartByPoints(validRoots, 'asRoot');
+
+    if (root.variations) {
+      root.variations.push(root.name);
+      root.name = Util.randomValue(root.variations);
+    }
+
+    /**
+     * Determine suffix
+     */
+
+    let validSuffixes: NamePart[] = Data.placeNameParts.filter((namePart) => {
+      // Have at least one point as a suffix name part
+      // Have at least one matching tag
+
+      return (
+        namePart.asSuffix > 0 &&
+        namePart.tags.some((tag) => this.tags.includes(tag))
+      );
+    });
+
+    do {
+      let suffix: NamePart = this.chooseNamePartByPoints(
+        validSuffixes,
+        'asSuffix'
+      );
+      if (suffix.variations) {
+        suffix.variations.push(suffix.name);
+        suffix.name = Util.randomValue(suffix.variations);
+      }
+
+      this.realmName = { root: root, suffix: suffix };
+    } while (!this.isRealmNameValid(this.realmName));
+  }
+
+  private isRealmNameValid(word: Word): boolean {
+    return true;
+  }
+
+  private determineCities() {}
 }

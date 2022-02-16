@@ -144,9 +144,9 @@ export class Util {
 
   // Tweet a realm
   static shareByTweet(realm: Realm) {
-    let tweet: string = `Explore ${Util.capitalize(realm.name)}, a ${
-      realm.size
-    } ${realm.parentEntityAdj} ${realm.governmentRank}.`;
+    let tweet: string = `Explore ${Util.capitalize(
+      Util.readWord(realm.realmName)
+    )}, a ${realm.size} ${realm.parentEntityAdj} ${realm.governmentRank}.`;
 
     window.open(
       'https://twitter.com/intent/tweet?url=' +
