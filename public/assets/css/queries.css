@@ -59,6 +59,10 @@ instead, 1rem = 1em = 16px */
 
 /* 768px / 16px = 48 */
 @media (max-width: 48em) {
+  .header-text span {
+    font-size: 1.2rem;
+  }
+
   #controls h1 {
     font-size: 3.2rem;
   }
@@ -67,7 +71,6 @@ instead, 1rem = 1em = 16px */
     font-size: 2.4rem;
   }
 
-  
   p {
     font-size: 1.4rem;
   }
