@@ -115,8 +115,6 @@ class Realm {
         this.leaderTitle = 'lord';
         this.parentEntityName = 'the empire';
         this.parentEntityAdj = 'imperial';
-        this.directionWithinParentEntity = 'south';
-        this.directionAdjWithinParentEntity = 'south';
         this.temperature = 'temperate';
         this.humidity = 'wet';
         this.seasonSummer = ['long', 'harsh'];
@@ -124,7 +122,7 @@ class Realm {
         this.biomes = [];
         this.rivers = [];
         this.tributaries = [];
-        this.coastal = false;
+        this.coast = false;
         this.sigilName = 'dove';
         this.sigilIcon = 'dove';
         this.sigilMeaning = 'peace';
@@ -140,6 +138,7 @@ class Realm {
         this.determineRealmName();
         this.determineCities();
         this.determineHeraldry();
+        console.log('tags: ' + this.tags);
     }
     determineParentEntity() {
         let arr = ['the'];
@@ -163,15 +162,30 @@ class Realm {
     }
     determineDirection() {
         const dir = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.directions);
-        this.directionWithinParentEntity = dir.noun;
-        this.directionAdjWithinParentEntity = dir.adj;
+        this.directionWithinParentEntity = dir;
+        this.tags.push(this.directionWithinParentEntity.noun);
         // 40% chance to be coastal, 0% if location is middle
-        this.coastal =
-            _util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() < 0.4 && this.directionWithinParentEntity != 'middle';
+        this.coastDirection = this.directionWithinParentEntity;
+        if (_util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() < 0.4 &&
+            this.directionWithinParentEntity.noun != 'middle') {
+            this.coast = true;
+            while (!this.directionWithinParentEntity.noun
+                .split('-')
+                .includes(this.coastDirection.noun)) {
+                this.coastDirection = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.directions);
+            }
+            this.tags.push('coast');
+        }
     }
     determineSize() {
         this.sizeIndex = Math.floor(_util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() * _data__WEBPACK_IMPORTED_MODULE_0__.Data.sizes.length);
         this.size = _data__WEBPACK_IMPORTED_MODULE_0__.Data.sizes[this.sizeIndex];
+        if (this.sizeIndex == 0) {
+            this.tags.push('city');
+        }
+        else {
+            this.tags.push('region');
+        }
     }
     determineGovernmentRank() {
         let govt;
@@ -179,6 +193,7 @@ class Realm {
             govt = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.governmentRanks);
         } while (!govt.size.includes(this.sizeIndex));
         this.governmentRank = govt.rank;
+        this.tags.push(this.governmentRank);
         this.leaderTitle = govt.ruler;
     }
     determineSigil() {
@@ -193,19 +208,21 @@ class Realm {
     }
     determineClimate() {
         // Choose geography and climate based on the direction
-        if (this.directionWithinParentEntity.includes('north')) {
+        if (this.directionWithinParentEntity.noun.includes('north')) {
             this.temperature = 'cold';
         }
-        else if (this.directionWithinParentEntity.includes('south')) {
+        else if (this.directionWithinParentEntity.noun.includes('south')) {
             this.temperature = 'warm';
         }
         else {
             this.temperature = 'temperate';
         }
+        this.tags.push(this.temperature);
         this.humidity = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(['wet', 'dry']);
-        if (this.coastal) {
+        if (this.coast) {
             this.humidity = 'wet';
         }
+        this.tags.push(this.humidity);
         // Description of winter
         this.seasonWinter = [];
         const winter = _data__WEBPACK_IMPORTED_MODULE_0__.Data.seasonDescriptors.winter;
@@ -260,6 +277,7 @@ class Realm {
             size: _data__WEBPACK_IMPORTED_MODULE_0__.Data.sizes[Math.max(1, sizeIndex)],
             direction: _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.directions)
         };
+        this.tags.push(primaryBiome.type);
         this.biomes.push(primaryBiome);
         if (_util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() < 0.6) {
             // Choose a direction that isn't the same direction as the primary Biome's direction
@@ -276,6 +294,7 @@ class Realm {
             };
             // Add a second biome
             this.biomes.push(secondaryBiome);
+            this.tags.push(secondaryBiome.type);
         }
     }
     determineRivers() {
@@ -798,13 +817,15 @@ function updateView() {
     applyBiomesBlurb();
     applyRiversBlurb();
     toggleVisibility('sigil-present-on-heraldry', realm.sigilPresentOnHeraldry);
+    toggleVisibility('on-the-coast', realm.coast);
     // Words
     applyText('name', _util__WEBPACK_IMPORTED_MODULE_0__.Util.readWord(realm.realmName));
     applyText('government-rank', realm.governmentRank);
     applyText('parent-entity', realm.parentEntityName);
     applyText('parent-entity-adj', realm.parentEntityAdj);
-    applyText('direction-within-parent-entity', realm.directionWithinParentEntity);
-    applyText('direction-adj-within-parent-entity', realm.directionAdjWithinParentEntity);
+    applyText('direction-within-parent-entity', realm.directionWithinParentEntity.noun);
+    applyText('direction-adj-within-parent-entity', realm.directionWithinParentEntity.adj);
+    applyText('coast-direction', realm.coastDirection.adj);
     applyText('capital-city', realm.capitalCityName);
     applyText('sigil-name', realm.sigilName);
     applyText('sigil-meaning', realm.sigilMeaning);

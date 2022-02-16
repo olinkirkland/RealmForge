@@ -210,9 +210,13 @@ section.container--controls {
   color: white;
 }
 
-#hero h1 .name {
+#hero h2 {
+  margin-bottom: 1.2rem;
+}
+
+#hero h2 .name {
   font-size: 6.4rem;
-  font-family: 'Satisfy', cursive;
+  font-family: 'Lobster Two', cursive;
   font-weight: 400;
 }
 

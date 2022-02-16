@@ -36,8 +36,7 @@ export class Realm {
   public parentEntityName: string = 'the empire';
   public parentEntityAdj: string = 'imperial';
 
-  public directionWithinParentEntity: string = 'south';
-  public directionAdjWithinParentEntity: string = 'south';
+  public directionWithinParentEntity!: Direction;
 
   public temperature: string = 'temperate';
   public humidity: string = 'wet';
@@ -49,7 +48,8 @@ export class Realm {
   public rivers: River[] = [];
   public tributaries: River[] = [];
 
-  public coastal: boolean = false;
+  public coast: boolean = false;
+  public coastDirection!: Direction;
 
   public sigilName: string = 'dove';
   public sigilIcon: string = 'dove';
@@ -70,6 +70,8 @@ export class Realm {
     this.determineCities();
 
     this.determineHeraldry();
+
+    console.log('tags: ' + this.tags);
   }
 
   public determineParentEntity() {
@@ -107,17 +109,39 @@ export class Realm {
       Data.directions
     );
 
-    this.directionWithinParentEntity = dir.noun;
-    this.directionAdjWithinParentEntity = dir.adj;
+    this.directionWithinParentEntity = dir;
+
+    this.tags.push(this.directionWithinParentEntity.noun);
 
     // 40% chance to be coastal, 0% if location is middle
-    this.coastal =
-      Util.rand() < 0.4 && this.directionWithinParentEntity != 'middle';
+    this.coastDirection = this.directionWithinParentEntity;
+
+    if (
+      Util.rand() < 0.4 &&
+      this.directionWithinParentEntity.noun != 'middle'
+    ) {
+      this.coast = true;
+
+      while (
+        !this.directionWithinParentEntity.noun
+          .split('-')
+          .includes(this.coastDirection.noun)
+      ) {
+        this.coastDirection = Util.randomValue(Data.directions);
+      }
+      this.tags.push('coast');
+    }
   }
 
   public determineSize() {
     this.sizeIndex = Math.floor(Util.rand() * Data.sizes.length);
     this.size = Data.sizes[this.sizeIndex];
+
+    if (this.sizeIndex == 0) {
+      this.tags.push('city');
+    } else {
+      this.tags.push('region');
+    }
   }
 
   public determineGovernmentRank() {
@@ -127,6 +151,8 @@ export class Realm {
     } while (!govt.size.includes(this.sizeIndex));
 
     this.governmentRank = govt.rank;
+    this.tags.push(this.governmentRank);
+
     this.leaderTitle = govt.ruler;
   }
 
@@ -145,18 +171,22 @@ export class Realm {
 
   public determineClimate() {
     // Choose geography and climate based on the direction
-    if (this.directionWithinParentEntity.includes('north')) {
+    if (this.directionWithinParentEntity.noun.includes('north')) {
       this.temperature = 'cold';
-    } else if (this.directionWithinParentEntity.includes('south')) {
+    } else if (this.directionWithinParentEntity.noun.includes('south')) {
       this.temperature = 'warm';
     } else {
       this.temperature = 'temperate';
     }
 
+    this.tags.push(this.temperature);
+
     this.humidity = Util.randomValue(['wet', 'dry']);
-    if (this.coastal) {
+    if (this.coast) {
       this.humidity = 'wet';
     }
+
+    this.tags.push(this.humidity);
 
     // Description of winter
     this.seasonWinter = [];
@@ -229,6 +259,7 @@ export class Realm {
       direction: Util.randomValue(Data.directions)
     };
 
+    this.tags.push(primaryBiome.type);
     this.biomes.push(primaryBiome);
 
     if (Util.rand() < 0.6) {
@@ -250,6 +281,7 @@ export class Realm {
 
       // Add a second biome
       this.biomes.push(secondaryBiome);
+      this.tags.push(secondaryBiome.type);
     }
   }
 

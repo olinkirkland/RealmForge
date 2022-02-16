@@ -188,25 +188,25 @@
     "asRoot": 10
   },
   {
-    "asSuffix": 11,
+    "asSuffix": 30,
     "name": "wald",
     "tags": ["borealForest", "temperateForest"],
     "asRoot": 10
   },
   {
-    "asSuffix": 10,
+    "asSuffix": 20,
     "name": "berg",
     "tags": ["mountain"],
     "asRoot": 10
   },
   {
-    "asSuffix": 10,
+    "asSuffix": 20,
     "name": "fels",
     "tags": ["mountain"],
     "asRoot": 1
   },
   {
-    "asSuffix": 10,
+    "asSuffix": 20,
     "name": "stein",
     "tags": ["mountain"],
     "asRoot": 6
@@ -214,13 +214,13 @@
   {
     "asSuffix": 1,
     "name": "steig",
-    "tags": ["road", "any"],
+    "tags": ["any"],
     "asRoot": 0
   },
   {
-    "asSuffix": 10,
+    "asSuffix": 2,
     "name": "land",
-    "tags": ["region", "any"],
+    "tags": ["region"],
     "asRoot": 6
   },
   {
@@ -282,7 +282,7 @@
     "asRoot": 1
   },
   {
-    "asSuffix": 1,
+    "asSuffix": 20,
     "name": "mühl",
     "tags": ["grassland"],
     "asRoot": 10
@@ -290,13 +290,19 @@
   {
     "asSuffix": 30,
     "name": "burg",
-    "tags": ["any"],
+    "tags": ["town", "city"],
+    "asRoot": 10
+  },
+  {
+    "asSuffix": 3,
+    "name": "burg",
+    "tags": ["region"],
     "asRoot": 10
   },
   {
     "asSuffix": 20,
     "name": "markt",
-    "tags": ["any"],
+    "tags": ["town", "city"],
     "asRoot": 3
   },
   {

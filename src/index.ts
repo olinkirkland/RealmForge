@@ -93,6 +93,7 @@ function updateView() {
   applyBiomesBlurb();
   applyRiversBlurb();
   toggleVisibility('sigil-present-on-heraldry', realm.sigilPresentOnHeraldry);
+  toggleVisibility('on-the-coast', realm.coast);
 
   // Words
   applyText('name', Util.readWord(realm.realmName));
@@ -101,12 +102,13 @@ function updateView() {
   applyText('parent-entity-adj', realm.parentEntityAdj);
   applyText(
     'direction-within-parent-entity',
-    realm.directionWithinParentEntity
+    realm.directionWithinParentEntity.noun
   );
   applyText(
     'direction-adj-within-parent-entity',
-    realm.directionAdjWithinParentEntity
+    realm.directionWithinParentEntity.adj
   );
+  applyText('coast-direction', realm.coastDirection.adj);
   applyText('capital-city', realm.capitalCityName);
   applyText('sigil-name', realm.sigilName);
   applyText('sigil-meaning', realm.sigilMeaning);
