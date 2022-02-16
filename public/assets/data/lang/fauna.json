@@ -120,7 +120,7 @@
     "asSuffix": 0,
     "name": "stut",
     "tags": ["horse", "animal", "any"],
-    "variations": ["stutt", "stuten"],
+    "variations": ["stutt"],
     "asRoot": 1
   },
   {

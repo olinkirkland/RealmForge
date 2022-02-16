@@ -16,7 +16,8 @@ export type River = {
   name: Word;
   flowsFrom: Direction;
   flowsTo: Direction;
-  tributaries: string[];
+  tributaries: River[];
+  stem: River | null;
 };
 
 export type Word = {
@@ -49,6 +50,7 @@ export class Realm {
 
   public biomes: Biome[] = [];
   public rivers: River[] = [];
+  public tributaries: River[] = [];
 
   public coastal: boolean = false;
 
@@ -257,10 +259,10 @@ export class Realm {
         riverMinMax = [0, 1];
         break;
       case 'temperate':
-        riverMinMax = [1, 3];
+        riverMinMax = [1, 4];
         break;
       case 'wet':
-        riverMinMax = [2, 3];
+        riverMinMax = [3, 5];
         break;
     }
 
@@ -273,6 +275,8 @@ export class Realm {
       riverCount = Math.min(riverCount, 2);
     }
 
+    console.log(`Size index: ${this.sizeIndex}`);
+
     // Add rivers
     for (let i = 0; i < riverCount; i++) {
       // If the realm contains a mountain biome, rivers should flow from it
@@ -281,18 +285,34 @@ export class Realm {
       // If the realm contains a coast, rivers should flow to it
       let flowsTo: Direction = Util.randomValue(Data.directions);
 
-      this.rivers.push({
-        name: this.determineRiverName(),
+      let riverName: Word = this.determineRiverName();
+      let tributaries: River[] = this.determineTributaries(riverName);
+      let river: River = {
+        name: riverName,
         flowsTo: flowsTo,
         flowsFrom: flowsFrom,
-        tributaries: []
-      });
+        tributaries: tributaries,
+        stem: null
+      };
+
+      this.rivers.push(river);
+      this.tributaries.push(...tributaries);
     }
 
     let arr: string[] = [];
     for (let i = 0; i < 20; i++)
       arr.push(Util.readWord(this.determineRiverName()));
     console.log(arr.join(', '));
+  }
+
+  private determineTributaries(riverName: Word): River[] {
+    let tributaries: River[] = [];
+    const tributaryCount: number = Util.randomValue([0, 2]);
+    for (let i = 0; i < tributaryCount; i++) {
+      // tributaries.push(t);
+    }
+
+    return tributaries;
   }
 
   private determineRiverName(): Word {
@@ -315,6 +335,12 @@ export class Realm {
         );
       });
 
+    let root: NamePart = Util.randomValue(validRoots);
+    if (root.variations) {
+      root.variations.push(root.name);
+      root.name = Util.randomValue(root.variations);
+    }
+
     // Determine suffix
     let validSuffixes: NamePart[] = Data.riverNameParts.filter((namePart) => {
       // Have at least one point as a suffix name part
@@ -325,10 +351,29 @@ export class Realm {
       );
     });
 
-    let root: NamePart = Util.randomValue(validRoots);
-    let suffix: NamePart = Util.randomValue(validSuffixes);
+    let riverName: Word;
+    do {
+      let suffix: NamePart = Util.randomValue(validSuffixes);
+      if (suffix.variations) {
+        suffix.variations.push(suffix.name);
+        suffix.name = Util.randomValue(suffix.variations);
+      }
 
-    let riverName: Word = { root: root, suffix: suffix };
+      riverName = { root: root, suffix: suffix };
+    } while (!isRiverNameValid(riverName));
+
+    function isRiverNameValid(r: Word) {
+      let valid: boolean = true;
+      if (
+        Util.endsWithVowel(r.root.name) &&
+        Util.startsWithVowel(r.suffix.name)
+      ) {
+        valid = false;
+      }
+
+      return valid;
+    }
+
     return riverName;
   }
 }

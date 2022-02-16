@@ -62,7 +62,7 @@ export class Util {
 
   // Returns true if the string starts with a vowel
   static endsWithVowel(str: string): boolean {
-    const regex = new RegExp('.*^[aeiou]', 'i');
+    const regex = new RegExp('.*[aeiou]$', 'i');
     return regex.test(str);
   }
 

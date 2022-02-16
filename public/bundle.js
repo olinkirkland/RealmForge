@@ -28,6 +28,11 @@ class Data {
                 loaded: false
             },
             {
+                propertyName: 'tributaryNameParts',
+                url: 'lang/tributaries.json',
+                loaded: false
+            },
+            {
                 propertyName: 'faunaNameParts',
                 url: 'lang/fauna.json',
                 loaded: false
@@ -119,6 +124,7 @@ class Realm {
         this.seasonWinter = ['long', 'mild'];
         this.biomes = [];
         this.rivers = [];
+        this.tributaries = [];
         this.coastal = false;
         this.sigilName = 'dove';
         this.sigilIcon = 'dove';
@@ -278,10 +284,10 @@ class Realm {
                 riverMinMax = [0, 1];
                 break;
             case 'temperate':
-                riverMinMax = [1, 3];
+                riverMinMax = [1, 4];
                 break;
             case 'wet':
-                riverMinMax = [2, 3];
+                riverMinMax = [3, 5];
                 break;
         }
         let riverCount = Math.floor(_util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() * (riverMinMax[1] - riverMinMax[0]) + riverMinMax[0]);
@@ -289,23 +295,37 @@ class Realm {
         if (this.sizeIndex < 3) {
             riverCount = Math.min(riverCount, 2);
         }
+        console.log(`Size index: ${this.sizeIndex}`);
         // Add rivers
         for (let i = 0; i < riverCount; i++) {
             // If the realm contains a mountain biome, rivers should flow from it
             let flowsFrom = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.directions);
             // If the realm contains a coast, rivers should flow to it
             let flowsTo = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.directions);
-            this.rivers.push({
-                name: this.determineRiverName(),
+            let riverName = this.determineRiverName();
+            let tributaries = this.determineTributaries(riverName);
+            let river = {
+                name: riverName,
                 flowsTo: flowsTo,
                 flowsFrom: flowsFrom,
-                tributaries: []
-            });
+                tributaries: tributaries,
+                stem: null
+            };
+            this.rivers.push(river);
+            this.tributaries.push(...tributaries);
         }
         let arr = [];
         for (let i = 0; i < 20; i++)
             arr.push(_util__WEBPACK_IMPORTED_MODULE_1__.Util.readWord(this.determineRiverName()));
         console.log(arr.join(', '));
+    }
+    determineTributaries(riverName) {
+        let tributaries = [];
+        const tributaryCount = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue([0, 2]);
+        for (let i = 0; i < tributaryCount; i++) {
+            // tributaries.push(t);
+        }
+        return tributaries;
     }
     determineRiverName() {
         const tags = ['any'];
@@ -321,15 +341,34 @@ class Realm {
                 namePart.asRoot > 0 &&
                 namePart.tags.some((tag) => tags.includes(tag)));
         });
+        let root = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(validRoots);
+        if (root.variations) {
+            root.variations.push(root.name);
+            root.name = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(root.variations);
+        }
         // Determine suffix
         let validSuffixes = _data__WEBPACK_IMPORTED_MODULE_0__.Data.riverNameParts.filter((namePart) => {
             // Have at least one point as a suffix name part
             // Have at least one matching tag
             return (namePart.asSuffix > 0 && namePart.tags.some((tag) => tags.includes(tag)));
         });
-        let root = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(validRoots);
-        let suffix = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(validSuffixes);
-        let riverName = { root: root, suffix: suffix };
+        let riverName;
+        do {
+            let suffix = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(validSuffixes);
+            if (suffix.variations) {
+                suffix.variations.push(suffix.name);
+                suffix.name = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(suffix.variations);
+            }
+            riverName = { root: root, suffix: suffix };
+        } while (!isRiverNameValid(riverName));
+        function isRiverNameValid(r) {
+            let valid = true;
+            if (_util__WEBPACK_IMPORTED_MODULE_1__.Util.endsWithVowel(r.root.name) &&
+                _util__WEBPACK_IMPORTED_MODULE_1__.Util.startsWithVowel(r.suffix.name)) {
+                valid = false;
+            }
+            return valid;
+        }
         return riverName;
     }
 }
@@ -395,7 +434,7 @@ class Util {
     }
     // Returns true if the string starts with a vowel
     static endsWithVowel(str) {
-        const regex = new RegExp('.*^[aeiou]', 'i');
+        const regex = new RegExp('.*[aeiou]$', 'i');
         return regex.test(str);
     }
     // Returns a string joining an array of at least two entries
@@ -669,16 +708,16 @@ function applyRiversBlurb() {
     else if (realm.rivers.length == 1) {
         let r = realm.rivers[0];
         text = `The main river that flows through <span class="name"></span> is the <span class="capitalized">${_util__WEBPACK_IMPORTED_MODULE_0__.Util.readWord(r.name)}</span>. The <span class="capitalized">${_util__WEBPACK_IMPORTED_MODULE_0__.Util.readWord(r.name)}</span> starts in the ${r.flowsFrom.noun} and flows toward the ${r.flowsTo.noun}.`;
-        if (r.tributaries.length > 0) {
-            text +=
-                '<br>Its main tributaries are the ' +
-                    _util__WEBPACK_IMPORTED_MODULE_0__.Util.joinArrayWithAnd(r.tributaries);
-        }
     }
     else {
-        text = `<span class="name"></span> contains <span class="word-number">${realm.rivers.length}</span> rivers: ${_util__WEBPACK_IMPORTED_MODULE_0__.Util.joinArrayWithAnd(realm.rivers.map((river) => {
+        text = `<span class="word-number capitalized">${realm.rivers.length}</span> rivers pass through <span class="name"></span>: ${_util__WEBPACK_IMPORTED_MODULE_0__.Util.joinArrayWithAnd(realm.rivers.map((river) => {
             return `the <span class="capitalized">${_util__WEBPACK_IMPORTED_MODULE_0__.Util.readWord(river.name)}</span>`;
         }))}.`;
+    }
+    if (realm.tributaries.length > 0) {
+        text +=
+            '<br>Notable tributaries include the ' +
+                _util__WEBPACK_IMPORTED_MODULE_0__.Util.joinArrayWithAnd(realm.tributaries.map((river) => _util__WEBPACK_IMPORTED_MODULE_0__.Util.readWord(river.name)));
     }
     const el = document.querySelector('.rivers-blurb');
     el.innerHTML = text;

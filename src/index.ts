@@ -185,21 +185,24 @@ function applyRiversBlurb() {
     )}</span> starts in the ${r.flowsFrom.noun} and flows toward the ${
       r.flowsTo.noun
     }.`;
-    if (r.tributaries.length > 0) {
-      text +=
-        '<br>Its main tributaries are the ' +
-        Util.joinArrayWithAnd(r.tributaries);
-    }
   } else {
-    text = `<span class="name"></span> contains <span class="word-number">${
+    text = `<span class="word-number capitalized">${
       realm.rivers.length
-    }</span> rivers: ${Util.joinArrayWithAnd(
+    }</span> rivers pass through <span class="name"></span>: ${Util.joinArrayWithAnd(
       realm.rivers.map((river) => {
         return `the <span class="capitalized">${Util.readWord(
           river.name
         )}</span>`;
       })
     )}.`;
+  }
+
+  if (realm.tributaries.length > 0) {
+    text +=
+      '<br>Notable tributaries include the ' +
+      Util.joinArrayWithAnd(
+        realm.tributaries.map((river) => Util.readWord(river.name))
+      );
   }
 
   const el: HTMLElement = document.querySelector('.rivers-blurb')!;

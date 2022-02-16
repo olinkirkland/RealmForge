@@ -77,6 +77,12 @@
   },
   {
     "asSuffix": 1,
+    "name": "",
+    "tags": ["any"],
+    "asRoot": 0
+  },
+  {
+    "asSuffix": 1,
     "name": "au",
     "tags": ["any"],
     "asRoot": 0
@@ -90,12 +96,6 @@
   {
     "asSuffix": 1,
     "name": "en",
-    "tags": ["any"],
-    "asRoot": 0
-  },
-  {
-    "asSuffix": 1,
-    "name": "er",
     "tags": ["any"],
     "asRoot": 0
   }

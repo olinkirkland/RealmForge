@@ -6,6 +6,7 @@ export type NamePart = {
   tags: string[];
   asSuffix: number;
   asRoot: number;
+  variations: string[];
 };
 
 export class Data {
@@ -14,6 +15,7 @@ export class Data {
 
   public static placeNameParts: NamePart[];
   public static riverNameParts: NamePart[];
+  public static tributaryNameParts: NamePart[];
   public static faunaNameParts: NamePart[];
   public static floraNameParts: NamePart[];
   public static rulersNameParts: NamePart[];
@@ -43,6 +45,11 @@ export class Data {
       {
         propertyName: 'riverNameParts',
         url: 'lang/rivers.json',
+        loaded: false
+      },
+      {
+        propertyName: 'tributaryNameParts',
+        url: 'lang/tributaries.json',
         loaded: false
       },
       {
