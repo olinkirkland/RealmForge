@@ -7,7 +7,10 @@ import { Realm, Biome, River } from './realm';
  */
 
 // Initial local preferences
-localStorage.getItem('darkMode') ? Util.toggleDarkMode() : null;
+const darkModeAtStart: string | null = localStorage.getItem('darkMode');
+const isDarkModeAtStart: boolean =
+  darkModeAtStart != null && darkModeAtStart == 'true';
+isDarkModeAtStart ? Util.toggleDarkMode() : null;
 
 // Handle dark mode button
 const btnToggleDarkMode: HTMLButtonElement = document.getElementById(
