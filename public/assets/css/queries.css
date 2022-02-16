@@ -27,6 +27,21 @@ instead, 1rem = 1em = 16px */
     padding: 0 0;
   }
 
+  .hero-frame {
+    padding: 0.4rem 0;
+    border: none;
+  }
+
+  article {
+    border: none;
+    border-bottom: 1px dashed var(--dark-text-muted);
+    box-shadow: none;
+  }
+
+  article:last-child {
+    border-bottom: none;
+  }
+
   .container--content {
     padding: 3.2rem;
     grid-template-columns: 1fr;
@@ -46,12 +61,12 @@ instead, 1rem = 1em = 16px */
   h2 {
     font-size: 2.4rem;
   }
-
+/* 
   p {
     font-size: 1.2rem;
   }
 
   li {
     font-size: 1.2rem;
-  }
+  } */
 }
