@@ -8,6 +8,7 @@ export class Util {
 
   public static toggleDarkMode() {
     Util.isDarkMode = !Util.isDarkMode;
+    localStorage.setItem('darkMode', JSON.stringify(Util.isDarkMode));
     Util.isDarkMode ? Util.applyDarkMode() : Util.applyLightMode();
   }
 

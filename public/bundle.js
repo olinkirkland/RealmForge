@@ -391,6 +391,7 @@ __webpack_require__.r(__webpack_exports__);
 class Util {
     static toggleDarkMode() {
         Util.isDarkMode = !Util.isDarkMode;
+        localStorage.setItem('darkMode', JSON.stringify(Util.isDarkMode));
         Util.isDarkMode ? Util.applyDarkMode() : Util.applyLightMode();
     }
     static applyDarkMode() {
@@ -617,6 +618,8 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Hint: Use 'npm run build' from console to compile + watch the TS code on save
  */
+// Initial local preferences
+localStorage.getItem('darkMode') ? _util__WEBPACK_IMPORTED_MODULE_0__.Util.toggleDarkMode() : null;
 // Handle dark mode button
 const btnToggleDarkMode = document.getElementById('btnToggleDarkMode');
 btnToggleDarkMode.addEventListener('click', () => {
