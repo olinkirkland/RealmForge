@@ -77,7 +77,10 @@ class Data {
         const u = Data.content;
         Data.biomes = u.biomes;
         Data.directions = u.directions;
-        Data.images = u.images;
+        Data.heroImages = u.heroImages.map((heroImage) => {
+            heroImage.url = './assets/images/hero_images/' + heroImage.url;
+            return heroImage;
+        });
         Data.governmentRanks = u.governmentRanks;
         Data.sigils = u.sigils;
         Data.sizes = u.sizes;
@@ -797,7 +800,7 @@ function start() {
 function updateView() {
     // Choose a photo for the hero
     const heroEl = document.getElementById('hero');
-    heroEl.setAttribute('style', `background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${determineHeroImageUrl()})`);
+    heroEl.setAttribute('style', `background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${determineHeroImageUrl()})`);
     // Blurbs
     applyBiomesBlurb();
     applyRiversBlurb();
@@ -825,7 +828,14 @@ function updateView() {
 }
 function determineHeroImageUrl() {
     // Todo use realm information to determine the image
-    return _util__WEBPACK_IMPORTED_MODULE_0__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_1__.Data.images);
+    const validImages = _data__WEBPACK_IMPORTED_MODULE_1__.Data.heroImages.filter((u) => {
+        return u.tags.some((tag) => realm.tags.includes(tag));
+    })
+        .map((j) => {
+        return j.url;
+    });
+    const image = _util__WEBPACK_IMPORTED_MODULE_0__.Util.randomValue(validImages);
+    return image;
 }
 function applyText(query, text) {
     const els = document.querySelectorAll('span.' + query);

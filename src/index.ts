@@ -86,7 +86,7 @@ function updateView() {
   )! as HTMLDivElement;
   heroEl.setAttribute(
     'style',
-    `background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${determineHeroImageUrl()})`
+    `background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${determineHeroImageUrl()})`
   );
 
   // Blurbs
@@ -128,7 +128,16 @@ function updateView() {
 
 function determineHeroImageUrl(): string {
   // Todo use realm information to determine the image
-  return Util.randomValue(Data.images);
+  const validImages: string[] = Data.heroImages
+    .filter((u) => {
+      return u.tags.some((tag) => realm.tags.includes(tag));
+    })
+    .map((j) => {
+      return j.url;
+    });
+
+  const image: string = Util.randomValue(validImages);
+  return image;
 }
 
 function applyText(query: string, text: string) {

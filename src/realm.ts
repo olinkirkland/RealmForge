@@ -22,7 +22,7 @@ export type Word = {
 };
 
 export class Realm {
-  private tags: string[] = ['any'];
+  public tags: string[] = ['any'];
 
   public realmName!: Word;
   public capitalCityName: string = 'highbridge';

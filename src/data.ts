@@ -28,7 +28,7 @@ export class Data {
 
   public static biomes: string[];
   public static directions: Direction[];
-  public static images: string[];
+  public static heroImages: { url: string; tags: string[] }[];
   public static governmentRanks: any;
   public static sigils: any;
   public static sizes: any;
@@ -108,7 +108,12 @@ export class Data {
     const u: any = Data.content;
     Data.biomes = u.biomes;
     Data.directions = u.directions;
-    Data.images = u.images;
+    Data.heroImages = u.heroImages.map(
+      (heroImage: { url: string; tags: string[] }) => {
+        heroImage.url = './assets/images/hero_images/' + heroImage.url;
+        return heroImage;
+      }
+    );
     Data.governmentRanks = u.governmentRanks;
     Data.sigils = u.sigils;
     Data.sizes = u.sizes;
