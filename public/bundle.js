@@ -341,7 +341,6 @@ class Realm {
                 stem: null
             };
             this.rivers.push(river);
-            this.tributaries.push(...tributaries);
         }
         let arr = [];
         for (let i = 0; i < 20; i++)
@@ -349,18 +348,10 @@ class Realm {
     }
     determineTributaries(riverName) {
         let tributaries = [];
-        let validSuffixes = _data__WEBPACK_IMPORTED_MODULE_0__.Data.riverNameParts.filter((namePart) => {
-            // Have at least one point as a suffix name part
-            // Have at least one matching tag
-            return (namePart.asSuffix > 0 &&
-                namePart.tags.some((tag) => this.tags.includes(tag)));
-        });
         const tributaryCount = Math.floor(_util__WEBPACK_IMPORTED_MODULE_1__.Util.rand(1, 4));
         for (let i = 0; i < tributaryCount; i++) {
             let tributary = {
-                name: i == 0 && _util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() < 0.6
-                    ? this.determineTributaryName(riverName)
-                    : this.determineRiverName(),
+                name: i == 0 && _util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() < 0.6 ? riverName : this.determineRiverName(),
                 flowsTo: _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.directions),
                 flowsFrom: _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.directions),
                 tributaries: [],
@@ -373,7 +364,10 @@ class Realm {
                     return namePart.tags.includes('tributary-prefix');
                 }));
             }
+            // Push to river tributary array (gets returned)
             tributaries.push(tributary);
+            // Push to realm tributary array
+            this.tributaries.push(tributary);
         }
         return tributaries;
     }
@@ -423,23 +417,14 @@ class Realm {
             _util__WEBPACK_IMPORTED_MODULE_1__.Util.startsWithVowel(r.suffix.name)) {
             valid = false;
         }
+        // No two rivers or tributaries can have the same name
+        const tributaryNames = this.tributaries
+            .concat(this.rivers)
+            .map((river) => _util__WEBPACK_IMPORTED_MODULE_1__.Util.readWord(river.name));
+        if (tributaryNames.includes(_util__WEBPACK_IMPORTED_MODULE_1__.Util.readWord(r))) {
+            valid = false;
+        }
         return valid;
-    }
-    determineTributaryName(riverName) {
-        return riverName;
-        // Take the root from the river name
-        let root = riverName.root;
-        let validTributarySuffixes = _data__WEBPACK_IMPORTED_MODULE_0__.Data.tributaryNameParts;
-        let tributaryName;
-        do {
-            let suffix = this.chooseNamePartByPoints(validTributarySuffixes, 'asSuffix');
-            if (suffix.variations) {
-                suffix.variations.push(suffix.name);
-                suffix.name = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(suffix.variations);
-            }
-            tributaryName = { root: root, suffix: suffix };
-        } while (!this.isRiverNameValid(tributaryName));
-        return tributaryName;
     }
     chooseNamePartByPoints(nameParts, pointsProperty) {
         const points = nameParts.reduce((total, r) => {

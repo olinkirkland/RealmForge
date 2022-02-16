@@ -316,6 +316,7 @@ export class Realm {
       // If the realm contains a mountain biome, rivers should flow from it
 
       // If the realm contains a coast, rivers should flow to it
+
       let flowsFrom: Direction;
       let flowsTo: Direction;
       do {
@@ -339,7 +340,6 @@ export class Realm {
       };
 
       this.rivers.push(river);
-      this.tributaries.push(...tributaries);
     }
 
     let arr: string[] = [];
@@ -349,23 +349,12 @@ export class Realm {
 
   private determineTributaries(riverName: Word): River[] {
     let tributaries: River[] = [];
-    let validSuffixes: NamePart[] = Data.riverNameParts.filter((namePart) => {
-      // Have at least one point as a suffix name part
-      // Have at least one matching tag
-
-      return (
-        namePart.asSuffix > 0 &&
-        namePart.tags.some((tag) => this.tags.includes(tag))
-      );
-    });
 
     const tributaryCount: number = Math.floor(Util.rand(1, 4));
     for (let i = 0; i < tributaryCount; i++) {
       let tributary: River = {
         name:
-          i == 0 && Util.rand() < 0.6
-            ? this.determineTributaryName(riverName)
-            : this.determineRiverName(),
+          i == 0 && Util.rand() < 0.6 ? riverName : this.determineRiverName(),
         flowsTo: Util.randomValue(Data.directions),
         flowsFrom: Util.randomValue(Data.directions),
         tributaries: [],
@@ -382,7 +371,11 @@ export class Realm {
         );
       }
 
+      // Push to river tributary array (gets returned)
       tributaries.push(tributary);
+
+      // Push to realm tributary array
+      this.tributaries.push(tributary);
     }
 
     return tributaries;
@@ -457,32 +450,16 @@ export class Realm {
       valid = false;
     }
 
+    // No two rivers or tributaries can have the same name
+    const tributaryNames: string[] = this.tributaries
+      .concat(this.rivers)
+      .map((river) => Util.readWord(river.name));
+
+    if (tributaryNames.includes(Util.readWord(r))) {
+      valid = false;
+    }
+
     return valid;
-  }
-
-  private determineTributaryName(riverName: Word): Word {
-    return riverName;
-
-    // Take the root from the river name
-    let root: NamePart = riverName.root;
-
-    let validTributarySuffixes: NamePart[] = Data.tributaryNameParts;
-
-    let tributaryName: Word;
-    do {
-      let suffix: NamePart = this.chooseNamePartByPoints(
-        validTributarySuffixes,
-        'asSuffix'
-      );
-      if (suffix.variations) {
-        suffix.variations.push(suffix.name);
-        suffix.name = Util.randomValue(suffix.variations);
-      }
-
-      tributaryName = { root: root, suffix: suffix };
-    } while (!this.isRiverNameValid(tributaryName));
-
-    return tributaryName;
   }
 
   private chooseNamePartByPoints(
