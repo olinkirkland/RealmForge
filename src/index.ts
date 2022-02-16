@@ -113,7 +113,8 @@ function updateView() {
 
   applyText('size', realm.size);
 
-  applyText('climate', realm.temperature);
+  applyText('temperature', realm.temperature);
+  applyText('humidity', realm.humidity);
   applyText('season-summer', realm.seasonSummer.join(', '));
   applyText('season-winter', realm.seasonWinter.join(', '));
 

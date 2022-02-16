@@ -253,22 +253,28 @@ export class Realm {
   }
 
   public determineRivers() {
-    let riverMinMax: number[] = [0, 0];
+    let pickRiverCount: { min: number; max: number } = { min: 0, max: 0 };
     switch (this.humidity) {
       case 'dry':
-        riverMinMax = [0, 1];
+        pickRiverCount.min = 0;
+        pickRiverCount.max = 1;
         break;
       case 'temperate':
-        riverMinMax = [1, 4];
+        pickRiverCount.min = 1;
+        pickRiverCount.max = 4;
         break;
       case 'wet':
-        riverMinMax = [3, 5];
+        pickRiverCount.min = 3;
+        pickRiverCount.max = 5;
         break;
     }
 
+    console.log(this.humidity);
+    console.log(pickRiverCount.min, pickRiverCount.max);
     let riverCount: number = Math.floor(
-      Util.rand() * (riverMinMax[1] - riverMinMax[0]) + riverMinMax[0]
+      Util.rand(pickRiverCount.min, pickRiverCount.max)
     );
+    console.log(riverCount);
 
     // For small realms (less than 3 on the sizeIndex) there shouldn't be more than two rivers passing through
     if (this.sizeIndex < 3) {

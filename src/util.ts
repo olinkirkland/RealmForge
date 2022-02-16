@@ -83,11 +83,12 @@ export class Util {
     Util.m_z = (987654321 - h) & Util.mask;
   }
 
-  public static rand(): number {
+  public static rand(min: number = 0, max: number = 1): number {
     Util.m_z = (36969 * (Util.m_z & 65535) + (Util.m_z >> 16)) & Util.mask;
     Util.m_w = (18000 * (Util.m_w & 65535) + (Util.m_w >> 16)) & Util.mask;
     let result = ((Util.m_z << 16) + (Util.m_w & 65535)) >>> 0;
-    return result / 4294967296;
+    result /= 4294967296;
+    return result * (max - min) + min;
   }
 
   static arrayRemove(arr: string[], elementToRemove: string) {

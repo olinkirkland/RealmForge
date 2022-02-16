@@ -278,19 +278,25 @@ class Realm {
         }
     }
     determineRivers() {
-        let riverMinMax = [0, 0];
+        let pickRiverCount = { min: 0, max: 0 };
         switch (this.humidity) {
             case 'dry':
-                riverMinMax = [0, 1];
+                pickRiverCount.min = 0;
+                pickRiverCount.max = 1;
                 break;
             case 'temperate':
-                riverMinMax = [1, 4];
+                pickRiverCount.min = 1;
+                pickRiverCount.max = 4;
                 break;
             case 'wet':
-                riverMinMax = [3, 5];
+                pickRiverCount.min = 3;
+                pickRiverCount.max = 5;
                 break;
         }
-        let riverCount = Math.floor(_util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() * (riverMinMax[1] - riverMinMax[0]) + riverMinMax[0]);
+        console.log(this.humidity);
+        console.log(pickRiverCount.min, pickRiverCount.max);
+        let riverCount = Math.floor(_util__WEBPACK_IMPORTED_MODULE_1__.Util.rand(pickRiverCount.min, pickRiverCount.max));
+        console.log(riverCount);
         // For small realms (less than 3 on the sizeIndex) there shouldn't be more than two rivers passing through
         if (this.sizeIndex < 3) {
             riverCount = Math.min(riverCount, 2);
@@ -453,11 +459,12 @@ class Util {
         Util.m_w = (123456789 + h) & Util.mask;
         Util.m_z = (987654321 - h) & Util.mask;
     }
-    static rand() {
+    static rand(min = 0, max = 1) {
         Util.m_z = (36969 * (Util.m_z & 65535) + (Util.m_z >> 16)) & Util.mask;
         Util.m_w = (18000 * (Util.m_w & 65535) + (Util.m_w >> 16)) & Util.mask;
         let result = ((Util.m_z << 16) + (Util.m_w & 65535)) >>> 0;
-        return result / 4294967296;
+        result /= 4294967296;
+        return result * (max - min) + min;
     }
     static arrayRemove(arr, elementToRemove) {
         return arr.filter(function (element) {
@@ -694,7 +701,8 @@ function updateView() {
     applyText('sigil-name', realm.sigilName);
     applyText('sigil-meaning', realm.sigilMeaning);
     applyText('size', realm.size);
-    applyText('climate', realm.temperature);
+    applyText('temperature', realm.temperature);
+    applyText('humidity', realm.humidity);
     applyText('season-summer', realm.seasonSummer.join(', '));
     applyText('season-winter', realm.seasonWinter.join(', '));
     applyIcon('sigil', realm.sigilIcon);
