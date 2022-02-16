@@ -1,3 +1,23 @@
+/* CSS VARIABLES */
+
+:root {
+  /* Text Colors */
+  --dark-text: #444444;
+  --dark-text-muted: rgba(68, 68, 68, 0.6);
+  --dark-text-very-muted: rgba(68, 68, 68, 0.1);
+  --dark-text-hidden: rgba(68, 68, 68, 0);
+  --light-text: #f8f8f8;
+  --light-text-muted: rgba(248, 248, 248, 0.6);
+  --light-text-very-muted: rgba(248, 248, 248, 0.1);
+  --light-text-hidden: rgba(248, 248, 248, 0);
+
+  /* Background Colors */
+  --dark-background: #444444;
+  --dark-background-alt: rgba(68, 68, 68, 0.95);
+  --light-background: #f8f8f8;
+  --light-background-alt: rgba(248, 248, 248, 0.95);
+}
+
 /* GENERAL */
 
 * {
@@ -16,8 +36,8 @@ html {
 body {
   font-size: 1.6rem;
   font-family: 'Merriweather', serif;
-  background-color: #f8f8f8;
-  color: #444444;
+  background-color: var(--light-background);
+  color: var(--dark-text);
 }
 
 p,
@@ -53,8 +73,8 @@ li {
   padding: 1.2rem 2rem;
   cursor: pointer;
 
-  color: #f8f8f8;
-  background-color: rgb(51, 51, 51, 1);
+  color: var(--light-text);
+  background-color: var(--dark-background);
   text-decoration: none;
 
   box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 25px 0px;
@@ -62,29 +82,45 @@ li {
 }
 
 .btn:hover {
-  background-color: rgb(51, 51, 51, 0.95);
+  background-color: var(--dark-background-alt);
   box-shadow: rgba(0, 0, 0, 0.3) 0px 5px 25px 0px;
   transition: box-shadow 1s;
 }
 
 .btn--text {
   display: inline-block;
-
-  color: #444444;
-
+  color: var(--dark-text);
   background: none;
   box-shadow: none;
   padding: 0;
   margin: 0;
-  border-bottom: 1px solid #444444;
+  border-bottom: 1px solid var(--dark-text);
   transition: border-bottom 0.6s;
 }
 
 .btn--text:hover {
   background: none;
   box-shadow: none;
-  border-bottom: 1px solid rgba(68, 68, 68, 0);
+  border-bottom: 1px solid var(--dark-text-hidden);
   transition: border-bottom 0.6s;
+}
+
+.btn--icon {
+  display: inline-block;
+  color: var(--dark-text);
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+  opacity: 0.4;
+  transition: opacity 0.3s;
+}
+
+.btn--icon:hover {
+  background: none;
+  box-shadow: none;
+  opacity: 0.8;
+  transition: opacity 0.3s;
 }
 
 .name,
@@ -103,13 +139,24 @@ li {
 /* HEADER */
 
 header.container {
+  position: relative;
+  display: flex;
   justify-content: center;
-  color: rgba(0, 0, 0, 0.5);
+  color: var(--dark-text-muted);
   padding: 2rem 0;
   margin-bottom: 2rem;
+  border-bottom: 1px solid var(--dark-text-very-muted);
+}
+
+header > .header-text {
   display: flex;
+  align-items: center;
   gap: 1.2rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+#btnToggleDarkMode {
+  position: absolute;
+  right: 1.2rem;
 }
 
 /* CONTROLS */
@@ -133,14 +180,14 @@ section.container--controls {
 }
 
 #controls a {
-  margin-bottom: 1.2rem;
+  margin-bottom: 2rem;
 }
 
 /* HERO */
 
 .hero-frame {
   padding: 0.4rem;
-  border: 1px solid rgb(68, 68, 68, 0.1);
+  border: 1px solid var(--dark-text-very-muted);
 }
 
 #hero {
@@ -175,7 +222,7 @@ article {
   display: flex;
   flex-direction: column;
   padding: 3.2rem;
-  border: 1px dashed #444444;
+  border: 1px dashed var(--dark-text-muted);
   box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 5px 0px;
 }
 
@@ -200,17 +247,18 @@ article li h3 {
 }
 
 article li i {
-  color: #444444;
+  color: var(--dark-text);
   margin-right: 0.4rem;
 }
 
 /* FOOTER */
 footer.container {
   justify-content: center;
-  color: rgba(0, 0, 0, 0.5);
+  color: var(--dark-text-muted);
+  font-size: 1.2rem;
   padding: 2rem 0;
-  margin-top: 2rem;
+  margin-top: 6.4rem;
   display: flex;
   gap: 1.2rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-top: 1px solid var(--dark-text-very-muted);
 }

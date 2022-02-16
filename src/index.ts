@@ -6,6 +6,14 @@ import { Realm, Biome, River } from './realm';
  * Hint: Use 'npm run build' from console to compile + watch the TS code on save
  */
 
+// Handle dark mode button
+const btnToggleDarkMode: HTMLButtonElement = document.getElementById(
+  'btnToggleDarkMode'
+)! as HTMLButtonElement;
+btnToggleDarkMode.addEventListener('click', () => {
+  Util.toggleDarkMode();
+});
+
 // Handle start button
 const btnStart: HTMLButtonElement = document.getElementById(
   'btnStart'
