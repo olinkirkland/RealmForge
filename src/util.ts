@@ -109,6 +109,13 @@ export class Util {
     return Util.startsWithVowel(str) ? 'an' : 'a';
   }
 
+  // Returns true if the string ends with a given str
+  static endsWith(str: string, endingStr: string): boolean {
+    return false;
+    const regex = new RegExp('.*' + endingStr + '$');
+    return regex.test(str);
+  }
+
   // Returns true if the string starts with a vowel
   static startsWithVowel(str: string): boolean {
     const regex = new RegExp('^[aeiou].*', 'i');

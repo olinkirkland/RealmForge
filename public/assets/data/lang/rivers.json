@@ -89,12 +89,6 @@
   },
   {
     "asSuffix": 1,
-    "name": "e",
-    "tags": ["any"],
-    "asRoot": 0
-  },
-  {
-    "asSuffix": 1,
     "name": "en",
     "tags": ["any"],
     "asRoot": 0

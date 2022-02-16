@@ -214,10 +214,17 @@ function applyRiversBlurb() {
 
   if (realm.tributaries.length > 0) {
     text +=
-      '<br>Notable tributaries include the ' +
+      '<br>Notable tributaries include the rivers ' +
       Util.joinArrayWithAnd(
-        realm.tributaries.map((river) => Util.readWord(river.name))
-      );
+        realm.tributaries.map((tributary) => {
+          let prefix: string =
+            tributary.prefix != null ? tributary.prefix.name + ' ' : '';
+          return `<span class="capitalized">${prefix}</span><span class="capitalized">${Util.readWord(
+            tributary.name
+          )}</span>`;
+        })
+      ) +
+      '.';
   }
 
   const el: HTMLElement = document.querySelector('.rivers-blurb')!;

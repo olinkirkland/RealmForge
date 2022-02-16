@@ -1,10 +1,5 @@
-import { Data, NamePart } from './data';
+import { Data, Direction, NamePart } from './data';
 import { Util } from './util';
-
-export type Direction = {
-  noun: string;
-  adj: string;
-};
 
 export type Biome = {
   type: string;
@@ -14,9 +9,10 @@ export type Biome = {
 
 export type River = {
   name: Word;
-  flowsFrom: Direction;
   flowsTo: Direction;
+  flowsFrom: Direction;
   tributaries: River[];
+  prefix: NamePart | null;
   stem: River | null;
 };
 
@@ -26,6 +22,8 @@ export type Word = {
 };
 
 export class Realm {
+  private tags: string[] = ['any'];
+
   public name: string = 'oldmarch';
   public adj: string = 'oldmarch';
   public capitalCityName: string = 'highbridge';
@@ -202,11 +200,11 @@ export class Realm {
       switch (this.humidity) {
         case 'dry':
           // Dry? Remove boreal-forest and temperate-forest
-          return ['boreal-forest', 'temperate-forest'].includes(str);
+          return !['boreal-forest', 'temperate-forest'].includes(str);
           break;
         case 'wet':
           // Wet? Remove grassland and tundra
-          return ['grassland', 'tundra'].includes(str);
+          return !['grassland', 'tundra'].includes(str);
           break;
       }
 
@@ -257,7 +255,7 @@ export class Realm {
     switch (this.humidity) {
       case 'dry':
         pickRiverCount.min = 0;
-        pickRiverCount.max = 1;
+        pickRiverCount.max = 2;
         break;
       case 'temperate':
         pickRiverCount.min = 1;
@@ -269,27 +267,30 @@ export class Realm {
         break;
     }
 
-    console.log(this.humidity);
-    console.log(pickRiverCount.min, pickRiverCount.max);
     let riverCount: number = Math.floor(
       Util.rand(pickRiverCount.min, pickRiverCount.max)
     );
-    console.log(riverCount);
 
     // For small realms (less than 3 on the sizeIndex) there shouldn't be more than two rivers passing through
     if (this.sizeIndex < 3) {
       riverCount = Math.min(riverCount, 2);
     }
 
-    console.log(`Size index: ${this.sizeIndex}`);
-
     // Add rivers
     for (let i = 0; i < riverCount; i++) {
       // If the realm contains a mountain biome, rivers should flow from it
-      let flowsFrom: Direction = Util.randomValue(Data.directions);
 
       // If the realm contains a coast, rivers should flow to it
-      let flowsTo: Direction = Util.randomValue(Data.directions);
+      let flowsFrom: Direction;
+      let flowsTo: Direction;
+      do {
+        flowsFrom = Util.randomValue(Data.directions);
+        flowsTo = Util.randomValue(Data.directions);
+      } while (
+        flowsTo == flowsFrom ||
+        flowsTo.noun == 'middle' ||
+        flowsFrom.noun == 'middle'
+      );
 
       let riverName: Word = this.determineRiverName();
       let tributaries: River[] = this.determineTributaries(riverName);
@@ -298,6 +299,7 @@ export class Realm {
         flowsTo: flowsTo,
         flowsFrom: flowsFrom,
         tributaries: tributaries,
+        prefix: null,
         stem: null
       };
 
@@ -308,27 +310,57 @@ export class Realm {
     let arr: string[] = [];
     for (let i = 0; i < 20; i++)
       arr.push(Util.readWord(this.determineRiverName()));
-    console.log(arr.join(', '));
   }
 
   private determineTributaries(riverName: Word): River[] {
     let tributaries: River[] = [];
-    const tributaryCount: number = Util.randomValue([0, 2]);
+    let validSuffixes: NamePart[] = Data.riverNameParts.filter((namePart) => {
+      // Have at least one point as a suffix name part
+      // Have at least one matching tag
+
+      return (
+        namePart.asSuffix > 0 &&
+        namePart.tags.some((tag) => this.tags.includes(tag))
+      );
+    });
+
+    const tributaryCount: number = Math.floor(Util.rand(1, 4));
     for (let i = 0; i < tributaryCount; i++) {
-      // tributaries.push(t);
+      let tributary: River = {
+        name:
+          i == 0 && Util.rand() < 0.3
+            ? this.determineTributaryName(riverName)
+            : this.determineRiverName(),
+        flowsTo: Util.randomValue(Data.directions),
+        flowsFrom: Util.randomValue(Data.directions),
+        tributaries: [],
+        prefix: null,
+        stem: null
+      };
+
+      // If the tributary name is the same as the stem, choose a tributary prefix
+      if (Util.readWord(riverName) == Util.readWord(tributary.name)) {
+        tributary.prefix = Util.randomValue(
+          Data.tributaryNameParts.filter((namePart) => {
+            return namePart.tags.includes('tributary-prefix');
+          })
+        );
+      }
+
+      tributaries.push(tributary);
     }
 
     return tributaries;
   }
 
   private determineRiverName(): Word {
-    const tags: string[] = ['any'];
+    /**
+     * Determine root
+     */
 
-    // Determine root
     let validRoots: NamePart[] = Data.riverNameParts
       .concat(Data.faunaNameParts)
       .concat(Data.floraNameParts)
-      .concat(Data.rulersNameParts)
       .filter((namePart) => {
         // Root cannot be used by another river
         // Have at least one point as a root name part
@@ -337,49 +369,108 @@ export class Realm {
         return (
           this.rivers.every((river) => river.name.root.name != namePart.name) &&
           namePart.asRoot > 0 &&
-          namePart.tags.some((tag) => tags.includes(tag))
+          namePart.tags.some((tag) => this.tags.includes(tag))
         );
       });
 
-    let root: NamePart = Util.randomValue(validRoots);
+    let root: NamePart = this.chooseNamePartByPoints(validRoots, 'asRoot');
+
     if (root.variations) {
       root.variations.push(root.name);
       root.name = Util.randomValue(root.variations);
     }
 
-    // Determine suffix
+    /**
+     * Determine suffix
+     */
+
     let validSuffixes: NamePart[] = Data.riverNameParts.filter((namePart) => {
       // Have at least one point as a suffix name part
       // Have at least one matching tag
 
       return (
-        namePart.asSuffix > 0 && namePart.tags.some((tag) => tags.includes(tag))
+        namePart.asSuffix > 0 &&
+        namePart.tags.some((tag) => this.tags.includes(tag))
       );
     });
 
     let riverName: Word;
     do {
-      let suffix: NamePart = Util.randomValue(validSuffixes);
+      let suffix: NamePart = this.chooseNamePartByPoints(
+        validSuffixes,
+        'asSuffix'
+      );
       if (suffix.variations) {
         suffix.variations.push(suffix.name);
         suffix.name = Util.randomValue(suffix.variations);
       }
 
       riverName = { root: root, suffix: suffix };
-    } while (!isRiverNameValid(riverName));
-
-    function isRiverNameValid(r: Word) {
-      let valid: boolean = true;
-      if (
-        Util.endsWithVowel(r.root.name) &&
-        Util.startsWithVowel(r.suffix.name)
-      ) {
-        valid = false;
-      }
-
-      return valid;
-    }
+    } while (!this.isRiverNameValid(riverName));
 
     return riverName;
+  }
+
+  private isRiverNameValid(r: Word) {
+    let valid: boolean = true;
+
+    // Can't have two vowels next to each other
+    if (
+      Util.endsWithVowel(r.root.name) &&
+      Util.startsWithVowel(r.suffix.name)
+    ) {
+      valid = false;
+    }
+
+    return valid;
+  }
+
+  private determineTributaryName(riverName: Word): Word {
+    return riverName;
+
+    // Take the root from the river name
+    let root: NamePart = riverName.root;
+
+    let validTributarySuffixes: NamePart[] = Data.tributaryNameParts;
+
+    let tributaryName: Word;
+    do {
+      let suffix: NamePart = this.chooseNamePartByPoints(
+        validTributarySuffixes,
+        'asSuffix'
+      );
+      if (suffix.variations) {
+        suffix.variations.push(suffix.name);
+        suffix.name = Util.randomValue(suffix.variations);
+      }
+
+      tributaryName = { root: root, suffix: suffix };
+    } while (!this.isRiverNameValid(tributaryName));
+
+    return tributaryName;
+  }
+
+  private chooseNamePartByPoints(
+    nameParts: NamePart[],
+    pointsProperty: 'asSuffix' | 'asRoot'
+  ) {
+    const points: number = nameParts.reduce((total, r) => {
+      return total + r[pointsProperty];
+    }, 0);
+
+    let chance: number = Util.rand(0, points);
+    let namePart: NamePart = nameParts[0];
+    let madeChoice: boolean = false;
+    nameParts.forEach((r) => {
+      if (!madeChoice) {
+        chance -= r[pointsProperty];
+        if (chance <= 0) {
+          namePart = r;
+          madeChoice = true;
+        }
+      }
+    });
+
+    return namePart;
   }
 }

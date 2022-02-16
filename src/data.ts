@@ -1,6 +1,11 @@
 import { validate } from '../node_modules/schema-utils/declarations/validate';
 import { Util } from './util';
 
+export type Direction = {
+  noun: string;
+  adj: string;
+};
+
 export type NamePart = {
   name: string;
   tags: string[];
@@ -22,7 +27,7 @@ export class Data {
   public static personsNameParts: NamePart[];
 
   public static biomes: string[];
-  public static directions: any[];
+  public static directions: Direction[];
   public static images: string[];
   public static governmentRanks: any;
   public static sigils: any;

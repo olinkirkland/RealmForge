@@ -107,6 +107,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class Realm {
     constructor() {
+        this.tags = ['any'];
         this.name = 'oldmarch';
         this.adj = 'oldmarch';
         this.capitalCityName = 'highbridge';
@@ -237,11 +238,11 @@ class Realm {
             switch (this.humidity) {
                 case 'dry':
                     // Dry? Remove boreal-forest and temperate-forest
-                    return ['boreal-forest', 'temperate-forest'].includes(str);
+                    return !['boreal-forest', 'temperate-forest'].includes(str);
                     break;
                 case 'wet':
                     // Wet? Remove grassland and tundra
-                    return ['grassland', 'tundra'].includes(str);
+                    return !['grassland', 'tundra'].includes(str);
                     break;
             }
             return true;
@@ -282,7 +283,7 @@ class Realm {
         switch (this.humidity) {
             case 'dry':
                 pickRiverCount.min = 0;
-                pickRiverCount.max = 1;
+                pickRiverCount.max = 2;
                 break;
             case 'temperate':
                 pickRiverCount.min = 1;
@@ -293,21 +294,23 @@ class Realm {
                 pickRiverCount.max = 5;
                 break;
         }
-        console.log(this.humidity);
-        console.log(pickRiverCount.min, pickRiverCount.max);
         let riverCount = Math.floor(_util__WEBPACK_IMPORTED_MODULE_1__.Util.rand(pickRiverCount.min, pickRiverCount.max));
-        console.log(riverCount);
         // For small realms (less than 3 on the sizeIndex) there shouldn't be more than two rivers passing through
         if (this.sizeIndex < 3) {
             riverCount = Math.min(riverCount, 2);
         }
-        console.log(`Size index: ${this.sizeIndex}`);
         // Add rivers
         for (let i = 0; i < riverCount; i++) {
             // If the realm contains a mountain biome, rivers should flow from it
-            let flowsFrom = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.directions);
             // If the realm contains a coast, rivers should flow to it
-            let flowsTo = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.directions);
+            let flowsFrom;
+            let flowsTo;
+            do {
+                flowsFrom = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.directions);
+                flowsTo = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.directions);
+            } while (flowsTo == flowsFrom ||
+                flowsTo.noun == 'middle' ||
+                flowsFrom.noun == 'middle');
             let riverName = this.determineRiverName();
             let tributaries = this.determineTributaries(riverName);
             let river = {
@@ -315,6 +318,7 @@ class Realm {
                 flowsTo: flowsTo,
                 flowsFrom: flowsFrom,
                 tributaries: tributaries,
+                prefix: null,
                 stem: null
             };
             this.rivers.push(river);
@@ -323,59 +327,118 @@ class Realm {
         let arr = [];
         for (let i = 0; i < 20; i++)
             arr.push(_util__WEBPACK_IMPORTED_MODULE_1__.Util.readWord(this.determineRiverName()));
-        console.log(arr.join(', '));
     }
     determineTributaries(riverName) {
         let tributaries = [];
-        const tributaryCount = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue([0, 2]);
+        let validSuffixes = _data__WEBPACK_IMPORTED_MODULE_0__.Data.riverNameParts.filter((namePart) => {
+            // Have at least one point as a suffix name part
+            // Have at least one matching tag
+            return (namePart.asSuffix > 0 &&
+                namePart.tags.some((tag) => this.tags.includes(tag)));
+        });
+        const tributaryCount = Math.floor(_util__WEBPACK_IMPORTED_MODULE_1__.Util.rand(1, 4));
         for (let i = 0; i < tributaryCount; i++) {
-            // tributaries.push(t);
+            let tributary = {
+                name: i == 0 && _util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() < 0.3
+                    ? this.determineTributaryName(riverName)
+                    : this.determineRiverName(),
+                flowsTo: _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.directions),
+                flowsFrom: _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.directions),
+                tributaries: [],
+                prefix: null,
+                stem: null
+            };
+            // If the tributary name is the same as the stem, choose a tributary prefix
+            if (_util__WEBPACK_IMPORTED_MODULE_1__.Util.readWord(riverName) == _util__WEBPACK_IMPORTED_MODULE_1__.Util.readWord(tributary.name)) {
+                tributary.prefix = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.tributaryNameParts.filter((namePart) => {
+                    return namePart.tags.includes('tributary-prefix');
+                }));
+            }
+            tributaries.push(tributary);
         }
         return tributaries;
     }
     determineRiverName() {
-        const tags = ['any'];
-        // Determine root
+        /**
+         * Determine root
+         */
         let validRoots = _data__WEBPACK_IMPORTED_MODULE_0__.Data.riverNameParts.concat(_data__WEBPACK_IMPORTED_MODULE_0__.Data.faunaNameParts)
             .concat(_data__WEBPACK_IMPORTED_MODULE_0__.Data.floraNameParts)
-            .concat(_data__WEBPACK_IMPORTED_MODULE_0__.Data.rulersNameParts)
             .filter((namePart) => {
             // Root cannot be used by another river
             // Have at least one point as a root name part
             // Have at least one matching tag
             return (this.rivers.every((river) => river.name.root.name != namePart.name) &&
                 namePart.asRoot > 0 &&
-                namePart.tags.some((tag) => tags.includes(tag)));
+                namePart.tags.some((tag) => this.tags.includes(tag)));
         });
-        let root = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(validRoots);
+        let root = this.chooseNamePartByPoints(validRoots, 'asRoot');
         if (root.variations) {
             root.variations.push(root.name);
             root.name = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(root.variations);
         }
-        // Determine suffix
+        /**
+         * Determine suffix
+         */
         let validSuffixes = _data__WEBPACK_IMPORTED_MODULE_0__.Data.riverNameParts.filter((namePart) => {
             // Have at least one point as a suffix name part
             // Have at least one matching tag
-            return (namePart.asSuffix > 0 && namePart.tags.some((tag) => tags.includes(tag)));
+            return (namePart.asSuffix > 0 &&
+                namePart.tags.some((tag) => this.tags.includes(tag)));
         });
         let riverName;
         do {
-            let suffix = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(validSuffixes);
+            let suffix = this.chooseNamePartByPoints(validSuffixes, 'asSuffix');
             if (suffix.variations) {
                 suffix.variations.push(suffix.name);
                 suffix.name = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(suffix.variations);
             }
             riverName = { root: root, suffix: suffix };
-        } while (!isRiverNameValid(riverName));
-        function isRiverNameValid(r) {
-            let valid = true;
-            if (_util__WEBPACK_IMPORTED_MODULE_1__.Util.endsWithVowel(r.root.name) &&
-                _util__WEBPACK_IMPORTED_MODULE_1__.Util.startsWithVowel(r.suffix.name)) {
-                valid = false;
-            }
-            return valid;
-        }
+        } while (!this.isRiverNameValid(riverName));
         return riverName;
+    }
+    isRiverNameValid(r) {
+        let valid = true;
+        // Can't have two vowels next to each other
+        if (_util__WEBPACK_IMPORTED_MODULE_1__.Util.endsWithVowel(r.root.name) &&
+            _util__WEBPACK_IMPORTED_MODULE_1__.Util.startsWithVowel(r.suffix.name)) {
+            valid = false;
+        }
+        return valid;
+    }
+    determineTributaryName(riverName) {
+        return riverName;
+        // Take the root from the river name
+        let root = riverName.root;
+        let validTributarySuffixes = _data__WEBPACK_IMPORTED_MODULE_0__.Data.tributaryNameParts;
+        let tributaryName;
+        do {
+            let suffix = this.chooseNamePartByPoints(validTributarySuffixes, 'asSuffix');
+            if (suffix.variations) {
+                suffix.variations.push(suffix.name);
+                suffix.name = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(suffix.variations);
+            }
+            tributaryName = { root: root, suffix: suffix };
+        } while (!this.isRiverNameValid(tributaryName));
+        return tributaryName;
+    }
+    chooseNamePartByPoints(nameParts, pointsProperty) {
+        const points = nameParts.reduce((total, r) => {
+            return total + r[pointsProperty];
+        }, 0);
+        let chance = _util__WEBPACK_IMPORTED_MODULE_1__.Util.rand(0, points);
+        let namePart = nameParts[0];
+        let madeChoice = false;
+        nameParts.forEach((r) => {
+            if (!madeChoice) {
+                chance -= r[pointsProperty];
+                if (chance <= 0) {
+                    namePart = r;
+                    madeChoice = true;
+                }
+            }
+        });
+        return namePart;
     }
 }
 
@@ -480,6 +543,12 @@ class Util {
     // Returns 'a' or 'an' if str's first char is a consonant or a vowel
     static aOrAn(str) {
         return Util.startsWithVowel(str) ? 'an' : 'a';
+    }
+    // Returns true if the string ends with a given str
+    static endsWith(str, endingStr) {
+        return false;
+        const regex = new RegExp('.*' + endingStr + '$');
+        return regex.test(str);
     }
     // Returns true if the string starts with a vowel
     static startsWithVowel(str) {
@@ -781,8 +850,12 @@ function applyRiversBlurb() {
     }
     if (realm.tributaries.length > 0) {
         text +=
-            '<br>Notable tributaries include the ' +
-                _util__WEBPACK_IMPORTED_MODULE_0__.Util.joinArrayWithAnd(realm.tributaries.map((river) => _util__WEBPACK_IMPORTED_MODULE_0__.Util.readWord(river.name)));
+            '<br>Notable tributaries include the rivers ' +
+                _util__WEBPACK_IMPORTED_MODULE_0__.Util.joinArrayWithAnd(realm.tributaries.map((tributary) => {
+                    let prefix = tributary.prefix != null ? tributary.prefix.name + ' ' : '';
+                    return `<span class="capitalized">${prefix}</span><span class="capitalized">${_util__WEBPACK_IMPORTED_MODULE_0__.Util.readWord(tributary.name)}</span>`;
+                })) +
+                '.';
     }
     const el = document.querySelector('.rivers-blurb');
     el.innerHTML = text;

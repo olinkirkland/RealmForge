@@ -25,12 +25,6 @@
   },
   {
     "asSuffix": 0,
-    "name": "hund",
-    "tags": ["hound", "animal", "any"],
-    "asRoot": 1
-  },
-  {
-    "asSuffix": 0,
     "name": "biber",
     "tags": ["beaver", "animal", "any"],
     "asRoot": 1
@@ -45,12 +39,14 @@
     "asSuffix": 0,
     "name": "has",
     "tags": ["hare", "animal", "any"],
+    "variations": ["hasel", "hasl"],
     "asRoot": 1
   },
   {
     "asSuffix": 0,
-    "name": "eulen",
+    "name": "eul",
     "tags": ["owl", "animal", "any"],
+    "variations": ["eule"],
     "asRoot": 1
   },
   {
