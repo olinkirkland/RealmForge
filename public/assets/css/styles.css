@@ -38,6 +38,7 @@ body {
   font-family: 'Merriweather', serif;
   background-color: var(--light-background);
   color: var(--dark-text);
+  transition: background-color 0.3s;
 }
 
 p,

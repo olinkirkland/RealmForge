@@ -394,26 +394,7 @@ class Util {
         Util.isDarkMode ? Util.applyDarkMode() : Util.applyLightMode();
     }
     static applyDarkMode() {
-        const mode = [
-            { id: '--dark-text', value: '#444444' },
-            { id: '--dark-text-muted', value: 'rgba(68, 68, 68, 0.6)' },
-            { id: '--dark-text-very-muted', value: 'rgba(68, 68, 68, 0.1)' },
-            { id: '--dark-text-hidden', value: 'rgba(68, 68, 68, 0)' },
-            { id: '--light-text', value: '#f8f8f8' },
-            { id: '--light-text-muted', value: 'rgba(248, 248, 248, 0.6)' },
-            { id: '--light-text-very-muted', value: 'rgba(248, 248, 248, 0.1)' },
-            { id: '--light-text-hidden', value: 'rgba(248, 248, 248, 0)' },
-            { id: '--dark-background', value: '#444444' },
-            { id: '--dark-background-alt', value: 'rgba(68, 68, 68, 0.95)' },
-            { id: '--light-background', value: '#f8f8f8' },
-            { id: '--light-background-alt', value: 'rgba(248, 248, 248, 0.95)' }
-        ];
-        var root = document.querySelector(':root');
-        mode.forEach((m) => {
-            root.style.setProperty(m.id, m.value);
-        });
-    }
-    static applyLightMode() {
+        console.log('Apply dark mode');
         const mode = [
             { id: '--dark-text', value: '#f8f8f8' },
             { id: '--dark-text-muted', value: 'rgba(248, 248, 248, 0.6)' },
@@ -427,6 +408,27 @@ class Util {
             { id: '--dark-background-alt', value: 'rgba(248, 248, 248, 0.95)' },
             { id: '--light-background', value: '#444444' },
             { id: '--light-background-alt', value: 'rgba(68, 68, 68, 0.95)' }
+        ];
+        var root = document.querySelector(':root');
+        mode.forEach((m) => {
+            root.style.setProperty(m.id, m.value);
+        });
+    }
+    static applyLightMode() {
+        console.log('Apply light mode');
+        const mode = [
+            { id: '--dark-text', value: '#444444' },
+            { id: '--dark-text-muted', value: 'rgba(68, 68, 68, 0.6)' },
+            { id: '--dark-text-very-muted', value: 'rgba(68, 68, 68, 0.1)' },
+            { id: '--dark-text-hidden', value: 'rgba(68, 68, 68, 0)' },
+            { id: '--light-text', value: '#f8f8f8' },
+            { id: '--light-text-muted', value: 'rgba(248, 248, 248, 0.6)' },
+            { id: '--light-text-very-muted', value: 'rgba(248, 248, 248, 0.1)' },
+            { id: '--light-text-hidden', value: 'rgba(248, 248, 248, 0)' },
+            { id: '--dark-background', value: '#444444' },
+            { id: '--dark-background-alt', value: 'rgba(68, 68, 68, 0.95)' },
+            { id: '--light-background', value: '#f8f8f8' },
+            { id: '--light-background-alt', value: 'rgba(248, 248, 248, 0.95)' }
         ];
         var root = document.querySelector(':root');
         mode.forEach((m) => {
