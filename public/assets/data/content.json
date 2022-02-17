@@ -37,13 +37,15 @@
   "heroImages": [
     { "url": "boreal-forest-1.png", "tags": ["boreal-forest"] },
     { "url": "boreal-forest-2.png", "tags": ["boreal-forest"] },
+    { "url": "temperate-forest-1.png", "tags": ["temperate-forest"] },
     { "url": "city-1.png", "tags": ["any"] },
     { "url": "city-2.png", "tags": ["any"] },
     { "url": "city-3.png", "tags": ["any"] },
     { "url": "city-cold.png", "tags": ["cold"] },
     { "url": "grassland-1.png", "tags": ["grassland"] },
     { "url": "grassland-2.jpg", "tags": ["grassland"] },
-    { "url": "mountains.png", "tags": ["mountain"] },
+    { "url": "mountains-1.png", "tags": ["mountain"] },
+    { "url": "mountains-2.png", "tags": ["mountain"] },
     { "url": "river-mountains.png", "tags": ["mountain"] }
   ],
   "parentEntities": {

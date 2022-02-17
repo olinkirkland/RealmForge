@@ -1,7 +1,6 @@
 import { Util } from './util';
 import { Data } from './data';
 import { Realm, Biome, River } from './realm';
-import { textSpanContainsPosition } from '../node_modules/typescript/lib/typescript';
 
 /**
  * Hint: Use 'npm run build' from console to compile + watch the TS code on save
