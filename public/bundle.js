@@ -130,6 +130,7 @@ class Realm {
         this.sigilIcon = 'dove';
         this.sigilMeaning = 'peace';
         this.sigilPresentOnHeraldry = false;
+        this.countRiverValidLoop = 0;
         this.determineParentEntity();
         this.determineDirection();
         this.determineSize();
@@ -410,6 +411,7 @@ class Realm {
             return (namePart.asSuffix > 0 &&
                 namePart.tags.some((tag) => this.tags.includes(tag)));
         });
+        this.countRiverValidLoop = 0;
         let riverName;
         do {
             let suffix = this.chooseNamePartByPoints(validSuffixes, 'asSuffix');
@@ -422,6 +424,12 @@ class Realm {
         return riverName;
     }
     isRiverNameValid(r) {
+        this.countRiverValidLoop++;
+        if (this.countRiverValidLoop > 200) {
+            // If you've tried 200 times to get a valid river name with the same root, abandon the root and start over
+            console.log(`No valid river name found with root '${r.root.name}', rerolling root...`);
+            return this.determineRiverName();
+        }
         let valid = true;
         // Can't have two vowels next to each other
         if (_util__WEBPACK_IMPORTED_MODULE_1__.Util.endsWithVowel(r.root.name) &&
@@ -600,7 +608,6 @@ class Util {
     }
     // Returns true if the string ends with a given str
     static endsWith(str, endingStr) {
-        return false;
         const regex = new RegExp('.*' + endingStr + '$');
         return regex.test(str);
     }

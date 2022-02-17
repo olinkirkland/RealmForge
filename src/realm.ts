@@ -389,6 +389,7 @@ export class Realm {
     return tributaries;
   }
 
+  private countRiverValidLoop: number = 0;
   private determineRiverName(): Word {
     /**
      * Determine root
@@ -430,6 +431,7 @@ export class Realm {
       );
     });
 
+    this.countRiverValidLoop = 0;
     let riverName: Word;
     do {
       let suffix: NamePart = this.chooseNamePartByPoints(
@@ -448,6 +450,14 @@ export class Realm {
   }
 
   private isRiverNameValid(r: Word) {
+    this.countRiverValidLoop++;
+    if (this.countRiverValidLoop > 200) {
+      // If you've tried 200 times to get a valid river name with the same root, abandon the root and start over
+      console.log(
+        `No valid river name found with root '${r.root.name}', rerolling root...`
+      );
+      return this.determineRiverName();
+    }
     let valid: boolean = true;
 
     // Can't have two vowels next to each other

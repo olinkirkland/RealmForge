@@ -91,7 +91,7 @@ export class Util {
     return result * (max - min) + min;
   }
 
-  static arrayRemove(arr: string[], elementToRemove: string) {
+  static arrayRemove(arr: string[], elementToRemove: string): string[] {
     return arr.filter(function (element) {
       return element != elementToRemove;
     });
@@ -111,7 +111,6 @@ export class Util {
 
   // Returns true if the string ends with a given str
   static endsWith(str: string, endingStr: string): boolean {
-    return false;
     const regex = new RegExp('.*' + endingStr + '$');
     return regex.test(str);
   }
