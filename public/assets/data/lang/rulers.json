@@ -21,14 +21,14 @@
     "asSuffix": 0,
     "name": "adels",
     "tags": ["any"],
-    "variations": ["adel", "ade", "needs-suffix"],
+    "variations": ["adel", "ade"],
     "asRoot": 20
   },
   {
     "asSuffix": 0,
     "name": "herzog",
     "tags": ["duchy"],
-    "variations": ["herzogs", "herzogen", "needs-suffix"],
+    "variations": ["herzogs", "herzogen"],
     "asRoot": 20
   },
   {
