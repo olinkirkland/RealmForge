@@ -293,9 +293,10 @@ class Realm {
             }
             return true;
         });
-        // Add the primary biome, reroll once if mountains
+        // Add the primary biome
         let b = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(availableBiomes);
-        if (b == 'mountains')
+        // Reroll if mountains and larger than 1
+        if (b == 'mountains' && this.sizeIndex > 1)
             b = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(availableBiomes);
         availableBiomes = _util__WEBPACK_IMPORTED_MODULE_1__.Util.arrayRemove(availableBiomes, b);
         let availableSizeIndex = _data__WEBPACK_IMPORTED_MODULE_0__.Data.sizes.indexOf(this.size) * 2;
@@ -900,6 +901,7 @@ function determineHeroImageUrl() {
         .map((j) => {
         return j.url;
     });
+    console.log(validImages);
     const image = _util__WEBPACK_IMPORTED_MODULE_0__.Util.randomValue(validImages);
     return image;
 }

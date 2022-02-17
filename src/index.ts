@@ -146,6 +146,8 @@ function determineHeroImageUrl(): string {
       return j.url;
     });
 
+  console.log(validImages);
+
   const image: string = Util.randomValue(validImages);
   return image;
 }

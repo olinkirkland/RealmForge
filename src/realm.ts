@@ -257,9 +257,12 @@ export class Realm {
       return true;
     });
 
-    // Add the primary biome, reroll once if mountains
+    // Add the primary biome
     let b: string = Util.randomValue(availableBiomes);
-    if (b == 'mountains') b = Util.randomValue(availableBiomes);
+
+    // Reroll if mountains and larger than 1
+    if (b == 'mountains' && this.sizeIndex > 1)
+      b = Util.randomValue(availableBiomes);
 
     availableBiomes = Util.arrayRemove(availableBiomes, b);
 
