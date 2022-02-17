@@ -1,6 +1,7 @@
 import { Util } from './util';
 import { Data } from './data';
 import { Realm, Biome, River } from './realm';
+import { textSpanContainsPosition } from '../node_modules/typescript/lib/typescript';
 
 /**
  * Hint: Use 'npm run build' from console to compile + watch the TS code on save
@@ -77,6 +78,16 @@ function start() {
       el.classList.add('fade-in');
     }, 250 * index);
   });
+
+  // testSnippets();
+}
+
+function testSnippets() {
+  // Test Util.endsWith function
+  for (let i = 0; i < 10; i++) {
+    let str: string = Util.randomValue(Data.words);
+    console.log(`${str} ends with t? ${Util.endsWith(str, 't')}`);
+  }
 }
 
 function updateView() {

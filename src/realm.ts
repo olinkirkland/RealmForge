@@ -202,7 +202,10 @@ export class Realm {
         availableWinterDescriptors,
         d
       );
-      if (Util.rand() < 0.5) break;
+
+      //  If the word is longer than 5 letters, 100% chance to step out of the loop
+      //  Otherwise, 50% chance to step out of the loop
+      if (Util.rand() < 0.5 || d.length > 6) break;
     }
 
     // Description of summer
@@ -250,6 +253,7 @@ export class Realm {
           return !['boreal-forest', 'tundra'].includes(str);
           break;
       }
+      return true;
     });
 
     // Add the primary biome, reroll once if mountains

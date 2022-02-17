@@ -20,17 +20,17 @@
   "sizes": ["very small", "small", "mid-sized", "large", "very large"],
   "seasons": {
     "summer": {
-      "warm": ["warm", "hot", "stifling", "long"],
+      "warm": ["hot", "blistering", "stifling", "long", "sweltering"],
       "cold": ["cool", "mild"],
-      "wet": ["humid", "wet"],
-      "dry": ["dry"],
-      "temperate": ["mild", "pleasant"]
+      "wet": ["humid"],
+      "dry": ["arid"],
+      "temperate": ["pleasant", "agreeable", "balmy"]
     },
     "winter": {
       "warm": ["mild", "short"],
-      "cold": ["harsh", "cold", "brisk"],
-      "wet": ["snowy", "wet"],
-      "dry": ["crisp"],
+      "cold": ["harsh", "cold", "brisk", "biting", "chilly", "freezing", "icy"],
+      "wet": ["snowy", "damp"],
+      "dry": ["crisp", "cloudless"],
       "temperate": ["mild", "pleasant"]
     }
   },

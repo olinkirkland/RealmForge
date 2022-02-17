@@ -235,7 +235,9 @@ class Realm {
             const d = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(availableWinterDescriptors);
             this.seasonWinter.push(d);
             availableWinterDescriptors = _util__WEBPACK_IMPORTED_MODULE_1__.Util.arrayRemove(availableWinterDescriptors, d);
-            if (_util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() < 0.5)
+            //  If the word is longer than 5 letters, 100% chance to step out of the loop
+            //  Otherwise, 50% chance to step out of the loop
+            if (_util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() < 0.5 || d.length > 6)
                 break;
         }
         // Description of summer
@@ -275,6 +277,7 @@ class Realm {
                     return !['boreal-forest', 'tundra'].includes(str);
                     break;
             }
+            return true;
         });
         // Add the primary biome, reroll once if mountains
         let b = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(availableBiomes);
@@ -811,6 +814,14 @@ function start() {
             el.classList.add('fade-in');
         }, 250 * index);
     });
+    // testSnippets();
+}
+function testSnippets() {
+    // Test Util.endsWith function
+    for (let i = 0; i < 10; i++) {
+        let str = _util__WEBPACK_IMPORTED_MODULE_0__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_1__.Data.words);
+        console.log(`${str} ends with t? ${_util__WEBPACK_IMPORTED_MODULE_0__.Util.endsWith(str, 't')}`);
+    }
 }
 function updateView() {
     // Choose a photo for the hero
