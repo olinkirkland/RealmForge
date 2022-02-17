@@ -111,6 +111,7 @@ export class Realm {
 
     this.directionWithinParentEntity = dir;
 
+    // Add direction tags south-west => south, west
     this.tags.push(...this.directionWithinParentEntity.noun.split('-'));
 
     // 40% chance to be coastal, 0% if location is middle
@@ -538,7 +539,10 @@ export class Realm {
       .concat(Data.faunaNameParts)
       .concat(Data.floraNameParts)
       .filter((namePart) => {
-        let valid: boolean = this.areNamePartTagsValid(namePart);
+        let valid: boolean =
+          namePart.asRoot > 0 && this.areNamePartTagsValid(namePart);
+        if (!valid) return valid;
+
         return valid;
       });
 
@@ -556,11 +560,11 @@ export class Realm {
     let validSuffixes: NamePart[] = Data.placeNameParts.filter((namePart) => {
       // Have at least one point as a suffix name part
       // Have at least one matching tag
+      let valid: boolean =
+        namePart.asSuffix > 0 && this.areNamePartTagsValid(namePart);
+      if (!valid) return valid;
 
-      return (
-        namePart.asSuffix > 0 &&
-        namePart.tags.some((tag) => this.tags.includes(tag))
-      );
+      return valid;
     });
 
     do {
@@ -578,8 +582,12 @@ export class Realm {
   }
 
   private isRealmNameValid(word: Word): boolean {
-    // Todo add realm name validity checks here
-    return true;
+    let valid: boolean = true;
+
+    // Root and suffix can't be the same
+    if (word.root == word.suffix) return false;
+
+    return valid;
   }
 
   private determineCities() {}

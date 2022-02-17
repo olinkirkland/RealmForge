@@ -180,6 +180,7 @@ class Realm {
     determineDirection() {
         const dir = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.directions);
         this.directionWithinParentEntity = dir;
+        // Add direction tags south-west => south, west
         this.tags.push(...this.directionWithinParentEntity.noun.split('-'));
         // 40% chance to be coastal, 0% if location is middle
         this.coastDirection = this.directionWithinParentEntity;
@@ -506,7 +507,9 @@ class Realm {
             .concat(_data__WEBPACK_IMPORTED_MODULE_0__.Data.faunaNameParts)
             .concat(_data__WEBPACK_IMPORTED_MODULE_0__.Data.floraNameParts)
             .filter((namePart) => {
-            let valid = this.areNamePartTagsValid(namePart);
+            let valid = namePart.asRoot > 0 && this.areNamePartTagsValid(namePart);
+            if (!valid)
+                return valid;
             return valid;
         });
         let root = this.chooseNamePartByPoints(validRoots, 'asRoot');
@@ -520,8 +523,10 @@ class Realm {
         let validSuffixes = _data__WEBPACK_IMPORTED_MODULE_0__.Data.placeNameParts.filter((namePart) => {
             // Have at least one point as a suffix name part
             // Have at least one matching tag
-            return (namePart.asSuffix > 0 &&
-                namePart.tags.some((tag) => this.tags.includes(tag)));
+            let valid = namePart.asSuffix > 0 && this.areNamePartTagsValid(namePart);
+            if (!valid)
+                return valid;
+            return valid;
         });
         do {
             let suffix = this.chooseNamePartByPoints(validSuffixes, 'asSuffix');
@@ -533,8 +538,11 @@ class Realm {
         } while (!this.isRealmNameValid(this.realmName));
     }
     isRealmNameValid(word) {
-        // Todo add realm name validity checks here
-        return true;
+        let valid = true;
+        // Root and suffix can't be the same
+        if (word.root == word.suffix)
+            return false;
+        return valid;
     }
     determineCities() { }
 }
