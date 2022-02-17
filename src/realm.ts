@@ -111,7 +111,7 @@ export class Realm {
 
     this.directionWithinParentEntity = dir;
 
-    this.tags.push(this.directionWithinParentEntity.noun);
+    this.tags.push(...this.directionWithinParentEntity.noun.split('-'));
 
     // 40% chance to be coastal, 0% if location is middle
     this.coastDirection = this.directionWithinParentEntity;
@@ -393,6 +393,23 @@ export class Realm {
     return tributaries;
   }
 
+  private areNamePartTagsValid(namePart: NamePart) {
+    let valid: boolean = true;
+    // Have at least one matching tag if tagRule is OR
+    if (namePart.tagRule == 'AND') {
+      valid = namePart.tags.every((tag) => this.tags.includes(tag));
+      if (!valid) return valid;
+    }
+
+    // Have all matching tags if tagRule is AND
+    if (namePart.tagRule == 'OR') {
+      valid = namePart.tags.some((tag) => this.tags.includes(tag));
+      if (!valid) return valid;
+    }
+
+    return valid;
+  }
+
   private countRiverValidLoop: number = 0;
   private determineRiverName(): Word {
     /**
@@ -405,13 +422,16 @@ export class Realm {
       .filter((namePart) => {
         // Root cannot be used by another river
         // Have at least one point as a root name part
-        // Have at least one matching tag
-
-        return (
-          this.rivers.every((river) => river.name.root.name != namePart.name) &&
-          namePart.asRoot > 0 &&
-          namePart.tags.some((tag) => this.tags.includes(tag))
+        let valid: boolean = this.rivers.every(
+          (river) =>
+            river.name.root.name != namePart.name && namePart.asRoot > 0
         );
+        if (!valid) return valid;
+
+        valid = this.areNamePartTagsValid(namePart);
+        if (!valid) return valid;
+
+        return valid;
       });
 
     let root: NamePart = this.chooseNamePartByPoints(validRoots, 'asRoot');
@@ -518,9 +538,8 @@ export class Realm {
       .concat(Data.faunaNameParts)
       .concat(Data.floraNameParts)
       .filter((namePart) => {
-        // Have at least one point as a root name part
-        // Have at least one matching tag
-        return namePart.tags.some((tag) => this.tags.includes(tag));
+        let valid: boolean = this.areNamePartTagsValid(namePart);
+        return valid;
       });
 
     let root: NamePart = this.chooseNamePartByPoints(validRoots, 'asRoot');
@@ -559,6 +578,7 @@ export class Realm {
   }
 
   private isRealmNameValid(word: Word): boolean {
+    // Todo add realm name validity checks here
     return true;
   }
 

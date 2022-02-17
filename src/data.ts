@@ -9,6 +9,7 @@ export type Direction = {
 export type NamePart = {
   name: string;
   tags: string[];
+  tagRule: 'AND' | 'OR';
   asSuffix: number;
   asRoot: number;
   variations: string[];
@@ -121,5 +122,19 @@ export class Data {
     Data.parentEntityDescriptorsBefore = u.parentEntities.descriptorsBefore;
     Data.parentEntityDescriptorsAfter = u.parentEntities.descriptorsAfter;
     Data.parentEntityGovernments = u.parentEntities.governments;
+
+    // Apply defaults to nameParts
+    Data.placeNameParts
+      .concat(Data.riverNameParts)
+      .concat(Data.tributaryNameParts)
+      .concat(Data.faunaNameParts)
+      .concat(Data.floraNameParts)
+      .concat(Data.rulersNameParts)
+      // .concat(Data.personsNameParts)
+      .forEach((namePart) => {
+        if (!namePart.tagRule) {
+          namePart.tagRule = 'OR';
+        }
+      });
   }
 }

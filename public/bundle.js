@@ -88,6 +88,19 @@ class Data {
         Data.parentEntityDescriptorsBefore = u.parentEntities.descriptorsBefore;
         Data.parentEntityDescriptorsAfter = u.parentEntities.descriptorsAfter;
         Data.parentEntityGovernments = u.parentEntities.governments;
+        // Apply defaults to nameParts
+        Data.placeNameParts
+            .concat(Data.riverNameParts)
+            .concat(Data.tributaryNameParts)
+            .concat(Data.faunaNameParts)
+            .concat(Data.floraNameParts)
+            .concat(Data.rulersNameParts)
+            // .concat(Data.personsNameParts)
+            .forEach((namePart) => {
+            if (!namePart.tagRule) {
+                namePart.tagRule = 'OR';
+            }
+        });
     }
 }
 
@@ -167,7 +180,7 @@ class Realm {
     determineDirection() {
         const dir = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.directions);
         this.directionWithinParentEntity = dir;
-        this.tags.push(this.directionWithinParentEntity.noun);
+        this.tags.push(...this.directionWithinParentEntity.noun.split('-'));
         // 40% chance to be coastal, 0% if location is middle
         this.coastDirection = this.directionWithinParentEntity;
         if (_util__WEBPACK_IMPORTED_MODULE_1__.Util.rand() < 0.4 &&
@@ -386,6 +399,22 @@ class Realm {
         }
         return tributaries;
     }
+    areNamePartTagsValid(namePart) {
+        let valid = true;
+        // Have at least one matching tag if tagRule is OR
+        if (namePart.tagRule == 'AND') {
+            valid = namePart.tags.every((tag) => this.tags.includes(tag));
+            if (!valid)
+                return valid;
+        }
+        // Have all matching tags if tagRule is AND
+        if (namePart.tagRule == 'OR') {
+            valid = namePart.tags.some((tag) => this.tags.includes(tag));
+            if (!valid)
+                return valid;
+        }
+        return valid;
+    }
     determineRiverName() {
         /**
          * Determine root
@@ -395,10 +424,13 @@ class Realm {
             .filter((namePart) => {
             // Root cannot be used by another river
             // Have at least one point as a root name part
-            // Have at least one matching tag
-            return (this.rivers.every((river) => river.name.root.name != namePart.name) &&
-                namePart.asRoot > 0 &&
-                namePart.tags.some((tag) => this.tags.includes(tag)));
+            let valid = this.rivers.every((river) => river.name.root.name != namePart.name && namePart.asRoot > 0);
+            if (!valid)
+                return valid;
+            valid = this.areNamePartTagsValid(namePart);
+            if (!valid)
+                return valid;
+            return valid;
         });
         let root = this.chooseNamePartByPoints(validRoots, 'asRoot');
         if (root.variations) {
@@ -474,9 +506,8 @@ class Realm {
             .concat(_data__WEBPACK_IMPORTED_MODULE_0__.Data.faunaNameParts)
             .concat(_data__WEBPACK_IMPORTED_MODULE_0__.Data.floraNameParts)
             .filter((namePart) => {
-            // Have at least one point as a root name part
-            // Have at least one matching tag
-            return namePart.tags.some((tag) => this.tags.includes(tag));
+            let valid = this.areNamePartTagsValid(namePart);
+            return valid;
         });
         let root = this.chooseNamePartByPoints(validRoots, 'asRoot');
         if (root.variations) {
@@ -502,6 +533,7 @@ class Realm {
         } while (!this.isRealmNameValid(this.realmName));
     }
     isRealmNameValid(word) {
+        // Todo add realm name validity checks here
         return true;
     }
     determineCities() { }
