@@ -1,5 +1,7 @@
 # Realm Writer
 ### Procedurally Generated Descriptions of Fantasy Places
+This project uses TypeScript and vanilla HTML/CSS.
+
 While it borrows some worldbuilding and naming logic from my procedurally generated map projects, this is decidedly less visual, in favor of a more creative-writing approach to designing places.
 Each generated realm has several categories of content that are generated, such as 'geography' and 'economy'.
 The naming logic uses a tag system to choose root and suffix name-parts, hero images, and river names.
