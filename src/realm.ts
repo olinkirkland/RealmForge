@@ -240,8 +240,16 @@ export class Realm {
           return !['grassland', 'tundra'].includes(str);
           break;
       }
-
       return true;
+    });
+
+    availableBiomes = availableBiomes.filter((str) => {
+      switch (this.temperature) {
+        case 'warm':
+          // Warm? Remove boreal-forest and tundra
+          return !['boreal-forest', 'tundra'].includes(str);
+          break;
+      }
     });
 
     // Add the primary biome, reroll once if mountains

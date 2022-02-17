@@ -267,6 +267,14 @@ class Realm {
             }
             return true;
         });
+        availableBiomes = availableBiomes.filter((str) => {
+            switch (this.temperature) {
+                case 'warm':
+                    // Warm? Remove boreal-forest and tundra
+                    return !['boreal-forest', 'tundra'].includes(str);
+                    break;
+            }
+        });
         // Add the primary biome, reroll once if mountains
         let b = _util__WEBPACK_IMPORTED_MODULE_1__.Util.randomValue(availableBiomes);
         if (b == 'mountains')
