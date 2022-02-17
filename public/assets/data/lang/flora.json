@@ -1,107 +1,101 @@
 [
   {
-    "asSuffix": 1,
+    "asSuffix": 20,
     "name": "eich",
-    "tags": ["oak", "plant"],
+    "tags": ["temperate-forest"],
     "variations": ["eichen"],
-    "asRoot": 1
+    "asRoot": 10
   },
   {
     "asSuffix": 0,
     "name": "tann",
-    "tags": ["pine", "plant"],
+    "tags": ["boreal-forest"],
     "variations": ["tannen"],
-    "asRoot": 1
+    "asRoot": 10
   },
   {
-    "asSuffix": 1,
+    "asSuffix": 4,
     "name": "baum",
-    "tags": ["tree", "plant"],
-    "asRoot": 1
+    "tags": ["boreal-forest", "temperate-forest"],
+    "asRoot": 0
   },
   {
     "asSuffix": 0,
     "name": "nuß",
-    "tags": ["nut", "plant"],
-    "asRoot": 1
+    "tags": ["boreal-forest", "temperate-forest"],
+    "asRoot": 10
   },
   {
-    "asSuffix": 1,
+    "asSuffix": 4,
     "name": "moos",
-    "tags": ["moss", "plant"],
-    "asRoot": 1
+    "tags": ["boreal-forest", "temperate-forest"],
+    "asRoot": 10
   },
   {
-    "asSuffix": 1,
+    "asSuffix": 10,
     "name": "esch",
-    "tags": ["ash", "plant"],
-    "asRoot": 1
+    "tags": ["boreal-forest", "temperate-forest"],
+    "asRoot": 10
   },
   {
-    "asSuffix": 1,
+    "asSuffix": 10,
     "name": "holz",
-    "tags": ["borealForest", "temperateForest", "plant"],
-    "asRoot": 1
+    "tags": ["boreal-forest", "temperate-forest"],
+    "asRoot": 4
   },
   {
-    "asSuffix": 0,
+    "asSuffix": 2,
     "name": "birk",
-    "tags": ["birch", "plant"],
+    "tags": ["temperate-forest"],
     "variations": ["birken"],
-    "asRoot": 1
+    "asRoot": 10
   },
   {
-    "asSuffix": 1,
-    "name": "buch",
-    "tags": ["beech", "plant"],
-    "asRoot": 1
-  },
-  {
-    "asSuffix": 1,
+    "asSuffix": 4,
     "name": "erl",
-    "tags": ["birch", "plant"],
-    "asRoot": 1
+    "tags": ["temperate-forest"],
+    "asRoot": 2
   },
   {
-    "asSuffix": 1,
+    "asSuffix": 20,
     "name": "forst",
-    "tags": ["borealForest", "temperateForest", "plant"],
+    "tags": ["boreal-forest", "temperate-forest"],
     "asRoot": 0
   },
   {
-    "asSuffix": 1,
+    "asSuffix": 10,
     "name": "hain",
-    "tags": ["borealForest", "temperateForest", "plant"],
-    "asRoot": 1
+    "tags": ["boreal-forest", "temperate-forest"],
+    "asRoot": 0
   },
   {
-    "asSuffix": 0,
+    "asSuffix": 10,
     "name": "hag",
-    "tags": ["hedge", "plant"],
-    "asRoot": 1
+    "tags": ["grassland"],
+    "asRoot": 2
   },
   {
     "asSuffix": 0,
     "name": "hasel",
-    "tags": ["hazel", "plant"],
-    "asRoot": 1
+    "tags": ["temperate-forest", "grassland"],
+    "asRoot": 10
   },
   {
     "asSuffix": 0,
     "name": "linden",
-    "tags": ["linden", "plant"],
-    "asRoot": 1
+    "tags": ["temperate-forest"],
+    "asRoot": 10
   },
   {
-    "asSuffix": 1,
+    "asSuffix": 4,
     "name": "dorn",
-    "tags": ["thorn", "plant"],
-    "asRoot": 1
+    "tags": ["temperate-forest", "boreal-forest"],
+    "asRoot": 4
   },
   {
-    "asSuffix": 1,
+    "asSuffix": 4,
     "name": "ulm",
-    "tags": ["elm", "plant"],
-    "asRoot": 1
+    "tags": ["temperate-forest"],
+    "asRoot": 4
   }
 ]

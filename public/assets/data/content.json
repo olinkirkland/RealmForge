@@ -106,7 +106,7 @@
   ],
   "governmentRanks": [
     { "rank": "free city", "ruler": "mayor", "size": [0] },
-    { "rank": "lordship", "ruler": "lord", "size": [0] },
+    { "rank": "lordship", "ruler": "lord", "size": [1] },
     { "rank": "county", "ruler": "count", "size": [1] },
     { "rank": "principality", "ruler": "prince", "size": [1, 2] },
     { "rank": "duchy", "ruler": "duke", "size": [3, 4] },

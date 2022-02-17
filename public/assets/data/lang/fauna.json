@@ -2,134 +2,134 @@
   {
     "asSuffix": 0,
     "name": "bärn",
-    "tags": ["bear", "animal", "any"],
+    "tags": ["bear", "any"],
     "asRoot": 1
   },
   {
     "asSuffix": 1,
     "name": "bern",
-    "tags": ["bear", "animal", "any"],
+    "tags": ["bear", "any"],
     "asRoot": 1
   },
   {
     "asSuffix": 0,
     "name": "wolf",
-    "tags": ["wolf", "animal", "any"],
+    "tags": ["wolf", "any"],
     "asRoot": 1
   },
   {
     "asSuffix": 0,
     "name": "fisch",
-    "tags": ["fish", "animal", "any"],
-    "asRoot": 1
+    "tags": ["fish", "any"],
+    "asRoot": 10
   },
   {
     "asSuffix": 0,
     "name": "biber",
-    "tags": ["beaver", "animal", "any"],
-    "asRoot": 1
+    "tags": ["beaver", "any"],
+    "asRoot": 10
   },
   {
     "asSuffix": 0,
     "name": "schwan",
-    "tags": ["swan", "animal", "any"],
-    "asRoot": 1
+    "tags": ["swan", "any"],
+    "asRoot": 10
   },
   {
     "asSuffix": 0,
     "name": "has",
-    "tags": ["hare", "animal", "any"],
+    "tags": ["hare", "any"],
     "variations": ["hasel", "hasl"],
-    "asRoot": 1
+    "asRoot": 10
   },
   {
     "asSuffix": 0,
     "name": "eul",
-    "tags": ["owl", "animal", "any"],
+    "tags": ["owl", "any"],
     "variations": ["eule"],
-    "asRoot": 1
+    "asRoot": 10
   },
   {
     "asSuffix": 0,
     "name": "eber",
-    "tags": ["pig", "animal", "any"],
-    "asRoot": 1
+    "tags": ["pig", "any"],
+    "asRoot": 10
   },
   {
     "asSuffix": 0,
     "name": "wild",
-    "tags": ["game", "animal", "any"],
-    "asRoot": 1
+    "tags": ["game", "any"],
+    "asRoot": 10
   },
   {
     "asSuffix": 0,
     "name": "bock",
-    "tags": ["goat", "animal", "any"],
-    "asRoot": 1
+    "tags": ["goat", "any"],
+    "asRoot": 10
   },
   {
     "asSuffix": 0,
     "name": "gäns",
-    "tags": ["goose", "animal", "any"],
-    "asRoot": 1
+    "tags": ["goose", "any"],
+    "asRoot": 10
   },
   {
     "asSuffix": 0,
     "name": "hirsch",
-    "tags": ["deer", "animal", "any"],
-    "asRoot": 1
+    "tags": ["deer", "any"],
+    "asRoot": 10
   },
   {
     "asSuffix": 0,
     "name": "kitz",
-    "tags": ["fawn", "animal", "any"],
-    "asRoot": 1
+    "tags": ["fawn", "any"],
+    "asRoot": 10
   },
   {
     "asSuffix": 0,
     "name": "henn",
-    "tags": ["hen", "animal", "any"],
+    "tags": ["hen", "any"],
     "variations": ["hennen"],
-    "asRoot": 1
+    "asRoot": 10
   },
   {
     "asSuffix": 0,
     "name": "katz",
-    "tags": ["cat", "animal", "any"],
+    "tags": ["cat", "any"],
     "variations": ["katzen"],
-    "asRoot": 1
+    "asRoot": 10
   },
   {
     "asSuffix": 0,
     "name": "ochs",
-    "tags": ["ox", "animal", "any"],
+    "tags": ["ox", "any"],
     "variations": ["ochsen"],
-    "asRoot": 1
+    "asRoot": 10
   },
   {
-    "asSuffix": 5,
+    "asSuffix": 12,
     "name": "roß",
-    "tags": ["horse", "animal", "any"],
-    "asRoot": 1
+    "tags": ["horse", "any"],
+    "asRoot": 8
   },
   {
     "asSuffix": 0,
     "name": "stut",
-    "tags": ["horse", "animal", "any"],
+    "tags": ["horse", "any"],
     "variations": ["stutt"],
-    "asRoot": 1
+    "asRoot": 10
   },
   {
-    "asSuffix": 1,
+    "asSuffix": 10,
     "name": "ham",
-    "tags": ["goat", "animal", "any"],
+    "tags": ["goat", "any"],
     "variations": ["hams", "hamels"],
-    "asRoot": 1
+    "asRoot": 10
   },
   {
-    "asSuffix": 1,
+    "asSuffix": 10,
     "name": "falken",
-    "tags": ["falcon", "animal", "any"],
-    "asRoot": 1
+    "tags": ["falcon", "any"],
+    "asRoot": 10
   }
 ]
