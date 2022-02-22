@@ -15,6 +15,15 @@ export type NamePart = {
   variations: string[];
 };
 
+export type Ordinary = {
+  name: string;
+};
+
+export type Tincture = {
+  name: string;
+  colors: string[];
+};
+
 export class Data {
   public static content: any;
   public static words: string[];
@@ -38,6 +47,9 @@ export class Data {
   public static parentEntityDescriptorsBefore: string[];
   public static parentEntityDescriptorsAfter: string[];
   public static parentEntityGovernments: any;
+
+  public static ordinaries: Ordinary[];
+  public static tinctures: Tincture[];
 
   static setup(callback: Function) {
     let loadList: { propertyName: string; url: string; loaded: boolean }[] = [
@@ -122,6 +134,10 @@ export class Data {
     Data.parentEntityDescriptorsBefore = u.parentEntities.descriptorsBefore;
     Data.parentEntityDescriptorsAfter = u.parentEntities.descriptorsAfter;
     Data.parentEntityGovernments = u.parentEntities.governments;
+
+    // Apply heraldry
+    Data.ordinaries = u.heraldry.ordinaries;
+    Data.tinctures = u.heraldry.tinctures;
 
     // Apply defaults to nameParts
     Data.placeNameParts

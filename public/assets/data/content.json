@@ -1,4 +1,8 @@
 {
+  "heraldry": {
+    "ordinaries": [],
+    "tinctures": []
+  },
   "directions": [
     { "noun": "middle", "adj": "central" },
     { "noun": "north", "adj": "northern" },
@@ -55,7 +59,7 @@
       { "noun": "empire", "adj": "imperial" },
       { "noun": "kingdom", "adj": "royal" },
       { "noun": "imperium", "adj": "imperial" },
-      { "noun": "confederacy", "adj": "confederate" }
+      { "noun": "dominion", "adj": "dominion" }
     ]
   },
   "sigils": [

@@ -88,6 +88,9 @@ class Data {
         Data.parentEntityDescriptorsBefore = u.parentEntities.descriptorsBefore;
         Data.parentEntityDescriptorsAfter = u.parentEntities.descriptorsAfter;
         Data.parentEntityGovernments = u.parentEntities.governments;
+        // Apply heraldry
+        Data.ordinaries = u.heraldry.ordinaries;
+        Data.tinctures = u.heraldry.tinctures;
         // Apply defaults to nameParts
         Data.placeNameParts
             .concat(Data.riverNameParts)
