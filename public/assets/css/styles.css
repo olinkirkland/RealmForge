@@ -260,6 +260,10 @@ article li i {
   margin-right: 0.4rem;
 }
 
+.under-construction {
+  opacity: 0.2;
+}
+
 /* FOOTER */
 footer.container {
   justify-content: center;
