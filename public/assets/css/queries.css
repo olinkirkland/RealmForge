@@ -63,8 +63,9 @@ instead, 1rem = 1em = 16px */
 
 /* 768px / 16px = 48 */
 @media (max-width: 48em) {
-  .header-text span {
-    font-size: 1.2rem;
+  .header-text span.author,
+  .header-text i {
+    display: none;
   }
 
   #controls h1 {
