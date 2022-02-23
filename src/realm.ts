@@ -192,8 +192,8 @@ export class Realm {
     this.sigilPresentOnHeraldry = this.coat.charge != null;
   }
 
+  // Choose geography and climate based on the direction
   public determineClimate() {
-    // Choose geography and climate based on the direction
     if (this.directionWithinParentEntity.noun.includes('north')) {
       this.temperature = 'cold';
     } else if (this.directionWithinParentEntity.noun.includes('south')) {

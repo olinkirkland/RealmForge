@@ -247,8 +247,8 @@ class Realm {
         // todo set this correctly
         this.sigilPresentOnHeraldry = this.coat.charge != null;
     }
+    // Choose geography and climate based on the direction
     determineClimate() {
-        // Choose geography and climate based on the direction
         if (this.directionWithinParentEntity.noun.includes('north')) {
             this.temperature = 'cold';
         }
