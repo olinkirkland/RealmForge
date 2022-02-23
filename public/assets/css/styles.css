@@ -209,7 +209,8 @@ section.container--controls {
 }
 
 .ornament {
-  width: 6.4rem;
+  width: 4rem;
+  opacity: 0.6;
 }
 
 .overlay-top-left {
@@ -303,12 +304,14 @@ article li i {
 }
 
 .tincture {
+  position: relative;
   display: inline-block;
   width: 1.6rem;
   height: 1.6rem;
   margin: 0 0.2rem;
   border-radius: 3px;
   opacity: 0.6;
+  bottom: -0.2rem;
 }
 
 /* FOOTER */

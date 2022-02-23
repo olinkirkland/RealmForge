@@ -32,6 +32,10 @@ instead, 1rem = 1em = 16px */
     border: none;
   }
 
+  .ornament {
+    display: none;
+  }
+
   article {
     border: none;
     padding: 0;
