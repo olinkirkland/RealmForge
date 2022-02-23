@@ -15,6 +15,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./util */ "./src/util.ts");
 
 class Coat {
+    // public chargeArrangement: string;
     constructor(ordinary, tinctures) {
         this.ordinary = ordinary;
         this.tinctures = tinctures;
@@ -375,10 +376,17 @@ class Realm {
         }
         // Add rivers
         for (let i = 0; i < riverCount; i++) {
-            // If the realm contains a mountain biome, rivers should flow from it
-            // If the realm contains a coast, rivers should flow to it
             let flowsFrom;
+            // If the realm contains a mountain biome, rivers should flow from it 60% of the time
+            const mountainBiome = this.biomes.find((b) => b.type == 'mountains');
+            if (mountainBiome && _util__WEBPACK_IMPORTED_MODULE_2__.Util.rand() < 0.6) {
+                flowsFrom = mountainBiome.direction;
+            }
             let flowsTo;
+            // If the realm contains a coast, rivers should flow to it 60% of the time
+            if (this.coast && _util__WEBPACK_IMPORTED_MODULE_2__.Util.rand() < 0.6) {
+                flowsFrom = this.coastDirection;
+            }
             do {
                 flowsFrom = _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_1__.Data.directions);
                 flowsTo = _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_1__.Data.directions);
@@ -839,10 +847,70 @@ btnToggleDarkMode.addEventListener('click', () => {
 // Handle start button
 const btnStart = document.getElementById('btnStart');
 btnStart.addEventListener('click', generateSeedAndStart);
+// Handle copy button
+const btnCopyLink = document.getElementById('btnCopyLink');
+btnCopyLink.addEventListener('click', () => {
+    navigator.clipboard.writeText(window.location.href);
+    // Play copied animation
+    btnCopyLink.querySelector('i').classList.remove('fa-copy');
+    btnCopyLink.querySelector('i').classList.add('fa-check');
+    btnCopyLink.querySelector('span').innerHTML = 'Copied!';
+    btnCopyLink.setAttribute('disabled', 'true');
+    btnCopyLink.querySelector('i').style.color = '#17b664';
+    document.getElementById('labelShare').style.opacity = '0';
+    setTimeout(() => {
+        // Play copied animation
+        btnCopyLink.querySelector('i').classList.remove('fa-check');
+        btnCopyLink.querySelector('i').classList.add('fa-copy');
+        btnCopyLink.querySelector('i').style.color = getComputedStyle(document.documentElement).getPropertyValue('--dark-text');
+        btnCopyLink.querySelector('span').innerHTML = 'Copy link';
+        btnCopyLink.removeAttribute('disabled');
+    }, 2000);
+});
+btnCopyLink.addEventListener('mouseover', () => {
+    if (btnCopyLink.hasAttribute('disabled'))
+        return;
+    document.getElementById('labelShare').innerHTML = window.location.href;
+    document.getElementById('labelShare').style.top = '0';
+    document.getElementById('labelShare').style.opacity = '1';
+});
+btnCopyLink.addEventListener('mouseout', () => {
+    document.getElementById('labelShare').style.top = '0.4rem';
+    document.getElementById('labelShare').style.opacity = '0';
+});
 // Handle tweet button
 const btnShareTwitter = document.getElementById('btnShareTwitter');
 btnShareTwitter.addEventListener('click', () => {
     _util__WEBPACK_IMPORTED_MODULE_0__.Util.shareByTweet(realm);
+});
+btnShareTwitter.addEventListener('mouseover', () => {
+    if (btnShareTwitter.hasAttribute('disabled'))
+        return;
+    document.getElementById('labelShare').innerHTML =
+        'Share this Realm on Twitter';
+    document.getElementById('labelShare').style.top = '0';
+    document.getElementById('labelShare').style.opacity = '1';
+});
+btnShareTwitter.addEventListener('mouseout', () => {
+    document.getElementById('labelShare').style.top = '0.4rem';
+    document.getElementById('labelShare').style.opacity = '0';
+});
+// Handle JSON button
+const btnJson = document.getElementById('btnJson');
+btnJson.addEventListener('click', () => {
+    window.open(window.location.href + '&json', '_blank');
+});
+btnJson.addEventListener('mouseover', () => {
+    if (btnJson.hasAttribute('disabled'))
+        return;
+    document.getElementById('labelShare').innerHTML =
+        "View this Realm's JSON (opens a new tab)";
+    document.getElementById('labelShare').style.top = '0';
+    document.getElementById('labelShare').style.opacity = '1';
+});
+btnJson.addEventListener('mouseout', () => {
+    document.getElementById('labelShare').style.top = '0.4rem';
+    document.getElementById('labelShare').style.opacity = '0';
 });
 // Load data
 _data__WEBPACK_IMPORTED_MODULE_1__.Data.setup(() => {
@@ -874,6 +942,14 @@ function generateSeedAndStart() {
 function start() {
     _util__WEBPACK_IMPORTED_MODULE_0__.Util.seedRandomNumberGenerator();
     realm = new _realm__WEBPACK_IMPORTED_MODULE_2__.Realm();
+    // Is it json?
+    const arr = window.location.href.match(/\?[a-z0-9,-]+.*\&(json)/);
+    if (arr && arr.length > 1) {
+        // JSON mode
+        document.querySelector('body').classList.add('json-format');
+        document.querySelector('body').innerHTML = JSON.stringify(realm, null, '  ');
+        return;
+    }
     updateView();
     // Delay intro animations
     const sectionEls = document.querySelectorAll('.container');

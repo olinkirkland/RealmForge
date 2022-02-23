@@ -6,6 +6,7 @@ export class Coat {
   public ordinary: Ordinary;
   public tinctures: Tincture[];
   public charge: string | null;
+  // public chargeArrangement: string;
 
   constructor(ordinary: Ordinary, tinctures: Tincture[]) {
     this.ordinary = ordinary;

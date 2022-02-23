@@ -359,12 +359,21 @@ export class Realm {
 
     // Add rivers
     for (let i = 0; i < riverCount; i++) {
-      // If the realm contains a mountain biome, rivers should flow from it
-
-      // If the realm contains a coast, rivers should flow to it
-
       let flowsFrom: Direction;
+      // If the realm contains a mountain biome, rivers should flow from it 60% of the time
+      const mountainBiome: Biome | undefined = this.biomes.find(
+        (b) => b.type == 'mountains'
+      );
+      if (mountainBiome && Util.rand() < 0.6) {
+        flowsFrom = mountainBiome.direction;
+      }
+
       let flowsTo: Direction;
+      // If the realm contains a coast, rivers should flow to it 60% of the time
+      if (this.coast && Util.rand() < 0.6) {
+        flowsFrom = this.coastDirection;
+      }
+
       do {
         flowsFrom = Util.randomValue(Data.directions);
         flowsTo = Util.randomValue(Data.directions);

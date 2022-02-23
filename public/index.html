@@ -22,6 +22,10 @@
       href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&display=swap"
       rel="stylesheet"
     />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/css/styles.css" />
@@ -69,9 +73,22 @@
       <a id="btnStart" class="btn">
         <span>Write a new Realm</span>
       </a>
-      <a id="btnShareTwitter" class="btn btn--text"
-        >Share <span class="name"></span> on Twitter</a
-      >
+
+      <div class="control-share-buttons">
+        <a id="btnCopyLink" class="btn btn--outline">
+          <i class="fa-solid fa-copy"></i>
+          <span>Copy link</span>
+          <a id="btnShareTwitter" class="btn btn--outline">
+            <i class="fa-brands fa-twitter"></i>
+            Share on Twitter
+          </a>
+        </a>
+        <a id="btnJson" class="btn btn--outline">
+          <i class="fa-solid fa-file-code"></i>
+          JSON
+        </a>
+      </div>
+      <p id="labelShare">&nbsp;</p>
     </section>
 
     <!-- HERO -->
@@ -131,7 +148,7 @@
           </li>
 
           <li>
-            <span class="coat-of-arms-blurb"></span>            
+            <span class="coat-of-arms-blurb"></span>
           </li>
         </ul>
       </article>
