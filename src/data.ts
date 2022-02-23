@@ -18,6 +18,7 @@ export type NamePart = {
 export type Ordinary = {
   name: string;
   weight: number;
+  description: string;
 };
 
 export type Tincture = {

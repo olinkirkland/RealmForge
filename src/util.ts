@@ -144,7 +144,13 @@ export class Util {
   // Returns an item from an array
   // The weight value is determined using the accessor function
   // randomWeightedValue<NamePart>(nameParts, item => item.asRoot)
-  static randomWeightedValue<T>(arr: T[], accessor: (item: T) => number): T {
+  static randomWeightedValue<T>(
+    arr: T[],
+    accessor: (item: T) => number,
+    log: boolean = false
+  ): T {
+    if (log) console.log(arr);
+
     // Get the max weight
     const max = arr.reduce((total: number, item: T) => {
       return total + accessor(item);

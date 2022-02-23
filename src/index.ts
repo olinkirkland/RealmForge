@@ -1,6 +1,7 @@
 import { Util } from './util';
 import { Data } from './data';
 import { Realm, Biome, River } from './realm';
+import { Coat } from './coat';
 
 /**
  * Hint: Use 'npm run build' from console to compile + watch the TS code on save
@@ -102,6 +103,7 @@ function updateView() {
   // Blurbs
   applyBiomesBlurb();
   applyRiversBlurb();
+  applyCoatBlurb();
   toggleVisibility('sigil-present-on-heraldry', realm.sigilPresentOnHeraldry);
   toggleVisibility('on-the-coast', realm.coast);
 
@@ -130,6 +132,19 @@ function updateView() {
   applyText('season-summer', realm.seasonSummer.join(', '));
   applyText('season-winter', realm.seasonWinter.join(', '));
 
+  applyText(
+    'tincture1',
+    realm.coat.tinctures[0].name,
+    ' <span class="tincture tincture1-color"></span>'
+  );
+  applyText(
+    'tincture2',
+    realm.coat.tinctures[1].name,
+    ' <span class="tincture tincture2-color"></span>'
+  );
+
+  applyTinctureColors();
+
   applyIcon('sigil', realm.sigilIcon);
 
   // Utility
@@ -146,20 +161,20 @@ function determineHeroImageUrl(): string {
       return j.url;
     });
 
-  console.log(validImages);
+  // console.log(validImages);
 
   const image: string = Util.randomValue(validImages);
   return image;
 }
 
-function applyText(query: string, text: string) {
+function applyText(query: string, text: string, app: string = '') {
   const els: NodeList = document.querySelectorAll('span.' + query);
   els.forEach((node: Node) => {
     const el: HTMLElement = node as HTMLElement;
     if (el.classList.contains('prepend-article')) {
-      el.textContent = Util.aOrAn(text) + ' ' + text;
+      el.textContent = Util.aOrAn(text) + ' ' + text + app;
     } else {
-      el.textContent = text;
+      el.innerHTML = text + app;
     }
   });
 }
@@ -252,6 +267,22 @@ function applyRiversBlurb() {
 
   const el: HTMLElement = document.querySelector('.rivers-blurb')!;
   el.innerHTML = text;
+}
+
+function applyCoatBlurb() {
+  let text: string = '';
+  text = `<span>The design of <span class="name"></span>'s coat of arms resembles `;
+  text += realm.coat.ordinary.description + `</span>.`;
+
+  const el: HTMLElement = document.querySelector('.coat-of-arms-blurb')!;
+  el.innerHTML = text;
+}
+
+function applyTinctureColors() {
+  const el1: HTMLElement = document.querySelector('.tincture1-color')!;
+  if (el1) el1.style.backgroundColor = realm.coat.tinctures[0].color;
+  const el2: HTMLElement = document.querySelector('.tincture2-color')!;
+  if (el2) el2.style.backgroundColor = realm.coat.tinctures[1].color;
 }
 
 function replaceNumbers() {

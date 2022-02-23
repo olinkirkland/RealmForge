@@ -170,7 +170,7 @@ class Realm {
         this.determineRealmName();
         this.determineCities();
         this.determineCoat();
-        console.log('tags: ' + this.tags);
+        // console.log(this.tags);
     }
     determineParentEntity() {
         let arr = ['the'];
@@ -240,9 +240,11 @@ class Realm {
         // Choose an ordinary using chance as points
         let ordinary = _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomWeightedValue(_data__WEBPACK_IMPORTED_MODULE_1__.Data.ordinaries, (item) => item.weight);
         // Choose exactly one metal and one color
-        let tinctures = [];
-        let tMetal = _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_1__.Data.tinctures.filter((t) => t.type == 'metal'));
-        let tColor = _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_1__.Data.tinctures.filter((t) => t.type == 'color'));
+        const metals = _data__WEBPACK_IMPORTED_MODULE_1__.Data.tinctures.filter((t) => t.type == 'metal');
+        let tMetal = _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomWeightedValue(metals, (item) => item.weight);
+        const colors = _data__WEBPACK_IMPORTED_MODULE_1__.Data.tinctures.filter((t) => t.type == 'color');
+        let tColor = _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomWeightedValue(colors, (item) => item.weight);
+        let tinctures = [tMetal, tColor].sort((t) => Math.random() > 0.5 ? 1 : -1);
         this.coat = new _coat__WEBPACK_IMPORTED_MODULE_0__.Coat(ordinary, tinctures);
         // todo set this correctly
         this.sigilPresentOnHeraldry = this.coat.charge != null;
@@ -471,7 +473,6 @@ class Realm {
             return (namePart.asSuffix > 0 &&
                 namePart.tags.some((tag) => this.tags.includes(tag)));
         });
-        console.log('validSuffixes=' + validSuffixes);
         this.countRiverValidLoop = 0;
         let riverName;
         do {
@@ -685,7 +686,9 @@ class Util {
     // Returns an item from an array
     // The weight value is determined using the accessor function
     // randomWeightedValue<NamePart>(nameParts, item => item.asRoot)
-    static randomWeightedValue(arr, accessor) {
+    static randomWeightedValue(arr, accessor, log = false) {
+        if (log)
+            console.log(arr);
         // Get the max weight
         const max = arr.reduce((total, item) => {
             return total + accessor(item);
@@ -896,6 +899,7 @@ function updateView() {
     // Blurbs
     applyBiomesBlurb();
     applyRiversBlurb();
+    applyCoatBlurb();
     toggleVisibility('sigil-present-on-heraldry', realm.sigilPresentOnHeraldry);
     toggleVisibility('on-the-coast', realm.coast);
     // Words
@@ -914,6 +918,9 @@ function updateView() {
     applyText('humidity', realm.humidity);
     applyText('season-summer', realm.seasonSummer.join(', '));
     applyText('season-winter', realm.seasonWinter.join(', '));
+    applyText('tincture1', realm.coat.tinctures[0].name, ' <span class="tincture tincture1-color"></span>');
+    applyText('tincture2', realm.coat.tinctures[1].name, ' <span class="tincture tincture2-color"></span>');
+    applyTinctureColors();
     applyIcon('sigil', realm.sigilIcon);
     // Utility
     replaceNumbers();
@@ -926,19 +933,19 @@ function determineHeroImageUrl() {
         .map((j) => {
         return j.url;
     });
-    console.log(validImages);
+    // console.log(validImages);
     const image = _util__WEBPACK_IMPORTED_MODULE_0__.Util.randomValue(validImages);
     return image;
 }
-function applyText(query, text) {
+function applyText(query, text, app = '') {
     const els = document.querySelectorAll('span.' + query);
     els.forEach((node) => {
         const el = node;
         if (el.classList.contains('prepend-article')) {
-            el.textContent = _util__WEBPACK_IMPORTED_MODULE_0__.Util.aOrAn(text) + ' ' + text;
+            el.textContent = _util__WEBPACK_IMPORTED_MODULE_0__.Util.aOrAn(text) + ' ' + text + app;
         }
         else {
-            el.textContent = text;
+            el.innerHTML = text + app;
         }
     });
 }
@@ -1007,6 +1014,21 @@ function applyRiversBlurb() {
     }
     const el = document.querySelector('.rivers-blurb');
     el.innerHTML = text;
+}
+function applyCoatBlurb() {
+    let text = '';
+    text = `<span>The design of <span class="name"></span>'s coat of arms resembles `;
+    text += realm.coat.ordinary.description + `</span>.`;
+    const el = document.querySelector('.coat-of-arms-blurb');
+    el.innerHTML = text;
+}
+function applyTinctureColors() {
+    const el1 = document.querySelector('.tincture1-color');
+    if (el1)
+        el1.style.backgroundColor = realm.coat.tinctures[0].color;
+    const el2 = document.querySelector('.tincture2-color');
+    if (el2)
+        el2.style.backgroundColor = realm.coat.tinctures[1].color;
 }
 function replaceNumbers() {
     const els = document.querySelectorAll('.word-number');

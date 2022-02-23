@@ -74,7 +74,7 @@ export class Realm {
 
     this.determineCoat();
 
-    console.log('tags: ' + this.tags);
+    // console.log(this.tags);
   }
 
   public determineParentEntity() {
@@ -178,12 +178,20 @@ export class Realm {
     );
 
     // Choose exactly one metal and one color
-    let tinctures: Tincture[] = [];
-    let tMetal: Tincture = Util.randomValue(
-      Data.tinctures.filter((t) => t.type == 'metal')
+    const metals: Tincture[] = Data.tinctures.filter((t) => t.type == 'metal');
+    let tMetal: Tincture = Util.randomWeightedValue(
+      metals,
+      (item) => item.weight
     );
-    let tColor: Tincture = Util.randomValue(
-      Data.tinctures.filter((t) => t.type == 'color')
+
+    const colors: Tincture[] = Data.tinctures.filter((t) => t.type == 'color');
+    let tColor: Tincture = Util.randomWeightedValue(
+      colors,
+      (item) => item.weight
+    );
+
+    let tinctures: Tincture[] = [tMetal, tColor].sort((t) =>
+      Math.random() > 0.5 ? 1 : -1
     );
 
     this.coat = new Coat(ordinary, tinctures);
@@ -482,8 +490,6 @@ export class Realm {
         namePart.tags.some((tag) => this.tags.includes(tag))
       );
     });
-
-    console.log('validSuffixes=' + validSuffixes);
 
     this.countRiverValidLoop = 0;
     let riverName: Word;

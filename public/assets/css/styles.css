@@ -297,6 +297,20 @@ article li i {
   opacity: 0.2;
 }
 
+.tincture1,
+.tincture2 {
+  white-space: nowrap;
+}
+
+.tincture {
+  display: inline-block;
+  width: 1.6rem;
+  height: 1.6rem;
+  margin: 0 0.2rem;
+  border-radius: 3px;
+  opacity: 0.6;
+}
+
 /* FOOTER */
 footer.container {
   justify-content: center;
