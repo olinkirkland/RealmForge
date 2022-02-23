@@ -64,7 +64,11 @@ instead, 1rem = 1em = 16px */
   }
 
   #controls h1 {
-    font-size: 3.2rem;
+    font-size: 4.8rem;
+  }
+
+  #controls p {
+    font-size: 1.6rem;
   }
 
   h2 {

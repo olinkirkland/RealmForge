@@ -24,8 +24,7 @@
   margin: 0;
   padding: 0;
   list-style: none;
-  /* border: 1px solid red !important; */
-  /* transition: color 0.3s; */
+  letter-spacing: 0.4px;
 }
 
 html {
@@ -192,13 +191,10 @@ section.container--controls {
 
 /* HERO */
 
-.hero-frame {
-  padding: 0.6rem;
-  border: 1px solid var(--dark-text-very-muted);
-}
-
 #hero {
   height: 32rem;
+
+  position: relative;
 
   display: flex;
   flex-direction: column;
@@ -212,11 +208,46 @@ section.container--controls {
   color: white;
 }
 
-#hero h2 {
-  margin-bottom: 1.2rem;
+.ornament {
+  width: 6.4rem;
+}
+
+.overlay-top-left {
+  position: absolute;
+  top: 0.2rem;
+  left: 0.2rem;
+}
+
+.overlay-top-right {
+  position: absolute;
+  top: 0.2rem;
+  right: 0.2rem;
+}
+
+.overlay-bottom-left {
+  position: absolute;
+  bottom: 0.2rem;
+  left: 0.2rem;
+}
+
+.overlay-bottom-right {
+  position: absolute;
+  bottom: 0.2rem;
+  right: 0.2rem;
+}
+
+.rotate-90 {
+  transform: rotate(90deg);
+}
+.rotate-180 {
+  transform: rotate(180deg);
+}
+.rotate-270 {
+  transform: rotate(270deg);
 }
 
 #hero h2 .name {
+  margin-bottom: 1.2rem;
   font-size: 6.4rem;
   font-family: 'Lobster Two', cursive;
   font-weight: 400;
