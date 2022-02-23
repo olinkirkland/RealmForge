@@ -77,6 +77,7 @@ instead, 1rem = 1em = 16px */
 
   .control-share-buttons {
     flex-direction: column;
+    width: auto;
   }
 
   h2 {

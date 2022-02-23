@@ -35,21 +35,13 @@ btnCopyLink.addEventListener('click', () => {
   navigator.clipboard.writeText(window.location.href);
 
   // Play copied animation
-  btnCopyLink.querySelector('i')!.classList.remove('fa-copy');
-  btnCopyLink.querySelector('i')!.classList.add('fa-check');
-  btnCopyLink.querySelector('span')!.innerHTML = 'Copied!';
+  btnCopyLink.innerHTML = `<i class="fa-solid fa-check" style="color: #17b664"></i>Copied!`;
   btnCopyLink.setAttribute('disabled', 'true');
-  btnCopyLink.querySelector('i')!.style.color = '#17b664';
   document.getElementById('labelShare')!.style.opacity = '0';
 
   setTimeout(() => {
     // Play copied animation
-    btnCopyLink.querySelector('i')!.classList.remove('fa-check');
-    btnCopyLink.querySelector('i')!.classList.add('fa-copy');
-    btnCopyLink.querySelector('i')!.style.color = getComputedStyle(
-      document.documentElement
-    ).getPropertyValue('--dark-text');
-    btnCopyLink.querySelector('span')!.innerHTML = 'Copy link';
+    btnCopyLink.innerHTML = `<i class="fa-solid fa-copy"></i>Copy Link`;
     btnCopyLink.removeAttribute('disabled');
   }, 2000);
 });
@@ -144,12 +136,10 @@ function start() {
   );
   if (arr && arr.length > 1) {
     // JSON mode
-    document.querySelector('body')!.classList.add('json-format');
-    document.querySelector('body')!.innerHTML = JSON.stringify(
-      realm,
-      null,
-      '  '
-    );
+    document.querySelector('body')!.innerHTML =
+      '<pre class="json-format">' +
+      JSON.stringify(realm, null, '  ') +
+      '</pre>';
     return;
   }
 

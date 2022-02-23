@@ -25,7 +25,7 @@
   border-left: 3px solid #f36d33;
   color: var(--dark-text);
   page-break-inside: avoid;
-  font-family: 'Ubuntu Mono', monospace;
+  font-family: 'Inconsolata', monospace !important;
   font-size: 1.4rem;
   line-height: 1.2;
   overflow: auto;
@@ -38,6 +38,7 @@
 /* GENERAL */
 
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -99,6 +100,10 @@ li {
 
   box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 25px 0px;
   transition: box-shadow 1s;
+}
+
+.btn--full {
+  width: 100%;
 }
 
 .btn:disabled {
@@ -228,10 +233,11 @@ section.container--controls {
   margin-bottom: 0.8rem;
 }
 
-#controls .control-share-buttons {
+.control-share-buttons {
   display: flex;
   gap: 0.8rem;
   margin-bottom: 1.2rem;
+  width: 48rem;
 }
 
 #labelShare {
