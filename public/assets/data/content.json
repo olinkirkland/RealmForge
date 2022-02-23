@@ -1,5 +1,12 @@
 {
   "heraldry": {
+    "layouts": {
+      "single": {},
+      "double": {},
+      "triumvirate": {},
+      "corner": {},
+      "wide": {}
+    },
     "ordinaries": [
       {
         "name": "none",
