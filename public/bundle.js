@@ -427,6 +427,12 @@ class Realm {
                     return namePart.tags.includes('tributary-prefix');
                 }));
             }
+            // The more tributaries there are the lower the chance is to add a new one
+            const max = 5;
+            const remaining = max - tributaries.length;
+            const chance = remaining * (1 / max) + 0.1; // Always give it +10% chance
+            if (_util__WEBPACK_IMPORTED_MODULE_2__.Util.rand() >= chance)
+                continue;
             // Push to river tributary array (gets returned)
             tributaries.push(tributary);
             // Push to realm tributary array

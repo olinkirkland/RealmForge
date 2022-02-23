@@ -426,6 +426,12 @@ export class Realm {
         );
       }
 
+      // The more tributaries there are the lower the chance is to add a new one
+      const max: number = 5;
+      const remaining: number = max - tributaries.length;
+      const chance: number = remaining * (1 / max) + 0.1; // Always give it +10% chance
+      if (Util.rand() >= chance) continue;
+
       // Push to river tributary array (gets returned)
       tributaries.push(tributary);
 
