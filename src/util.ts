@@ -151,7 +151,7 @@ export class Util {
     }, 0);
 
     // Calculate a random number on the scale of max
-    let weight = Math.random() * max;
+    let weight = Util.rand() * max;
 
     // For each item in the array, decrement max by that item's weight
     let result!: any;
