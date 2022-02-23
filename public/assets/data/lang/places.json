@@ -83,27 +83,27 @@
   },
   {
     "name": "laut",
-    "tags": ["clear", "any"],
+    "tags": ["any"],
     "variations": ["lauten"],
     "asSuffix": 0,
     "asRoot": 3
   },
   {
     "name": "glück",
-    "tags": ["lucky", "any"],
+    "tags": ["any"],
     "variations": ["glücks"],
     "asSuffix": 0,
     "asRoot": 1
   },
   {
     "name": "horn",
-    "tags": ["horn", "any"],
+    "tags": ["any"],
     "asSuffix": 10,
     "asRoot": 1
   },
   {
     "name": "lüb",
-    "tags": ["warm", "hot", "weather"],
+    "tags": ["warm", "weather"],
     "variations": ["lüben"],
     "asSuffix": 0,
     "asRoot": 3

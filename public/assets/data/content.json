@@ -1,7 +1,30 @@
 {
   "heraldry": {
-    "ordinaries": [],
-    "tinctures": []
+    "ordinaries": [
+      { "name": "none", "chance": 100 },
+      { "name": "pale", "chance": 10 },
+      { "name": "fess", "chance": 10 },
+      { "name": "chevron", "chance": 10 },
+      { "name": "bend", "chance": 10 },
+      { "name": "chief", "chance": 10 },
+      { "name": "per pale", "chance": 10 },
+      { "name": "per fess", "chance": 10 },
+      { "name": "per chevron", "chance": 10 },
+      { "name": "pile", "chance": 10 },
+      { "name": "saltire", "chance": 10 },
+      { "name": "cross", "chance": 10 }
+    ],
+    "tinctures": [
+      { "type": "metal", "name": "silver", "color": "#ff0000", "chance": 1 },
+      { "type": "metal", "name": "gold", "color": "#ff0000", "chance": 1 },
+      { "type": "color", "name": "red", "color": "#ff0000", "chance": 1 },
+      { "type": "color", "name": "black", "color": "#ff0000", "chance": 1 },
+      { "type": "color", "name": "blue", "color": "#ff0000", "chance": 1 },
+      { "type": "color", "name": "violet", "color": "#ff0000", "chance": 1 },
+      { "type": "color", "name": "mulberry", "color": "#ff0000", "chance": 0.2 },
+      { "type": "color", "name": "blood red", "color": "#ff0000", "chance": 0.2 },
+      { "type": "color", "name": "tawny", "color": "#ff0000", "chance": 0.2 }
+    ]
   },
   "directions": [
     { "noun": "middle", "adj": "central" },

@@ -1,0 +1,16 @@
+import { Ordinary, Tincture } from './data';
+import { Realm } from './realm';
+import { Util } from './util';
+
+export class Coat {
+  public ordinary: Ordinary;
+  public tinctures: Tincture[];
+  public charge: string | null;
+
+  constructor(ordinary: Ordinary, tinctures: Tincture[]) {
+    this.ordinary = ordinary;
+    this.tinctures = tinctures;
+
+    this.charge = Util.rand() < 0.2 ? 'horse' : null;
+  }
+}

@@ -141,6 +141,29 @@ export class Util {
     return str;
   }
 
+  // Returns an item from an array
+  // The weight value is determined using the accessor function
+  // randomWeightedValue<NamePart>(nameParts, item => item.asRoot)
+  static randomWeightedValue<T>(arr: T[], accessor: (item: T) => number): T {
+    // Get the max weight
+    const max = arr.reduce((total: number, item: T) => {
+      return total + accessor(item);
+    }, 0);
+
+    // Calculate a random number on the scale of max
+    let weight = Math.random() * max;
+
+    // For each item in the array, decrement max by that item's weight
+    let result!: any;
+    arr.some((item: T) => {
+      weight -= accessor(item);
+      result = item;
+      return weight < 0;
+    });
+
+    return result;
+  }
+
   // Tweet a realm
   static shareByTweet(realm: Realm) {
     let tweet: string = `Explore ${Util.capitalize(

@@ -1,4 +1,5 @@
-import { Data, Direction, NamePart } from './data';
+import { Coat } from './coat';
+import { Data, Direction, NamePart, Ordinary, Tincture } from './data';
 import { Util } from './util';
 
 export type Biome = {
@@ -25,24 +26,24 @@ export class Realm {
   public tags: string[] = ['any'];
 
   public realmName!: Word;
-  public capitalCityName: string = 'highbridge';
+  public capitalCityName!: string;
 
-  public sizeIndex: number = 0;
-  public size: string = 'small';
+  public sizeIndex!: number;
+  public size!: string;
 
-  public governmentRank: string = 'territory';
-  public leaderTitle: string = 'lord';
+  public governmentRank!: string;
+  public leaderTitle!: string;
 
-  public parentEntityName: string = 'the empire';
-  public parentEntityAdj: string = 'imperial';
+  public parentEntityName!: string;
+  public parentEntityAdj!: string;
 
   public directionWithinParentEntity!: Direction;
 
-  public temperature: string = 'temperate';
-  public humidity: string = 'wet';
+  public temperature!: string;
+  public humidity!: string;
 
-  public seasonSummer: string[] = ['long', 'harsh'];
-  public seasonWinter: string[] = ['long', 'mild'];
+  public seasonSummer: string[] = [];
+  public seasonWinter: string[] = [];
 
   public biomes: Biome[] = [];
   public rivers: River[] = [];
@@ -51,10 +52,12 @@ export class Realm {
   public coast: boolean = false;
   public coastDirection!: Direction;
 
-  public sigilName: string = 'dove';
-  public sigilIcon: string = 'dove';
-  public sigilMeaning: string = 'peace';
-  public sigilPresentOnHeraldry: boolean = false;
+  public sigilName!: string;
+  public sigilIcon!: string;
+  public sigilMeaning!: string;
+  public sigilPresentOnHeraldry!: boolean;
+
+  public coat!: Coat;
 
   constructor() {
     this.determineParentEntity();
@@ -69,7 +72,7 @@ export class Realm {
     this.determineRealmName();
     this.determineCities();
 
-    this.determineHeraldry();
+    this.determineCoat();
 
     console.log('tags: ' + this.tags);
   }
@@ -163,11 +166,30 @@ export class Realm {
     this.sigilName = sigil.name;
     this.sigilIcon = sigil.icon;
     this.sigilMeaning = Util.randomValue(sigil.meanings);
-    this.sigilPresentOnHeraldry = Util.rand() < 0.2;
   }
 
-  public determineHeraldry() {
-    // Choose heraldry based on biomes and animals among other things
+  public determineCoat() {
+    // Choose a coat of arms based on biomes and animals among other things
+
+    // Choose an ordinary using chance as points
+    let ordinary: Ordinary = Util.randomWeightedValue(
+      Data.ordinaries,
+      (item) => item.weight
+    );
+
+    // Choose exactly one metal and one color
+    let tinctures: Tincture[] = [];
+    let tMetal: Tincture = Util.randomValue(
+      Data.tinctures.filter((t) => t.type == 'metal')
+    );
+    let tColor: Tincture = Util.randomValue(
+      Data.tinctures.filter((t) => t.type == 'color')
+    );
+
+    this.coat = new Coat(ordinary, tinctures);
+
+    // todo set this correctly
+    this.sigilPresentOnHeraldry = this.coat.charge != null;
   }
 
   public determineClimate() {
@@ -438,7 +460,10 @@ export class Realm {
         return valid;
       });
 
-    let root: NamePart = this.chooseNamePartByPoints(validRoots, 'asRoot');
+    let root: NamePart = Util.randomWeightedValue(
+      validRoots,
+      (item) => item.asRoot
+    );
 
     if (root.variations) {
       root.variations.push(root.name);
@@ -452,19 +477,20 @@ export class Realm {
     let validSuffixes: NamePart[] = Data.riverNameParts.filter((namePart) => {
       // Have at least one point as a suffix name part
       // Have at least one matching tag
-
       return (
         namePart.asSuffix > 0 &&
         namePart.tags.some((tag) => this.tags.includes(tag))
       );
     });
 
+    console.log('validSuffixes=' + validSuffixes);
+
     this.countRiverValidLoop = 0;
     let riverName: Word;
     do {
-      let suffix: NamePart = this.chooseNamePartByPoints(
+      let suffix: NamePart = Util.randomWeightedValue(
         validSuffixes,
-        'asSuffix'
+        (item) => item.asSuffix
       );
       if (suffix.variations) {
         suffix.variations.push(suffix.name);
@@ -508,30 +534,6 @@ export class Realm {
     return valid;
   }
 
-  private chooseNamePartByPoints(
-    nameParts: NamePart[],
-    pointsProperty: 'asSuffix' | 'asRoot'
-  ) {
-    const points: number = nameParts.reduce((total, r) => {
-      return total + r[pointsProperty];
-    }, 0);
-
-    let chance: number = Util.rand(0, points);
-    let namePart: NamePart = nameParts[0];
-    let madeChoice: boolean = false;
-    nameParts.forEach((r) => {
-      if (!madeChoice) {
-        chance -= r[pointsProperty];
-        if (chance <= 0) {
-          namePart = r;
-          madeChoice = true;
-        }
-      }
-    });
-
-    return namePart;
-  }
-
   private determineRealmName() {
     /**
      * Determine root
@@ -549,7 +551,10 @@ export class Realm {
         return valid;
       });
 
-    let root: NamePart = this.chooseNamePartByPoints(validRoots, 'asRoot');
+    let root: NamePart = Util.randomWeightedValue(
+      validRoots,
+      (item) => item.asRoot
+    );
 
     if (root.variations) {
       root.variations.push(root.name);
@@ -571,9 +576,9 @@ export class Realm {
     });
 
     do {
-      let suffix: NamePart = this.chooseNamePartByPoints(
+      let suffix: NamePart = Util.randomWeightedValue(
         validSuffixes,
-        'asSuffix'
+        (item) => item.asSuffix
       );
       if (suffix.variations) {
         suffix.variations.push(suffix.name);

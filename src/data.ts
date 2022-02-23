@@ -17,11 +17,14 @@ export type NamePart = {
 
 export type Ordinary = {
   name: string;
+  weight: number;
 };
 
 export type Tincture = {
   name: string;
-  colors: string[];
+  color: string;
+  type: string;
+  weight: number;
 };
 
 export class Data {
