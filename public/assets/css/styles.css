@@ -42,6 +42,7 @@
   padding: 0;
   list-style: none;
   letter-spacing: 0.4px;
+  /* border: 1px solid red; */
 }
 
 html {
@@ -88,6 +89,7 @@ li {
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: center;
   padding: 1.2rem 2rem;
   cursor: pointer;
 
@@ -146,8 +148,8 @@ li {
 .btn--icon {
   display: inline-block;
   color: var(--dark-text);
-  background: none;
-  box-shadow: none;
+  background: none !important;
+  box-shadow: none !important;
   padding: 0;
   margin: 0;
   opacity: 0.4;
@@ -155,8 +157,8 @@ li {
 }
 
 .btn--icon:hover {
-  background: none;
-  box-shadow: none;
+  background: none !important;
+  box-shadow: none !important;
   opacity: 0.8;
   transition: opacity 0.3s;
 }
@@ -222,13 +224,14 @@ section.container--controls {
   margin-bottom: 4rem;
 }
 
-#controls a {
-  margin-bottom: 2rem;
+#btnStart {
+  margin-bottom: 0.8rem;
 }
 
 #controls .control-share-buttons {
   display: flex;
   gap: 0.8rem;
+  margin-bottom: 1.2rem;
 }
 
 #labelShare {

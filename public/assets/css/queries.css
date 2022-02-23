@@ -75,6 +75,10 @@ instead, 1rem = 1em = 16px */
     font-size: 1.6rem;
   }
 
+  .control-share-buttons {
+    flex-direction: column;
+  }
+
   h2 {
     font-size: 2.4rem;
   }
