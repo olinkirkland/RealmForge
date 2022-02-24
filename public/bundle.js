@@ -2,33 +2,33 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/coat.ts":
+/***/ "./src/Coat.ts":
 /*!*********************!*\
-  !*** ./src/coat.ts ***!
+  !*** ./src/Coat.ts ***!
   \*********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Coat": () => (/* binding */ Coat)
+/* harmony export */   "default": () => (/* binding */ Coat)
 /* harmony export */ });
-/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./util */ "./src/util.ts");
+/* harmony import */ var _Util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Util */ "./src/Util.ts");
 
 class Coat {
     // public chargeArrangement: string;
     constructor(ordinary, tinctures) {
         this.ordinary = ordinary;
         this.tinctures = tinctures;
-        this.charge = _util__WEBPACK_IMPORTED_MODULE_0__.Util.rand() < 0.2 ? 'horse' : null;
+        this.charge = _Util__WEBPACK_IMPORTED_MODULE_0__["default"].rand() < 0.2 ? 'horse' : null;
     }
 }
 
 
 /***/ }),
 
-/***/ "./src/data.ts":
+/***/ "./src/Data.ts":
 /*!*********************!*\
-  !*** ./src/data.ts ***!
+  !*** ./src/Data.ts ***!
   \*********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -134,9 +134,9 @@ class Data {
 
 /***/ }),
 
-/***/ "./src/realm.ts":
+/***/ "./src/Realm.ts":
 /*!**********************!*\
-  !*** ./src/realm.ts ***!
+  !*** ./src/Realm.ts ***!
   \**********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -144,9 +144,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Realm": () => (/* binding */ Realm)
 /* harmony export */ });
-/* harmony import */ var _coat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./coat */ "./src/coat.ts");
-/* harmony import */ var _data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./data */ "./src/data.ts");
-/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./util */ "./src/util.ts");
+/* harmony import */ var _Coat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Coat */ "./src/Coat.ts");
+/* harmony import */ var _Data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Data */ "./src/Data.ts");
+/* harmony import */ var _Util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Util */ "./src/Util.ts");
 
 
 
@@ -175,45 +175,45 @@ class Realm {
     }
     determineParentEntity() {
         let arr = ['the'];
-        if (_util__WEBPACK_IMPORTED_MODULE_2__.Util.rand() < 0.8) {
-            let firstDescriptor = _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_1__.Data.parentEntityDescriptorsBefore);
+        if (_Util__WEBPACK_IMPORTED_MODULE_2__["default"].rand() < 0.8) {
+            let firstDescriptor = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomValue(_Data__WEBPACK_IMPORTED_MODULE_1__.Data.parentEntityDescriptorsBefore);
             arr.push(firstDescriptor);
-            if (_util__WEBPACK_IMPORTED_MODULE_2__.Util.rand() < 0.2) {
-                let secondDescriptor = _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_1__.Data.parentEntityDescriptorsBefore);
+            if (_Util__WEBPACK_IMPORTED_MODULE_2__["default"].rand() < 0.2) {
+                let secondDescriptor = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomValue(_Data__WEBPACK_IMPORTED_MODULE_1__.Data.parentEntityDescriptorsBefore);
                 if (secondDescriptor != firstDescriptor)
                     arr.push(secondDescriptor);
             }
         }
-        let government = _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_1__.Data.parentEntityGovernments);
+        let government = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomValue(_Data__WEBPACK_IMPORTED_MODULE_1__.Data.parentEntityGovernments);
         this.parentEntityName = government.noun;
         this.parentEntityAdj = government.adj;
         arr.push(this.parentEntityName);
-        if (_util__WEBPACK_IMPORTED_MODULE_2__.Util.rand() < 0.1) {
-            arr.push(_util__WEBPACK_IMPORTED_MODULE_2__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_1__.Data.parentEntityDescriptorsAfter));
+        if (_Util__WEBPACK_IMPORTED_MODULE_2__["default"].rand() < 0.1) {
+            arr.push(_Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomValue(_Data__WEBPACK_IMPORTED_MODULE_1__.Data.parentEntityDescriptorsAfter));
         }
         this.parentEntityName = arr.join(' ');
     }
     determineDirection() {
-        const dir = _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_1__.Data.directions);
+        const dir = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomValue(_Data__WEBPACK_IMPORTED_MODULE_1__.Data.directions);
         this.directionWithinParentEntity = dir;
         // Add direction tags south-west => south, west
         this.tags.push(...this.directionWithinParentEntity.noun.split('-'));
         // 40% chance to be coastal, 0% if location is middle
         this.coastDirection = this.directionWithinParentEntity;
-        if (_util__WEBPACK_IMPORTED_MODULE_2__.Util.rand() < 0.4 &&
+        if (_Util__WEBPACK_IMPORTED_MODULE_2__["default"].rand() < 0.4 &&
             this.directionWithinParentEntity.noun != 'middle') {
             this.coast = true;
             while (!this.directionWithinParentEntity.noun
                 .split('-')
                 .includes(this.coastDirection.noun)) {
-                this.coastDirection = _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_1__.Data.directions);
+                this.coastDirection = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomValue(_Data__WEBPACK_IMPORTED_MODULE_1__.Data.directions);
             }
             this.tags.push('coast');
         }
     }
     determineSize() {
-        this.sizeIndex = Math.floor(_util__WEBPACK_IMPORTED_MODULE_2__.Util.rand() * _data__WEBPACK_IMPORTED_MODULE_1__.Data.sizes.length);
-        this.size = _data__WEBPACK_IMPORTED_MODULE_1__.Data.sizes[this.sizeIndex];
+        this.sizeIndex = Math.floor(_Util__WEBPACK_IMPORTED_MODULE_2__["default"].rand() * _Data__WEBPACK_IMPORTED_MODULE_1__.Data.sizes.length);
+        this.size = _Data__WEBPACK_IMPORTED_MODULE_1__.Data.sizes[this.sizeIndex];
         if (this.sizeIndex == 0) {
             this.tags.push('city');
         }
@@ -224,29 +224,29 @@ class Realm {
     determineGovernmentRank() {
         let govt;
         do {
-            govt = _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_1__.Data.governmentRanks);
+            govt = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomValue(_Data__WEBPACK_IMPORTED_MODULE_1__.Data.governmentRanks);
         } while (!govt.size.includes(this.sizeIndex));
         this.governmentRank = govt.rank;
         this.tags.push(this.governmentRank);
         this.leaderTitle = govt.ruler;
     }
     determineSigil() {
-        let sigil = _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_1__.Data.sigils);
+        let sigil = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomValue(_Data__WEBPACK_IMPORTED_MODULE_1__.Data.sigils);
         this.sigilName = sigil.name;
         this.sigilIcon = sigil.icon;
-        this.sigilMeaning = _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomValue(sigil.meanings);
+        this.sigilMeaning = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomValue(sigil.meanings);
     }
     determineCoat() {
         // Choose a coat of arms based on biomes and animals among other things
         // Choose an ordinary using chance as points
-        let ordinary = _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomWeightedValue(_data__WEBPACK_IMPORTED_MODULE_1__.Data.ordinaries, (item) => item.weight);
+        let ordinary = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomWeightedValue(_Data__WEBPACK_IMPORTED_MODULE_1__.Data.ordinaries, (item) => item.weight);
         // Choose exactly one metal and one color
-        const metals = _data__WEBPACK_IMPORTED_MODULE_1__.Data.tinctures.filter((t) => t.type == 'metal');
-        let tMetal = _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomWeightedValue(metals, (item) => item.weight);
-        const colors = _data__WEBPACK_IMPORTED_MODULE_1__.Data.tinctures.filter((t) => t.type == 'color');
-        let tColor = _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomWeightedValue(colors, (item) => item.weight);
+        const metals = _Data__WEBPACK_IMPORTED_MODULE_1__.Data.tinctures.filter((t) => t.type == 'metal');
+        let tMetal = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomWeightedValue(metals, (item) => item.weight);
+        const colors = _Data__WEBPACK_IMPORTED_MODULE_1__.Data.tinctures.filter((t) => t.type == 'color');
+        let tColor = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomWeightedValue(colors, (item) => item.weight);
         let tinctures = [tMetal, tColor].sort((t) => Math.random() > 0.5 ? 1 : -1);
-        this.coat = new _coat__WEBPACK_IMPORTED_MODULE_0__.Coat(ordinary, tinctures);
+        this.coat = new _Coat__WEBPACK_IMPORTED_MODULE_0__["default"](ordinary, tinctures);
         // todo set this correctly
         this.sigilPresentOnHeraldry = this.coat.charge != null;
     }
@@ -262,42 +262,42 @@ class Realm {
             this.temperature = 'temperate';
         }
         this.tags.push(this.temperature);
-        this.humidity = _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomValue(['wet', 'dry']);
+        this.humidity = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomValue(['wet', 'dry']);
         if (this.coast) {
             this.humidity = 'wet';
         }
         this.tags.push(this.humidity);
         // Description of winter
         this.seasonWinter = [];
-        const winter = _data__WEBPACK_IMPORTED_MODULE_1__.Data.seasonDescriptors.winter;
+        const winter = _Data__WEBPACK_IMPORTED_MODULE_1__.Data.seasonDescriptors.winter;
         let availableWinterDescriptors = winter[this.humidity].concat(winter[this.temperature]);
         for (let i = 0; i < 2; i++) {
-            const d = _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomValue(availableWinterDescriptors);
+            const d = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomValue(availableWinterDescriptors);
             this.seasonWinter.push(d);
-            availableWinterDescriptors = _util__WEBPACK_IMPORTED_MODULE_2__.Util.arrayRemove(availableWinterDescriptors, d);
+            availableWinterDescriptors = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].arrayRemove(availableWinterDescriptors, d);
             //  If the word is longer than 5 letters, 100% chance to step out of the loop
             //  Otherwise, 50% chance to step out of the loop
-            if (_util__WEBPACK_IMPORTED_MODULE_2__.Util.rand() < 0.5 || d.length > 6)
+            if (_Util__WEBPACK_IMPORTED_MODULE_2__["default"].rand() < 0.5 || d.length > 6)
                 break;
         }
         // Description of summer
         this.seasonSummer = [];
-        const summer = _data__WEBPACK_IMPORTED_MODULE_1__.Data.seasonDescriptors.summer;
+        const summer = _Data__WEBPACK_IMPORTED_MODULE_1__.Data.seasonDescriptors.summer;
         let availableSummerDescriptors = summer[this.humidity].concat(summer[this.temperature]);
         for (let i = 0; i < 2; i++) {
-            const d = _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomValue(availableSummerDescriptors);
+            const d = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomValue(availableSummerDescriptors);
             if (this.seasonWinter.includes(d)) {
                 continue;
             }
             this.seasonSummer.push(d);
-            availableSummerDescriptors = _util__WEBPACK_IMPORTED_MODULE_2__.Util.arrayRemove(availableSummerDescriptors, d);
-            if (_util__WEBPACK_IMPORTED_MODULE_2__.Util.rand() < 0.5)
+            availableSummerDescriptors = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].arrayRemove(availableSummerDescriptors, d);
+            if (_Util__WEBPACK_IMPORTED_MODULE_2__["default"].rand() < 0.5)
                 break;
         }
     }
     determineBiomes() {
         // mountain | boreal-forest | temperate-forest | grassland | tundra
-        let availableBiomes = _data__WEBPACK_IMPORTED_MODULE_1__.Data.biomes.filter((str) => {
+        let availableBiomes = _Data__WEBPACK_IMPORTED_MODULE_1__.Data.biomes.filter((str) => {
             switch (this.humidity) {
                 case 'dry':
                     // Dry? Remove boreal-forest and temperate-forest
@@ -320,32 +320,32 @@ class Realm {
             return true;
         });
         // Add the primary biome
-        let b = _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomValue(availableBiomes);
+        let b = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomValue(availableBiomes);
         // Reroll if mountains and larger than 1
         if (b == 'mountains' && this.sizeIndex > 1)
-            b = _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomValue(availableBiomes);
-        availableBiomes = _util__WEBPACK_IMPORTED_MODULE_2__.Util.arrayRemove(availableBiomes, b);
-        let availableSizeIndex = _data__WEBPACK_IMPORTED_MODULE_1__.Data.sizes.indexOf(this.size) * 2;
-        let sizeIndex = Math.floor(_util__WEBPACK_IMPORTED_MODULE_2__.Util.rand() * availableSizeIndex);
+            b = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomValue(availableBiomes);
+        availableBiomes = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].arrayRemove(availableBiomes, b);
+        let availableSizeIndex = _Data__WEBPACK_IMPORTED_MODULE_1__.Data.sizes.indexOf(this.size) * 2;
+        let sizeIndex = Math.floor(_Util__WEBPACK_IMPORTED_MODULE_2__["default"].rand() * availableSizeIndex);
         availableSizeIndex -= sizeIndex;
         let primaryBiome = {
             type: b,
-            size: _data__WEBPACK_IMPORTED_MODULE_1__.Data.sizes[Math.max(1, sizeIndex)],
-            direction: _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_1__.Data.directions)
+            size: _Data__WEBPACK_IMPORTED_MODULE_1__.Data.sizes[Math.max(1, sizeIndex)],
+            direction: _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomValue(_Data__WEBPACK_IMPORTED_MODULE_1__.Data.directions)
         };
         this.tags.push(primaryBiome.type);
         this.biomes.push(primaryBiome);
-        if (_util__WEBPACK_IMPORTED_MODULE_2__.Util.rand() < 0.6) {
+        if (_Util__WEBPACK_IMPORTED_MODULE_2__["default"].rand() < 0.6) {
             // Choose a direction that isn't the same direction as the primary Biome's direction
             // Also cannot be a combined direction like north-east or south-west, must be one of the four cardinal directions or 'middle'
             let secondaryDirection;
             do {
-                secondaryDirection = _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_1__.Data.directions);
+                secondaryDirection = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomValue(_Data__WEBPACK_IMPORTED_MODULE_1__.Data.directions);
             } while (secondaryDirection.noun == primaryBiome.direction.noun ||
                 secondaryDirection.noun.includes('-'));
             let secondaryBiome = {
-                type: _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomValue(availableBiomes),
-                size: _data__WEBPACK_IMPORTED_MODULE_1__.Data.sizes[Math.floor(_util__WEBPACK_IMPORTED_MODULE_2__.Util.rand() * availableSizeIndex)],
+                type: _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomValue(availableBiomes),
+                size: _Data__WEBPACK_IMPORTED_MODULE_1__.Data.sizes[Math.floor(_Util__WEBPACK_IMPORTED_MODULE_2__["default"].rand() * availableSizeIndex)],
                 direction: secondaryDirection
             };
             // Add a second biome
@@ -369,7 +369,7 @@ class Realm {
                 pickRiverCount.max = 5;
                 break;
         }
-        let riverCount = Math.floor(_util__WEBPACK_IMPORTED_MODULE_2__.Util.rand(pickRiverCount.min, pickRiverCount.max));
+        let riverCount = Math.floor(_Util__WEBPACK_IMPORTED_MODULE_2__["default"].rand(pickRiverCount.min, pickRiverCount.max));
         // For small realms (less than 3 on the sizeIndex) there shouldn't be more than two rivers passing through
         if (this.sizeIndex < 3) {
             riverCount = Math.min(riverCount, 2);
@@ -377,28 +377,41 @@ class Realm {
         // Add rivers
         for (let i = 0; i < riverCount; i++) {
             let flowsFrom;
+            let flowsFromMountains = false;
             // If the realm contains a mountain biome, rivers should flow from it 60% of the time
-            const mountainBiome = this.biomes.find((b) => b.type == 'mountains');
-            if (mountainBiome && _util__WEBPACK_IMPORTED_MODULE_2__.Util.rand() < 0.6) {
+            const mountainBiome = this.biomes.find((b) => b.type == 'mountain');
+            if (mountainBiome && _Util__WEBPACK_IMPORTED_MODULE_2__["default"].rand() < 0.6) {
                 flowsFrom = mountainBiome.direction;
+                flowsFromMountains = true;
+            }
+            else {
+                flowsFrom = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomValue(_Data__WEBPACK_IMPORTED_MODULE_1__.Data.directions);
             }
             let flowsTo;
+            let flowsToCoast = false;
             // If the realm contains a coast, rivers should flow to it 60% of the time
-            if (this.coast && _util__WEBPACK_IMPORTED_MODULE_2__.Util.rand() < 0.6) {
-                flowsFrom = this.coastDirection;
+            // Rivers cannot travel from one direction to a direction that contains a matching word:
+            // north to west is OK, north to north-west is NOT, south to north-east is OK, south to south-east is NOT
+            if (this.coast && _Util__WEBPACK_IMPORTED_MODULE_2__["default"].rand() < 0.6) {
+                flowsTo = this.coastDirection;
+                flowsToCoast = true;
             }
-            do {
-                flowsFrom = _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_1__.Data.directions);
-                flowsTo = _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_1__.Data.directions);
-            } while (flowsTo == flowsFrom ||
-                flowsTo.noun == 'middle' ||
-                flowsFrom.noun == 'middle');
+            else {
+                do {
+                    flowsTo = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomValue(_Data__WEBPACK_IMPORTED_MODULE_1__.Data.directions);
+                } while (flowsTo == flowsFrom ||
+                    flowsFrom.noun
+                        .split('-')
+                        .some((d) => flowsTo.noun.split('-').includes(d)));
+            }
             let riverName = this.determineRiverName();
             let tributaries = this.determineTributaries(riverName);
             let river = {
                 name: riverName,
                 flowsTo: flowsTo,
+                flowsToCoast: flowsToCoast,
                 flowsFrom: flowsFrom,
+                flowsFromMountains: flowsFromMountains,
                 tributaries: tributaries,
                 prefix: null,
                 stem: null
@@ -407,23 +420,25 @@ class Realm {
         }
         let arr = [];
         for (let i = 0; i < 20; i++)
-            arr.push(_util__WEBPACK_IMPORTED_MODULE_2__.Util.readWord(this.determineRiverName()));
+            arr.push(_Util__WEBPACK_IMPORTED_MODULE_2__["default"].readWord(this.determineRiverName()));
     }
     determineTributaries(riverName) {
         let tributaries = [];
-        const tributaryCount = Math.floor(_util__WEBPACK_IMPORTED_MODULE_2__.Util.rand(1, 4));
+        const tributaryCount = Math.floor(_Util__WEBPACK_IMPORTED_MODULE_2__["default"].rand(2, 5));
         for (let i = 0; i < tributaryCount; i++) {
             let tributary = {
-                name: i == 0 && _util__WEBPACK_IMPORTED_MODULE_2__.Util.rand() < 0.6 ? riverName : this.determineRiverName(),
-                flowsTo: _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_1__.Data.directions),
-                flowsFrom: _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_1__.Data.directions),
+                name: i == 0 && _Util__WEBPACK_IMPORTED_MODULE_2__["default"].rand() < 0.6 ? riverName : this.determineRiverName(),
+                flowsTo: _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomValue(_Data__WEBPACK_IMPORTED_MODULE_1__.Data.directions),
+                flowsToCoast: false,
+                flowsFrom: _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomValue(_Data__WEBPACK_IMPORTED_MODULE_1__.Data.directions),
+                flowsFromMountains: false,
                 tributaries: [],
                 prefix: null,
                 stem: null
             };
             // If the tributary name is the same as the stem, choose a tributary prefix
-            if (_util__WEBPACK_IMPORTED_MODULE_2__.Util.readWord(riverName) == _util__WEBPACK_IMPORTED_MODULE_2__.Util.readWord(tributary.name)) {
-                tributary.prefix = _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_1__.Data.tributaryNameParts.filter((namePart) => {
+            if (_Util__WEBPACK_IMPORTED_MODULE_2__["default"].readWord(riverName) == _Util__WEBPACK_IMPORTED_MODULE_2__["default"].readWord(tributary.name)) {
+                tributary.prefix = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomValue(_Data__WEBPACK_IMPORTED_MODULE_1__.Data.tributaryNameParts.filter((namePart) => {
                     return namePart.tags.includes('tributary-prefix');
                 }));
             }
@@ -431,7 +446,7 @@ class Realm {
             const max = 5;
             const remaining = max - tributaries.length;
             const chance = remaining * (1 / max) + 0.1; // Always give it +10% chance
-            if (_util__WEBPACK_IMPORTED_MODULE_2__.Util.rand() >= chance)
+            if (_Util__WEBPACK_IMPORTED_MODULE_2__["default"].rand() >= chance)
                 continue;
             // Push to river tributary array (gets returned)
             tributaries.push(tributary);
@@ -460,8 +475,8 @@ class Realm {
         /**
          * Determine root
          */
-        let validRoots = _data__WEBPACK_IMPORTED_MODULE_1__.Data.riverNameParts.concat(_data__WEBPACK_IMPORTED_MODULE_1__.Data.faunaNameParts)
-            .concat(_data__WEBPACK_IMPORTED_MODULE_1__.Data.floraNameParts)
+        let validRoots = _Data__WEBPACK_IMPORTED_MODULE_1__.Data.riverNameParts.concat(_Data__WEBPACK_IMPORTED_MODULE_1__.Data.faunaNameParts)
+            .concat(_Data__WEBPACK_IMPORTED_MODULE_1__.Data.floraNameParts)
             .filter((namePart) => {
             // Root cannot be used by another river
             // Have at least one point as a root name part
@@ -473,15 +488,15 @@ class Realm {
                 return valid;
             return valid;
         });
-        let root = _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomWeightedValue(validRoots, (item) => item.asRoot);
+        let root = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomWeightedValue(validRoots, (item) => item.asRoot);
         if (root.variations) {
             root.variations.push(root.name);
-            root.name = _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomValue(root.variations);
+            root.name = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomValue(root.variations);
         }
         /**
          * Determine suffix
          */
-        let validSuffixes = _data__WEBPACK_IMPORTED_MODULE_1__.Data.riverNameParts.filter((namePart) => {
+        let validSuffixes = _Data__WEBPACK_IMPORTED_MODULE_1__.Data.riverNameParts.filter((namePart) => {
             // Have at least one point as a suffix name part
             // Have at least one matching tag
             return (namePart.asSuffix > 0 &&
@@ -490,10 +505,10 @@ class Realm {
         this.countRiverValidLoop = 0;
         let riverName;
         do {
-            let suffix = _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomWeightedValue(validSuffixes, (item) => item.asSuffix);
+            let suffix = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomWeightedValue(validSuffixes, (item) => item.asSuffix);
             if (suffix.variations) {
                 suffix.variations.push(suffix.name);
-                suffix.name = _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomValue(suffix.variations);
+                suffix.name = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomValue(suffix.variations);
             }
             riverName = { root: root, suffix: suffix };
         } while (!this.isRiverNameValid(riverName));
@@ -508,15 +523,15 @@ class Realm {
         }
         let valid = true;
         // Can't have two vowels next to each other
-        if (_util__WEBPACK_IMPORTED_MODULE_2__.Util.endsWithVowel(r.root.name) &&
-            _util__WEBPACK_IMPORTED_MODULE_2__.Util.startsWithVowel(r.suffix.name)) {
+        if (_Util__WEBPACK_IMPORTED_MODULE_2__["default"].endsWithVowel(r.root.name) &&
+            _Util__WEBPACK_IMPORTED_MODULE_2__["default"].startsWithVowel(r.suffix.name)) {
             valid = false;
         }
         // No two rivers or tributaries can have the same name
         const tributaryNames = this.tributaries
             .concat(this.rivers)
-            .map((river) => _util__WEBPACK_IMPORTED_MODULE_2__.Util.readWord(river.name));
-        if (tributaryNames.includes(_util__WEBPACK_IMPORTED_MODULE_2__.Util.readWord(r))) {
+            .map((river) => _Util__WEBPACK_IMPORTED_MODULE_2__["default"].readWord(river.name));
+        if (tributaryNames.includes(_Util__WEBPACK_IMPORTED_MODULE_2__["default"].readWord(r))) {
             valid = false;
         }
         return valid;
@@ -525,24 +540,24 @@ class Realm {
         /**
          * Determine root
          */
-        let validRoots = _data__WEBPACK_IMPORTED_MODULE_1__.Data.placeNameParts.concat(_data__WEBPACK_IMPORTED_MODULE_1__.Data.rulersNameParts)
-            .concat(_data__WEBPACK_IMPORTED_MODULE_1__.Data.faunaNameParts)
-            .concat(_data__WEBPACK_IMPORTED_MODULE_1__.Data.floraNameParts)
+        let validRoots = _Data__WEBPACK_IMPORTED_MODULE_1__.Data.placeNameParts.concat(_Data__WEBPACK_IMPORTED_MODULE_1__.Data.rulersNameParts)
+            .concat(_Data__WEBPACK_IMPORTED_MODULE_1__.Data.faunaNameParts)
+            .concat(_Data__WEBPACK_IMPORTED_MODULE_1__.Data.floraNameParts)
             .filter((namePart) => {
             let valid = namePart.asRoot > 0 && this.areNamePartTagsValid(namePart);
             if (!valid)
                 return valid;
             return valid;
         });
-        let root = _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomWeightedValue(validRoots, (item) => item.asRoot);
+        let root = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomWeightedValue(validRoots, (item) => item.asRoot);
         if (root.variations) {
             root.variations.push(root.name);
-            root.name = _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomValue(root.variations);
+            root.name = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomValue(root.variations);
         }
         /**
          * Determine suffix
          */
-        let validSuffixes = _data__WEBPACK_IMPORTED_MODULE_1__.Data.placeNameParts.filter((namePart) => {
+        let validSuffixes = _Data__WEBPACK_IMPORTED_MODULE_1__.Data.placeNameParts.filter((namePart) => {
             // Have at least one point as a suffix name part
             // Have at least one matching tag
             let valid = namePart.asSuffix > 0 && this.areNamePartTagsValid(namePart);
@@ -551,10 +566,10 @@ class Realm {
             return valid;
         });
         do {
-            let suffix = _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomWeightedValue(validSuffixes, (item) => item.asSuffix);
+            let suffix = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomWeightedValue(validSuffixes, (item) => item.asSuffix);
             if (suffix.variations) {
                 suffix.variations.push(suffix.name);
-                suffix.name = _util__WEBPACK_IMPORTED_MODULE_2__.Util.randomValue(suffix.variations);
+                suffix.name = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomValue(suffix.variations);
             }
             this.realmName = { root: root, suffix: suffix };
         } while (!this.isRealmNameValid(this.realmName));
@@ -572,17 +587,17 @@ class Realm {
 
 /***/ }),
 
-/***/ "./src/util.ts":
+/***/ "./src/Util.ts":
 /*!*********************!*\
-  !*** ./src/util.ts ***!
+  !*** ./src/Util.ts ***!
   \*********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Util": () => (/* binding */ Util)
+/* harmony export */   "default": () => (/* binding */ Util)
 /* harmony export */ });
-/* harmony import */ var _data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./data */ "./src/data.ts");
+/* harmony import */ var _Data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Data */ "./src/Data.ts");
 
 class Util {
     static toggleDarkMode() {
@@ -635,7 +650,7 @@ class Util {
     static generateSeed() {
         let arr = [];
         for (let i = 0; i < 3; i++) {
-            arr.push(Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_0__.Data.words, false));
+            arr.push(Util.randomValue(_Data__WEBPACK_IMPORTED_MODULE_0__.Data.words, false));
         }
         Util.seed = arr.join('-');
         Util.seedRandomNumberGenerator();
@@ -832,9 +847,9 @@ var __webpack_exports__ = {};
   !*** ./src/index.ts ***!
   \**********************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./util */ "./src/util.ts");
-/* harmony import */ var _data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./data */ "./src/data.ts");
-/* harmony import */ var _realm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./realm */ "./src/realm.ts");
+/* harmony import */ var _Util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Util */ "./src/Util.ts");
+/* harmony import */ var _Data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Data */ "./src/Data.ts");
+/* harmony import */ var _Realm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Realm */ "./src/Realm.ts");
 
 
 
@@ -844,11 +859,11 @@ __webpack_require__.r(__webpack_exports__);
 // Initial local preferences
 const darkModeAtStart = localStorage.getItem('darkMode');
 const isDarkModeAtStart = darkModeAtStart != null && darkModeAtStart == 'true';
-isDarkModeAtStart ? _util__WEBPACK_IMPORTED_MODULE_0__.Util.toggleDarkMode() : null;
+isDarkModeAtStart ? _Util__WEBPACK_IMPORTED_MODULE_0__["default"].toggleDarkMode() : null;
 // Handle dark mode button
 const btnToggleDarkMode = document.getElementById('btnToggleDarkMode');
 btnToggleDarkMode.addEventListener('click', () => {
-    _util__WEBPACK_IMPORTED_MODULE_0__.Util.toggleDarkMode();
+    _Util__WEBPACK_IMPORTED_MODULE_0__["default"].toggleDarkMode();
 });
 // Handle start button
 const btnStart = document.getElementById('btnStart');
@@ -881,7 +896,7 @@ btnCopyLink.addEventListener('mouseout', () => {
 // Handle tweet button
 const btnShareTwitter = document.getElementById('btnShareTwitter');
 btnShareTwitter.addEventListener('click', () => {
-    _util__WEBPACK_IMPORTED_MODULE_0__.Util.shareByTweet(realm);
+    _Util__WEBPACK_IMPORTED_MODULE_0__["default"].shareByTweet(realm);
 });
 btnShareTwitter.addEventListener('mouseover', () => {
     if (btnShareTwitter.hasAttribute('disabled'))
@@ -913,7 +928,7 @@ btnJson.addEventListener('mouseout', () => {
     document.getElementById('labelShare').style.opacity = '0';
 });
 // Load data
-_data__WEBPACK_IMPORTED_MODULE_1__.Data.setup(() => {
+_Data__WEBPACK_IMPORTED_MODULE_1__.Data.setup(() => {
     // Does the url contain a seed (query)?
     // www.google.com?foo
     //    -> foo
@@ -922,7 +937,7 @@ _data__WEBPACK_IMPORTED_MODULE_1__.Data.setup(() => {
     const url = window.location.href;
     const arr = url.match(/\?([a-z0-9,-]+)/);
     if (arr && arr.length > 1) {
-        _util__WEBPACK_IMPORTED_MODULE_0__.Util.seed = arr[1];
+        _Util__WEBPACK_IMPORTED_MODULE_0__["default"].seed = arr[1];
         start();
     }
     else {
@@ -932,16 +947,16 @@ _data__WEBPACK_IMPORTED_MODULE_1__.Data.setup(() => {
 // Initialize variables
 let realm;
 function generateSeedAndStart() {
-    _util__WEBPACK_IMPORTED_MODULE_0__.Util.generateSeed();
+    _Util__WEBPACK_IMPORTED_MODULE_0__["default"].generateSeed();
     let url = window.location.href;
     url = url.substring(0, url.indexOf('?'));
     if (window.location.href)
-        window.location.replace(url + '?' + _util__WEBPACK_IMPORTED_MODULE_0__.Util.seed);
+        window.location.replace(url + '?' + _Util__WEBPACK_IMPORTED_MODULE_0__["default"].seed);
 }
 // Start the generation process
 function start() {
-    _util__WEBPACK_IMPORTED_MODULE_0__.Util.seedRandomNumberGenerator();
-    realm = new _realm__WEBPACK_IMPORTED_MODULE_2__.Realm();
+    _Util__WEBPACK_IMPORTED_MODULE_0__["default"].seedRandomNumberGenerator();
+    realm = new _Realm__WEBPACK_IMPORTED_MODULE_2__.Realm();
     // Is it json?
     const arr = window.location.href.match(/\?[a-z0-9,-]+.*\&(json)/);
     if (arr && arr.length > 1) {
@@ -966,8 +981,8 @@ function start() {
 function testSnippets() {
     // Test Util.endsWith function
     for (let i = 0; i < 10; i++) {
-        let str = _util__WEBPACK_IMPORTED_MODULE_0__.Util.randomValue(_data__WEBPACK_IMPORTED_MODULE_1__.Data.words);
-        console.log(`${str} ends with t? ${_util__WEBPACK_IMPORTED_MODULE_0__.Util.endsWith(str, 't')}`);
+        let str = _Util__WEBPACK_IMPORTED_MODULE_0__["default"].randomValue(_Data__WEBPACK_IMPORTED_MODULE_1__.Data.words);
+        console.log(`${str} ends with t? ${_Util__WEBPACK_IMPORTED_MODULE_0__["default"].endsWith(str, 't')}`);
     }
 }
 function updateView() {
@@ -981,7 +996,7 @@ function updateView() {
     toggleVisibility('sigil-present-on-heraldry', realm.sigilPresentOnHeraldry);
     toggleVisibility('on-the-coast', realm.coast);
     // Words
-    applyText('name', _util__WEBPACK_IMPORTED_MODULE_0__.Util.readWord(realm.realmName));
+    applyText('name', _Util__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(realm.realmName));
     applyText('government-rank', realm.governmentRank);
     applyText('parent-entity', realm.parentEntityName);
     applyText('parent-entity-adj', realm.parentEntityAdj);
@@ -1005,14 +1020,14 @@ function updateView() {
 }
 function determineHeroImageUrl() {
     // Todo use realm information to determine the image
-    const validImages = _data__WEBPACK_IMPORTED_MODULE_1__.Data.heroImages.filter((u) => {
+    const validImages = _Data__WEBPACK_IMPORTED_MODULE_1__.Data.heroImages.filter((u) => {
         return u.tags.some((tag) => realm.tags.includes(tag));
     })
         .map((j) => {
         return j.url;
     });
     // console.log(validImages);
-    const image = _util__WEBPACK_IMPORTED_MODULE_0__.Util.randomValue(validImages);
+    const image = _Util__WEBPACK_IMPORTED_MODULE_0__["default"].randomValue(validImages);
     return image;
 }
 function applyText(query, text, app = '') {
@@ -1020,7 +1035,7 @@ function applyText(query, text, app = '') {
     els.forEach((node) => {
         const el = node;
         if (el.classList.contains('prepend-article')) {
-            el.textContent = _util__WEBPACK_IMPORTED_MODULE_0__.Util.aOrAn(text) + ' ' + text + app;
+            el.textContent = _Util__WEBPACK_IMPORTED_MODULE_0__["default"].aOrAn(text) + ' ' + text + app;
         }
         else {
             el.innerHTML = text + app;
@@ -1070,23 +1085,41 @@ function applyBiomesBlurb() {
 function applyRiversBlurb() {
     let text = '';
     if (realm.rivers.length == 0) {
+        // No rivers
         text = `No notable rivers pass through <span class="name"></span>.`;
     }
     else if (realm.rivers.length == 1) {
+        // One river
         let r = realm.rivers[0];
-        text = `The main river that flows through <span class="name"></span> is the <span class="capitalized">${_util__WEBPACK_IMPORTED_MODULE_0__.Util.readWord(r.name)}</span>. The <span class="capitalized">${_util__WEBPACK_IMPORTED_MODULE_0__.Util.readWord(r.name)}</span> starts in the ${r.flowsFrom.noun} and flows toward the ${r.flowsTo.noun}.`;
+        text = `The main river that flows through <span class="name"></span> is the <span class="capitalized">${_Util__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(r.name)}</span>. `;
+        // Flows from...
+        text += `The <span class="capitalized">${_Util__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(r.name)}</span> `;
+        if (r.flowsFromMountains) {
+            text += `begins in the ${r.flowsFrom.adj} mountains `;
+        }
+        else {
+            text += `enters <span class="name"></span> in the ${r.flowsFrom.noun} `;
+        }
+        // Flows to...
+        if (r.flowsToCoast) {
+            text += `and forms an estuary on the ${r.flowsTo.adj} coast. `;
+        }
+        else {
+            text += `and flows toward the ${r.flowsTo.noun}. `;
+        }
     }
     else {
-        text = `<span class="word-number capitalized">${realm.rivers.length}</span> rivers pass through <span class="name"></span>: ${_util__WEBPACK_IMPORTED_MODULE_0__.Util.joinArrayWithAnd(realm.rivers.map((river) => {
-            return `the <span class="capitalized">${_util__WEBPACK_IMPORTED_MODULE_0__.Util.readWord(river.name)}</span>`;
-        }))}.`;
+        // More than one river
+        text = `<span class="word-number capitalized">${realm.rivers.length}</span> rivers pass through <span class="name"></span>: ${_Util__WEBPACK_IMPORTED_MODULE_0__["default"].joinArrayWithAnd(realm.rivers.map((river) => {
+            return `the <span class="capitalized">${_Util__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(river.name)}</span>`;
+        }))}. `;
     }
     if (realm.tributaries.length > 0) {
         text +=
-            '<br>Notable tributaries include the rivers ' +
-                _util__WEBPACK_IMPORTED_MODULE_0__.Util.joinArrayWithAnd(realm.tributaries.map((tributary) => {
+            'Notable tributaries include the rivers ' +
+                _Util__WEBPACK_IMPORTED_MODULE_0__["default"].joinArrayWithAnd(realm.tributaries.map((tributary) => {
                     let prefix = tributary.prefix != null ? tributary.prefix.name + ' ' : '';
-                    return `<span class="capitalized">${prefix}</span><span class="capitalized">${_util__WEBPACK_IMPORTED_MODULE_0__.Util.readWord(tributary.name)}</span>`;
+                    return `<span class="capitalized">${prefix}</span><span class="capitalized">${_Util__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(tributary.name)}</span>`;
                 })) +
                 '.';
     }
@@ -1112,7 +1145,7 @@ function replaceNumbers() {
     const els = document.querySelectorAll('.word-number');
     els.forEach((node) => {
         const el = node;
-        el.textContent = _util__WEBPACK_IMPORTED_MODULE_0__.Util.wordFromNumber(Number.parseInt(el.textContent ? el.textContent : '0'));
+        el.textContent = _Util__WEBPACK_IMPORTED_MODULE_0__["default"].wordFromNumber(Number.parseInt(el.textContent ? el.textContent : '0'));
     });
 }
 

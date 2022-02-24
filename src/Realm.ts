@@ -11,7 +11,9 @@ export type Biome = {
 export type River = {
   name: Word;
   flowsTo: Direction;
+  flowsToCoast: Boolean;
   flowsFrom: Direction;
+  flowsFromMountains: Boolean;
   tributaries: River[];
   prefix: NamePart | null;
   stem: River | null;
@@ -360,35 +362,46 @@ export class Realm {
     // Add rivers
     for (let i = 0; i < riverCount; i++) {
       let flowsFrom: Direction;
+      let flowsFromMountains: boolean = false;
       // If the realm contains a mountain biome, rivers should flow from it 60% of the time
       const mountainBiome: Biome | undefined = this.biomes.find(
-        (b) => b.type == 'mountains'
+        (b) => b.type == 'mountain'
       );
+
       if (mountainBiome && Util.rand() < 0.6) {
         flowsFrom = mountainBiome.direction;
+        flowsFromMountains = true;
+      } else {
+        flowsFrom = Util.randomValue(Data.directions);
       }
 
       let flowsTo: Direction;
+      let flowsToCoast: boolean = false;
       // If the realm contains a coast, rivers should flow to it 60% of the time
+      // Rivers cannot travel from one direction to a direction that contains a matching word:
+      // north to west is OK, north to north-west is NOT, south to north-east is OK, south to south-east is NOT
       if (this.coast && Util.rand() < 0.6) {
-        flowsFrom = this.coastDirection;
+        flowsTo = this.coastDirection;
+        flowsToCoast = true;
+      } else {
+        do {
+          flowsTo = Util.randomValue(Data.directions);
+        } while (
+          flowsTo == flowsFrom ||
+          flowsFrom.noun
+            .split('-')
+            .some((d) => flowsTo.noun.split('-').includes(d))
+        );
       }
-
-      do {
-        flowsFrom = Util.randomValue(Data.directions);
-        flowsTo = Util.randomValue(Data.directions);
-      } while (
-        flowsTo == flowsFrom ||
-        flowsTo.noun == 'middle' ||
-        flowsFrom.noun == 'middle'
-      );
 
       let riverName: Word = this.determineRiverName();
       let tributaries: River[] = this.determineTributaries(riverName);
       let river: River = {
         name: riverName,
         flowsTo: flowsTo,
+        flowsToCoast: flowsToCoast,
         flowsFrom: flowsFrom,
+        flowsFromMountains: flowsFromMountains,
         tributaries: tributaries,
         prefix: null,
         stem: null
@@ -405,13 +418,15 @@ export class Realm {
   private determineTributaries(riverName: Word): River[] {
     let tributaries: River[] = [];
 
-    const tributaryCount: number = Math.floor(Util.rand(1, 4));
+    const tributaryCount: number = Math.floor(Util.rand(2, 5));
     for (let i = 0; i < tributaryCount; i++) {
       let tributary: River = {
         name:
           i == 0 && Util.rand() < 0.6 ? riverName : this.determineRiverName(),
         flowsTo: Util.randomValue(Data.directions),
+        flowsToCoast: false,
         flowsFrom: Util.randomValue(Data.directions),
+        flowsFromMountains: false,
         tributaries: [],
         prefix: null,
         stem: null

@@ -302,17 +302,31 @@ function applyRiversBlurb() {
   let text: string = '';
 
   if (realm.rivers.length == 0) {
+    // No rivers
     text = `No notable rivers pass through <span class="name"></span>.`;
   } else if (realm.rivers.length == 1) {
+    // One river
     let r: River = realm.rivers[0];
     text = `The main river that flows through <span class="name"></span> is the <span class="capitalized">${Util.readWord(
       r.name
-    )}</span>. The <span class="capitalized">${Util.readWord(
-      r.name
-    )}</span> starts in the ${r.flowsFrom.noun} and flows toward the ${
-      r.flowsTo.noun
-    }.`;
+    )}</span>. `;
+
+    // Flows from...
+    text += `The <span class="capitalized">${Util.readWord(r.name)}</span> `;
+    if (r.flowsFromMountains) {
+      text += `begins in the ${r.flowsFrom.adj} mountains `;
+    } else {
+      text += `enters <span class="name"></span> in the ${r.flowsFrom.noun} `;
+    }
+
+    // Flows to...
+    if (r.flowsToCoast) {
+      text += `and forms an estuary on the ${r.flowsTo.adj} coast. `;
+    } else {
+      text += `and flows toward the ${r.flowsTo.noun}. `;
+    }
   } else {
+    // More than one river
     text = `<span class="word-number capitalized">${
       realm.rivers.length
     }</span> rivers pass through <span class="name"></span>: ${Util.joinArrayWithAnd(
@@ -321,12 +335,12 @@ function applyRiversBlurb() {
           river.name
         )}</span>`;
       })
-    )}.`;
+    )}. `;
   }
 
   if (realm.tributaries.length > 0) {
     text +=
-      '<br>Notable tributaries include the rivers ' +
+      'Notable tributaries include the rivers ' +
       Util.joinArrayWithAnd(
         realm.tributaries.map((tributary) => {
           let prefix: string =
