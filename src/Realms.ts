@@ -1,6 +1,6 @@
-import { Coat } from './Coat';
+import Coat from './Coat';
 import { Data, Direction, NamePart, Ordinary, Tincture } from './Data';
-import { Util } from './Util';
+import Util from './Util';
 
 export type Biome = {
   type: string;

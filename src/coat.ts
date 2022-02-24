@@ -1,7 +1,7 @@
 import { Ordinary, Tincture } from './Data';
-import { Util } from './Util';
+import Util from './Util';
 
-export class Coat {
+export default class Coat {
   public ordinary: Ordinary;
   public tinctures: Tincture[];
   public charge: string | null;

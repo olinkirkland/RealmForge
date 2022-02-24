@@ -1,7 +1,7 @@
 import { Data } from './Data';
 import { Realm, Word } from './Realms';
 
-export class Util {
+export default class Util {
   public static seed: string;
   public static isDarkMode: boolean = false;
 
