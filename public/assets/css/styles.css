@@ -376,12 +376,26 @@ article li i {
 
 /* FOOTER */
 footer.container {
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   color: var(--dark-text-muted);
+  gap: 1.2rem;
   font-size: 1.2rem;
   padding: 2rem 0;
   margin-top: 4rem;
   display: flex;
-  gap: 1.2rem;
   border-top: 1px solid var(--dark-text-very-muted);
+}
+
+footer.container > div {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  justify-content: center;
+}
+
+footer .icon-footer {
+  width: 2rem;
+  opacity: 0.8;
 }
