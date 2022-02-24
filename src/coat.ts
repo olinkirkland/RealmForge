@@ -1,5 +1,4 @@
 import { Ordinary, Tincture } from './data';
-import { Realm } from './realm';
 import { Util } from './util';
 
 export class Coat {

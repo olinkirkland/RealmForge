@@ -1,4 +1,3 @@
-import { util } from '../node_modules/webpack/types';
 import { Data } from './data';
 import { Realm, Word } from './realm';
 

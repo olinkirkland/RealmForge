@@ -1,4 +1,3 @@
-import { validate } from '../node_modules/schema-utils/declarations/validate';
 import { Util } from './util';
 
 export type Direction = {
