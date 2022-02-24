@@ -92,4 +92,8 @@ instead, 1rem = 1em = 16px */
   li {
     font-size: 1.4rem;
   }
+
+  #labelShare {
+    display: none;
+  }
 }
