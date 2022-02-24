@@ -1,5 +1,5 @@
-import { Data } from './data';
-import { Realm, Word } from './realm';
+import { Data } from './Data';
+import { Realm, Word } from './Realms';
 
 export class Util {
   public static seed: string;

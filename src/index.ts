@@ -1,7 +1,7 @@
-import { Util } from './util';
-import { Data } from './data';
-import { Realm, Biome, River } from './realm';
-import { Coat } from './coat';
+import { Util } from './Util';
+import { Data } from './Data';
+import { Realm, Biome, River } from './Realms';
+import { Coat } from './Coat';
 
 /**
  * Hint: Use 'npm run build' from console to compile + watch the TS code on save

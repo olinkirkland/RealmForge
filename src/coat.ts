@@ -1,5 +1,5 @@
-import { Ordinary, Tincture } from './data';
-import { Util } from './util';
+import { Ordinary, Tincture } from './Data';
+import { Util } from './Util';
 
 export class Coat {
   public ordinary: Ordinary;
