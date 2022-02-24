@@ -1,5 +1,5 @@
 import { Data } from './Data';
-import { Realm, Word } from './Realms';
+import { Realm, Word } from './Realm';
 
 export default class Util {
   public static seed: string;

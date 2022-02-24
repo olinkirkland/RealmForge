@@ -1,6 +1,6 @@
 import Util from './Util';
 import { Data } from './Data';
-import { Realm, Biome, River } from './Realms';
+import { Realm, Biome, River } from './Realm';
 import Coat from './Coat';
 
 /**
