@@ -955,6 +955,7 @@ function handleJsonButtons() {
         btnCopyJson.innerHTML = `<i class="fa-solid fa-check" style="color: orangered"></i>Copied!`;
         btnCopyJson.setAttribute('disabled', 'true');
         document.getElementById('labelJson').style.opacity = '0';
+        navigator.clipboard.writeText(JSON.stringify(realm, null, '  '));
         setTimeout(() => {
             // Play copied animation
             btnCopyJson.innerHTML = `<i class="fa-solid fa-copy"></i>Copy JSON`;
