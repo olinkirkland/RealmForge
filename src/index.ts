@@ -43,6 +43,7 @@ favoritesEl.addEventListener('click', (event) => {
   if (key) {
     favorites = favorites.filter((f) => f.id != key);
     event.preventDefault();
+    localStorage.setItem('favorites', JSON.stringify(favorites));
     updateFavorites();
   }
 });
