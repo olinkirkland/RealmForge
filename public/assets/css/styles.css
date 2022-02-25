@@ -48,12 +48,17 @@
 .json-border-and-content {
   margin-top: 2rem;
   display: flex;
+  width: 100%;
 }
 
 .json-border {
   flex: 0 0 5px;
   border-radius: 5px 0 0 5px;
   background-color: orangered;
+}
+
+.json-content {
+  flex: 1 0 0;
 }
 
 .json-format {
