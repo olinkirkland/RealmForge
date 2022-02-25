@@ -5,6 +5,22 @@ export default class Util {
   public static seed: string;
   public static isDarkMode: boolean = false;
 
+  public static download(name: string, text: string) {
+    var element = document.createElement('a');
+    element.setAttribute(
+      'href',
+      'data:text/plain;charset=utf-8,' + encodeURIComponent(text)
+    );
+    element.setAttribute('download', name);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+  }
+
   public static toggleDarkMode() {
     Util.isDarkMode = !Util.isDarkMode;
     localStorage.setItem('darkMode', JSON.stringify(Util.isDarkMode));

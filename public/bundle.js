@@ -605,6 +605,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Data */ "./src/Data.ts");
 
 class Util {
+    static download(name, text) {
+        var element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+        element.setAttribute('download', name);
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+    }
     static toggleDarkMode() {
         Util.isDarkMode = !Util.isDarkMode;
         localStorage.setItem('darkMode', JSON.stringify(Util.isDarkMode));
@@ -972,7 +981,12 @@ function handleJsonButtons() {
     btnCopyJson.addEventListener('mouseout', fadeOutJsonLabel);
     // Handle the Download JSON button
     const btnDownloadJson = document.getElementById('btnDownloadJson');
-    btnDownloadJson.addEventListener('click', () => { });
+    btnDownloadJson.addEventListener('click', () => {
+        var blob = new Blob([JSON.stringify(realm, null, '')], {
+            type: 'text/plain;charset=utf-8'
+        });
+        _Util__WEBPACK_IMPORTED_MODULE_0__["default"].download(_Util__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(realm.realmName) + '.json', JSON.stringify(realm, null, '  '));
+    });
     btnDownloadJson.addEventListener('mouseover', () => {
         if (btnDownloadJson.hasAttribute('disabled'))
             return;

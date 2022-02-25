@@ -149,7 +149,16 @@ function handleJsonButtons() {
   const btnDownloadJson: HTMLButtonElement = document.getElementById(
     'btnDownloadJson'
   )! as HTMLButtonElement;
-  btnDownloadJson.addEventListener('click', () => {});
+  btnDownloadJson.addEventListener('click', () => {
+    var blob = new Blob([JSON.stringify(realm, null, '')], {
+      type: 'text/plain;charset=utf-8'
+    });
+
+    Util.download(
+      Util.readWord(realm.realmName) + '.json',
+      JSON.stringify(realm, null, '  ')
+    );
+  });
 
   btnDownloadJson.addEventListener('mouseover', () => {
     if (btnDownloadJson.hasAttribute('disabled')) return;
