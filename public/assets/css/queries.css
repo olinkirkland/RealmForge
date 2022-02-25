@@ -76,7 +76,7 @@ instead, 1rem = 1em = 16px */
     font-size: 1.6rem;
   }
 
-  .control-share-buttons {
+  .control-buttons {
     flex-direction: column;
     width: auto;
   }
@@ -95,5 +95,24 @@ instead, 1rem = 1em = 16px */
 
   #labelShare {
     display: none;
+  }
+
+  /* JSON */
+
+  .inner-json {
+    border: none;
+    border-bottom: 1px dashed var(--dark-text-muted);
+    margin-bottom: 2.4rem;
+  }
+
+  .json-format {
+    border: none;
+    background-color: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .json-border {
+    border-radius: 0;
   }
 }
