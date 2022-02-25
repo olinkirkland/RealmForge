@@ -921,13 +921,13 @@ btnShareTwitter.addEventListener('mouseout', fadeOutShareLabel);
 // Handle JSON button
 const btnJson = document.getElementById('btnJson');
 btnJson.addEventListener('click', () => {
-    window.open(window.location.href + '&json', '_blank');
+    window.open(window.location.href + '&json', '_self');
 });
 btnJson.addEventListener('mouseover', () => {
     if (btnJson.hasAttribute('disabled'))
         return;
     document.getElementById('labelShare').innerHTML =
-        "View this Realm's JSON (opens a new tab)";
+        "View this Realm's JSON";
     document.getElementById('labelShare').style.top = '0';
     document.getElementById('labelShare').style.opacity = '1';
 });
@@ -946,14 +946,14 @@ function handleJsonButtons() {
     btnToRealm.addEventListener('click', () => {
         const arr = window.location.href.match(/(.+\?[a-z0-9,-]+).*\&/);
         if (arr && arr.length > 1) {
-            window.open(arr[1], '_blank');
+            window.open(arr[1], '_self');
         }
     });
     btnToRealm.addEventListener('mouseover', () => {
         if (btnJson.hasAttribute('disabled'))
             return;
         document.getElementById('labelJson').innerHTML =
-            'View the Realm page (opens a new tab)';
+            'View the Realm page';
         fadeInJsonLabel();
     });
     btnToRealm.addEventListener('mouseout', fadeOutJsonLabel);
@@ -1049,6 +1049,7 @@ function start() {
         // Hide content
         const content = document.querySelector('div.content');
         content.classList.add('hidden');
+        applyText('name', _Util__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(realm.realmName));
     }
     else {
         // Don't show JSON
