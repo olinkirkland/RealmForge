@@ -66,262 +66,289 @@
       ></a>
     </header>
 
-    <!-- CONTROLS -->
-    <section id="controls" class="container container--controls">
-      <h1>Realm Writer</h1>
-      <p>Generate a detailed Realm with just one click.</p>
-
-      <div>
-        <a id="btnStart" class="btn btn--full">
-          <span>Write a new Realm</span>
+    <div class="container container--json hidden">
+      <h2>Realm Writer <span class="muted">| JSON</span></h2>
+      <div class="control-buttons">
+        <a id="btnToRealm" class="btn btn--outline btn--full">
+          <i class="fas fa-feather-alt"></i>
+          <span>Realm</span>
         </a>
-        <div class="control-share-buttons">
-          <a id="btnCopyLink" class="btn btn--outline btn--full">
-            <i class="fa-solid fa-copy"></i>
-            <span>Copy Link</span>
+        <a id="btnCopyJson" class="btn btn--outline btn--full">
+          <i class="fa-solid fa-copy"></i>
+          <span>Copy</span>
+        </a>
+        <a id="btnDownloadJson" class="btn btn--outline btn--full">
+          <i class="fa-solid fa-download"></i>
+          <span>Download</span>
+        </a>
+      </div>
+      <p id="labelJson" class="hover-label">&nbsp;</p>
+
+      <div class="json-border-and-content">
+        <div class="json-border"></div>
+        <div class="json-content"></div>
+      </div>
+    </div>
+
+    <div class="content">
+      <!-- CONTROLS -->
+      <section id="controls" class="container container--controls">
+        <h1>Realm Writer</h1>
+        <p>Generate a detailed Realm with just one click.</p>
+
+        <div>
+          <a id="btnStart" class="btn btn--full">
+            <span>Write a new Realm</span>
           </a>
-          <a id="btnShareTwitter" class="btn btn--outline btn--full">
-            <i class="fa-brands fa-twitter"></i>
-            Tweet
-          </a>
-          <a id="btnJson" class="btn btn--outline btn--full">
-            <i class="fa-solid fa-file-code"></i>
-            JSON
-          </a>
+          <div class="control-buttons">
+            <a id="btnCopyLink" class="btn btn--outline btn--full">
+              <i class="fa-solid fa-copy"></i>
+              <span>Copy Link</span>
+            </a>
+            <a id="btnShareTwitter" class="btn btn--outline btn--full">
+              <i class="fa-brands fa-twitter"></i>
+              Tweet
+            </a>
+            <a id="btnJson" class="btn btn--outline btn--full">
+              <i class="fa-solid fa-file-code"></i>
+              JSON
+            </a>
+          </div>
         </div>
-      </div>
-      <p id="labelShare">&nbsp;</p>
-    </section>
+        <p id="labelShare" class="hover-label">&nbsp;</p>
+      </section>
 
-    <!-- HERO -->
-    <section class="container">
-      <div id="hero">
-        <h2><span class="name"></span></h2>
-        <img
-          class="overlay-top-left ornament"
-          src="assets/images/decorative/button-ornament.svg"
-          alt=""
-        />
-        <img
-          class="overlay-top-right ornament rotate-90"
-          src="assets/images/decorative/button-ornament.svg"
-          alt=""
-        />
-        <img
-          class="overlay-bottom-right ornament rotate-180"
-          src="assets/images/decorative/button-ornament.svg"
-          alt=""
-        />
-        <img
-          class="overlay-bottom-left ornament rotate-270"
-          src="assets/images/decorative/button-ornament.svg"
-          alt=""
-        />
-      </div>
-    </section>
+      <!-- HERO -->
+      <section class="container">
+        <div id="hero">
+          <h2><span class="name"></span></h2>
+          <img
+            class="overlay-top-left ornament"
+            src="assets/images/decorative/button-ornament.svg"
+            alt=""
+          />
+          <img
+            class="overlay-top-right ornament rotate-90"
+            src="assets/images/decorative/button-ornament.svg"
+            alt=""
+          />
+          <img
+            class="overlay-bottom-right ornament rotate-180"
+            src="assets/images/decorative/button-ornament.svg"
+            alt=""
+          />
+          <img
+            class="overlay-bottom-left ornament rotate-270"
+            src="assets/images/decorative/button-ornament.svg"
+            alt=""
+          />
+        </div>
+      </section>
 
-    <section class="container container--content">
-      <!-- OVERVIEW -->
-      <article>
-        <h2>An Overview of <span class="name"></span></h2>
-        <ul>
-          <li>
-            <i class="sigil fas"></i>
-            The sigil of <span class="name"></span> is
-            <span class="prepend-article sigil-name"></span>, which symbolizes
-            <span class="sigil-meaning"></span>.<span
-              class="sigil-present-on-heraldry"
-            >
-              The <span class="sigil-name"></span> of
-              <span class="name"></span> is also prominent on the
-              <span class="government-rank"></span>'s heraldry.</span
-            >
-          </li>
+      <section class="container container--content">
+        <!-- OVERVIEW -->
+        <article>
+          <h2>An Overview of <span class="name"></span></h2>
+          <ul>
+            <li>
+              <i class="sigil fas"></i>
+              The sigil of <span class="name"></span> is
+              <span class="prepend-article sigil-name"></span>, which symbolizes
+              <span class="sigil-meaning"></span>.<span
+                class="sigil-present-on-heraldry"
+              >
+                The <span class="sigil-name"></span> of
+                <span class="name"></span> is also prominent on the
+                <span class="government-rank"></span>'s heraldry.</span
+              >
+            </li>
 
-          <li>
-            <span class="name"></span> is
-            <span class="prepend-article parent-entity-adj"></span>
-            <span class="government-rank"></span>.
-          </li>
+            <li>
+              <span class="name"></span> is
+              <span class="prepend-article parent-entity-adj"></span>
+              <span class="government-rank"></span>.
+            </li>
 
-          <li>
-            <span class="name"></span>'s main cities include its capital,
-            <span class="capital-city"></span>.
-          </li>
+            <li>
+              <span class="name"></span>'s main cities include its capital,
+              <span class="capital-city"></span>.
+            </li>
 
-          <li>
-            <span class="coat-of-arms-blurb"></span>
-          </li>
-        </ul>
-      </article>
+            <li>
+              <span class="coat-of-arms-blurb"></span>
+            </li>
+          </ul>
+        </article>
 
-      <!-- GEOGRAPHY -->
-      <article>
-        <h2>Geography</h2>
-        <ul>
-          <!-- Parent Entity & Geographic Location -->
-          <li>
-            <h3>Location</h3>
-            <span class="name"></span> is
-            <span class="prepend-article size"></span>
-            <span class="government-rank"></span> located in the
-            <span class="direction-adj-within-parent-entity"></span> part of
-            <span class="parent-entity"></span>
-            <span class="on-the-coast"
-              >on the <span class="coast-direction"></span> coast</span
-            >.
-          </li>
+        <!-- GEOGRAPHY -->
+        <article>
+          <h2>Geography</h2>
+          <ul>
+            <!-- Parent Entity & Geographic Location -->
+            <li>
+              <h3>Location</h3>
+              <span class="name"></span> is
+              <span class="prepend-article size"></span>
+              <span class="government-rank"></span> located in the
+              <span class="direction-adj-within-parent-entity"></span> part of
+              <span class="parent-entity"></span>
+              <span class="on-the-coast"
+                >on the <span class="coast-direction"></span> coast</span
+              >.
+            </li>
 
-          <!-- Bordering Realms -->
-          <li class="under-construction">
-            <h3>Neighboring Realms</h3>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo
-            repellat totam eveniet ipsa sunt omnis ipsam necessitatibus, natus
-            quae error.
-          </li>
+            <!-- Bordering Realms -->
+            <li class="under-construction">
+              <h3>Neighboring Realms</h3>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo
+              repellat totam eveniet ipsa sunt omnis ipsam necessitatibus, natus
+              quae error.
+            </li>
 
-          <!-- Ecoregions -->
-          <li>
-            <h3>Ecoregions</h3>
-            <span class="biomes-blurb"></span>
-          </li>
+            <!-- Ecoregions -->
+            <li>
+              <h3>Ecoregions</h3>
+              <span class="biomes-blurb"></span>
+            </li>
 
-          <!-- Rivers -->
-          <li>
-            <h3>Rivers</h3>
-            <span class="rivers-blurb"></span>
-          </li>
+            <!-- Rivers -->
+            <li>
+              <h3>Rivers</h3>
+              <span class="rivers-blurb"></span>
+            </li>
 
-          <!-- Climate -->
-          <li>
-            <h3>Climate</h3>
-            The climate of <span class="name"></span> is
-            <span class="temperature"></span> and
-            <span class="humidity"></span>, with
-            <span class="season-winter"></span> winters and
-            <span class="season-summer"></span> summers.
-          </li>
+            <!-- Climate -->
+            <li>
+              <h3>Climate</h3>
+              The climate of <span class="name"></span> is
+              <span class="temperature"></span> and
+              <span class="humidity"></span>, with
+              <span class="season-winter"></span> winters and
+              <span class="season-summer"></span> summers.
+            </li>
 
-          <!-- Biodiversity -->
-          <li class="under-construction">
-            <h3>Biodiversity</h3>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illo
-            consectetur enim numquam libero nihil quisquam repellat consequatur
-            sit sequi magnam!
-          </li>
-        </ul>
-      </article>
+            <!-- Biodiversity -->
+            <li class="under-construction">
+              <h3>Biodiversity</h3>
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illo
+              consectetur enim numquam libero nihil quisquam repellat
+              consequatur sit sequi magnam!
+            </li>
+          </ul>
+        </article>
 
-      <!-- ECONOMY -->
-      <article>
-        <h2>Economy</h2>
-        <ul>
-          <li class="under-construction">
-            <h3>Infrastructure</h3>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-            Repellendus est voluptatem quis, dolores rerum, voluptatibus illum
-            laboriosam hic facere maiores minima alias veniam nulla vel.
-          </li>
-          <li class="under-construction">
-            <h3>Natural Resources</h3>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Repellendus, voluptatem aspernatur eius adipisci facere et minima
-            quibusdam magnam aliquid aperiam eveniet porro, tempore quaerat
-            earum nulla in inventore laboriosam nostrum ullam ratione.
-            Repellendus, magni atque.
-          </li>
-        </ul>
-      </article>
+        <!-- ECONOMY -->
+        <article>
+          <h2>Economy</h2>
+          <ul>
+            <li class="under-construction">
+              <h3>Infrastructure</h3>
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+              Repellendus est voluptatem quis, dolores rerum, voluptatibus illum
+              laboriosam hic facere maiores minima alias veniam nulla vel.
+            </li>
+            <li class="under-construction">
+              <h3>Natural Resources</h3>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Repellendus, voluptatem aspernatur eius adipisci facere et minima
+              quibusdam magnam aliquid aperiam eveniet porro, tempore quaerat
+              earum nulla in inventore laboriosam nostrum ullam ratione.
+              Repellendus, magni atque.
+            </li>
+          </ul>
+        </article>
 
-      <!-- POLITICS -->
-      <article>
-        <h2>Politics</h2>
-        <ul>
-          <!-- Government Structure -->
-          <li class="under-construction">
-            <h3>Government Structure</h3>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. At,
-            labore.
-          </li>
+        <!-- POLITICS -->
+        <article>
+          <h2>Politics</h2>
+          <ul>
+            <!-- Government Structure -->
+            <li class="under-construction">
+              <h3>Government Structure</h3>
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. At,
+              labore.
+            </li>
 
-          <!-- Political Regions -->
-          <li class="under-construction">
-            <h3>Political Regions</h3>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni
-            blanditiis quas et reiciendis provident ratione eos, dicta animi
-            cupiditate aliquid.
-          </li>
-        </ul>
-      </article>
+            <!-- Political Regions -->
+            <li class="under-construction">
+              <h3>Political Regions</h3>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni
+              blanditiis quas et reiciendis provident ratione eos, dicta animi
+              cupiditate aliquid.
+            </li>
+          </ul>
+        </article>
 
-      <article>
-        <h2>Demographics</h2>
-        <ul>
-          <li class="under-construction">
-            <h3>Religion</h3>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit at
-            sed et maiores in dignissimos? Natus rerum inventore sed laborum.
-          </li>
-          <li class="under-construction">
-            <h3>Language</h3>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-            accusantium impedit tenetur optio aspernatur numquam nulla hic
-            quisquam distinctio dolor.
-          </li>
-          <li class="under-construction">
-            <h3>Education</h3>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Consequatur, ullam.
-          </li>
-          <li class="under-construction">
-            <h3>Health</h3>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure, iste.
-          </li>
-        </ul>
-      </article>
+        <article>
+          <h2>Demographics</h2>
+          <ul>
+            <li class="under-construction">
+              <h3>Religion</h3>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit at
+              sed et maiores in dignissimos? Natus rerum inventore sed laborum.
+            </li>
+            <li class="under-construction">
+              <h3>Language</h3>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
+              accusantium impedit tenetur optio aspernatur numquam nulla hic
+              quisquam distinctio dolor.
+            </li>
+            <li class="under-construction">
+              <h3>Education</h3>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Consequatur, ullam.
+            </li>
+            <li class="under-construction">
+              <h3>Health</h3>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure,
+              iste.
+            </li>
+          </ul>
+        </article>
 
-      <article>
-        <h2>Culture</h2>
-        <ul>
-          <!-- Popular Landmarks -->
-          <li class="under-construction">
-            <h3>Popular Landmarks</h3>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse,
-            dignissimos.
-          </li>
+        <article>
+          <h2>Culture</h2>
+          <ul>
+            <!-- Popular Landmarks -->
+            <li class="under-construction">
+              <h3>Popular Landmarks</h3>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse,
+              dignissimos.
+            </li>
 
-          <!-- Music and Art-->
-          <li class="under-construction">
-            <h3>Music and Art</h3>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo,
-            harum.
-          </li>
+            <!-- Music and Art-->
+            <li class="under-construction">
+              <h3>Music and Art</h3>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo,
+              harum.
+            </li>
 
-          <!-- Literature -->
-          <li class="under-construction">
-            <h3>Literature</h3>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum
-            natus ea reiciendis voluptates unde consequuntur quod. Aut
-            voluptatem magnam adipisci.
-          </li>
+            <!-- Literature -->
+            <li class="under-construction">
+              <h3>Literature</h3>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum
+              natus ea reiciendis voluptates unde consequuntur quod. Aut
+              voluptatem magnam adipisci.
+            </li>
 
-          <!-- Cuisine -->
-          <li class="under-construction">
-            <h3>Cuisine</h3>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quisquam
-            consequatur illo aut id magni sequi.
-          </li>
+            <!-- Cuisine -->
+            <li class="under-construction">
+              <h3>Cuisine</h3>
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quisquam
+              consequatur illo aut id magni sequi.
+            </li>
 
-          <!-- Sports -->
-          <li class="under-construction">
-            <h3>Sports</h3>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero
-            voluptatum consectetur odio, officiis non quis sed illo assumenda
-            veritatis sapiente.
-          </li>
-        </ul>
-      </article>
-    </section>
+            <!-- Sports -->
+            <li class="under-construction">
+              <h3>Sports</h3>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero
+              voluptatum consectetur odio, officiis non quis sed illo assumenda
+              veritatis sapiente.
+            </li>
+          </ul>
+        </article>
+      </section>
+    </div>
 
     <footer class="container">
       <div>

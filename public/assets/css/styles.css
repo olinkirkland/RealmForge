@@ -19,20 +19,46 @@
 }
 
 /* JSON VIEW */
+.container.container--json {
+  max-width: 64rem;
+  padding: 0 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 6.4rem;
+}
+
+.container.container--json h2{
+  margin-bottom: 1.8rem;
+}
+
+.json-border-and-content {
+  margin-top: 2rem;
+  display: flex;
+}
+
+.json-border {
+  flex: 0 0 5px;
+  border-radius: 5px 0 0 5px;
+  background-color: orangered;
+}
+
 .json-format {
-  background: var(--light-background);
-  border: 1px solid var(--light-background-alt);
-  border-left: 3px solid #f36d33;
+  border: 1px solid rgba(248, 248, 248, 0.1);
+  background-color: var(--light-background);
+  border-radius: 0 5px 5px 0;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 25px 0px;
   color: var(--dark-text);
   page-break-inside: avoid;
   font-family: 'Inconsolata', monospace !important;
   font-size: 1.4rem;
   line-height: 1.2;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   padding: 1rem 2rem;
   display: block;
   white-space: pre;
-  word-wrap: break-word;
+  width: 100%;
 }
 
 /* GENERAL */
@@ -233,14 +259,14 @@ section.container--controls {
   margin-bottom: 0.8rem;
 }
 
-.control-share-buttons {
+.control-buttons {
   display: flex;
   gap: 0.8rem;
   margin-bottom: 1.2rem;
   width: 48rem;
 }
 
-#labelShare {
+.hover-label {
   position: relative;
   top: 0.4rem;
   opacity: 0;

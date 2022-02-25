@@ -51,10 +51,7 @@ btnCopyLink.addEventListener('mouseover', () => {
   document.getElementById('labelShare')!.style.top = '0';
   document.getElementById('labelShare')!.style.opacity = '1';
 });
-btnCopyLink.addEventListener('mouseout', () => {
-  document.getElementById('labelShare')!.style.top = '0.4rem';
-  document.getElementById('labelShare')!.style.opacity = '0';
-});
+btnCopyLink.addEventListener('mouseout', fadeOutShareLabel);
 
 // Handle tweet button
 const btnShareTwitter: HTMLButtonElement = document.getElementById(
@@ -70,10 +67,7 @@ btnShareTwitter.addEventListener('mouseover', () => {
   document.getElementById('labelShare')!.style.top = '0';
   document.getElementById('labelShare')!.style.opacity = '1';
 });
-btnShareTwitter.addEventListener('mouseout', () => {
-  document.getElementById('labelShare')!.style.top = '0.4rem';
-  document.getElementById('labelShare')!.style.opacity = '0';
-});
+btnShareTwitter.addEventListener('mouseout', fadeOutShareLabel);
 
 // Handle JSON button
 const btnJson: HTMLButtonElement = document.getElementById(
@@ -90,10 +84,84 @@ btnJson.addEventListener('mouseover', () => {
   document.getElementById('labelShare')!.style.top = '0';
   document.getElementById('labelShare')!.style.opacity = '1';
 });
-btnJson.addEventListener('mouseout', () => {
+btnJson.addEventListener('mouseout', fadeOutShareLabel);
+
+function fadeInShareLabel() {
+  document.getElementById('labelShare')!.style.top = '0';
+  document.getElementById('labelShare')!.style.opacity = '1';
+}
+function fadeOutShareLabel() {
   document.getElementById('labelShare')!.style.top = '0.4rem';
   document.getElementById('labelShare')!.style.opacity = '0';
-});
+}
+
+function handleJsonButtons() {
+  // Handle the Realm from JSON button
+  const btnToRealm: HTMLButtonElement = document.getElementById(
+    'btnToRealm'
+  )! as HTMLButtonElement;
+  btnToRealm.addEventListener('click', () => {
+    //window.open(window.location.href + '&json', '_blank');
+  });
+
+  btnToRealm.addEventListener('mouseover', () => {
+    if (btnJson.hasAttribute('disabled')) return;
+    document.getElementById('labelJson')!.innerHTML =
+      'View the Realm page (opens a new tab)';
+    fadeInJsonLabel();
+  });
+  btnToRealm.addEventListener('mouseout', fadeOutJsonLabel);
+
+  // Handle the Copy JSON button
+  const btnCopyJson: HTMLButtonElement = document.getElementById(
+    'btnCopyJson'
+  )! as HTMLButtonElement;
+  btnCopyJson.addEventListener('click', () => {
+    // Play copied animation
+    btnCopyJson.innerHTML = `<i class="fa-solid fa-check" style="color: #17b664"></i>Copied!`;
+    btnCopyJson.setAttribute('disabled', 'true');
+    document.getElementById('labelJson')!.style.opacity = '0';
+
+    setTimeout(() => {
+      // Play copied animation
+      btnCopyJson.innerHTML = `<i class="fa-solid fa-copy"></i>Copy JSON`;
+      btnCopyJson.removeAttribute('disabled');
+    }, 2000);
+  });
+
+  btnCopyJson.addEventListener('mouseover', () => {
+    if (btnCopyJson.hasAttribute('disabled')) return;
+    document.getElementById('labelJson')!.innerHTML =
+      'Copy this JSON to your clipboard';
+    fadeInJsonLabel();
+  });
+  btnCopyJson.addEventListener('mouseout', fadeOutJsonLabel);
+
+  // Handle the Download JSON button
+  const btnDownloadJson: HTMLButtonElement = document.getElementById(
+    'btnDownloadJson'
+  )! as HTMLButtonElement;
+  btnDownloadJson.addEventListener('click', () => {
+    //window.open(window.location.href + '&json', '_blank');
+  });
+
+  btnDownloadJson.addEventListener('mouseover', () => {
+    if (btnDownloadJson.hasAttribute('disabled')) return;
+    document.getElementById('labelJson')!.innerHTML =
+      'Download this JSON to a .json file';
+    fadeInJsonLabel();
+  });
+  btnDownloadJson.addEventListener('mouseout', fadeOutJsonLabel);
+
+  function fadeInJsonLabel() {
+    document.getElementById('labelJson')!.style.top = '0';
+    document.getElementById('labelJson')!.style.opacity = '1';
+  }
+  function fadeOutJsonLabel() {
+    document.getElementById('labelJson')!.style.top = '0.4rem';
+    document.getElementById('labelJson')!.style.opacity = '0';
+  }
+}
 
 // Load data
 Data.setup(() => {
@@ -134,16 +202,29 @@ function start() {
   const arr: RegExpMatchArray | null = window.location.href.match(
     /\?[a-z0-9,-]+.*\&(json)/
   );
+
+  const jsonContainer: HTMLElement =
+    document.querySelector('.container--json')!;
   if (arr && arr.length > 1) {
-    // JSON mode
-    document.querySelector('body')!.innerHTML =
+    // Show JSON
+    jsonContainer.classList.remove('hidden');
+    const jsonContent: HTMLElement = document.querySelector('.json-content')!;
+    jsonContent.innerHTML =
       '<pre class="json-format">' +
       JSON.stringify(realm, null, '  ') +
       '</pre>';
-    return;
+
+    handleJsonButtons();
+
+    // Hide content
+    const content: HTMLElement = document.querySelector('div.content')!;
+    content.classList.add('hidden');
+  } else {
+    // Don't show JSON
+    jsonContainer.innerHTML = '';
+    updateView();
   }
 
-  updateView();
   // Delay intro animations
   const sectionEls: NodeList = document.querySelectorAll('.container');
   sectionEls.forEach((node: Node, index: number) => {
