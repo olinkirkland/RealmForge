@@ -96,6 +96,9 @@ body {
   font-family: 'Merriweather', serif;
   background-color: var(--light-background);
   color: var(--dark-text);
+}
+
+.background-transition {
   transition: background-color 0.3s;
 }
 
@@ -174,6 +177,7 @@ li {
 
 .btn--text {
   display: inline-block;
+  border-radius: 0;
   color: var(--dark-text);
   background: none;
   box-shadow: none;

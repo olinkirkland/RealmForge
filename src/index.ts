@@ -19,6 +19,12 @@ const btnToggleDarkMode: HTMLButtonElement = document.getElementById(
 )! as HTMLButtonElement;
 btnToggleDarkMode.addEventListener('click', () => {
   Util.toggleDarkMode();
+
+  // Add the background-transition class to the body if it's not already there
+  const body = document.querySelector('body')!;
+  if (!body.classList.contains('background-transition')) {
+    body.classList.add('background-transition');
+  }
 });
 
 // Handle start button
@@ -79,8 +85,7 @@ btnJson.addEventListener('click', () => {
 
 btnJson.addEventListener('mouseover', () => {
   if (btnJson.hasAttribute('disabled')) return;
-  document.getElementById('labelShare')!.innerHTML =
-    "View this Realm's JSON";
+  document.getElementById('labelShare')!.innerHTML = "View this Realm's JSON";
   document.getElementById('labelShare')!.style.top = '0';
   document.getElementById('labelShare')!.style.opacity = '1';
 });
@@ -112,8 +117,7 @@ function handleJsonButtons() {
 
   btnToRealm.addEventListener('mouseover', () => {
     if (btnJson.hasAttribute('disabled')) return;
-    document.getElementById('labelJson')!.innerHTML =
-      'View the Realm page';
+    document.getElementById('labelJson')!.innerHTML = 'View the Realm page';
     fadeInJsonLabel();
   });
   btnToRealm.addEventListener('mouseout', fadeOutJsonLabel);
