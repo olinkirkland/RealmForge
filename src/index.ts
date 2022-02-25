@@ -101,7 +101,13 @@ function handleJsonButtons() {
     'btnToRealm'
   )! as HTMLButtonElement;
   btnToRealm.addEventListener('click', () => {
-    //window.open(window.location.href + '&json', '_blank');
+    const arr: RegExpMatchArray | null = window.location.href.match(
+      /(.+\?[a-z0-9,-]+).*\&/
+    );
+
+    if (arr && arr.length > 1) {
+      window.open(arr[1], '_blank');
+    }
   });
 
   btnToRealm.addEventListener('mouseover', () => {
@@ -118,7 +124,7 @@ function handleJsonButtons() {
   )! as HTMLButtonElement;
   btnCopyJson.addEventListener('click', () => {
     // Play copied animation
-    btnCopyJson.innerHTML = `<i class="fa-solid fa-check" style="color: #17b664"></i>Copied!`;
+    btnCopyJson.innerHTML = `<i class="fa-solid fa-check" style="color: orangered"></i>Copied!`;
     btnCopyJson.setAttribute('disabled', 'true');
     document.getElementById('labelJson')!.style.opacity = '0';
 
@@ -141,9 +147,7 @@ function handleJsonButtons() {
   const btnDownloadJson: HTMLButtonElement = document.getElementById(
     'btnDownloadJson'
   )! as HTMLButtonElement;
-  btnDownloadJson.addEventListener('click', () => {
-    //window.open(window.location.href + '&json', '_blank');
-  });
+  btnDownloadJson.addEventListener('click', () => {});
 
   btnDownloadJson.addEventListener('mouseover', () => {
     if (btnDownloadJson.hasAttribute('disabled')) return;

@@ -935,7 +935,10 @@ function handleJsonButtons() {
     // Handle the Realm from JSON button
     const btnToRealm = document.getElementById('btnToRealm');
     btnToRealm.addEventListener('click', () => {
-        //window.open(window.location.href + '&json', '_blank');
+        const arr = window.location.href.match(/(.+\?[a-z0-9,-]+).*\&/);
+        if (arr && arr.length > 1) {
+            window.open(arr[1], '_blank');
+        }
     });
     btnToRealm.addEventListener('mouseover', () => {
         if (btnJson.hasAttribute('disabled'))
@@ -949,7 +952,7 @@ function handleJsonButtons() {
     const btnCopyJson = document.getElementById('btnCopyJson');
     btnCopyJson.addEventListener('click', () => {
         // Play copied animation
-        btnCopyJson.innerHTML = `<i class="fa-solid fa-check" style="color: #17b664"></i>Copied!`;
+        btnCopyJson.innerHTML = `<i class="fa-solid fa-check" style="color: orangered"></i>Copied!`;
         btnCopyJson.setAttribute('disabled', 'true');
         document.getElementById('labelJson').style.opacity = '0';
         setTimeout(() => {
@@ -968,9 +971,7 @@ function handleJsonButtons() {
     btnCopyJson.addEventListener('mouseout', fadeOutJsonLabel);
     // Handle the Download JSON button
     const btnDownloadJson = document.getElementById('btnDownloadJson');
-    btnDownloadJson.addEventListener('click', () => {
-        //window.open(window.location.href + '&json', '_blank');
-    });
+    btnDownloadJson.addEventListener('click', () => { });
     btnDownloadJson.addEventListener('mouseover', () => {
         if (btnDownloadJson.hasAttribute('disabled'))
             return;
