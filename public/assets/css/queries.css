@@ -115,4 +115,14 @@ instead, 1rem = 1em = 16px */
   .json-border {
     border-radius: 0;
   }
+
+  footer.container > ul {
+    flex-direction: column;
+    gap: 1.6rem;
+  }
+
+  footer.container > ul > li:not(:last-child):after {
+    content: '';
+    margin: 0;
+  }
 }
