@@ -39,6 +39,8 @@ instead, 1rem = 1em = 16px */
   article {
     border: none;
     padding: 0;
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
     border-bottom: 1px dashed var(--dark-text-muted);
     box-shadow: none;
   }
