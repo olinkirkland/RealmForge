@@ -884,6 +884,61 @@ btnToggleDarkMode.addEventListener('click', () => {
         body.classList.add('background-transition');
     }
 });
+/**
+ * Favorites
+ */
+if (!localStorage.getItem('favorites'))
+    localStorage.setItem('favorites', JSON.stringify([]));
+let favorites = JSON.parse(localStorage.getItem('favorites'));
+// Update favorites
+const favoritesEl = document.getElementById('favorites');
+favoritesEl.addEventListener('click', (event) => {
+    const key = event.target.getAttribute('key');
+    if (key) {
+        favorites = favorites.filter((f) => f.id != key);
+        event.preventDefault();
+        updateFavorites();
+    }
+});
+const btnFavorite = document.getElementById('btnFavorite');
+const btnFavoriteIcon = document.querySelector('#btnFavorite i');
+const btnFavoriteText = document.querySelector('#btnFavorite span');
+function updateFavorites() {
+    // Update the button
+    console.log('updating favorites');
+    btnFavoriteIcon.classList.remove('fa-solid', 'fa-regular', 'selected');
+    const isFavorite = favorites.some((f) => f.id == _Util__WEBPACK_IMPORTED_MODULE_0__["default"].seed);
+    btnFavoriteIcon.classList.add(isFavorite ? 'fa-solid' : 'fa-regular');
+    btnFavoriteText.innerHTML = isFavorite
+        ? 'This is one of your favorites'
+        : 'Add this Realm to your favorites';
+    favoritesEl.innerHTML = '';
+    favorites.forEach((f) => {
+        let url = window.location.href;
+        url = url.substring(0, url.indexOf('?')) + '?' + f.id;
+        favoritesEl.innerHTML += `
+    <li class="favorite-badge">
+      <a href="${url}" target="_blank" class="btn btn--icon capitalized">${f.name}</a>
+      <a class="btn btn--icon delete-favorite">
+        <i class="fa-solid fa-xmark" key="${f.id}"></i>
+      </a>
+    </li>`;
+    });
+}
+btnFavorite.addEventListener('click', () => {
+    const f = {
+        id: _Util__WEBPACK_IMPORTED_MODULE_0__["default"].seed,
+        name: _Util__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(realm.realmName)
+    };
+    if (!favorites.some((v) => f.id == v.id)) {
+        favorites.push(f);
+    }
+    else {
+        favorites = favorites.filter((v) => v.id != f.id);
+    }
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+    updateFavorites();
+});
 // Handle start button
 const btnStart = document.getElementById('btnStart');
 btnStart.addEventListener('click', generateSeedAndStart);
@@ -931,7 +986,8 @@ btnJson.addEventListener('click', () => {
 btnJson.addEventListener('mouseover', () => {
     if (btnJson.hasAttribute('disabled'))
         return;
-    document.getElementById('labelShare').innerHTML = "View this Realm's JSON";
+    document.getElementById('labelShare').innerHTML =
+        "View this Realm's JSON data";
     document.getElementById('labelShare').style.top = '0';
     document.getElementById('labelShare').style.opacity = '1';
 });
@@ -1037,6 +1093,7 @@ function generateSeedAndStart() {
 function start() {
     _Util__WEBPACK_IMPORTED_MODULE_0__["default"].seedRandomNumberGenerator();
     realm = new _Realm__WEBPACK_IMPORTED_MODULE_2__.Realm();
+    updateFavorites();
     // Is it json?
     const arr = window.location.href.match(/\?[a-z0-9,-]+.*\&(json)/);
     const jsonContainer = document.querySelector('.container--json');

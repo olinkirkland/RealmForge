@@ -27,6 +27,75 @@ btnToggleDarkMode.addEventListener('click', () => {
   }
 });
 
+/**
+ * Favorites
+ */
+if (!localStorage.getItem('favorites'))
+  localStorage.setItem('favorites', JSON.stringify([]));
+let favorites: { name: string; id: string }[] = JSON.parse(
+  localStorage.getItem('favorites')!
+);
+
+// Update favorites
+const favoritesEl: HTMLElement = document.getElementById('favorites')!;
+favoritesEl.addEventListener('click', (event) => {
+  const key: string | null = (event.target as HTMLElement).getAttribute('key');
+  if (key) {
+    favorites = favorites.filter((f) => f.id != key);
+    event.preventDefault();
+    updateFavorites();
+  }
+});
+
+const btnFavorite: HTMLButtonElement = document.getElementById(
+  'btnFavorite'
+)! as HTMLButtonElement;
+
+const btnFavoriteIcon: HTMLElement = document.querySelector('#btnFavorite i')!;
+const btnFavoriteText: HTMLElement =
+  document.querySelector('#btnFavorite span')!;
+
+function updateFavorites() {
+  // Update the button
+  console.log('updating favorites');
+  btnFavoriteIcon.classList.remove('fa-solid', 'fa-regular', 'selected');
+
+  const isFavorite: boolean = favorites.some((f) => f.id == Util.seed);
+  btnFavoriteIcon.classList.add(isFavorite ? 'fa-solid' : 'fa-regular');
+  btnFavoriteText.innerHTML = isFavorite
+    ? 'This is one of your favorites'
+    : 'Add this Realm to your favorites';
+
+  favoritesEl.innerHTML = '';
+  favorites.forEach((f) => {
+    let url: string = window.location.href;
+    url = url.substring(0, url.indexOf('?')) + '?' + f.id;
+
+    favoritesEl.innerHTML += `
+    <li class="favorite-badge">
+      <a href="${url}" target="_blank" class="btn btn--icon capitalized">${f.name}</a>
+      <a class="btn btn--icon delete-favorite">
+        <i class="fa-solid fa-xmark" key="${f.id}"></i>
+      </a>
+    </li>`;
+  });
+}
+
+btnFavorite.addEventListener('click', () => {
+  const f: { id: string; name: string } = {
+    id: Util.seed,
+    name: Util.readWord(realm.realmName)
+  };
+
+  if (!favorites.some((v) => f.id == v.id)) {
+    favorites.push(f);
+  } else {
+    favorites = favorites.filter((v) => v.id != f.id);
+  }
+  localStorage.setItem('favorites', JSON.stringify(favorites));
+  updateFavorites();
+});
+
 // Handle start button
 const btnStart: HTMLButtonElement = document.getElementById(
   'btnStart'
@@ -85,7 +154,8 @@ btnJson.addEventListener('click', () => {
 
 btnJson.addEventListener('mouseover', () => {
   if (btnJson.hasAttribute('disabled')) return;
-  document.getElementById('labelShare')!.innerHTML = "View this Realm's JSON";
+  document.getElementById('labelShare')!.innerHTML =
+    "View this Realm's JSON data";
   document.getElementById('labelShare')!.style.top = '0';
   document.getElementById('labelShare')!.style.opacity = '1';
 });
@@ -216,6 +286,7 @@ function generateSeedAndStart() {
 function start() {
   Util.seedRandomNumberGenerator();
   realm = new Realm();
+  updateFavorites();
 
   // Is it json?
   const arr: RegExpMatchArray | null = window.location.href.match(
