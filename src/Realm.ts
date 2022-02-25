@@ -567,6 +567,14 @@ export class Realm {
       valid = false;
     }
 
+    // Rivers' roots cannot end in their suffix (Hennen-en, Fei-ei, etc.)
+    if (
+      r.root.name.indexOf(r.suffix.name) ==
+      r.root.name.length - r.suffix.name.length
+    ) {
+      valid = false;
+    }
+
     return valid;
   }
 
@@ -587,10 +595,9 @@ export class Realm {
         return valid;
       });
 
-    let root: NamePart = Util.randomWeightedValue(
-      validRoots,
-      (item) => item.asRoot
-    );
+    let root: NamePart = {
+      ...Util.randomWeightedValue(validRoots, (item) => item.asRoot)
+    };
 
     if (root.variations) {
       root.variations.push(root.name);

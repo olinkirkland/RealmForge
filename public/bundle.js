@@ -534,6 +534,11 @@ class Realm {
         if (tributaryNames.includes(_Util__WEBPACK_IMPORTED_MODULE_2__["default"].readWord(r))) {
             valid = false;
         }
+        // Rivers' roots cannot end in their suffix (Hennen-en, Fei-ei, etc.)
+        if (r.root.name.indexOf(r.suffix.name) ==
+            r.root.name.length - r.suffix.name.length) {
+            valid = false;
+        }
         return valid;
     }
     determineRealmName() {
@@ -549,7 +554,7 @@ class Realm {
                 return valid;
             return valid;
         });
-        let root = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomWeightedValue(validRoots, (item) => item.asRoot);
+        let root = Object.assign({}, _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomWeightedValue(validRoots, (item) => item.asRoot));
         if (root.variations) {
             root.variations.push(root.name);
             root.name = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomValue(root.variations);
