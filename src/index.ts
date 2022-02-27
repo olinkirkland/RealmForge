@@ -355,9 +355,9 @@ function updateView() {
   toggleVisibility('on-the-coast', realm.coast);
 
   // Art
-  realm.coat.draw(
-    document.getElementById('coatOfArmsCanvas') as HTMLCanvasElement
-  );
+  document
+    .querySelectorAll('.coatOfArmsArt')
+    .forEach((el) => realm.coat.draw(el));
 
   // Words
   applyText('name', Util.readWord(realm.realmName));

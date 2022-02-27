@@ -42,13 +42,11 @@ class Coat {
             this.charge = _Util__WEBPACK_IMPORTED_MODULE_1__["default"].randomWeightedValue(_Data__WEBPACK_IMPORTED_MODULE_0__.Data.charges, (c) => c.weight);
         }
     }
-    draw(canvas) {
-        if (canvas.getContext) {
-            var ctx = canvas.getContext('2d');
-            const ord = new Path2D('');
-            ctx.stroke(ord);
-            ctx.fill(ord);
-        }
+    draw(el) {
+        this.ordinary.svg.forEach((svg) => {
+            // Draw layer
+            el.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="${this.tinctures[svg.tinctureIndex].color}" viewBox="0 0 10 10"><path d="${svg.path}"/></svg>`;
+        });
     }
 }
 
@@ -1180,7 +1178,9 @@ function updateView() {
     toggleVisibility('sigil-present-on-heraldry', realm.sigilPresentOnHeraldry);
     toggleVisibility('on-the-coast', realm.coast);
     // Art
-    realm.coat.draw(document.getElementById('coatOfArmsCanvas'));
+    document
+        .querySelectorAll('.coatOfArmsArt')
+        .forEach((el) => realm.coat.draw(el));
     // Words
     applyText('name', _Util__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(realm.realmName));
     applyText('government-rank', realm.governmentRank);

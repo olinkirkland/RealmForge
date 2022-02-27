@@ -46,14 +46,12 @@ export default class Coat {
     }
   }
 
-  draw(canvas: HTMLCanvasElement) {
-    if (canvas.getContext) {
-      var ctx: CanvasRenderingContext2D = canvas.getContext('2d')!;
-
-      const ord:Path2D = new Path2D('')
-
-      ctx.stroke(ord);
-      ctx.fill(ord);
-    }
+  draw(el: Element) {
+    this.ordinary.svg.forEach((svg) => {
+      // Draw layer
+      el.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="${
+        this.tinctures[svg.tinctureIndex].color
+      }" viewBox="0 0 10 10"><path d="${svg.path}"/></svg>`;
+    });
   }
 }

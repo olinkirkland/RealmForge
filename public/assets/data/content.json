@@ -51,7 +51,8 @@
           { "name": "double", "overlap": [0] },
           { "name": "triple-spaced", "overlap": [0] },
           { "name": "triple-top", "overlap": [0] }
-        ]
+        ],
+        "svg": [{ "path": "M 0 0 H 10 V 10 H 0 V 0", "tinctureIndex": 0 }]
       },
       {
         "name": "pale",
@@ -62,6 +63,10 @@
           { "name": "double", "overlap": [0, 1] },
           { "name": "triple-spaced", "overlap": [0, 1] },
           { "name": "triple-top", "overlap": [0, 1] }
+        ],
+        "svg": [
+          { "path": "M 0 0 H 5 V 10 H 0 V 0", "tinctureIndex": 0 },
+          { "path": "M 5 0 H 10 V 10 H 5 V 0", "tinctureIndex": 1 }
         ]
       },
       {
@@ -73,7 +78,8 @@
           { "name": "double", "overlap": [0, 1] },
           { "name": "triple-spaced", "overlap": [0, 1] },
           { "name": "triple-top", "overlap": [0] }
-        ]
+        ],
+        "svg": [{ "path": "M 0 0 H 10 V 10 H 0 V 0", "tinctureIndex": 0 }]
       },
       {
         "name": "chevron",
@@ -84,7 +90,8 @@
           { "name": "double", "overlap": [0, 1] },
           { "name": "triple-spaced", "overlap": [0, 1] },
           { "name": "triple-top", "overlap": [0] }
-        ]
+        ],
+        "svg": [{ "path": "M 0 0 H 10 V 10 H 0 V 0", "tinctureIndex": 0 }]
       },
       {
         "name": "bend",
@@ -95,7 +102,8 @@
           { "name": "double", "overlap": [0, 1] },
           { "name": "triple-spaced", "overlap": [0, 1] },
           { "name": "triple-top", "overlap": [0, 1] }
-        ]
+        ],
+        "svg": [{ "path": "M 0 0 H 10 V 10 H 0 V 0", "tinctureIndex": 0 }]
       },
       {
         "name": "chief",
@@ -106,7 +114,8 @@
           { "name": "double", "overlap": [1] },
           { "name": "triple-spaced", "overlap": [0, 1] },
           { "name": "triple-top", "overlap": [0] }
-        ]
+        ],
+        "svg": [{ "path": "M 0 0 H 10 V 10 H 0 V 0", "tinctureIndex": 0 }]
       },
       {
         "name": "per pale",
@@ -117,7 +126,8 @@
           { "name": "double", "overlap": [0, 1] },
           { "name": "triple-spaced", "overlap": [0, 1] },
           { "name": "triple-top", "overlap": [0, 1] }
-        ]
+        ],
+        "svg": [{ "path": "M 0 0 H 10 V 10 H 0 V 0", "tinctureIndex": 0 }]
       },
       {
         "name": "per fess",
@@ -128,7 +138,8 @@
           { "name": "double", "overlap": [0, 1] },
           { "name": "triple-spaced", "overlap": [0, 1] },
           { "name": "triple-top", "overlap": [0] }
-        ]
+        ],
+        "svg": [{ "path": "M 0 0 H 10 V 10 H 0 V 0", "tinctureIndex": 0 }]
       },
       {
         "name": "per chevron",
@@ -137,7 +148,8 @@
         "layouts": [
           { "name": "single-center", "overlap": [0] },
           { "name": "triple-top", "overlap": [0] }
-        ]
+        ],
+        "svg": [{ "path": "M 0 0 H 10 V 10 H 0 V 0", "tinctureIndex": 0 }]
       },
       {
         "name": "pile",
@@ -147,19 +159,22 @@
           { "name": "single-center", "overlap": [0] },
           { "name": "triple-spaced", "overlap": [0, 1] },
           { "name": "triple-top", "overlap": [0] }
-        ]
+        ],
+        "svg": [{ "path": "M 0 0 H 10 V 10 H 0 V 0", "tinctureIndex": 0 }]
       },
       {
         "name": "saltire",
         "weight": 10,
         "description": "a <span class=\"tincture-primary\"></span> diagonal-cross on a <span class=\"tincture-secondary\"></span> field",
-        "layouts": []
+        "layouts": [],
+        "svg": [{ "path": "M 0 0 H 10 V 10 H 0 V 0", "tinctureIndex": 0 }]
       },
       {
         "name": "cross",
         "weight": 10,
         "description": "a <span class=\"tincture-primary\"></span> cross on a <span class=\"tincture-secondary\"></span> field",
-        "layouts": []
+        "layouts": [],
+        "svg": [{ "path": "M 0 0 H 10 V 10 H 0 V 0", "tinctureIndex": 0 }]
       }
     ],
     "tinctures": [

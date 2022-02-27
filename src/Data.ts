@@ -19,6 +19,7 @@ export type Ordinary = {
   weight: number;
   description: string;
   layouts: { name: string; overlap: number[] }[];
+  svg: { tinctureIndex: number; path: string }[];
 };
 
 export type Tincture = {

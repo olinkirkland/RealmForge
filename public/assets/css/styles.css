@@ -474,9 +474,14 @@ article li i {
   bottom: -0.2rem;
 }
 
-#coatOfArmsCanvas {
-  width: 100%;
-  border: 1px solid red;
+.li-coatOfArmsArt {
+  display: flex;
+  justify-content: center;
+}
+
+.coatOfArmsArt {
+  width: 12rem;
+  height: 12rem;
 }
 
 /* FOOTER */
