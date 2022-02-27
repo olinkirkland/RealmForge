@@ -480,8 +480,13 @@ article li i {
 }
 
 .coatOfArmsArt {
+  position: relative;
   width: 12rem;
   height: 12rem;
+}
+
+.coatOfArmsArt > svg {
+  position: absolute;
 }
 
 /* FOOTER */

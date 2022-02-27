@@ -43,9 +43,19 @@ class Coat {
         }
     }
     draw(el) {
+        el.innerHTML = '';
         this.ordinary.svg.forEach((svg) => {
             // Draw layer
-            el.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="${this.tinctures[svg.tinctureIndex].color}" viewBox="0 0 10 10"><path d="${svg.path}"/></svg>`;
+            el.innerHTML += `<svg
+      xmlns="http://www.w3.org/2000/svg" fill="${this.tinctures[svg.tinctureIndex].color}" viewBox="0 0 12 12">
+        <mask id="myMask">
+          <path d="M 2 1 
+          L 2 7
+          c 0 6 8 6 8 0
+          V 1 H 2" fill="white" />
+        </mask>
+        <path d="${svg.path}" mask="url(#myMask)" />
+      </svg>`;
         });
     }
 }

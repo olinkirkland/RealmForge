@@ -44,7 +44,7 @@
     "ordinaries": [
       {
         "name": "field",
-        "weight": 100,
+        "weight": 10,
         "description": "a <span class=\"tincture-primary\"></span> field",
         "layouts": [
           { "name": "single-center", "overlap": [0] },
@@ -52,7 +52,7 @@
           { "name": "triple-spaced", "overlap": [0] },
           { "name": "triple-top", "overlap": [0] }
         ],
-        "svg": [{ "path": "M 0 0 H 10 V 10 H 0 V 0", "tinctureIndex": 0 }]
+        "svg": [{ "path": "M 0 0 H 12 V 12 H 0 V 0", "tinctureIndex": 0 }]
       },
       {
         "name": "pale",
@@ -65,8 +65,8 @@
           { "name": "triple-top", "overlap": [0, 1] }
         ],
         "svg": [
-          { "path": "M 0 0 H 5 V 10 H 0 V 0", "tinctureIndex": 0 },
-          { "path": "M 5 0 H 10 V 10 H 5 V 0", "tinctureIndex": 1 }
+          { "path": "M 0 0 H 12 V 12 H 0 V 0", "tinctureIndex": 0 },
+          { "path": "M 4.5 0 h 3 v 12 h -3 V 0", "tinctureIndex": 1 }
         ]
       },
       {
@@ -79,7 +79,10 @@
           { "name": "triple-spaced", "overlap": [0, 1] },
           { "name": "triple-top", "overlap": [0] }
         ],
-        "svg": [{ "path": "M 0 0 H 10 V 10 H 0 V 0", "tinctureIndex": 0 }]
+        "svg": [
+          { "path": "M 0 0 H 12 V 12 H 0 V 0", "tinctureIndex": 0 },
+          { "path": "M 0 4.5 H 12 v 3 H 0 v -3", "tinctureIndex": 1 }
+        ]
       },
       {
         "name": "chevron",
@@ -91,7 +94,13 @@
           { "name": "triple-spaced", "overlap": [0, 1] },
           { "name": "triple-top", "overlap": [0] }
         ],
-        "svg": [{ "path": "M 0 0 H 10 V 10 H 0 V 0", "tinctureIndex": 0 }]
+        "svg": [
+          { "path": "M 0 0 H 12 V 12 H 0 V 0", "tinctureIndex": 0 },
+          {
+            "path": "M 0 6 L 6 3 L 12 6 v 3 L 6 6 L 0 9 v -3",
+            "tinctureIndex": 1
+          }
+        ]
       },
       {
         "name": "bend",
@@ -103,7 +112,10 @@
           { "name": "triple-spaced", "overlap": [0, 1] },
           { "name": "triple-top", "overlap": [0, 1] }
         ],
-        "svg": [{ "path": "M 0 0 H 10 V 10 H 0 V 0", "tinctureIndex": 0 }]
+        "svg": [
+          { "path": "M 0 0 H 12 V 12 H 0 V 0", "tinctureIndex": 0 },
+          { "path": "M 0 0 H 3 L 12 10 h -3 L 0 0", "tinctureIndex": 1 }
+        ]
       },
       {
         "name": "chief",
@@ -115,7 +127,10 @@
           { "name": "triple-spaced", "overlap": [0, 1] },
           { "name": "triple-top", "overlap": [0] }
         ],
-        "svg": [{ "path": "M 0 0 H 10 V 10 H 0 V 0", "tinctureIndex": 0 }]
+        "svg": [
+          { "path": "M 0 0 H 12 V 12 H 0 V 0", "tinctureIndex": 1 },
+          { "path": "M 0 0 v 3 h 12 v -3 H 0", "tinctureIndex": 0 }
+        ]
       },
       {
         "name": "per pale",
@@ -127,7 +142,10 @@
           { "name": "triple-spaced", "overlap": [0, 1] },
           { "name": "triple-top", "overlap": [0, 1] }
         ],
-        "svg": [{ "path": "M 0 0 H 10 V 10 H 0 V 0", "tinctureIndex": 0 }]
+        "svg": [
+          { "path": "M 0 0 H 12 V 12 H 0 V 0", "tinctureIndex": 0 },
+          { "path": "M 6 0 H 12 V 12 h -6 V 0", "tinctureIndex": 1 }
+        ]
       },
       {
         "name": "per fess",
@@ -139,7 +157,10 @@
           { "name": "triple-spaced", "overlap": [0, 1] },
           { "name": "triple-top", "overlap": [0] }
         ],
-        "svg": [{ "path": "M 0 0 H 10 V 10 H 0 V 0", "tinctureIndex": 0 }]
+        "svg": [
+          { "path": "M 0 0 H 12 V 12 H 0 V 0", "tinctureIndex": 0 },
+          { "path": "M 0 6 H 12 v 6 H 0 v -6", "tinctureIndex": 1 }
+        ]
       },
       {
         "name": "per chevron",
@@ -149,7 +170,10 @@
           { "name": "single-center", "overlap": [0] },
           { "name": "triple-top", "overlap": [0] }
         ],
-        "svg": [{ "path": "M 0 0 H 10 V 10 H 0 V 0", "tinctureIndex": 0 }]
+        "svg": [
+          { "path": "M 0 0 H 12 V 12 H 0 V 0", "tinctureIndex": 0 },
+          { "path": "M 0 6 L 6 3 L 12 6 v 9 H 0 V 6", "tinctureIndex": 1 }
+        ]
       },
       {
         "name": "pile",
@@ -160,21 +184,32 @@
           { "name": "triple-spaced", "overlap": [0, 1] },
           { "name": "triple-top", "overlap": [0] }
         ],
-        "svg": [{ "path": "M 0 0 H 10 V 10 H 0 V 0", "tinctureIndex": 0 }]
+        "svg": [
+          { "path": "M 0 0 H 12 V 12 H 0 V 0", "tinctureIndex": 0 },
+          { "path": "M 2 0 L 6 10 L 10 0 H 2", "tinctureIndex": 1 }
+        ]
       },
       {
         "name": "saltire",
         "weight": 10,
         "description": "a <span class=\"tincture-primary\"></span> diagonal-cross on a <span class=\"tincture-secondary\"></span> field",
         "layouts": [],
-        "svg": [{ "path": "M 0 0 H 10 V 10 H 0 V 0", "tinctureIndex": 0 }]
+        "svg": [
+          { "path": "M 0 0 H 12 V 12 H 0 V 0", "tinctureIndex": 0 },
+          { "path": "M 0 0 H 3 L 12 10 h -3 L 0 0", "tinctureIndex": 1 },
+          { "path": "M 12 0 h -3 L 0 10 h 3 L 12 0", "tinctureIndex": 1 }
+        ]
       },
       {
         "name": "cross",
         "weight": 10,
         "description": "a <span class=\"tincture-primary\"></span> cross on a <span class=\"tincture-secondary\"></span> field",
         "layouts": [],
-        "svg": [{ "path": "M 0 0 H 10 V 10 H 0 V 0", "tinctureIndex": 0 }]
+        "svg": [
+          { "path": "M 0 0 H 12 V 12 H 0 V 0", "tinctureIndex": 0 },
+          { "path": "M 0 4.5 H 12 v 3 H 0 v -3", "tinctureIndex": 1 },
+          { "path": "M 4.5 0 h 3 v 12 h -3 V 0", "tinctureIndex": 1 }
+        ]
       }
     ],
     "tinctures": [
