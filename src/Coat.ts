@@ -45,4 +45,15 @@ export default class Coat {
       this.charge = Util.randomWeightedValue(Data.charges, (c) => c.weight);
     }
   }
+
+  draw(canvas: HTMLCanvasElement) {
+    if (canvas.getContext) {
+      var ctx: CanvasRenderingContext2D = canvas.getContext('2d')!;
+
+      const ord:Path2D = new Path2D('')
+
+      ctx.stroke(ord);
+      ctx.fill(ord);
+    }
+  }
 }

@@ -42,6 +42,14 @@ class Coat {
             this.charge = _Util__WEBPACK_IMPORTED_MODULE_1__["default"].randomWeightedValue(_Data__WEBPACK_IMPORTED_MODULE_0__.Data.charges, (c) => c.weight);
         }
     }
+    draw(canvas) {
+        if (canvas.getContext) {
+            var ctx = canvas.getContext('2d');
+            const ord = new Path2D('');
+            ctx.stroke(ord);
+            ctx.fill(ord);
+        }
+    }
 }
 
 
@@ -473,9 +481,7 @@ class Realm {
                 '% chance due to ' +
                 remaining +
                 ' possible tributaries');
-            const n = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].rand();
-            console.log('-- rolled: ' + Math.floor(n * 100) + ' ' + (n < chance));
-            if (n >= chance)
+            if (_Util__WEBPACK_IMPORTED_MODULE_2__["default"].rand() >= chance)
                 continue;
             // Push to river tributary array (gets returned)
             tributaries.push(tributary);
@@ -1173,6 +1179,8 @@ function updateView() {
     applyCoatBlurb();
     toggleVisibility('sigil-present-on-heraldry', realm.sigilPresentOnHeraldry);
     toggleVisibility('on-the-coast', realm.coast);
+    // Art
+    realm.coat.draw(document.getElementById('coatOfArmsCanvas'));
     // Words
     applyText('name', _Util__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(realm.realmName));
     applyText('government-rank', realm.governmentRank);

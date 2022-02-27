@@ -452,9 +452,7 @@ export class Realm {
           ' possible tributaries'
       );
 
-      const n = Util.rand();
-      console.log('-- rolled: ' + Math.floor(n * 100) + ' ' + (n < chance));
-      if (n >= chance) continue;
+      if (Util.rand() >= chance) continue;
 
       // Push to river tributary array (gets returned)
       tributaries.push(tributary);

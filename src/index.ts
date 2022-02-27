@@ -354,6 +354,11 @@ function updateView() {
   toggleVisibility('sigil-present-on-heraldry', realm.sigilPresentOnHeraldry);
   toggleVisibility('on-the-coast', realm.coast);
 
+  // Art
+  realm.coat.draw(
+    document.getElementById('coatOfArmsCanvas') as HTMLCanvasElement
+  );
+
   // Words
   applyText('name', Util.readWord(realm.realmName));
   applyText('government-rank', realm.governmentRank);

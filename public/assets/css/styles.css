@@ -474,6 +474,11 @@ article li i {
   bottom: -0.2rem;
 }
 
+#coatOfArmsCanvas {
+  width: 100%;
+  border: 1px solid red;
+}
+
 /* FOOTER */
 footer.container {
   display: flex;
