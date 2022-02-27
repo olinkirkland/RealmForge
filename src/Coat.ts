@@ -64,5 +64,13 @@ export default class Coat {
         <path d="${svg.path}" mask="url(#myMask)" />
       </svg>`;
     });
+
+    // Draw the charges
+    // if (this.chargeLayout) {
+    //   console.log(this.chargeLayout.name);
+    //   el.innerHTML += `<i class="fa-solid fa-star" style="color:${
+    //     this.chargeTincture!.color
+    //   }"></i>`;
+    // }
   }
 }
