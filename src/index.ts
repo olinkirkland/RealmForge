@@ -380,15 +380,24 @@ function updateView() {
   applyText('season-winter', realm.seasonWinter.join(', '));
 
   applyText(
-    'tincture1',
+    'tincture-primary',
     realm.coat.tinctures[0].name,
-    ' <span class="tincture tincture1-color"></span>'
+    ' <span class="tincture tincture-primary-color"></span>'
   );
   applyText(
-    'tincture2',
+    'tincture-secondary',
     realm.coat.tinctures[1].name,
-    ' <span class="tincture tincture2-color"></span>'
+    ' <span class="tincture tincture-secondary-color"></span>'
   );
+
+  if (realm.coat.charge) {
+    applyText('charge-name', realm.coat.charge.name);
+    applyText(
+      'tincture-charge',
+      realm.coat.chargeTincture!.name,
+      ' <span class="tincture tincture-charge-color"></span>'
+    );
+  }
 
   applyTinctureColors();
 
@@ -535,15 +544,24 @@ function applyCoatBlurb() {
   text = `<span>The design of <span class="name"></span>'s coat of arms resembles `;
   text += realm.coat.ordinary.description + `</span>.`;
 
+  if (realm.coat.chargeLayout) {
+    text += ' ' + realm.coat.chargeLayout.description;
+  }
+
   const el: HTMLElement = document.querySelector('.coat-of-arms-blurb')!;
   el.innerHTML = text;
 }
 
 function applyTinctureColors() {
-  const el1: HTMLElement = document.querySelector('.tincture1-color')!;
+  const el1: HTMLElement = document.querySelector('.tincture-primary-color')!;
   if (el1) el1.style.backgroundColor = realm.coat.tinctures[0].color;
-  const el2: HTMLElement = document.querySelector('.tincture2-color')!;
+  const el2: HTMLElement = document.querySelector('.tincture-secondary-color')!;
   if (el2) el2.style.backgroundColor = realm.coat.tinctures[1].color;
+
+  if (realm.coat.chargeTincture) {
+    const el3: HTMLElement = document.querySelector('.tincture-charge-color')!;
+    if (el3) el3.style.backgroundColor = realm.coat.chargeTincture.color;
+  }
 }
 
 function replaceNumbers() {

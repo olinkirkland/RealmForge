@@ -18,6 +18,7 @@ export type Ordinary = {
   name: string;
   weight: number;
   description: string;
+  layouts: { name: string; overlap: number[] }[];
 };
 
 export type Tincture = {
@@ -25,6 +26,18 @@ export type Tincture = {
   color: string;
   type: string;
   weight: number;
+};
+
+export type ChargeLayout = {
+  name: string;
+  weight: number;
+  description: string;
+};
+
+export type Charge = {
+  name: string;
+  weight: number;
+  url: string;
 };
 
 export class Data {
@@ -53,6 +66,8 @@ export class Data {
 
   public static ordinaries: Ordinary[];
   public static tinctures: Tincture[];
+  public static chargeLayouts: ChargeLayout[];
+  public static charges: Charge[];
 
   static setup(callback: Function) {
     let loadList: { propertyName: string; url: string; loaded: boolean }[] = [
@@ -141,6 +156,8 @@ export class Data {
     // Apply heraldry
     Data.ordinaries = u.heraldry.ordinaries;
     Data.tinctures = u.heraldry.tinctures;
+    Data.chargeLayouts = u.heraldry.layouts;
+    Data.charges = u.heraldry.charges;
 
     // Apply defaults to nameParts
     Data.placeNameParts

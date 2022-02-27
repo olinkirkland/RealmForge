@@ -12,14 +12,35 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Coat)
 /* harmony export */ });
-/* harmony import */ var _Util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Util */ "./src/Util.ts");
+/* harmony import */ var _Data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Data */ "./src/Data.ts");
+/* harmony import */ var _Util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Util */ "./src/Util.ts");
+
 
 class Coat {
-    // public chargeArrangement: string;
     constructor(ordinary, tinctures) {
         this.ordinary = ordinary;
         this.tinctures = tinctures;
-        this.charge = _Util__WEBPACK_IMPORTED_MODULE_0__["default"].rand() < 0.2 ? 'horse' : null;
+        const layouts = _Data__WEBPACK_IMPORTED_MODULE_0__.Data.chargeLayouts.filter((l) => ordinary.layouts.some((m) => m.name == l.name));
+        this.chargeLayout =
+            ordinary.layouts.length > 0
+                ? _Util__WEBPACK_IMPORTED_MODULE_1__["default"].randomWeightedValue(layouts, (l) => l.weight)
+                : null;
+        if (this.chargeLayout) {
+            // Determine the charge's tincture
+            const availableTinctures = _Data__WEBPACK_IMPORTED_MODULE_0__.Data.tinctures.filter((t) => {
+                // Heraldic rule: Never put a color on another color
+                // and never put a metal on top of another metal
+                const tinctureOverlapIndexes = ordinary.layouts.find((l) => l.name == this.chargeLayout.name).overlap;
+                if (tinctureOverlapIndexes.length > 0) {
+                    const overlapTincture = tinctures[tinctureOverlapIndexes[0]];
+                    return t.type != overlapTincture.type && !tinctures.includes(t);
+                }
+                return false;
+            });
+            this.chargeTincture = _Util__WEBPACK_IMPORTED_MODULE_1__["default"].randomValue(availableTinctures);
+            // Pick a charge
+            this.charge = _Util__WEBPACK_IMPORTED_MODULE_1__["default"].randomWeightedValue(_Data__WEBPACK_IMPORTED_MODULE_0__.Data.charges, (c) => c.weight);
+        }
     }
 }
 
@@ -115,6 +136,8 @@ class Data {
         // Apply heraldry
         Data.ordinaries = u.heraldry.ordinaries;
         Data.tinctures = u.heraldry.tinctures;
+        Data.chargeLayouts = u.heraldry.layouts;
+        Data.charges = u.heraldry.charges;
         // Apply defaults to nameParts
         Data.placeNameParts
             .concat(Data.riverNameParts)
@@ -245,10 +268,10 @@ class Realm {
         let tMetal = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomWeightedValue(metals, (item) => item.weight);
         const colors = _Data__WEBPACK_IMPORTED_MODULE_1__.Data.tinctures.filter((t) => t.type == 'color');
         let tColor = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomWeightedValue(colors, (item) => item.weight);
-        let tinctures = [tMetal, tColor].sort((t) => Math.random() > 0.5 ? 1 : -1);
+        let tinctures = [tMetal, tColor].sort((t) => _Util__WEBPACK_IMPORTED_MODULE_2__["default"].rand() > 0.5 ? 1 : -1);
         this.coat = new _Coat__WEBPACK_IMPORTED_MODULE_0__["default"](ordinary, tinctures);
         // todo set this correctly
-        this.sigilPresentOnHeraldry = this.coat.charge != null;
+        this.sigilPresentOnHeraldry = false;
     }
     // Choose geography and climate based on the direction
     determineClimate() {
@@ -444,9 +467,15 @@ class Realm {
             }
             // The more tributaries there are the lower the chance is to add a new one
             const max = 5;
-            const remaining = max - tributaries.length;
+            const remaining = max - this.tributaries.length;
             const chance = remaining * (1 / max) + 0.1; // Always give it +10% chance
-            if (_Util__WEBPACK_IMPORTED_MODULE_2__["default"].rand() >= chance)
+            console.log(Math.floor(chance * 100) +
+                '% chance due to ' +
+                remaining +
+                ' possible tributaries');
+            const n = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].rand();
+            console.log('-- rolled: ' + Math.floor(n * 100) + ' ' + (n < chance));
+            if (n >= chance)
                 continue;
             // Push to river tributary array (gets returned)
             tributaries.push(tributary);
@@ -1160,8 +1189,12 @@ function updateView() {
     applyText('humidity', realm.humidity);
     applyText('season-summer', realm.seasonSummer.join(', '));
     applyText('season-winter', realm.seasonWinter.join(', '));
-    applyText('tincture1', realm.coat.tinctures[0].name, ' <span class="tincture tincture1-color"></span>');
-    applyText('tincture2', realm.coat.tinctures[1].name, ' <span class="tincture tincture2-color"></span>');
+    applyText('tincture-primary', realm.coat.tinctures[0].name, ' <span class="tincture tincture-primary-color"></span>');
+    applyText('tincture-secondary', realm.coat.tinctures[1].name, ' <span class="tincture tincture-secondary-color"></span>');
+    if (realm.coat.charge) {
+        applyText('charge-name', realm.coat.charge.name);
+        applyText('tincture-charge', realm.coat.chargeTincture.name, ' <span class="tincture tincture-charge-color"></span>');
+    }
     applyTinctureColors();
     applyIcon('sigil', realm.sigilIcon);
     // Utility
@@ -1279,16 +1312,24 @@ function applyCoatBlurb() {
     let text = '';
     text = `<span>The design of <span class="name"></span>'s coat of arms resembles `;
     text += realm.coat.ordinary.description + `</span>.`;
+    if (realm.coat.chargeLayout) {
+        text += ' ' + realm.coat.chargeLayout.description;
+    }
     const el = document.querySelector('.coat-of-arms-blurb');
     el.innerHTML = text;
 }
 function applyTinctureColors() {
-    const el1 = document.querySelector('.tincture1-color');
+    const el1 = document.querySelector('.tincture-primary-color');
     if (el1)
         el1.style.backgroundColor = realm.coat.tinctures[0].color;
-    const el2 = document.querySelector('.tincture2-color');
+    const el2 = document.querySelector('.tincture-secondary-color');
     if (el2)
         el2.style.backgroundColor = realm.coat.tinctures[1].color;
+    if (realm.coat.chargeTincture) {
+        const el3 = document.querySelector('.tincture-charge-color');
+        if (el3)
+            el3.style.backgroundColor = realm.coat.chargeTincture.color;
+    }
 }
 function replaceNumbers() {
     const els = document.querySelectorAll('.word-number');

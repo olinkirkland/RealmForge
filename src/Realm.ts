@@ -193,13 +193,13 @@ export class Realm {
     );
 
     let tinctures: Tincture[] = [tMetal, tColor].sort((t) =>
-      Math.random() > 0.5 ? 1 : -1
+      Util.rand() > 0.5 ? 1 : -1
     );
 
     this.coat = new Coat(ordinary, tinctures);
 
     // todo set this correctly
-    this.sigilPresentOnHeraldry = this.coat.charge != null;
+    this.sigilPresentOnHeraldry = false;
   }
 
   // Choose geography and climate based on the direction
@@ -443,9 +443,18 @@ export class Realm {
 
       // The more tributaries there are the lower the chance is to add a new one
       const max: number = 5;
-      const remaining: number = max - tributaries.length;
+      const remaining: number = max - this.tributaries.length;
       const chance: number = remaining * (1 / max) + 0.1; // Always give it +10% chance
-      if (Util.rand() >= chance) continue;
+      console.log(
+        Math.floor(chance * 100) +
+          '% chance due to ' +
+          remaining +
+          ' possible tributaries'
+      );
+
+      const n = Util.rand();
+      console.log('-- rolled: ' + Math.floor(n * 100) + ' ' + (n < chance));
+      if (n >= chance) continue;
 
       // Push to river tributary array (gets returned)
       tributaries.push(tributary);

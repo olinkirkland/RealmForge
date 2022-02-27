@@ -457,8 +457,9 @@ article li i {
   opacity: 0.2;
 }
 
-.tincture1,
-.tincture2 {
+.tincture-primary,
+.tincture-secondary,
+.tincture-charge-color {
   white-space: nowrap;
 }
 
