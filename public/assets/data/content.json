@@ -144,7 +144,7 @@
         "layouts": [{ "name": "triple-top", "overlap": [0] }],
         "svg": [
           { "path": "M 0 0 H 12 V 12 H 0 V 0", "tinctureIndex": 1 },
-          { "path": "M 0 0 v 4 h 12 v -4 H 0", "tinctureIndex": 0 }
+          { "path": "M 0 0 v 4.5 h 12 v -4.5 H 0", "tinctureIndex": 0 }
         ]
       },
       {
@@ -153,9 +153,7 @@
         "description": "a vertically partitioned, <span class=\"tincture-primary\"></span> and <span class=\"tincture-secondary\"></span> field",
         "layouts": [
           { "name": "single-center-lg", "overlap": [0, 1] },
-          { "name": "double", "overlap": [0, 1] },
-          { "name": "triple-spaced", "overlap": [0, 1] },
-          { "name": "triple-top", "overlap": [0, 1] }
+          { "name": "double", "overlap": [0, 1] }
         ],
         "svg": [
           { "path": "M 0 0 H 12 V 12 H 0 V 0", "tinctureIndex": 0 },
@@ -168,9 +166,7 @@
         "description": "a horizontally partitioned, <span class=\"tincture-primary\"></span> and <span class=\"tincture-secondary\"></span> field",
         "layouts": [
           { "name": "single-center-lg", "overlap": [0, 1] },
-          { "name": "double", "overlap": [0, 1] },
-          { "name": "triple-spaced", "overlap": [0, 1] },
-          { "name": "triple-top", "overlap": [0] }
+          { "name": "double", "overlap": [0, 1] }
         ],
         "svg": [
           { "path": "M 0 0 H 12 V 12 H 0 V 0", "tinctureIndex": 0 },
@@ -224,18 +220,18 @@
       }
     ],
     "tinctures": [
-      { "type": "metal", "name": "silver", "color": "#dfe6d0", "weight": 1 },
-      { "type": "metal", "name": "gold", "color": "#d5ab5b", "weight": 1 },
-      { "type": "color", "name": "red", "color": "#e44747", "weight": 1 },
-      { "type": "color", "name": "black", "color": "#454141", "weight": 1 },
-      { "type": "color", "name": "blue", "color": "#6b75e2", "weight": 1 },
-      { "type": "color", "name": "violet", "color": "#895cca", "weight": 1 },
-      { "type": "color", "name": "green", "color": "#90ac5f", "weight": 1 },
+      { "type": "metal", "name": "silver", "color": "#dfe6d0", "weight": 5 },
+      { "type": "metal", "name": "gold", "color": "#d5ab5b", "weight": 5 },
+      { "type": "color", "name": "red", "color": "#e44747", "weight": 5 },
+      { "type": "color", "name": "black", "color": "#454141", "weight": 5 },
+      { "type": "color", "name": "blue", "color": "#6b75e2", "weight": 5 },
+      { "type": "color", "name": "violet", "color": "#895cca", "weight": 2 },
+      { "type": "color", "name": "green", "color": "#90ac5f", "weight": 5 },
       {
         "type": "color",
         "name": "mulberry",
         "color": "#d06ea3",
-        "weight": 0.2
+        "weight": 1
       }
     ]
   },
