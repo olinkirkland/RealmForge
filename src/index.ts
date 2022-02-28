@@ -353,6 +353,7 @@ function updateView() {
   applyCoatBlurb();
   toggleVisibility('sigil-present-on-heraldry', realm.sigilPresentOnHeraldry);
   toggleVisibility('on-the-coast', realm.coast);
+  toggleVisibility('not-on-the-coast', !realm.coast);
 
   // Art
   document
