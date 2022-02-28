@@ -320,7 +320,12 @@ export class Realm {
 
       let secondaryBiome: Biome = {
         type: Util.randomValue(availableBiomes),
-        size: Data.sizes[Math.floor(Util.rand() * availableSizeIndex)],
+        size: Data.sizes[
+          Math.min(
+            Math.floor(Util.rand() * availableSizeIndex),
+            Data.sizes.length - 1
+          )
+        ],
         direction: secondaryDirection
       };
 

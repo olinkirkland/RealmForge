@@ -397,7 +397,7 @@ class Realm {
                 secondaryDirection.noun.includes('-'));
             let secondaryBiome = {
                 type: _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomValue(availableBiomes),
-                size: _Data__WEBPACK_IMPORTED_MODULE_1__.Data.sizes[Math.floor(_Util__WEBPACK_IMPORTED_MODULE_2__["default"].rand() * availableSizeIndex)],
+                size: _Data__WEBPACK_IMPORTED_MODULE_1__.Data.sizes[Math.min(Math.floor(_Util__WEBPACK_IMPORTED_MODULE_2__["default"].rand() * availableSizeIndex), _Data__WEBPACK_IMPORTED_MODULE_1__.Data.sizes.length - 1)],
                 direction: secondaryDirection
             };
             // Add a second biome
