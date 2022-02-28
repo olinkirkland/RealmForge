@@ -2,7 +2,7 @@
   "heraldry": {
     "charges": [
       { "name": "ring", "weight": 10, "url": "ring" },
-      { "name": "crescent", "weight": 1000, "url": "moon" },
+      { "name": "crescent", "weight": 10, "url": "moon" },
       { "name": "rose", "weight": 10, "url": "spa" },
       { "name": "cross", "weight": 10, "url": "cross" },
       { "name": "star", "weight": 10, "url": "star" },
@@ -24,7 +24,7 @@
         "name": "single-center",
         "count": 1,
         "size": "",
-        "weight": 40,
+        "weight": 10,
         "description": "Positioned in the center is a <span class=\"tincture-charge\"></span> <span class=\"charge-name\"></span>."
       },
       {
@@ -125,12 +125,7 @@
         "name": "bend",
         "weight": 10,
         "description": "a diagonal, <span class=\"tincture-primary\"></span> stripe on a <span class=\"tincture-secondary\"></span> field",
-        "layouts": [
-          { "name": "single-center", "overlap": [0, 1] },
-          { "name": "double", "overlap": [0, 1] },
-          { "name": "triple-spaced", "overlap": [0, 1] },
-          { "name": "triple-top", "overlap": [0, 1] }
-        ],
+        "layouts": [],
         "svg": [
           { "path": "M 0 0 H 12 V 12 H 0 V 0", "tinctureIndex": 0 },
           { "path": "M 0 0 H 3 L 12 10 h -3 L 0 0", "tinctureIndex": 1 }
@@ -143,7 +138,6 @@
         "layouts": [
           { "name": "single-center-lg", "overlap": [1] },
           { "name": "double", "overlap": [1] },
-          { "name": "triple-spaced", "overlap": [0, 1] },
           { "name": "triple-top", "overlap": [0] }
         ],
         "svg": [
@@ -187,7 +181,7 @@
         "description": "a chevron-shaped, horizontally partitioned, <span class=\"tincture-primary\"></span> and <span class=\"tincture-secondary\"></span> field",
         "layouts": [
           { "name": "single-center-lg", "overlap": [1] },
-          { "name": "triple-top", "overlap": [0] }
+          { "name": "triple-center-row", "overlap": [1] }
         ],
         "svg": [
           { "path": "M 0 0 H 12 V 12 H 0 V 0", "tinctureIndex": 0 },
