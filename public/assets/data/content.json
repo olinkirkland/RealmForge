@@ -2,8 +2,7 @@
   "heraldry": {
     "charges": [
       { "name": "ring", "weight": 10, "url": "ring" },
-      { "name": "crescent", "weight": 10, "url": "moon" },
-      { "name": "rose", "weight": 10, "url": "spa" },
+      { "name": "flower", "weight": 10, "url": "spa" },
       { "name": "cross", "weight": 10, "url": "cross" },
       { "name": "star", "weight": 10, "url": "star" },
       { "name": "tower", "weight": 10, "url": "chess-rook" },
@@ -22,6 +21,13 @@
       },
       {
         "name": "single-center",
+        "count": 1,
+        "size": "",
+        "weight": 10,
+        "description": "Positioned in the center is a <span class=\"tincture-charge\"></span> <span class=\"charge-name\"></span>."
+      },
+      {
+        "name": "single-center-raised",
         "count": 1,
         "size": "",
         "weight": 10,
@@ -116,7 +122,7 @@
         "svg": [
           { "path": "M 0 0 H 12 V 12 H 0 V 0", "tinctureIndex": 0 },
           {
-            "path": "M 0 6.5 l 6 -3 l 6 3 v 3 l -6 -3 l -6 3 v -3",
+            "path": "M 0 6.7 l 6 -2 l 6 2 v 2 l -6 -2 l -6 2 v -2",
             "tinctureIndex": 1
           }
         ]
@@ -135,11 +141,7 @@
         "name": "chief",
         "weight": 10,
         "description": "a horizontal, <span class=\"tincture-primary\"></span> stripe positioned at the top of a <span class=\"tincture-secondary\"></span> field",
-        "layouts": [
-          { "name": "single-center-lg", "overlap": [1] },
-          { "name": "double", "overlap": [1] },
-          { "name": "triple-top", "overlap": [0] }
-        ],
+        "layouts": [{ "name": "triple-top", "overlap": [0] }],
         "svg": [
           { "path": "M 0 0 H 12 V 12 H 0 V 0", "tinctureIndex": 1 },
           { "path": "M 0 0 v 4 h 12 v -4 H 0", "tinctureIndex": 0 }
@@ -192,11 +194,7 @@
         "name": "pile",
         "weight": 10,
         "description": "an upside-down, <span class=\"tincture-primary\"></span> triangle positioned at the top of a <span class=\"tincture-secondary\"></span> field",
-        "layouts": [
-          { "name": "single-center", "overlap": [1] },
-          { "name": "triple-spaced", "overlap": [0, 1] },
-          { "name": "triple-top", "overlap": [0] }
-        ],
+        "layouts": [{ "name": "single-center-raised", "overlap": [1] }],
         "svg": [
           { "path": "M 0 0 H 12 V 12 H 0 V 0", "tinctureIndex": 0 },
           { "path": "M 2 0 L 6 10 L 10 0 H 2", "tinctureIndex": 1 }
