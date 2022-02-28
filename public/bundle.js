@@ -45,6 +45,7 @@ class Coat {
                 this.charge.weight = 0;
                 this.charge.url = realm.sigilIcon;
             }
+            realm.sigilPresentOnHeraldry = this.charge.name == realm.sigilName;
         }
     }
     draw(el) {
@@ -300,8 +301,6 @@ class Realm {
         let tColor = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomWeightedValue(colors, (item) => item.weight);
         let tinctures = [tMetal, tColor].sort((t) => _Util__WEBPACK_IMPORTED_MODULE_2__["default"].rand() > 0.5 ? 1 : -1);
         this.coat = new _Coat__WEBPACK_IMPORTED_MODULE_0__["default"](this, ordinary, tinctures);
-        // todo set this correctly
-        this.sigilPresentOnHeraldry = false;
     }
     // Choose geography and climate based on the direction
     determineClimate() {

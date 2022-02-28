@@ -1,18 +1,16 @@
 {
   "heraldry": {
     "charges": [
-      { "name": "ring", "weight": 10, "url": "star" },
-      { "name": "crescent", "weight": 10, "url": "star" },
-      { "name": "rose", "weight": 10, "url": "star" },
+      { "name": "ring", "weight": 10, "url": "ring" },
+      { "name": "crescent", "weight": 1000, "url": "moon" },
+      { "name": "rose", "weight": 10, "url": "spa" },
+      { "name": "cross", "weight": 10, "url": "cross" },
       { "name": "star", "weight": 10, "url": "star" },
-      { "name": "dragon", "weight": 10, "url": "star" },
-      { "name": "sword", "weight": 10, "url": "star" },
-      { "name": "tower", "weight": 10, "url": "star" },
-      { "name": "crescent", "weight": 10, "url": "star" },
-      { "name": "circle", "weight": 10, "url": "star" },
-      { "name": "ring", "weight": 10, "url": "star" },
-      { "name": "clover", "weight": 10, "url": "star" },
-      { "name": "crown", "weight": 10, "url": "star" }
+      { "name": "tower", "weight": 10, "url": "chess-rook" },
+      { "name": "circle", "weight": 10, "url": "circle" },
+      { "name": "crown", "weight": 10, "url": "chess-queen" },
+      { "name": "apple", "weight": 10, "url": "apple-whole" },
+      { "name": "bell", "weight": 10, "url": "bell" }
     ],
     "layouts": [
       {
@@ -144,7 +142,7 @@
         ],
         "svg": [
           { "path": "M 0 0 H 12 V 12 H 0 V 0", "tinctureIndex": 1 },
-          { "path": "M 0 0 v 3 h 12 v -3 H 0", "tinctureIndex": 0 }
+          { "path": "M 0 0 v 4 h 12 v -4 H 0", "tinctureIndex": 0 }
         ]
       },
       {
@@ -152,7 +150,7 @@
         "weight": 10,
         "description": "a vertically partitioned, <span class=\"tincture-primary\"></span> and <span class=\"tincture-secondary\"></span> field",
         "layouts": [
-          { "name": "single-center", "overlap": [0, 1] },
+          { "name": "single-center-lg", "overlap": [0, 1] },
           { "name": "double", "overlap": [0, 1] },
           { "name": "triple-spaced", "overlap": [0, 1] },
           { "name": "triple-top", "overlap": [0, 1] }
@@ -195,7 +193,7 @@
         "weight": 10,
         "description": "an upside-down, <span class=\"tincture-primary\"></span> triangle positioned at the top of a <span class=\"tincture-secondary\"></span> field",
         "layouts": [
-          { "name": "single-center", "overlap": [0] },
+          { "name": "single-center", "overlap": [1] },
           { "name": "triple-spaced", "overlap": [0, 1] },
           { "name": "triple-top", "overlap": [0] }
         ],
@@ -332,8 +330,8 @@
       "meanings": ["loyalty", "royal lineage"]
     },
     {
-      "name": "sapling",
-      "icon": "seedling",
+      "name": "holly plant",
+      "icon": "holly-berry",
       "meanings": ["heritage", "family"]
     },
     {
@@ -346,6 +344,7 @@
       "icon": "snowflake",
       "meanings": ["beauty", "charm"]
     },
+    { "name": "heart", "icon": "heart", "meanings": ["health", "strength"] },
     { "name": "sun", "icon": "sun", "meanings": ["harvest", "honesty"] },
     { "name": "jewel", "icon": "gem", "meanings": ["wealth", "value"] },
     { "name": "skull", "icon": "skull", "meanings": ["valor", "ruthlessness"] }

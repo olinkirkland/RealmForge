@@ -50,6 +50,8 @@ export default class Coat {
         this.charge.weight = 0;
         this.charge.url = realm.sigilIcon;
       }
+
+      realm.sigilPresentOnHeraldry = this.charge.name == realm.sigilName;
     }
   }
 

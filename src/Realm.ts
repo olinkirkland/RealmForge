@@ -197,9 +197,6 @@ export class Realm {
     );
 
     this.coat = new Coat(this, ordinary, tinctures);
-
-    // todo set this correctly
-    this.sigilPresentOnHeraldry = false;
   }
 
   // Choose geography and climate based on the direction
