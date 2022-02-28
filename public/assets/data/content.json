@@ -226,17 +226,17 @@
       }
     ],
     "tinctures": [
-      { "type": "metal", "name": "silver", "color": "#d8e0c5", "weight": 1 },
-      { "type": "metal", "name": "gold", "color": "#cb9633", "weight": 1 },
-      { "type": "color", "name": "red", "color": "#d91f1f", "weight": 1 },
-      { "type": "color", "name": "black", "color": "#151414", "weight": 1 },
-      { "type": "color", "name": "blue", "color": "#4653db", "weight": 1 },
-      { "type": "color", "name": "violet", "color": "#6d3bb6", "weight": 1 },
-      { "type": "color", "name": "green", "color": "#718947", "weight": 1 },
+      { "type": "metal", "name": "silver", "color": "#dfe6d0", "weight": 1 },
+      { "type": "metal", "name": "gold", "color": "#d5ab5b", "weight": 1 },
+      { "type": "color", "name": "red", "color": "#e44747", "weight": 1 },
+      { "type": "color", "name": "black", "color": "#454141", "weight": 1 },
+      { "type": "color", "name": "blue", "color": "#6b75e2", "weight": 1 },
+      { "type": "color", "name": "violet", "color": "#895cca", "weight": 1 },
+      { "type": "color", "name": "green", "color": "#90ac5f", "weight": 1 },
       {
         "type": "color",
         "name": "mulberry",
-        "color": "#C54B8C",
+        "color": "#d06ea3",
         "weight": 0.2
       }
     ]

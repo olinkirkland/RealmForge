@@ -472,16 +472,17 @@ article li i {
   height: 1.6rem;
   margin: 0 0.2rem;
   border-radius: 4px;
-  opacity: 0.6;
   bottom: -0.2rem;
 }
 
 .li-coatOfArmsArt {
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  align-items: center;
 }
 
 .coatOfArmsArt {
+  flex-shrink: 0;
   position: relative;
   width: 12rem;
   height: 12rem;
