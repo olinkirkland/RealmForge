@@ -1,53 +1,70 @@
 {
   "heraldry": {
     "charges": [
-      { "name": "ring", "weight": 10 },
-      { "name": "crescent", "weight": 10 },
-      { "name": "rose", "weight": 10 },
-      { "name": "star", "weight": 10 },
-      { "name": "dragon", "weight": 10 },
-      { "name": "sword", "weight": 10 },
-      { "name": "tower", "weight": 10 },
-      { "name": "crescent", "weight": 10 },
-      { "name": "circle", "weight": 10 },
-      { "name": "ring", "weight": 10 },
-      { "name": "clover", "weight": 10 },
-      { "name": "crown", "weight": 10 }
+      { "name": "ring", "weight": 10, "url": "star" },
+      { "name": "crescent", "weight": 10, "url": "star" },
+      { "name": "rose", "weight": 10, "url": "star" },
+      { "name": "star", "weight": 10, "url": "star" },
+      { "name": "dragon", "weight": 10, "url": "star" },
+      { "name": "sword", "weight": 10, "url": "star" },
+      { "name": "tower", "weight": 10, "url": "star" },
+      { "name": "crescent", "weight": 10, "url": "star" },
+      { "name": "circle", "weight": 10, "url": "star" },
+      { "name": "ring", "weight": 10, "url": "star" },
+      { "name": "clover", "weight": 10, "url": "star" },
+      { "name": "crown", "weight": 10, "url": "star" }
     ],
     "layouts": [
       {
-        "name": "single-center",
-        "weight": 10,
+        "name": "single-center-lg",
+        "count": 1,
+        "size": "2xl",
+        "weight": 40,
         "description": "Positioned in the center is a large <span class=\"tincture-charge\"></span> <span class=\"charge-name\"></span>."
       },
       {
+        "name": "single-center",
+        "count": 1,
+        "size": "",
+        "weight": 40,
+        "description": "Positioned in the center is a <span class=\"tincture-charge\"></span> <span class=\"charge-name\"></span>."
+      },
+      {
         "name": "single-corner",
+        "count": 1,
+        "size": "",
         "weight": 10,
         "description": "Positioned in the top-left corner is a <span class=\"tincture-charge\"></span> <span class=\"charge-name\"></span>."
       },
       {
         "name": "double",
+        "count": 2,
+        "size": "lg",
         "weight": 10,
         "description": "Positioned in the center is a column containing two <span class=\"tincture-charge\"></span> <span class=\"charge-name\"></span>s."
       },
       {
         "name": "triple-spaced",
+        "count": 3,
+        "size": "",
         "weight": 10,
         "description": "Three <span class=\"tincture-charge\"></span> <span class=\"charge-name\"></span>s are evenly spaced in the corners of the design."
       },
       {
         "name": "triple-top",
+        "count": 3,
+        "size": "",
         "weight": 10,
-        "description": "Positioned in the center is a large <span class=\"tincture-charge\"></span> <span class=\"charge-name\"></span>."
+        "description": "Three <span class=\"tincture-charge\"></span> <span class=\"charge-name\"></span>s are positioned in a row at the top of the design."
       }
     ],
     "ordinaries": [
       {
-        "name": "field",
+        "name": "",
         "weight": 10,
         "description": "a <span class=\"tincture-primary\"></span> field",
         "layouts": [
-          { "name": "single-center", "overlap": [0] },
+          { "name": "single-center-lg", "overlap": [0] },
           { "name": "double", "overlap": [0] },
           { "name": "triple-spaced", "overlap": [0] },
           { "name": "triple-top", "overlap": [0] }
@@ -59,8 +76,7 @@
         "weight": 10,
         "description": "a centered, vertical, <span class=\"tincture-primary\"></span> stripe on a <span class=\"tincture-secondary\"></span> field",
         "layouts": [
-          { "name": "single-center", "overlap": [0, 1] },
-          { "name": "double", "overlap": [0, 1] },
+          { "name": "single-center", "overlap": [1] },
           { "name": "triple-spaced", "overlap": [0, 1] },
           { "name": "triple-top", "overlap": [0, 1] }
         ],
@@ -74,8 +90,7 @@
         "weight": 10,
         "description": "a centered, horizontal, <span class=\"tincture-primary\"></span> stripe on a <span class=\"tincture-secondary\"></span> field",
         "layouts": [
-          { "name": "single-center", "overlap": [0, 1] },
-          { "name": "double", "overlap": [0, 1] },
+          { "name": "single-center", "overlap": [1] },
           { "name": "triple-spaced", "overlap": [0, 1] },
           { "name": "triple-top", "overlap": [0] }
         ],
@@ -122,7 +137,7 @@
         "weight": 10,
         "description": "a horizontal, <span class=\"tincture-primary\"></span> stripe positioned at the top of a <span class=\"tincture-secondary\"></span> field",
         "layouts": [
-          { "name": "single-center", "overlap": [1] },
+          { "name": "single-center-lg", "overlap": [1] },
           { "name": "double", "overlap": [1] },
           { "name": "triple-spaced", "overlap": [0, 1] },
           { "name": "triple-top", "overlap": [0] }
@@ -152,7 +167,7 @@
         "weight": 10,
         "description": "a horizontally partitioned, <span class=\"tincture-primary\"></span> and <span class=\"tincture-secondary\"></span> field",
         "layouts": [
-          { "name": "single-center", "overlap": [0, 1] },
+          { "name": "single-center-lg", "overlap": [0, 1] },
           { "name": "double", "overlap": [0, 1] },
           { "name": "triple-spaced", "overlap": [0, 1] },
           { "name": "triple-top", "overlap": [0] }
@@ -167,7 +182,7 @@
         "weight": 10,
         "description": "a chevron-shaped, horizontally partitioned, <span class=\"tincture-primary\"></span> and <span class=\"tincture-secondary\"></span> field",
         "layouts": [
-          { "name": "single-center", "overlap": [0] },
+          { "name": "single-center-lg", "overlap": [1] },
           { "name": "triple-top", "overlap": [0] }
         ],
         "svg": [
@@ -195,9 +210,9 @@
         "description": "a <span class=\"tincture-primary\"></span> diagonal-cross on a <span class=\"tincture-secondary\"></span> field",
         "layouts": [],
         "svg": [
-          { "path": "M 0 0 H 12 V 12 H 0 V 0", "tinctureIndex": 0 },
-          { "path": "M 0 0 H 3 L 12 10 h -3 L 0 0", "tinctureIndex": 1 },
-          { "path": "M 12 0 h -3 L 0 10 h 3 L 12 0", "tinctureIndex": 1 }
+          { "path": "M 0 0 H 12 V 12 H 0 V 0", "tinctureIndex": 1 },
+          { "path": "M 0 1 h 3 l 9 10 h -3 l -9 -10", "tinctureIndex": 0 },
+          { "path": "M 12 1 h -3 l -9 10 h 3 l 9 -10", "tinctureIndex": 0 }
         ]
       },
       {
@@ -225,8 +240,7 @@
         "name": "mulberry",
         "color": "#C54B8C",
         "weight": 0.2
-      },
-      { "type": "color", "name": "tawny", "color": "#e28c41", "weight": 0.2 }
+      }
     ]
   },
   "directions": [

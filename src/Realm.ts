@@ -196,7 +196,7 @@ export class Realm {
       Util.rand() > 0.5 ? 1 : -1
     );
 
-    this.coat = new Coat(ordinary, tinctures);
+    this.coat = new Coat(this, ordinary, tinctures);
 
     // todo set this correctly
     this.sigilPresentOnHeraldry = false;
@@ -445,12 +445,12 @@ export class Realm {
       const max: number = 5;
       const remaining: number = max - this.tributaries.length;
       const chance: number = remaining * (1 / max) + 0.1; // Always give it +10% chance
-      console.log(
-        Math.floor(chance * 100) +
-          '% chance due to ' +
-          remaining +
-          ' possible tributaries'
-      );
+      // console.log(
+      //   Math.floor(chance * 100) +
+      //     '% chance due to ' +
+      //     remaining +
+      //     ' possible tributaries'
+      // );
 
       if (Util.rand() >= chance) continue;
 

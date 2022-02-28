@@ -31,8 +31,10 @@ export type Tincture = {
 
 export type ChargeLayout = {
   name: string;
+  count: number;
   weight: number;
   description: string;
+  size: '' | 'lg' | '2xl';
 };
 
 export type Charge = {

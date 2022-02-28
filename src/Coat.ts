@@ -1,4 +1,5 @@
 import { Charge, ChargeLayout, Data, Ordinary, Tincture } from './Data';
+import { Realm } from './Realm';
 import Util from './Util';
 
 export default class Coat {
@@ -8,7 +9,7 @@ export default class Coat {
   public chargeTincture!: Tincture | null;
   public charge!: Charge | null;
 
-  constructor(ordinary: Ordinary, tinctures: Tincture[]) {
+  constructor(realm: Realm, ordinary: Ordinary, tinctures: Tincture[]) {
     this.ordinary = ordinary;
     this.tinctures = tinctures;
 
@@ -43,6 +44,12 @@ export default class Coat {
 
       // Pick a charge
       this.charge = Util.randomWeightedValue(Data.charges, (c) => c.weight);
+
+      if (this.chargeLayout.count < 3) {
+        this.charge.name = realm.sigilName;
+        this.charge.weight = 0;
+        this.charge.url = realm.sigilIcon;
+      }
     }
   }
 
@@ -66,11 +73,16 @@ export default class Coat {
     });
 
     // Draw the charges
-    // if (this.chargeLayout) {
-    //   console.log(this.chargeLayout.name);
-    //   el.innerHTML += `<i class="fa-solid fa-star" style="color:${
-    //     this.chargeTincture!.color
-    //   }"></i>`;
-    // }
+    if (this.chargeLayout) {
+      let str: string = `<div class="charge-layout charge-layout-${this.chargeLayout.name}">`;
+      for (let i: number = 0; i < this.chargeLayout.count; i++) {
+        str += `<i class="fa-solid fa-${this.charge!.url} ${
+          'fa-' + this.chargeLayout!.size
+        }" style="color:${this.chargeTincture!.color}"></i>`;
+      }
+
+      str += `</div>`;
+      el.innerHTML += str;
+    }
   }
 }

@@ -74,7 +74,7 @@ function updateFavorites() {
 
     favoritesEl.innerHTML += `
     <li class="favorite-badge">
-      <a href="${url}" target="_blank" class="btn btn--icon capitalized">${f.name}</a>
+      <a href="${url}" target="_self" class="btn btn--icon capitalized">${f.name}</a>
       <a class="btn btn--icon delete-favorite">
         <i class="fa-solid fa-xmark" key="${f.id}"></i>
       </a>

@@ -17,7 +17,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class Coat {
-    constructor(ordinary, tinctures) {
+    constructor(realm, ordinary, tinctures) {
         this.ordinary = ordinary;
         this.tinctures = tinctures;
         const layouts = _Data__WEBPACK_IMPORTED_MODULE_0__.Data.chargeLayouts.filter((l) => ordinary.layouts.some((m) => m.name == l.name));
@@ -40,6 +40,11 @@ class Coat {
             this.chargeTincture = _Util__WEBPACK_IMPORTED_MODULE_1__["default"].randomValue(availableTinctures);
             // Pick a charge
             this.charge = _Util__WEBPACK_IMPORTED_MODULE_1__["default"].randomWeightedValue(_Data__WEBPACK_IMPORTED_MODULE_0__.Data.charges, (c) => c.weight);
+            if (this.chargeLayout.count < 3) {
+                this.charge.name = realm.sigilName;
+                this.charge.weight = 0;
+                this.charge.url = realm.sigilIcon;
+            }
         }
     }
     draw(el) {
@@ -58,12 +63,14 @@ class Coat {
       </svg>`;
         });
         // Draw the charges
-        // if (this.chargeLayout) {
-        //   console.log(this.chargeLayout.name);
-        //   el.innerHTML += `<i class="fa-solid fa-star" style="color:${
-        //     this.chargeTincture!.color
-        //   }"></i>`;
-        // }
+        if (this.chargeLayout) {
+            let str = `<div class="charge-layout charge-layout-${this.chargeLayout.name}">`;
+            for (let i = 0; i < this.chargeLayout.count; i++) {
+                str += `<i class="fa-solid fa-${this.charge.url} ${'fa-' + this.chargeLayout.size}" style="color:${this.chargeTincture.color}"></i>`;
+            }
+            str += `</div>`;
+            el.innerHTML += str;
+        }
     }
 }
 
@@ -292,7 +299,7 @@ class Realm {
         const colors = _Data__WEBPACK_IMPORTED_MODULE_1__.Data.tinctures.filter((t) => t.type == 'color');
         let tColor = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomWeightedValue(colors, (item) => item.weight);
         let tinctures = [tMetal, tColor].sort((t) => _Util__WEBPACK_IMPORTED_MODULE_2__["default"].rand() > 0.5 ? 1 : -1);
-        this.coat = new _Coat__WEBPACK_IMPORTED_MODULE_0__["default"](ordinary, tinctures);
+        this.coat = new _Coat__WEBPACK_IMPORTED_MODULE_0__["default"](this, ordinary, tinctures);
         // todo set this correctly
         this.sigilPresentOnHeraldry = false;
     }
@@ -492,10 +499,12 @@ class Realm {
             const max = 5;
             const remaining = max - this.tributaries.length;
             const chance = remaining * (1 / max) + 0.1; // Always give it +10% chance
-            console.log(Math.floor(chance * 100) +
-                '% chance due to ' +
-                remaining +
-                ' possible tributaries');
+            // console.log(
+            //   Math.floor(chance * 100) +
+            //     '% chance due to ' +
+            //     remaining +
+            //     ' possible tributaries'
+            // );
             if (_Util__WEBPACK_IMPORTED_MODULE_2__["default"].rand() >= chance)
                 continue;
             // Push to river tributary array (gets returned)
@@ -969,7 +978,7 @@ function updateFavorites() {
         url = url.substring(0, url.indexOf('?')) + '?' + f.id;
         favoritesEl.innerHTML += `
     <li class="favorite-badge">
-      <a href="${url}" target="_blank" class="btn btn--icon capitalized">${f.name}</a>
+      <a href="${url}" target="_self" class="btn btn--icon capitalized">${f.name}</a>
       <a class="btn btn--icon delete-favorite">
         <i class="fa-solid fa-xmark" key="${f.id}"></i>
       </a>
