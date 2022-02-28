@@ -533,12 +533,12 @@ article li i {
 .charge-layout-triple-center-row {
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(1, 1fr);
-  width: 80%;
+  width: 90%;
 }
 
 .charge-layout-triple-center-col {
   grid-template-rows: repeat(3, 1fr);
-  height: 80%;
+  height: 90%;
 }
 
 .charge-layout-triple-spaced {
@@ -560,7 +560,7 @@ article li i {
 .charge-layout-triple-top {
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  width: 80%;
+  width: 90%;
 }
 
 /* FOOTER */

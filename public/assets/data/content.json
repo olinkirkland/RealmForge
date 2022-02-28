@@ -94,7 +94,7 @@
         "description": "a centered, vertical, <span class=\"tincture-primary\"></span> stripe on a <span class=\"tincture-secondary\"></span> field",
         "layouts": [
           { "name": "single-center", "overlap": [1] },
-          { "name": "triple-center-col", "overlap": [0, 1] }
+          { "name": "triple-center-col", "overlap": [1] }
         ],
         "svg": [
           { "path": "M 0 0 H 12 V 12 H 0 V 0", "tinctureIndex": 0 },
@@ -107,7 +107,7 @@
         "description": "a centered, horizontal, <span class=\"tincture-primary\"></span> stripe on a <span class=\"tincture-secondary\"></span> field",
         "layouts": [
           { "name": "single-center", "overlap": [1] },
-          { "name": "triple-center-row", "overlap": [0] }
+          { "name": "triple-center-row", "overlap": [1] }
         ],
         "svg": [
           { "path": "M 0 0 H 12 V 12 H 0 V 0", "tinctureIndex": 0 },
