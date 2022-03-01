@@ -246,13 +246,6 @@
     { "noun": "north-west", "adj": "north-western" },
     { "noun": "south-west", "adj": "south-western" }
   ],
-  "biomes": [
-    "mountain",
-    "boreal-forest",
-    "temperate-forest",
-    "grassland",
-    "tundra"
-  ],
   "sizes": ["very small", "small", "mid-sized", "large", "very large"],
   "seasons": {
     "summer": {
@@ -302,7 +295,7 @@
     },
     { "name": "dove", "icon": "dove", "meanings": ["peace", "wisdom"] },
     {
-      "name": "feather",
+      "name": "quill",
       "icon": "feather-pointed",
       "meanings": ["loyalty", "courage"]
     },

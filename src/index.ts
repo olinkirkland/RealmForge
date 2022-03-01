@@ -58,7 +58,6 @@ const btnFavoriteText: HTMLElement =
 
 function updateFavorites() {
   // Update the button
-  console.log('updating favorites');
   btnFavoriteIcon.classList.remove('fa-solid', 'fa-regular', 'selected');
 
   const isFavorite: boolean = favorites.some((f) => f.id == Util.seed);

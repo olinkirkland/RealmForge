@@ -151,7 +151,6 @@ class Data {
     }
     static parse() {
         const u = Data.content;
-        Data.biomes = u.biomes;
         Data.directions = u.directions;
         Data.heroImages = u.heroImages.map((heroImage) => {
             heroImage.url = './assets/images/hero_images/' + heroImage.url;
@@ -184,6 +183,13 @@ class Data {
         });
     }
 }
+Data.biomeTypes = [
+    'mountain',
+    'boreal-forest',
+    'temperate-forest',
+    'grassland',
+    'tundra'
+];
 
 
 /***/ }),
@@ -213,6 +219,8 @@ class Realm {
         this.rivers = [];
         this.tributaries = [];
         this.coast = false;
+        this.resources = [];
+        this.towns = [];
         this.countRiverValidLoop = 0;
         this.determineParentEntity();
         this.determineDirection();
@@ -223,7 +231,9 @@ class Realm {
         this.determineRivers();
         this.determineSigil();
         this.determineRealmName();
-        this.determineCities();
+        this.determineNaturalResources();
+        this.determineTowns();
+        this.determineNeighboringRealms();
         this.determineCoat();
         // console.log(this.tags);
     }
@@ -348,35 +358,35 @@ class Realm {
         }
     }
     determineBiomes() {
-        // mountain | boreal-forest | temperate-forest | grassland | tundra
-        let availableBiomes = _Data__WEBPACK_IMPORTED_MODULE_1__.Data.biomes.filter((str) => {
+        console.log(_Data__WEBPACK_IMPORTED_MODULE_1__.Data.biomeTypes);
+        let availableBiomeTypes = _Data__WEBPACK_IMPORTED_MODULE_1__.Data.biomeTypes.filter((f) => {
             switch (this.humidity) {
                 case 'dry':
                     // Dry? Remove boreal-forest and temperate-forest
-                    return !['boreal-forest', 'temperate-forest'].includes(str);
+                    return !['boreal-forest', 'temperate-forest'].includes(f);
                     break;
                 case 'wet':
                     // Wet? Remove grassland and tundra
-                    return !['grassland', 'tundra'].includes(str);
+                    return !['grassland', 'tundra'].includes(f);
                     break;
             }
             return true;
         });
-        availableBiomes = availableBiomes.filter((str) => {
+        availableBiomeTypes = availableBiomeTypes.filter((f) => {
             switch (this.temperature) {
                 case 'warm':
                     // Warm? Remove boreal-forest and tundra
-                    return !['boreal-forest', 'tundra'].includes(str);
+                    return !['boreal-forest', 'tundra'].includes(f);
                     break;
             }
             return true;
         });
         // Add the primary biome
-        let b = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomValue(availableBiomes);
+        let b = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomValue(availableBiomeTypes);
         // Reroll if mountains and larger than 1
-        if (b == 'mountains' && this.sizeIndex > 1)
-            b = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomValue(availableBiomes);
-        availableBiomes = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].arrayRemove(availableBiomes, b);
+        if (b == 'mountain' && this.sizeIndex > 1)
+            b = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomValue(availableBiomeTypes);
+        availableBiomeTypes = [...availableBiomeTypes.filter((t) => t != b)];
         let availableSizeIndex = _Data__WEBPACK_IMPORTED_MODULE_1__.Data.sizes.indexOf(this.size) * 2;
         let sizeIndex = Math.floor(_Util__WEBPACK_IMPORTED_MODULE_2__["default"].rand() * availableSizeIndex);
         availableSizeIndex -= sizeIndex;
@@ -396,7 +406,7 @@ class Realm {
             } while (secondaryDirection.noun == primaryBiome.direction.noun ||
                 secondaryDirection.noun.includes('-'));
             let secondaryBiome = {
-                type: _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomValue(availableBiomes),
+                type: _Util__WEBPACK_IMPORTED_MODULE_2__["default"].randomValue(availableBiomeTypes),
                 size: _Data__WEBPACK_IMPORTED_MODULE_1__.Data.sizes[Math.min(Math.floor(_Util__WEBPACK_IMPORTED_MODULE_2__["default"].rand() * availableSizeIndex), _Data__WEBPACK_IMPORTED_MODULE_1__.Data.sizes.length - 1)],
                 direction: secondaryDirection
             };
@@ -644,7 +654,22 @@ class Realm {
             return false;
         return valid;
     }
-    determineCities() { }
+    determineNaturalResources() {
+        const mountainBiome = this.biomes.find((b) => b.type == 'mountain');
+        if (mountainBiome) {
+            console.log(mountainBiome);
+        }
+    }
+    determineTowns() {
+        // Town spawn points
+        const startingCount = Math.min(Math.floor(this.sizeIndex / 2), 1);
+        // Level 1: Bustling trade towns are founded where rivers meet the ocean
+        for (let i = 0; i < startingCount; i++) { }
+        // Level 2: Secondary trade towns are founded at confluences between rivers and large tributaries
+        // Level 3: Important natural resources are exploited by mining towns
+        // Level 4: Market towns emerge along routes between wealthy towns
+    }
+    determineNeighboringRealms() { }
 }
 
 
@@ -964,7 +989,6 @@ const btnFavoriteIcon = document.querySelector('#btnFavorite i');
 const btnFavoriteText = document.querySelector('#btnFavorite span');
 function updateFavorites() {
     // Update the button
-    console.log('updating favorites');
     btnFavoriteIcon.classList.remove('fa-solid', 'fa-regular', 'selected');
     const isFavorite = favorites.some((f) => f.id == _Util__WEBPACK_IMPORTED_MODULE_0__["default"].seed);
     btnFavoriteIcon.classList.add(isFavorite ? 'fa-solid' : 'fa-regular');

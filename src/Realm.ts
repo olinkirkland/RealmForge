@@ -1,9 +1,16 @@
 import Coat from './Coat';
-import { Data, Direction, NamePart, Ordinary, Tincture } from './Data';
+import {
+  BiomeType,
+  Data,
+  Direction,
+  NamePart,
+  Ordinary,
+  Tincture
+} from './Data';
 import Util from './Util';
 
 export type Biome = {
-  type: string;
+  type: BiomeType;
   size: string;
   direction: Direction;
 };
@@ -22,6 +29,18 @@ export type River = {
 export type Word = {
   root: NamePart;
   suffix: NamePart;
+};
+
+export type Town = {
+  name: Word;
+  type: 'city' | 'harbor' | 'market town' | 'mining town' | 'quarry town';
+  wealth: number;
+  buildings: Building[];
+  danger: number;
+};
+
+export type Building = {
+  name: string;
 };
 
 export class Realm {
@@ -61,6 +80,9 @@ export class Realm {
 
   public coat!: Coat;
 
+  public resources: string[] = [];
+  public towns: Town[] = [];
+
   constructor() {
     this.determineParentEntity();
     this.determineDirection();
@@ -72,7 +94,9 @@ export class Realm {
     this.determineSigil();
 
     this.determineRealmName();
-    this.determineCities();
+    this.determineNaturalResources();
+    this.determineTowns();
+    this.determineNeighboringRealms();
 
     this.determineCoat();
 
@@ -260,40 +284,40 @@ export class Realm {
   }
 
   public determineBiomes() {
-    // mountain | boreal-forest | temperate-forest | grassland | tundra
+    console.log(Data.biomeTypes);
 
-    let availableBiomes: string[] = Data.biomes.filter((str) => {
+    let availableBiomeTypes: BiomeType[] = Data.biomeTypes.filter((f) => {
       switch (this.humidity) {
         case 'dry':
           // Dry? Remove boreal-forest and temperate-forest
-          return !['boreal-forest', 'temperate-forest'].includes(str);
+          return !['boreal-forest', 'temperate-forest'].includes(f);
           break;
         case 'wet':
           // Wet? Remove grassland and tundra
-          return !['grassland', 'tundra'].includes(str);
+          return !['grassland', 'tundra'].includes(f);
           break;
       }
       return true;
     });
 
-    availableBiomes = availableBiomes.filter((str) => {
+    availableBiomeTypes = availableBiomeTypes.filter((f) => {
       switch (this.temperature) {
         case 'warm':
           // Warm? Remove boreal-forest and tundra
-          return !['boreal-forest', 'tundra'].includes(str);
+          return !['boreal-forest', 'tundra'].includes(f);
           break;
       }
       return true;
     });
 
     // Add the primary biome
-    let b: string = Util.randomValue(availableBiomes);
+    let b: BiomeType = Util.randomValue(availableBiomeTypes);
 
     // Reroll if mountains and larger than 1
-    if (b == 'mountains' && this.sizeIndex > 1)
-      b = Util.randomValue(availableBiomes);
+    if (b == 'mountain' && this.sizeIndex > 1)
+      b = Util.randomValue(availableBiomeTypes);
 
-    availableBiomes = Util.arrayRemove(availableBiomes, b);
+    availableBiomeTypes = [...availableBiomeTypes.filter((t) => t != b)];
 
     let availableSizeIndex: number = Data.sizes.indexOf(this.size) * 2;
     let sizeIndex: number = Math.floor(Util.rand() * availableSizeIndex);
@@ -319,7 +343,7 @@ export class Realm {
       );
 
       let secondaryBiome: Biome = {
-        type: Util.randomValue(availableBiomes),
+        type: Util.randomValue(availableBiomeTypes),
         size: Data.sizes[
           Math.min(
             Math.floor(Util.rand() * availableSizeIndex),
@@ -650,5 +674,28 @@ export class Realm {
     return valid;
   }
 
-  private determineCities() {}
+  private determineNaturalResources() {
+    const mountainBiome: Biome | undefined = this.biomes.find(
+      (b) => b.type == 'mountain'
+    );
+    if (mountainBiome) {
+      console.log(mountainBiome);
+    }
+  }
+
+  private determineTowns() {
+    // Town spawn points
+    const startingCount: number = Math.min(Math.floor(this.sizeIndex / 2), 1);
+
+    // Level 1: Bustling trade towns are founded where rivers meet the ocean
+    for (let i: number = 0; i < startingCount; i++) {}
+
+    // Level 2: Secondary trade towns are founded at confluences between rivers and large tributaries
+
+    // Level 3: Important natural resources are exploited by mining towns
+
+    // Level 4: Market towns emerge along routes between wealthy towns
+  }
+
+  private determineNeighboringRealms() {}
 }

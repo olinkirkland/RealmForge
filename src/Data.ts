@@ -43,6 +43,13 @@ export type Charge = {
   url: string;
 };
 
+export type BiomeType =
+  | 'mountain'
+  | 'boreal-forest'
+  | 'temperate-forest'
+  | 'grassland'
+  | 'tundra';
+
 export class Data {
   public static content: any;
   public static words: string[];
@@ -55,7 +62,14 @@ export class Data {
   public static rulersNameParts: NamePart[];
   public static personsNameParts: NamePart[];
 
-  public static biomes: string[];
+  public static biomeTypes: BiomeType[] = [
+    'mountain',
+    'boreal-forest',
+    'temperate-forest',
+    'grassland',
+    'tundra'
+  ];
+
   public static directions: Direction[];
   public static heroImages: { url: string; tags: string[] }[];
   public static governmentRanks: any;
@@ -140,7 +154,6 @@ export class Data {
 
   static parse() {
     const u: any = Data.content;
-    Data.biomes = u.biomes;
     Data.directions = u.directions;
     Data.heroImages = u.heroImages.map(
       (heroImage: { url: string; tags: string[] }) => {
