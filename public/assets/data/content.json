@@ -246,22 +246,6 @@
     { "noun": "north-west", "adj": "north-western" },
     { "noun": "south-west", "adj": "south-western" }
   ],
-  "seasons": {
-    "summer": {
-      "warm": ["hot", "blistering", "stifling", "long", "sweltering"],
-      "cold": ["cool", "mild"],
-      "wet": ["humid"],
-      "dry": ["arid"],
-      "temperate": ["pleasant", "agreeable", "balmy"]
-    },
-    "winter": {
-      "warm": ["mild", "short"],
-      "cold": ["harsh", "cold", "brisk", "biting", "chilly", "freezing", "icy"],
-      "wet": ["snowy", "damp"],
-      "dry": ["crisp", "cloudless"],
-      "temperate": ["mild", "pleasant"]
-    }
-  },
   "heroImages": [
     { "url": "boreal-forest-1.png", "tags": ["boreal-forest"] },
     { "url": "boreal-forest-2.png", "tags": ["boreal-forest"] },

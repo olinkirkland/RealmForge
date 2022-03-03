@@ -32,7 +32,7 @@ export default class LocationModule extends Module {
 
     if (Rand.next() < 0.4) {
       this.directionToCoast = this.locationWithinParentEntity;
-      this._realm.addTag('coastal');
+      this._realm.addTag('coast');
     }
   }
 }

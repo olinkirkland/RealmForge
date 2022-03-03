@@ -1,0 +1,16 @@
+{
+  "summer": {
+    "warm": ["hot", "blistering", "stifling", "long", "sweltering"],
+    "cold": ["cool", "mild"],
+    "wet": ["humid"],
+    "dry": ["arid"],
+    "temperate": ["pleasant", "agreeable", "balmy"]
+  },
+  "winter": {
+    "warm": ["mild", "short"],
+    "cold": ["harsh", "cold", "brisk", "biting", "chilly", "freezing", "icy"],
+    "wet": ["snowy", "damp"],
+    "dry": ["crisp", "cloudless"],
+    "temperate": ["mild", "pleasant"]
+  }
+}

@@ -1,12 +1,14 @@
 import LocationModule from '../modules/general/LocationModule';
+import ClimateModule from '../modules/geography/ClimateModule';
 import ParentEntityModule from '../modules/geography/ParentEntityModule';
 import SizeModule from '../modules/geography/SizeModule';
 
 export default class Realm {
   // Modules
   public size!: SizeModule;
-  public direction!: LocationModule;
+  public location!: LocationModule;
   public parentEntity!: ParentEntityModule;
+  public climate!: ClimateModule;
   // public climate = new ClimateModule(this);
   // public biomes = new BiomesModule(this);
   // public rivers = new RiversModule(this);
@@ -23,8 +25,9 @@ export default class Realm {
   private runModuleSequence() {
     console.log(' === Running Module Sequence === ');
     this.size = new SizeModule(this);
-    this.direction = new LocationModule(this);
+    this.location = new LocationModule(this);
     this.parentEntity = new ParentEntityModule(this);
+    this.climate = new ClimateModule(this);
   }
 
   public addTag(tag: string) {

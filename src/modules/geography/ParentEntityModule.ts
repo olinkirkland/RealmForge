@@ -1,9 +1,8 @@
-import Module from '../Module';
-import Util from '../../Util';
 import Rand from '../../Rand';
 import Realm from '../../realm/Realm';
+import Module from '../Module';
+import { adjectives, governments, templates } from './parent-entity.json';
 
-import { templates, adjectives, governments } from './parent-entity.json';
 
 type ParentEntityGovernment = {
   noun: string;
