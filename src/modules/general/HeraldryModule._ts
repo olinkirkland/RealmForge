@@ -1,0 +1,70 @@
+import { Data } from '../../Data._ts';
+import { Realm } from '../../realm/Realm';
+import Heraldry from './Heraldry._ts';
+import Util from '../../Util';
+
+export type Ordinary = {
+  name: string;
+  weight: number;
+  description: string;
+  layouts: { name: string; overlap: number[] }[];
+  svg: { tinctureIndex: number; path: string }[];
+};
+
+export type Tincture = {
+  name: string;
+  color: string;
+  type: string;
+  weight: number;
+};
+
+export type ChargeLayout = {
+  name: string;
+  count: number;
+  weight: number;
+  description: string;
+  size: '' | 'lg' | '2xl';
+};
+
+export type Charge = {
+  name: string;
+  weight: number;
+  url: string;
+};
+
+export class HeraldryModule {
+  static determine(realm: Realm) {
+    // Sigil
+    let sigil: { name: string; icon: string; meanings: string[] } =
+      Util.randomValue(Data.sigils);
+    realm.sigilName = sigil.name;
+    realm.sigilIcon = sigil.icon;
+    realm.sigilMeaning = Util.randomValue(sigil.meanings);
+
+    // Choose an ordinary
+    let ordinary: Ordinary = Util.randomWeightedValue(
+      Data.ordinaries,
+      (item) => item.weight
+    );
+
+    // Choose exactly one metal and one color
+    const metals: Tincture[] = Data.tinctures.filter((t) => t.type == 'metal');
+    let tMetal: Tincture = Util.randomWeightedValue(
+      metals,
+      (item) => item.weight
+    );
+
+    const colors: Tincture[] = Data.tinctures.filter((t) => t.type == 'color');
+    let tColor: Tincture = Util.randomWeightedValue(
+      colors,
+      (item) => item.weight
+    );
+
+    let tinctures: Tincture[] = [tMetal, tColor].sort((t) =>
+      Util.rand() > 0.5 ? 1 : -1
+    );
+
+    realm.heraldry = new Heraldry(realm, ordinary, tinctures);
+    return realm;
+  }
+}

@@ -1,0 +1,38 @@
+import { Data } from '../../Data._ts';
+import { Realm } from '../../realm/Realm';
+import Util from '../../Util';
+
+export class ParentModule {
+  static determine(realm: Realm) {
+    let arr: string[] = ['the'];
+
+    if (Util.rand() < 0.8) {
+      let firstDescriptor: string = Util.randomValue(
+        Data.parentEntityDescriptorsBefore
+      );
+      arr.push(firstDescriptor);
+      if (Util.rand() < 0.2) {
+        let secondDescriptor: string = Util.randomValue(
+          Data.parentEntityDescriptorsBefore
+        );
+        if (secondDescriptor != firstDescriptor) arr.push(secondDescriptor);
+      }
+    }
+
+    let government: { noun: string; adj: string } = Util.randomValue(
+      Data.parentEntityGovernments
+    );
+
+    realm.parentEntityName = government.noun;
+    realm.parentEntityAdj = government.adj;
+    arr.push(realm.parentEntityName);
+
+    if (Util.rand() < 0.1) {
+      arr.push(Util.randomValue(Data.parentEntityDescriptorsAfter));
+    }
+
+    realm.parentEntityName = arr.join(' ');
+
+    return realm;
+  }
+}

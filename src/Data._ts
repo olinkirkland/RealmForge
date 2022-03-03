@@ -14,35 +14,6 @@ export type NamePart = {
   variations: string[];
 };
 
-export type Ordinary = {
-  name: string;
-  weight: number;
-  description: string;
-  layouts: { name: string; overlap: number[] }[];
-  svg: { tinctureIndex: number; path: string }[];
-};
-
-export type Tincture = {
-  name: string;
-  color: string;
-  type: string;
-  weight: number;
-};
-
-export type ChargeLayout = {
-  name: string;
-  count: number;
-  weight: number;
-  description: string;
-  size: '' | 'lg' | '2xl';
-};
-
-export type Charge = {
-  name: string;
-  weight: number;
-  url: string;
-};
-
 export type BiomeType =
   | 'mountain'
   | 'boreal-forest'
@@ -50,7 +21,7 @@ export type BiomeType =
   | 'grassland'
   | 'tundra';
 
-export class Data {
+export default class Data {
   public static content: any;
   public static words: string[];
 
@@ -74,7 +45,6 @@ export class Data {
   public static heroImages: { url: string; tags: string[] }[];
   public static governmentRanks: any;
   public static sigils: any;
-  public static sizes: any;
   public static seasonDescriptors: any;
 
   public static parentEntityDescriptorsBefore: string[];
@@ -163,7 +133,6 @@ export class Data {
     );
     Data.governmentRanks = u.governmentRanks;
     Data.sigils = u.sigils;
-    Data.sizes = u.sizes;
     Data.seasonDescriptors = u.seasons;
     Data.parentEntityDescriptorsBefore = u.parentEntities.descriptorsBefore;
     Data.parentEntityDescriptorsAfter = u.parentEntities.descriptorsAfter;

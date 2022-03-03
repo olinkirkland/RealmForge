@@ -1,6 +1,12 @@
-import { Charge, ChargeLayout, Data, Ordinary, Tincture } from './Data';
-import { Realm } from './Realm';
-import Util from './Util';
+import { Realm } from '../../realm/Realm';
+import Util from '../../Util';
+import { Data } from '../../Data._ts';
+import {
+  Ordinary,
+  Tincture,
+  ChargeLayout,
+  Charge
+} from './HeraldryModule._ts';
 
 export default class Coat {
   public ordinary: Ordinary;
@@ -22,37 +28,34 @@ export default class Coat {
         ? Util.randomWeightedValue(layouts, (l) => l.weight)
         : null;
 
-    if (this.chargeLayout) {
-      // Determine the charge's tincture
-      const availableTinctures: Tincture[] = Data.tinctures.filter((t) => {
-        // Heraldic rule: Never put a color on another color
-        // and never put a metal on top of another metal
-        const tinctureOverlapIndexes: number[] = ordinary.layouts.find(
-          (l) => l.name == this.chargeLayout!.name
-        )!.overlap;
+    if (!this.chargeLayout) return;
 
-        if (tinctureOverlapIndexes.length > 0) {
-          const overlapTincture: Tincture =
-            tinctures[tinctureOverlapIndexes[0]];
-          return t.type != overlapTincture.type && !tinctures.includes(t);
-        }
+    // Determine the charge's tincture
+    const availableTinctures: Tincture[] = Data.tinctures.filter((t) => {
+      // Heraldic rule: Never put a color on another color
+      // and never put a metal on top of another metal
+      const tinctureOverlapIndexes: number[] = ordinary.layouts.find(
+        (l) => l.name == this.chargeLayout!.name
+      )!.overlap;
 
-        return false;
-      });
-
-      this.chargeTincture = Util.randomValue(availableTinctures);
-
-      // Pick a charge
-      this.charge = Util.randomWeightedValue(Data.charges, (c) => c.weight);
-
-      if (this.chargeLayout.count < 3) {
-        this.charge.name = realm.sigilName;
-        this.charge.weight = 0;
-        this.charge.url = realm.sigilIcon;
+      if (tinctureOverlapIndexes.length > 0) {
+        const overlapTincture: Tincture = tinctures[tinctureOverlapIndexes[0]];
+        return t.type != overlapTincture.type && !tinctures.includes(t);
       }
 
-      realm.sigilPresentOnHeraldry = this.charge.name == realm.sigilName;
+      return false;
+    });
+
+    this.chargeTincture = Util.randomValue(availableTinctures);
+
+    // Pick a charge
+    this.charge = Util.randomWeightedValue(Data.charges, (c) => c.weight);
+
+    if (this.chargeLayout.count < 3) {
+      this.charge = { name: realm.sigilName, weight: 0, url: realm.sigilIcon };
     }
+
+    realm.sigilPresentOnHeraldry = this.charge!.name == realm.sigilName;
   }
 
   draw(el: Element) {

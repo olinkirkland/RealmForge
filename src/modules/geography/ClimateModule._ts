@@ -1,0 +1,76 @@
+import { Data } from '../../Data._ts';
+import { Realm } from '../../realm/Realm';
+import Util from '../../Util';
+
+export type Temperature = 'cold' | 'temperate' | 'warm';
+export type Humidity = 'wet' | 'temperate' | 'dry';
+
+export class ClimateModule {
+  static determine(realm: Realm) {
+    // Temperature
+    let temperature: Temperature;
+    if (realm.directionWithinParentEntity.noun.includes('north')) {
+      temperature = 'cold';
+    } else if (realm.directionWithinParentEntity.noun.includes('south')) {
+      temperature = 'warm';
+    } else {
+      temperature = 'temperate';
+    }
+
+    realm.temperature = temperature;
+    realm.tags.push(realm.temperature);
+
+    // Humidity
+    let humidity: Humidity = Util.randomValue(['wet', 'dry']);
+    if (realm.coast) {
+      humidity = 'wet';
+    }
+
+    realm.humidity = humidity;
+    realm.tags.push(realm.humidity);
+
+    // Description of winter
+    realm.seasonWinter = [];
+    const winter: any = Data.seasonDescriptors.winter;
+    let availableWinterDescriptors: string[] = winter[realm.humidity].concat(
+      winter[realm.temperature]
+    );
+
+    for (let i = 0; i < 2; i++) {
+      const d: string = Util.randomValue(availableWinterDescriptors);
+      realm.seasonWinter.push(d);
+      availableWinterDescriptors = Util.arrayRemove(
+        availableWinterDescriptors,
+        d
+      );
+
+      //  If the word is longer than 6 letters, step out of the loop
+      //  Otherwise, 50% chance to step out of the loop
+      if (Util.rand() < 0.5 || d.length > 6) break;
+    }
+
+    // Description of summer
+    realm.seasonSummer = [];
+    const summer: any = Data.seasonDescriptors.summer;
+    let availableSummerDescriptors: string[] = summer[realm.humidity].concat(
+      summer[realm.temperature]
+    );
+
+    for (let i = 0; i < 2; i++) {
+      const d: string = Util.randomValue(availableSummerDescriptors);
+      if (realm.seasonWinter.includes(d)) {
+        continue;
+      }
+      realm.seasonSummer.push(d);
+      availableSummerDescriptors = Util.arrayRemove(
+        availableSummerDescriptors,
+        d
+      );
+
+      //  If the word is longer than 6 letters, step out of the loop
+      //  Otherwise, 50% chance to step out of the loop
+      if (Util.rand() < 0.5 || d.length > 6) break;
+    }
+    return realm;
+  }
+}

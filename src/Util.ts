@@ -1,8 +1,4 @@
-import { Data } from './Data';
-import { Realm, Word } from './Realm';
-
 export default class Util {
-  public static seed: string;
   public static isDarkMode: boolean = false;
 
   public static download(name: string, text: string) {
@@ -73,50 +69,10 @@ export default class Util {
     });
   }
 
-  public static generateSeed() {
-    let arr: string[] = [];
-    for (let i = 0; i < 3; i++) {
-      arr.push(Util.randomValue(Data.words, false));
-    }
-
-    Util.seed = arr.join('-');
-    Util.seedRandomNumberGenerator();
-  }
-
-  private static m_w: number = 123456789;
-  private static m_z: number = 987654321;
-  private static mask: number = 4294967295;
-  public static seedRandomNumberGenerator() {
-    let h = 1779033703 ^ Util.seed.length;
-
-    for (var i = 0; i < Util.seed.length; i++) {
-      h = Math.imul(h ^ Util.seed.charCodeAt(i), 3432918353);
-      h = (h << 13) | (h >>> 19);
-    }
-
-    Util.m_w = (123456789 + h) & Util.mask;
-    Util.m_z = (987654321 - h) & Util.mask;
-  }
-
-  public static rand(min: number = 0, max: number = 1): number {
-    Util.m_z = (36969 * (Util.m_z & 65535) + (Util.m_z >> 16)) & Util.mask;
-    Util.m_w = (18000 * (Util.m_w & 65535) + (Util.m_w >> 16)) & Util.mask;
-    let result = ((Util.m_z << 16) + (Util.m_w & 65535)) >>> 0;
-    result /= 4294967296;
-    return result * (max - min) + min;
-  }
-
   static arrayRemove(arr: string[], elementToRemove: string): string[] {
     return arr.filter(function (element) {
       return element != elementToRemove;
     });
-  }
-
-  // Returns a random value from an array
-  static randomValue(u: any[], seeded: boolean = true): any {
-    return seeded
-      ? u[Math.floor(Util.rand() * u.length)]
-      : u[Math.floor(Math.random() * u.length)];
   }
 
   // Returns 'a' or 'an' if str's first char is a consonant or a vowel
@@ -156,49 +112,20 @@ export default class Util {
     return str;
   }
 
-  // Returns an item from an array
-  // The weight value is determined using the accessor function
-  // randomWeightedValue<NamePart>(nameParts, item => item.asRoot)
-  static randomWeightedValue<T>(
-    arr: T[],
-    accessor: (item: T) => number,
-    log: boolean = false
-  ): T {
-    if (log) console.log(arr);
-
-    // Get the max weight
-    const max = arr.reduce((total: number, item: T) => {
-      return total + accessor(item);
-    }, 0);
-
-    // Calculate a random number on the scale of max
-    let weight = Util.rand() * max;
-
-    // For each item in the array, decrement max by that item's weight
-    let result!: any;
-    arr.some((item: T) => {
-      weight -= accessor(item);
-      result = item;
-      return weight < 0;
-    });
-
-    return result;
-  }
-
   // Tweet a realm
-  static shareByTweet(realm: Realm) {
-    let tweet: string = `Explore ${Util.capitalize(
-      Util.readWord(realm.realmName)
-    )}, a ${realm.size} ${realm.parentEntityAdj} ${realm.governmentRank}.`;
+  // static shareByTweet(realm: Realm) {
+  //   let tweet: string = `Explore ${Util.capitalize(
+  //     Util.readWord(realm.realmName)
+  //   )}, a ${realm.size} ${realm.parentEntityAdj} ${realm.governmentRank}.`;
 
-    window.open(
-      'https://twitter.com/intent/tweet?url=' +
-        window.location.href +
-        '&text=' +
-        tweet,
-      '_blank'
-    );
-  }
+  //   window.open(
+  //     'https://twitter.com/intent/tweet?url=' +
+  //       window.location.href +
+  //       '&text=' +
+  //       tweet,
+  //     '_blank'
+  //   );
+  // }
 
   // Capitalize first letter
   static capitalize(str: string): string {
@@ -206,9 +133,9 @@ export default class Util {
   }
 
   // Combines word parts into a string
-  static readWord(word: Word): string {
-    return word.root.name + word.suffix.name;
-  }
+  // static readWord(word: Word): string {
+  //   return word.root.name + word.suffix.name;
+  // }
 
   // Returns any number lower than 20 as a word ('one', 'two', ... 'nineteen')
   static wordFromNumber(n: number): string {

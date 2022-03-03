@@ -246,7 +246,6 @@
     { "noun": "north-west", "adj": "north-western" },
     { "noun": "south-west", "adj": "south-western" }
   ],
-  "sizes": ["very small", "small", "mid-sized", "large", "very large"],
   "seasons": {
     "summer": {
       "warm": ["hot", "blistering", "stifling", "long", "sweltering"],
