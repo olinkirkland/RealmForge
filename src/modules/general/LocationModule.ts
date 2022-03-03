@@ -14,7 +14,7 @@ export enum Direction {
   NORTH_WEST = 'north-west'
 }
 
-export class LocationModule extends Module {
+export default class LocationModule extends Module {
   locationWithinParentEntity: Direction = Direction.NORTH;
   directionToCoast: Direction | null = null;
 

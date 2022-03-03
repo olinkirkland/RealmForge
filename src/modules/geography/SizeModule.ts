@@ -10,7 +10,7 @@ export enum Size {
   VERY_LARGE = 'very large'
 }
 
-export class SizeModule extends Module {
+export default class SizeModule extends Module {
   size: Size = Size.SMALL;
 
   constructor(realm: Realm) {

@@ -107,7 +107,7 @@ class Module {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Direction": () => (/* binding */ Direction),
-/* harmony export */   "LocationModule": () => (/* binding */ LocationModule)
+/* harmony export */   "default": () => (/* binding */ LocationModule)
 /* harmony export */ });
 /* harmony import */ var _Module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Module */ "./src/modules/Module.ts");
 /* harmony import */ var _Rand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Rand */ "./src/Rand.ts");
@@ -145,6 +145,39 @@ class LocationModule extends _Module__WEBPACK_IMPORTED_MODULE_0__["default"] {
 
 /***/ }),
 
+/***/ "./src/modules/geography/ParentEntityModule.ts":
+/*!*****************************************************!*\
+  !*** ./src/modules/geography/ParentEntityModule.ts ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ ParentEntityModule)
+/* harmony export */ });
+/* harmony import */ var _Module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Module */ "./src/modules/Module.ts");
+/* harmony import */ var _Rand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Rand */ "./src/Rand.ts");
+/* harmony import */ var _parent_entity_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./parent-entity.json */ "./src/modules/geography/parent-entity.json");
+
+
+
+class ParentEntityModule extends _Module__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    constructor(realm) {
+        super(realm);
+    }
+    run() {
+        const template = _Rand__WEBPACK_IMPORTED_MODULE_1__["default"].pick(_parent_entity_json__WEBPACK_IMPORTED_MODULE_2__.templates);
+        this.adjective = _Rand__WEBPACK_IMPORTED_MODULE_1__["default"].pick(_parent_entity_json__WEBPACK_IMPORTED_MODULE_2__.adjectives);
+        this.government = _Rand__WEBPACK_IMPORTED_MODULE_1__["default"].pick(_parent_entity_json__WEBPACK_IMPORTED_MODULE_2__.governments);
+        const adjective = this.adjective;
+        const government = this.government.noun;
+        this.name = eval(template);
+    }
+}
+
+
+/***/ }),
+
 /***/ "./src/modules/geography/SizeModule.ts":
 /*!*********************************************!*\
   !*** ./src/modules/geography/SizeModule.ts ***!
@@ -154,7 +187,7 @@ class LocationModule extends _Module__WEBPACK_IMPORTED_MODULE_0__["default"] {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Size": () => (/* binding */ Size),
-/* harmony export */   "SizeModule": () => (/* binding */ SizeModule)
+/* harmony export */   "default": () => (/* binding */ SizeModule)
 /* harmony export */ });
 /* harmony import */ var _Module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Module */ "./src/modules/Module.ts");
 /* harmony import */ var _Rand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Rand */ "./src/Rand.ts");
@@ -193,12 +226,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ Realm)
 /* harmony export */ });
 /* harmony import */ var _modules_general_LocationModule__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../modules/general/LocationModule */ "./src/modules/general/LocationModule.ts");
-/* harmony import */ var _modules_geography_SizeModule__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../modules/geography/SizeModule */ "./src/modules/geography/SizeModule.ts");
+/* harmony import */ var _modules_geography_ParentEntityModule__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../modules/geography/ParentEntityModule */ "./src/modules/geography/ParentEntityModule.ts");
+/* harmony import */ var _modules_geography_SizeModule__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../modules/geography/SizeModule */ "./src/modules/geography/SizeModule.ts");
+
 
 
 class Realm {
     constructor() {
-        // public parentEntity = new ParentEntityModule(this);
         // public climate = new ClimateModule(this);
         // public biomes = new BiomesModule(this);
         // public rivers = new RiversModule(this);
@@ -210,8 +244,9 @@ class Realm {
     }
     runModuleSequence() {
         console.log(' === Running Module Sequence === ');
-        this.size = new _modules_geography_SizeModule__WEBPACK_IMPORTED_MODULE_1__.SizeModule(this);
-        this.direction = new _modules_general_LocationModule__WEBPACK_IMPORTED_MODULE_0__.LocationModule(this);
+        this.size = new _modules_geography_SizeModule__WEBPACK_IMPORTED_MODULE_2__["default"](this);
+        this.direction = new _modules_general_LocationModule__WEBPACK_IMPORTED_MODULE_0__["default"](this);
+        this.parentEntity = new _modules_geography_ParentEntityModule__WEBPACK_IMPORTED_MODULE_1__["default"](this);
     }
     addTag(tag) {
         this._tags.push(tag);
@@ -221,6 +256,16 @@ class Realm {
     }
 }
 
+
+/***/ }),
+
+/***/ "./src/modules/geography/parent-entity.json":
+/*!**************************************************!*\
+  !*** ./src/modules/geography/parent-entity.json ***!
+  \**************************************************/
+/***/ ((module) => {
+
+module.exports = JSON.parse('{"templates":["`the ${adjective} ${government}`"],"adjectives":["divine","holy","royal"],"governments":[{"noun":"empire","adj":"imperial"},{"noun":"kingdom","adj":"royal"},{"noun":"imperium","adj":"imperial"},{"noun":"dominion","adj":"dominion"},{"noun":"commonwealth","adj":"commonwealth"}]}');
 
 /***/ })
 
