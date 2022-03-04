@@ -257,6 +257,40 @@ class Module {
 
 /***/ }),
 
+/***/ "./src/modules/general/GovernmentModule.ts":
+/*!*************************************************!*\
+  !*** ./src/modules/general/GovernmentModule.ts ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ GovernmentModule)
+/* harmony export */ });
+/* harmony import */ var _Module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Module */ "./src/modules/Module.ts");
+/* harmony import */ var _governments_json__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./governments.json */ "./src/modules/general/governments.json");
+/* harmony import */ var _Rand__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Rand */ "./src/Rand.ts");
+
+
+
+class GovernmentModule extends _Module__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    constructor(realm) {
+        super(realm);
+    }
+    run() {
+        let government;
+        do {
+            government = _Rand__WEBPACK_IMPORTED_MODULE_2__["default"].pick(_governments_json__WEBPACK_IMPORTED_MODULE_1__.governments);
+        } while (!government.size.includes(this._realm.size.sizeIndex));
+        this.rank = government.rank;
+        this.ruler = government.ruler;
+        this._realm.addTag(this.rank);
+    }
+}
+
+
+/***/ }),
+
 /***/ "./src/modules/general/HeraldryModule.ts":
 /*!***********************************************!*\
   !*** ./src/modules/general/HeraldryModule.ts ***!
@@ -796,6 +830,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_geography_BiomesModule__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../modules/geography/BiomesModule */ "./src/modules/geography/BiomesModule.ts");
 /* harmony import */ var _modules_geography_RiversModule__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../modules/geography/RiversModule */ "./src/modules/geography/RiversModule.ts");
 /* harmony import */ var _modules_general_HeraldryModule__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../modules/general/HeraldryModule */ "./src/modules/general/HeraldryModule.ts");
+/* harmony import */ var _modules_general_GovernmentModule__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../modules/general/GovernmentModule */ "./src/modules/general/GovernmentModule.ts");
+
 
 
 
@@ -805,7 +841,6 @@ __webpack_require__.r(__webpack_exports__);
 
 class Realm {
     constructor() {
-        // public government!: GovernmentModule;
         // Tags
         this._tags = [];
         this.runModuleSequence();
@@ -819,6 +854,7 @@ class Realm {
         this.biomes = new _modules_geography_BiomesModule__WEBPACK_IMPORTED_MODULE_4__["default"](this);
         this.rivers = new _modules_geography_RiversModule__WEBPACK_IMPORTED_MODULE_5__["default"](this);
         this.heraldry = new _modules_general_HeraldryModule__WEBPACK_IMPORTED_MODULE_6__["default"](this);
+        this.government = new _modules_general_GovernmentModule__WEBPACK_IMPORTED_MODULE_7__["default"](this);
     }
     addTag(tag) {
         this._tags.push(tag);
@@ -843,6 +879,16 @@ class ConditionEvaluator {
     }
 }
 
+
+/***/ }),
+
+/***/ "./src/modules/general/governments.json":
+/*!**********************************************!*\
+  !*** ./src/modules/general/governments.json ***!
+  \**********************************************/
+/***/ ((module) => {
+
+module.exports = JSON.parse('{"governments":[{"rank":"free city","ruler":"mayor","size":[0]},{"rank":"lordship","ruler":"lord","size":[1]},{"rank":"county","ruler":"count","size":[1]},{"rank":"principality","ruler":"prince","size":[1,2]},{"rank":"duchy","ruler":"duke","size":[3,4]},{"rank":"territory","ruler":"lord","size":[4]},{"rank":"electorate","ruler":"elector","size":[4]}]}');
 
 /***/ }),
 

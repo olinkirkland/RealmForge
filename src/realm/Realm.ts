@@ -5,6 +5,7 @@ import ClimateModule from '../modules/geography/ClimateModule';
 import BiomesModule from '../modules/geography/BiomesModule';
 import RiversModule from '../modules/geography/RiversModule';
 import HeraldryModule from '../modules/general/HeraldryModule';
+import GovernmentModule from '../modules/general/GovernmentModule';
 
 export default class Realm {
   // Modules
@@ -15,7 +16,7 @@ export default class Realm {
   public biomes!: BiomesModule;
   public rivers!: RiversModule;
   public heraldry!: HeraldryModule;
-  // public government!: GovernmentModule;
+  public government!: GovernmentModule;
 
   // Tags
   protected _tags: string[] = [];
@@ -33,6 +34,7 @@ export default class Realm {
     this.biomes = new BiomesModule(this);
     this.rivers = new RiversModule(this);
     this.heraldry = new HeraldryModule(this);
+    this.government = new GovernmentModule(this);
   }
 
   public addTag(tag: string) {

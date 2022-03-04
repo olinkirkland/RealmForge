@@ -12,24 +12,5 @@
     { "url": "mountains-1.png", "tags": ["mountain"] },
     { "url": "mountains-2.png", "tags": ["mountain"] },
     { "url": "river-mountains.png", "tags": ["mountain"] }
-  ],
-  "parentEntities": {
-    "descriptorsBefore": ["divine", "holy", "royal", "ordained"],
-    "descriptorsAfter": ["of god"],
-    "governments": [
-      { "noun": "empire", "adj": "imperial" },
-      { "noun": "kingdom", "adj": "royal" },
-      { "noun": "imperium", "adj": "imperial" },
-      { "noun": "dominion", "adj": "dominion" }
-    ]
-  },
-  "governmentRanks": [
-    { "rank": "free city", "ruler": "mayor", "size": [0] },
-    { "rank": "lordship", "ruler": "lord", "size": [1] },
-    { "rank": "county", "ruler": "count", "size": [1] },
-    { "rank": "principality", "ruler": "prince", "size": [1, 2] },
-    { "rank": "duchy", "ruler": "duke", "size": [3, 4] },
-    { "rank": "territory", "ruler": "lord", "size": [4] },
-    { "rank": "electorate", "ruler": "elector", "size": [4] }
   ]
 }
