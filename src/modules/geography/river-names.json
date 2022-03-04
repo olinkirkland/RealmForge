@@ -1,0 +1,61 @@
+{
+  "roots": [
+    {
+      "text": "reg",
+      "condition": "",
+      "points": 10
+    },
+    {
+      "text": "don",
+      "condition": "",
+      "points": 10
+    },
+    {
+      "text": "donner",
+      "condition": "",
+      "points": 10
+    },
+    {
+      "text": "erden",
+      "condition": "",
+      "points": 10
+    },
+    {
+      "text": "weiß",
+      "condition": "",
+      "points": 10
+    },
+    {
+      "text": "wald",
+      "condition": "t.borealForest || t.temperateForest",
+      "points": 10
+    },
+    {
+      "text": "walden",
+      "condition": "t.borealForest || t.temperateForest",
+      "points": 10
+    },
+    {
+      "text": "vald",
+      "condition": "t.borealForest || t.temperateForest",
+      "points": 10
+    },
+    {
+      "text": "val",
+      "condition": "t.borealForest || t.temperateForest",
+      "points": 10
+    }
+  ],
+  "suffixes": [
+    {
+      "text": "au",
+      "condition": "",
+      "points": 10
+    },
+    {
+      "text": "en",
+      "condition": "",
+      "points": 10
+    }
+  ]
+}

@@ -21,4 +21,8 @@ export default class SizeModule extends Module {
     this.size = Rand.pick(Object.values(Size));
     this._realm.addTag(this.size == Size.VERY_SMALL ? 'city' : 'region');
   }
+
+  get sizeIndex() {
+    return Object.values(Size).indexOf(this.size);
+  }
 }

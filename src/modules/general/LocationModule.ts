@@ -26,13 +26,18 @@ export default class LocationModule extends Module {
     this.locationWithinParentEntity = Rand.pick(Object.values(Direction));
 
     // Add direction tags south-west => south, west
-    this._realm.addTag(this.locationWithinParentEntity);
+    this.locationWithinParentEntity
+      .split('-')
+      .forEach((l) => this._realm.addTag(l));
 
     // 40% chance to be coastal
-
     if (Rand.next() < 0.4) {
       this.directionToCoast = this.locationWithinParentEntity;
       this._realm.addTag(BiomeType.COAST);
     }
+  }
+
+  static isCardinalDirection(direction: Direction) {
+    return !direction.includes('-');
   }
 }

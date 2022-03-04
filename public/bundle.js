@@ -194,10 +194,6 @@ class Util {
     static capitalize(str) {
         return str.charAt(0).toUpperCase() + str.substring(1);
     }
-    // Combines word parts into a string
-    // static readWord(word: Word): string {
-    //   return word.root.name + word.suffix.name;
-    // }
     // Returns any number lower than 20 as a word ('one', 'two', ... 'nineteen')
     static wordFromNumber(n) {
         const words = [
@@ -247,7 +243,7 @@ class Module {
     }
     run() { }
 }
-// Module template
+// Module child class template
 // import Module from '../Module';
 // import Realm from '../../realm/Realm';
 // export default class xModule extends Module {
@@ -298,12 +294,17 @@ class LocationModule extends _Module__WEBPACK_IMPORTED_MODULE_2__["default"] {
     run() {
         this.locationWithinParentEntity = _Rand__WEBPACK_IMPORTED_MODULE_0__["default"].pick(Object.values(Direction));
         // Add direction tags south-west => south, west
-        this._realm.addTag(this.locationWithinParentEntity);
+        this.locationWithinParentEntity
+            .split('-')
+            .forEach((l) => this._realm.addTag(l));
         // 40% chance to be coastal
         if (_Rand__WEBPACK_IMPORTED_MODULE_0__["default"].next() < 0.4) {
             this.directionToCoast = this.locationWithinParentEntity;
             this._realm.addTag(_geography_BiomesModule__WEBPACK_IMPORTED_MODULE_1__.BiomeType.COAST);
         }
+    }
+    static isCardinalDirection(direction) {
+        return !direction.includes('-');
     }
 }
 
@@ -326,8 +327,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Util */ "./src/Util.ts");
 /* harmony import */ var _general_LocationModule__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../general/LocationModule */ "./src/modules/general/LocationModule.ts");
 /* harmony import */ var _ClimateModule__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ClimateModule */ "./src/modules/geography/ClimateModule.ts");
-/* harmony import */ var _SizeModule__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./SizeModule */ "./src/modules/geography/SizeModule.ts");
-
 
 
 
@@ -337,8 +336,8 @@ var BiomeType;
 (function (BiomeType) {
     BiomeType["GRASSLAND"] = "grassland";
     BiomeType["TUNDRA"] = "tundra";
-    BiomeType["BOREAL_FOREST"] = "boreal forest";
-    BiomeType["TEMPERATE_FOREST"] = "temperate forest";
+    BiomeType["BOREAL_FOREST"] = "borealForest";
+    BiomeType["TEMPERATE_FOREST"] = "temperateForest";
     BiomeType["MOUNTAINS"] = "mountains";
     BiomeType["COAST"] = "coast";
 })(BiomeType || (BiomeType = {}));
@@ -349,7 +348,7 @@ class BiomesModule extends _Module__WEBPACK_IMPORTED_MODULE_0__["default"] {
     run() {
         this.biomes = [];
         // Add a coast biome
-        let remainingSize = Object.values(_SizeModule__WEBPACK_IMPORTED_MODULE_5__.Size).indexOf(this._realm.size.size) + 1;
+        let remainingSize = this._realm.size.sizeIndex + 1;
         if (this._realm.tags.includes(BiomeType.COAST)) {
             const coastBiome = {
                 type: BiomeType.COAST,
@@ -398,7 +397,6 @@ class BiomesModule extends _Module__WEBPACK_IMPORTED_MODULE_0__["default"] {
             this.biomes.push(biome);
             this._realm.addTag(biomeType);
         }
-        console.log(this.biomes.length + ' biomes');
     }
 }
 
@@ -523,6 +521,97 @@ class ParentEntityModule extends _Module__WEBPACK_IMPORTED_MODULE_1__["default"]
 
 /***/ }),
 
+/***/ "./src/modules/geography/RiversModule.ts":
+/*!***********************************************!*\
+  !*** ./src/modules/geography/RiversModule.ts ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ RiversModule)
+/* harmony export */ });
+/* harmony import */ var _Rand__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Rand */ "./src/Rand.ts");
+/* harmony import */ var _Util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Util */ "./src/Util.ts");
+/* harmony import */ var _general_LocationModule__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../general/LocationModule */ "./src/modules/general/LocationModule.ts");
+/* harmony import */ var _Module__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Module */ "./src/modules/Module.ts");
+/* harmony import */ var _BiomesModule__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./BiomesModule */ "./src/modules/geography/BiomesModule.ts");
+/* harmony import */ var _ClimateModule__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ClimateModule */ "./src/modules/geography/ClimateModule.ts");
+/* harmony import */ var _river_names_json__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./river-names.json */ "./src/modules/geography/river-names.json");
+
+
+
+
+
+
+
+class RiversModule extends _Module__WEBPACK_IMPORTED_MODULE_3__["default"] {
+    constructor(realm) {
+        super(realm);
+    }
+    run() {
+        this.rivers = [];
+        // Pick a number of rivers
+        let riverCount = 0;
+        switch (this._realm.climate.humidity) {
+            case _ClimateModule__WEBPACK_IMPORTED_MODULE_5__.Humidity.DRY:
+                riverCount = _Rand__WEBPACK_IMPORTED_MODULE_0__["default"].between(0, 2, true);
+                break;
+            case _ClimateModule__WEBPACK_IMPORTED_MODULE_5__.Humidity.WET:
+                riverCount = _Rand__WEBPACK_IMPORTED_MODULE_0__["default"].between(2, 4, true);
+        }
+        // For small realms, there should only be one river
+        if (this._realm.size.sizeIndex < 2) {
+            riverCount = 1;
+        }
+        // Add rivers
+        console.log(`Add ${riverCount} rivers`);
+        for (let i = 0; i < riverCount; i++) {
+            this.addRiver();
+        }
+    }
+    addRiver() {
+        // Determine the directions (to and from) the river will flow
+        // Rivers tend to flow from mountains towards coasts, so factor this in if those biomes are present
+        const mountains = this._realm.biomes.biomes.find((b) => b.type == _BiomesModule__WEBPACK_IMPORTED_MODULE_4__.BiomeType.MOUNTAINS);
+        const coast = this._realm.biomes.biomes.find((b) => b.type == _BiomesModule__WEBPACK_IMPORTED_MODULE_4__.BiomeType.COAST);
+        // Only use cardinal directions
+        let availableDirections = Object.values(_general_LocationModule__WEBPACK_IMPORTED_MODULE_2__.Direction).filter((d) => _general_LocationModule__WEBPACK_IMPORTED_MODULE_2__["default"].isCardinalDirection(d) &&
+            (!coast || d != coast.direction) &&
+            (!mountains || d != mountains.direction));
+        let flowsFrom = mountains && _Rand__WEBPACK_IMPORTED_MODULE_0__["default"].next() < 0.8
+            ? mountains.direction
+            : _Rand__WEBPACK_IMPORTED_MODULE_0__["default"].pick(availableDirections);
+        // Rivers can't flow to the same place they're flowing from
+        _Util__WEBPACK_IMPORTED_MODULE_1__["default"].arrayRemove(availableDirections, flowsFrom);
+        let flowsTo = coast
+            ? coast.direction
+            : _Rand__WEBPACK_IMPORTED_MODULE_0__["default"].pick(availableDirections);
+        const riverName = this.getRiverName();
+        let river = {
+            name: riverName,
+            flowsTo: flowsTo,
+            flowsFrom: flowsFrom,
+            flowsToCoast: coast,
+            flowsFromMountains: mountains,
+            tributaries: [],
+            prefix: undefined,
+            stem: undefined
+        };
+        console.log(river);
+    }
+    getRiverName() {
+        // Roots cannot be used by an existing river
+        let validRoots = _river_names_json__WEBPACK_IMPORTED_MODULE_6__.roots.filter((p) => this.rivers.every((r) => r.name.root.text != p.text) &&
+            this._realm.evaluateCondition(p.condition));
+        let validSuffixes = _river_names_json__WEBPACK_IMPORTED_MODULE_6__.suffixes.filter((p) => this._realm.evaluateCondition(p.condition));
+        return { root: validRoots[0], suffix: validSuffixes[0] };
+    }
+}
+
+
+/***/ }),
+
 /***/ "./src/modules/geography/SizeModule.ts":
 /*!*********************************************!*\
   !*** ./src/modules/geography/SizeModule.ts ***!
@@ -554,6 +643,9 @@ class SizeModule extends _Module__WEBPACK_IMPORTED_MODULE_0__["default"] {
         this.size = _Rand__WEBPACK_IMPORTED_MODULE_1__["default"].pick(Object.values(Size));
         this._realm.addTag(this.size == Size.VERY_SMALL ? 'city' : 'region');
     }
+    get sizeIndex() {
+        return Object.values(Size).indexOf(this.size);
+    }
 }
 
 
@@ -574,6 +666,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_geography_ParentEntityModule__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../modules/geography/ParentEntityModule */ "./src/modules/geography/ParentEntityModule.ts");
 /* harmony import */ var _modules_geography_ClimateModule__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../modules/geography/ClimateModule */ "./src/modules/geography/ClimateModule.ts");
 /* harmony import */ var _modules_geography_BiomesModule__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../modules/geography/BiomesModule */ "./src/modules/geography/BiomesModule.ts");
+/* harmony import */ var _modules_geography_RiversModule__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../modules/geography/RiversModule */ "./src/modules/geography/RiversModule.ts");
+
 
 
 
@@ -581,7 +675,6 @@ __webpack_require__.r(__webpack_exports__);
 
 class Realm {
     constructor() {
-        // public rivers!: RiversModule;
         // public heraldry!: HeraldryModule;
         // public government!: GovernmentModule;
         // Tags
@@ -595,12 +688,28 @@ class Realm {
         this.parentEntity = new _modules_geography_ParentEntityModule__WEBPACK_IMPORTED_MODULE_2__["default"](this);
         this.climate = new _modules_geography_ClimateModule__WEBPACK_IMPORTED_MODULE_3__["default"](this);
         this.biomes = new _modules_geography_BiomesModule__WEBPACK_IMPORTED_MODULE_4__["default"](this);
+        this.rivers = new _modules_geography_RiversModule__WEBPACK_IMPORTED_MODULE_5__["default"](this);
     }
     addTag(tag) {
         this._tags.push(tag);
     }
     get tags() {
         return this._tags;
+    }
+    evaluateCondition(condition) {
+        if (condition == '')
+            return true;
+        let u = {};
+        this.tags.forEach((t) => (u[t] = true));
+        return new ConditionEvaluator().run(condition, u);
+    }
+}
+class ConditionEvaluator {
+    constructor() { }
+    run(condition, t) {
+        const result = eval(`(${condition})`) ? true : false;
+        console.log(`(${condition}): ${result}`);
+        return result;
     }
 }
 
@@ -614,6 +723,16 @@ class Realm {
 /***/ ((module) => {
 
 module.exports = JSON.parse('{"templates":["`the ${adjective} ${government}`"],"adjectives":["divine","holy","royal"],"governments":[{"noun":"empire","adj":"imperial"},{"noun":"kingdom","adj":"royal"},{"noun":"imperium","adj":"imperial"},{"noun":"dominion","adj":"dominion"},{"noun":"commonwealth","adj":"commonwealth"}]}');
+
+/***/ }),
+
+/***/ "./src/modules/geography/river-names.json":
+/*!************************************************!*\
+  !*** ./src/modules/geography/river-names.json ***!
+  \************************************************/
+/***/ ((module) => {
+
+module.exports = JSON.parse('{"roots":[{"text":"reg","condition":"","points":10},{"text":"don","condition":"","points":10},{"text":"donner","condition":"","points":10},{"text":"erden","condition":"","points":10},{"text":"weiß","condition":"","points":10},{"text":"wald","condition":"t.borealForest || t.temperateForest","points":10},{"text":"walden","condition":"t.borealForest || t.temperateForest","points":10},{"text":"vald","condition":"t.borealForest || t.temperateForest","points":10},{"text":"val","condition":"t.borealForest || t.temperateForest","points":10}],"suffixes":[{"text":"au","condition":"","points":10},{"text":"en","condition":"","points":10}]}');
 
 /***/ }),
 
@@ -695,6 +814,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 _Rand__WEBPACK_IMPORTED_MODULE_0__["default"].seed = Math.floor(Math.random() * 999).toString();
+// Rand.seed = '490';
 console.log(`Seed: ${_Rand__WEBPACK_IMPORTED_MODULE_0__["default"].seed}`);
 _Rand__WEBPACK_IMPORTED_MODULE_0__["default"].seedRandomNumberGenerator();
 let realm = new _realm_Realm__WEBPACK_IMPORTED_MODULE_1__["default"]();

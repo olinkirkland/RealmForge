@@ -235,17 +235,6 @@
       }
     ]
   },
-  "directions": [
-    { "noun": "middle", "adj": "central" },
-    { "noun": "north", "adj": "northern" },
-    { "noun": "east", "adj": "eastern" },
-    { "noun": "south", "adj": "southern" },
-    { "noun": "west", "adj": "western" },
-    { "noun": "north-east", "adj": "north-eastern" },
-    { "noun": "south-east", "adj": "south-eastern" },
-    { "noun": "north-west", "adj": "north-western" },
-    { "noun": "south-west", "adj": "south-western" }
-  ],
   "heroImages": [
     { "url": "boreal-forest-1.png", "tags": ["boreal-forest"] },
     { "url": "boreal-forest-2.png", "tags": ["boreal-forest"] },

@@ -3,7 +3,6 @@ import Realm from '../../realm/Realm';
 import Module from '../Module';
 import { adjectives, governments, templates } from './parent-entity.json';
 
-
 type ParentEntityGovernment = {
   noun: string;
   adj: string;

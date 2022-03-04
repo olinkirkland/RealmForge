@@ -9,8 +9,8 @@ import { Size } from './SizeModule';
 export enum BiomeType {
   GRASSLAND = 'grassland',
   TUNDRA = 'tundra',
-  BOREAL_FOREST = 'boreal forest',
-  TEMPERATE_FOREST = 'temperate forest',
+  BOREAL_FOREST = 'borealForest',
+  TEMPERATE_FOREST = 'temperateForest',
   MOUNTAINS = 'mountains',
   COAST = 'coast'
 }
@@ -32,8 +32,7 @@ export default class BiomesModule extends Module {
     this.biomes = [];
 
     // Add a coast biome
-    let remainingSize: number =
-      Object.values(Size).indexOf(this._realm.size.size) + 1;
+    let remainingSize: number = this._realm.size.sizeIndex + 1;
 
     if (this._realm.tags.includes(BiomeType.COAST)) {
       const coastBiome = {
@@ -101,6 +100,5 @@ export default class BiomesModule extends Module {
       this.biomes.push(biome);
       this._realm.addTag(biomeType);
     }
-    console.log(this.biomes.length + ' biomes');
   }
 }

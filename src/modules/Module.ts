@@ -11,7 +11,7 @@ export default class Module {
   protected run() {}
 }
 
-// Module template
+// Module child class template
 
 // import Module from '../Module';
 // import Realm from '../../realm/Realm';
