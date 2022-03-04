@@ -257,6 +257,72 @@ class Module {
 
 /***/ }),
 
+/***/ "./src/modules/general/HeraldryModule.ts":
+/*!***********************************************!*\
+  !*** ./src/modules/general/HeraldryModule.ts ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ HeraldryModule)
+/* harmony export */ });
+/* harmony import */ var _Module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Module */ "./src/modules/Module.ts");
+/* harmony import */ var _sigils_json__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./sigils.json */ "./src/modules/general/sigils.json");
+/* harmony import */ var _heraldry_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./heraldry.json */ "./src/modules/general/heraldry.json");
+/* harmony import */ var _Rand__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Rand */ "./src/Rand.ts");
+
+
+
+
+class HeraldryModule extends _Module__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    constructor(realm) {
+        super(realm);
+    }
+    run() {
+        // Sigil
+        let sigil = _Rand__WEBPACK_IMPORTED_MODULE_3__["default"].pick(_sigils_json__WEBPACK_IMPORTED_MODULE_1__.sigils);
+        sigil.meaning = _Rand__WEBPACK_IMPORTED_MODULE_3__["default"].pick(sigil.meaning);
+        // Ordinary
+        this.ordinary = _Rand__WEBPACK_IMPORTED_MODULE_3__["default"].weightedPick(_heraldry_json__WEBPACK_IMPORTED_MODULE_2__.ordinaries, (item) => item.points);
+        // Choose exactly one metal tincture and one color tincture
+        let metal = _Rand__WEBPACK_IMPORTED_MODULE_3__["default"].weightedPick(_heraldry_json__WEBPACK_IMPORTED_MODULE_2__.metalTinctures, (item) => item.points);
+        let color = _Rand__WEBPACK_IMPORTED_MODULE_3__["default"].weightedPick(_heraldry_json__WEBPACK_IMPORTED_MODULE_2__.colorTinctures, (item) => item.points);
+        this.tinctures = [metal, color].sort((t) => (_Rand__WEBPACK_IMPORTED_MODULE_3__["default"].next() > 0.5 ? 1 : -1));
+        // Charge Layout
+        const availableLayouts = _heraldry_json__WEBPACK_IMPORTED_MODULE_2__.layouts.filter((l) => this.ordinary.layouts.some((m) => m.name == l.name));
+        this.chargeLayout =
+            this.ordinary.layouts.length > 0
+                ? _Rand__WEBPACK_IMPORTED_MODULE_3__["default"].weightedPick(availableLayouts, (l) => l.points)
+                : null;
+        if (!this.chargeLayout)
+            return;
+        // Charge tincture
+        // Heraldic rule: Never put a color on another color
+        // and never put a metal on top of another metal
+        const tinctureOverlapIndexes = this.ordinary.layouts.find((l) => l.name == this.chargeLayout.name).overlap;
+        let availableTinctures = _heraldry_json__WEBPACK_IMPORTED_MODULE_2__.metalTinctures;
+        if (tinctureOverlapIndexes.length > 0) {
+            const overlapTincture = this.tinctures[tinctureOverlapIndexes[0]];
+            if (overlapTincture.type == 'color') {
+                availableTinctures = _heraldry_json__WEBPACK_IMPORTED_MODULE_2__.colorTinctures;
+            }
+        }
+        this.chargeTincture = _Rand__WEBPACK_IMPORTED_MODULE_3__["default"].pick(availableTinctures);
+        // Pick a charge
+        this.charge = _Rand__WEBPACK_IMPORTED_MODULE_3__["default"].weightedPick(_heraldry_json__WEBPACK_IMPORTED_MODULE_2__.charges, (item) => item.points);
+        if (this.chargeLayout.count < 3) {
+            this.charge = { name: sigil.name, points: 0, url: sigil.icon };
+        }
+        // Is it the sigil used on the heraldry? Add a tag if it is
+        if (this.charge.name == sigil.name)
+            this._realm.addTag('sigilAsCharge');
+    }
+}
+
+
+/***/ }),
+
 /***/ "./src/modules/general/LocationModule.ts":
 /*!***********************************************!*\
   !*** ./src/modules/general/LocationModule.ts ***!
@@ -729,6 +795,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_geography_ClimateModule__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../modules/geography/ClimateModule */ "./src/modules/geography/ClimateModule.ts");
 /* harmony import */ var _modules_geography_BiomesModule__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../modules/geography/BiomesModule */ "./src/modules/geography/BiomesModule.ts");
 /* harmony import */ var _modules_geography_RiversModule__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../modules/geography/RiversModule */ "./src/modules/geography/RiversModule.ts");
+/* harmony import */ var _modules_general_HeraldryModule__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../modules/general/HeraldryModule */ "./src/modules/general/HeraldryModule.ts");
+
 
 
 
@@ -737,7 +805,6 @@ __webpack_require__.r(__webpack_exports__);
 
 class Realm {
     constructor() {
-        // public heraldry!: HeraldryModule;
         // public government!: GovernmentModule;
         // Tags
         this._tags = [];
@@ -751,7 +818,7 @@ class Realm {
         this.climate = new _modules_geography_ClimateModule__WEBPACK_IMPORTED_MODULE_3__["default"](this);
         this.biomes = new _modules_geography_BiomesModule__WEBPACK_IMPORTED_MODULE_4__["default"](this);
         this.rivers = new _modules_geography_RiversModule__WEBPACK_IMPORTED_MODULE_5__["default"](this);
-        // this.heraldry = new HeraldryModule(this);
+        this.heraldry = new _modules_general_HeraldryModule__WEBPACK_IMPORTED_MODULE_6__["default"](this);
     }
     addTag(tag) {
         this._tags.push(tag);
@@ -776,6 +843,26 @@ class ConditionEvaluator {
     }
 }
 
+
+/***/ }),
+
+/***/ "./src/modules/general/heraldry.json":
+/*!*******************************************!*\
+  !*** ./src/modules/general/heraldry.json ***!
+  \*******************************************/
+/***/ ((module) => {
+
+module.exports = JSON.parse('{"charges":[{"name":"ring","points":10,"url":"ring"},{"name":"flower","points":10,"url":"spa"},{"name":"cross","points":10,"url":"cross"},{"name":"star","points":10,"url":"star"},{"name":"tower","points":10,"url":"chess-rook"},{"name":"circle","points":10,"url":"circle"},{"name":"crown","points":10,"url":"chess-queen"},{"name":"apple","points":10,"url":"apple-whole"},{"name":"bell","points":10,"url":"bell"}],"layouts":[{"name":"single-center-lg","count":1,"size":"2xl","points":40,"description":"Positioned in the center is a large <span class=\\"tincture-charge\\"></span> <span class=\\"charge-name\\"></span>."},{"name":"single-center","count":1,"size":"","points":10,"description":"Positioned in the center is a <span class=\\"tincture-charge\\"></span> <span class=\\"charge-name\\"></span>."},{"name":"single-center-raised","count":1,"size":"","points":10,"description":"Positioned in the center is a <span class=\\"tincture-charge\\"></span> <span class=\\"charge-name\\"></span>."},{"name":"single-corner","count":1,"size":"","points":10,"description":"Positioned in the top-left corner is a <span class=\\"tincture-charge\\"></span> <span class=\\"charge-name\\"></span>."},{"name":"double","count":2,"size":"lg","points":10,"description":"Positioned in the center is a column containing two <span class=\\"tincture-charge\\"></span> <span class=\\"charge-name\\"></span>s."},{"name":"triple-spaced","count":3,"size":"","points":10,"description":"Three <span class=\\"tincture-charge\\"></span> <span class=\\"charge-name\\"></span>s are evenly spaced in the corners of the design."},{"name":"triple-top","count":3,"size":"","points":10,"description":"Three <span class=\\"tincture-charge\\"></span> <span class=\\"charge-name\\"></span>s are positioned in a row at the top of the design."},{"name":"triple-center-row","count":3,"size":"","points":10,"description":"Three <span class=\\"tincture-charge\\"></span> <span class=\\"charge-name\\"></span>s are positioned in a row at the center of the design."},{"name":"triple-center-col","count":3,"size":"","points":10,"description":"Three <span class=\\"tincture-charge\\"></span> <span class=\\"charge-name\\"></span>s are positioned in a column at the center of the design."}],"ordinaries":[{"name":"","points":10,"description":"a <span class=\\"tincture-primary\\"></span> field","layouts":[{"name":"single-center-lg","overlap":[0]},{"name":"double","overlap":[0]},{"name":"triple-spaced","overlap":[0]}],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":0}]},{"name":"pale","points":10,"description":"a centered, vertical, <span class=\\"tincture-primary\\"></span> stripe on a <span class=\\"tincture-secondary\\"></span> field","layouts":[{"name":"single-center","overlap":[1]},{"name":"triple-center-col","overlap":[1]}],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":0},{"path":"M 4.5 0 h 3 v 12 h -3 V 0","tinctureIndex":1}]},{"name":"fess","points":10,"description":"a centered, horizontal, <span class=\\"tincture-primary\\"></span> stripe on a <span class=\\"tincture-secondary\\"></span> field","layouts":[{"name":"single-center","overlap":[1]},{"name":"triple-center-row","overlap":[1]}],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":0},{"path":"M 0 4.5 H 12 v 3 H 0 v -3","tinctureIndex":1}]},{"name":"chevron","points":10,"description":"a centered, <span class=\\"tincture-primary\\"></span> chevron on a <span class=\\"tincture-secondary\\"></span> field","layouts":[{"name":"triple-spaced","overlap":[0,1]}],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":0},{"path":"M 0 6.7 l 6 -2 l 6 2 v 2 l -6 -2 l -6 2 v -2","tinctureIndex":1}]},{"name":"bend","points":10,"description":"a diagonal, <span class=\\"tincture-primary\\"></span> stripe on a <span class=\\"tincture-secondary\\"></span> field","layouts":[],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":0},{"path":"M 0 0 H 3 L 12 10 h -3 L 0 0","tinctureIndex":1}]},{"name":"chief","points":10,"description":"a horizontal, <span class=\\"tincture-primary\\"></span> stripe positioned at the top of a <span class=\\"tincture-secondary\\"></span> field","layouts":[{"name":"triple-top","overlap":[0]}],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":1},{"path":"M 0 0 v 4.5 h 12 v -4.5 H 0","tinctureIndex":0}]},{"name":"per pale","points":10,"description":"a vertically partitioned, <span class=\\"tincture-primary\\"></span> and <span class=\\"tincture-secondary\\"></span> field","layouts":[{"name":"single-center-lg","overlap":[0,1]},{"name":"double","overlap":[0,1]}],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":0},{"path":"M 6 0 H 12 V 12 h -6 V 0","tinctureIndex":1}]},{"name":"per fess","points":10,"description":"a horizontally partitioned, <span class=\\"tincture-primary\\"></span> and <span class=\\"tincture-secondary\\"></span> field","layouts":[{"name":"single-center-lg","overlap":[0,1]},{"name":"double","overlap":[0,1]}],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":0},{"path":"M 0 6 H 12 v 6 H 0 v -6","tinctureIndex":1}]},{"name":"per chevron","points":10,"description":"a chevron-shaped, horizontally partitioned, <span class=\\"tincture-primary\\"></span> and <span class=\\"tincture-secondary\\"></span> field","layouts":[{"name":"single-center-lg","overlap":[1]},{"name":"triple-center-row","overlap":[1]}],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":0},{"path":"M 0 6 L 6 3 L 12 6 v 9 H 0 V 6","tinctureIndex":1}]},{"name":"pile","points":10,"description":"an upside-down, <span class=\\"tincture-primary\\"></span> triangle positioned at the top of a <span class=\\"tincture-secondary\\"></span> field","layouts":[{"name":"single-center-raised","overlap":[1]}],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":0},{"path":"M 2 0 L 6 10 L 10 0 H 2","tinctureIndex":1}]},{"name":"saltire","points":10,"description":"a <span class=\\"tincture-primary\\"></span> diagonal-cross on a <span class=\\"tincture-secondary\\"></span> field","layouts":[],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":1},{"path":"M 0 1 h 3 l 9 10 h -3 l -9 -10","tinctureIndex":0},{"path":"M 12 1 h -3 l -9 10 h 3 l 9 -10","tinctureIndex":0}]},{"name":"cross","points":10,"description":"a <span class=\\"tincture-primary\\"></span> cross on a <span class=\\"tincture-secondary\\"></span> field","layouts":[],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":0},{"path":"M 0 4 h 12 v 2 h -12 v -2","tinctureIndex":1},{"path":"M 5 0 h 2 v 12 h -2 v -12","tinctureIndex":1}]}],"metalTinctures":[{"type":"metal","name":"silver","color":"#dfe6d0","points":5},{"type":"metal","name":"gold","color":"#d5ab5b","points":5}],"colorTinctures":[{"type":"color","name":"red","color":"#e44747","points":5},{"type":"color","name":"black","color":"#454141","points":5},{"type":"color","name":"blue","color":"#6b75e2","points":5},{"type":"color","name":"violet","color":"#895cca","points":2},{"type":"color","name":"green","color":"#90ac5f","points":5},{"type":"color","name":"mulberry","color":"#d06ea3","points":1}]}');
+
+/***/ }),
+
+/***/ "./src/modules/general/sigils.json":
+/*!*****************************************!*\
+  !*** ./src/modules/general/sigils.json ***!
+  \*****************************************/
+/***/ ((module) => {
+
+module.exports = JSON.parse('{"sigils":[{"name":"stallion","icon":"chess-knight","meaning":["strength","courage"]},{"name":"dove","icon":"dove","meaning":["peace","wisdom"]},{"name":"quill","icon":"feather-pointed","meaning":["loyalty","courage"]},{"name":"cat","icon":"cat","meaning":["sharp wits","ferocity"]},{"name":"cross","icon":"cross","meaning":["virtue","purity","piety"]},{"name":"eye","icon":"eye","meaning":["vigilance","perception"]},{"name":"tower","icon":"chess-rook","meaning":["strength","solidarity"]},{"name":"crown","icon":"chess-king","meaning":["loyalty","royal lineage"]},{"name":"holly plant","icon":"holly-berry","meaning":["heritage","family"]},{"name":"closed fist","icon":"hand-fist","meaning":["unity","willpower"]},{"name":"snowflake","icon":"snowflake","meaning":["beauty","charm"]},{"name":"heart","icon":"heart","meaning":["health","strength"]},{"name":"sun","icon":"sun","meaning":["harvest","honesty"]},{"name":"jewel","icon":"gem","meaning":["wealth","value"]},{"name":"skull","icon":"skull","meaning":["valor","ruthlessness"]}]}');
 
 /***/ }),
 

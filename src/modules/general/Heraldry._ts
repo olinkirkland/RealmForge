@@ -1,13 +1,3 @@
-import { Realm } from '../../realm/Realm';
-import Util from '../../Util';
-import { Data } from '../../Data._ts';
-import {
-  Ordinary,
-  Tincture,
-  ChargeLayout,
-  Charge
-} from './HeraldryModule._ts';
-
 export default class Coat {
   public ordinary: Ordinary;
   public tinctures: Tincture[];

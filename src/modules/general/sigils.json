@@ -1,0 +1,51 @@
+{
+  "sigils": [
+    {
+      "name": "stallion",
+      "icon": "chess-knight",
+      "meaning": ["strength", "courage"]
+    },
+    { "name": "dove", "icon": "dove", "meaning": ["peace", "wisdom"] },
+    {
+      "name": "quill",
+      "icon": "feather-pointed",
+      "meaning": ["loyalty", "courage"]
+    },
+    { "name": "cat", "icon": "cat", "meaning": ["sharp wits", "ferocity"] },
+    {
+      "name": "cross",
+      "icon": "cross",
+      "meaning": ["virtue", "purity", "piety"]
+    },
+    { "name": "eye", "icon": "eye", "meaning": ["vigilance", "perception"] },
+    {
+      "name": "tower",
+      "icon": "chess-rook",
+      "meaning": ["strength", "solidarity"]
+    },
+    {
+      "name": "crown",
+      "icon": "chess-king",
+      "meaning": ["loyalty", "royal lineage"]
+    },
+    {
+      "name": "holly plant",
+      "icon": "holly-berry",
+      "meaning": ["heritage", "family"]
+    },
+    {
+      "name": "closed fist",
+      "icon": "hand-fist",
+      "meaning": ["unity", "willpower"]
+    },
+    {
+      "name": "snowflake",
+      "icon": "snowflake",
+      "meaning": ["beauty", "charm"]
+    },
+    { "name": "heart", "icon": "heart", "meaning": ["health", "strength"] },
+    { "name": "sun", "icon": "sun", "meaning": ["harvest", "honesty"] },
+    { "name": "jewel", "icon": "gem", "meaning": ["wealth", "value"] },
+    { "name": "skull", "icon": "skull", "meaning": ["valor", "ruthlessness"] }
+  ]
+}
