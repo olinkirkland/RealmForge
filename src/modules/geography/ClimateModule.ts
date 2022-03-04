@@ -19,8 +19,8 @@ export enum Humidity {
 export default class ClimateModule extends Module {
   public temperature!: Temperature;
   public humidity!: Humidity;
-  public summerAdjectives!: string[];
-  public winterAdjectives!: string[];
+  public summerAdjectives: string[] = [];
+  public winterAdjectives: string[] = [];
 
   constructor(realm: Realm) {
     super(realm);

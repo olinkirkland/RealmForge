@@ -245,9 +245,7 @@ class Module {
         this._realm = realm;
         this.run();
     }
-    run() {
-        console.log('module base');
-    }
+    run() { }
 }
 // Module template
 // import Module from '../Module';
@@ -274,8 +272,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Direction": () => (/* binding */ Direction),
 /* harmony export */   "default": () => (/* binding */ LocationModule)
 /* harmony export */ });
-/* harmony import */ var _Module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Module */ "./src/modules/Module.ts");
-/* harmony import */ var _Rand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Rand */ "./src/Rand.ts");
+/* harmony import */ var _Rand__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Rand */ "./src/Rand.ts");
+/* harmony import */ var _geography_BiomesModule__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../geography/BiomesModule */ "./src/modules/geography/BiomesModule.ts");
+/* harmony import */ var _Module__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Module */ "./src/modules/Module.ts");
+
 
 
 var Direction;
@@ -289,21 +289,116 @@ var Direction;
     Direction["WEST"] = "west";
     Direction["NORTH_WEST"] = "north-west";
 })(Direction || (Direction = {}));
-class LocationModule extends _Module__WEBPACK_IMPORTED_MODULE_0__["default"] {
+class LocationModule extends _Module__WEBPACK_IMPORTED_MODULE_2__["default"] {
     constructor(realm) {
         super(realm);
         this.locationWithinParentEntity = Direction.NORTH;
         this.directionToCoast = null;
     }
     run() {
-        this.locationWithinParentEntity = _Rand__WEBPACK_IMPORTED_MODULE_1__["default"].pick(Object.values(Direction));
+        this.locationWithinParentEntity = _Rand__WEBPACK_IMPORTED_MODULE_0__["default"].pick(Object.values(Direction));
         // Add direction tags south-west => south, west
         this._realm.addTag(this.locationWithinParentEntity);
         // 40% chance to be coastal
-        if (_Rand__WEBPACK_IMPORTED_MODULE_1__["default"].next() < 0.4) {
+        if (_Rand__WEBPACK_IMPORTED_MODULE_0__["default"].next() < 0.4) {
             this.directionToCoast = this.locationWithinParentEntity;
-            this._realm.addTag('coast');
+            this._realm.addTag(_geography_BiomesModule__WEBPACK_IMPORTED_MODULE_1__.BiomeType.COAST);
         }
+    }
+}
+
+
+/***/ }),
+
+/***/ "./src/modules/geography/BiomesModule.ts":
+/*!***********************************************!*\
+  !*** ./src/modules/geography/BiomesModule.ts ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "BiomeType": () => (/* binding */ BiomeType),
+/* harmony export */   "default": () => (/* binding */ BiomesModule)
+/* harmony export */ });
+/* harmony import */ var _Module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Module */ "./src/modules/Module.ts");
+/* harmony import */ var _Rand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Rand */ "./src/Rand.ts");
+/* harmony import */ var _Util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Util */ "./src/Util.ts");
+/* harmony import */ var _general_LocationModule__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../general/LocationModule */ "./src/modules/general/LocationModule.ts");
+/* harmony import */ var _ClimateModule__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ClimateModule */ "./src/modules/geography/ClimateModule.ts");
+/* harmony import */ var _SizeModule__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./SizeModule */ "./src/modules/geography/SizeModule.ts");
+
+
+
+
+
+
+var BiomeType;
+(function (BiomeType) {
+    BiomeType["GRASSLAND"] = "grassland";
+    BiomeType["TUNDRA"] = "tundra";
+    BiomeType["BOREAL_FOREST"] = "boreal forest";
+    BiomeType["TEMPERATE_FOREST"] = "temperate forest";
+    BiomeType["MOUNTAINS"] = "mountains";
+    BiomeType["COAST"] = "coast";
+})(BiomeType || (BiomeType = {}));
+class BiomesModule extends _Module__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    constructor(realm) {
+        super(realm);
+    }
+    run() {
+        this.biomes = [];
+        // Add a coast biome
+        let remainingSize = Object.values(_SizeModule__WEBPACK_IMPORTED_MODULE_5__.Size).indexOf(this._realm.size.size) + 1;
+        if (this._realm.tags.includes(BiomeType.COAST)) {
+            const coastBiome = {
+                type: BiomeType.COAST,
+                size: _Rand__WEBPACK_IMPORTED_MODULE_1__["default"].between(1, remainingSize, true),
+                direction: this._realm.location.directionToCoast
+            };
+        }
+        // Limit available biome types
+        let availableBiomeTypes = Object.values(BiomeType).filter((biomeType) => {
+            if (biomeType == BiomeType.COAST)
+                return false;
+            switch (this._realm.climate.humidity) {
+                case _ClimateModule__WEBPACK_IMPORTED_MODULE_4__.Humidity.DRY:
+                    // Dry? Remove boreal-forest and temperate-forest
+                    return ![
+                        BiomeType.BOREAL_FOREST,
+                        BiomeType.TEMPERATE_FOREST
+                    ].includes(biomeType);
+                    break;
+                case _ClimateModule__WEBPACK_IMPORTED_MODULE_4__.Humidity.WET:
+                    // Wet? Remove grassland and tundra
+                    return ![BiomeType.GRASSLAND, BiomeType.TUNDRA].includes(biomeType);
+                    break;
+            }
+            if (this._realm.climate.temperature == _ClimateModule__WEBPACK_IMPORTED_MODULE_4__.Temperature.WARM) {
+                // Warm? Remove boreal-forest and tundra
+                return ![BiomeType.BOREAL_FOREST, BiomeType.TUNDRA].includes(biomeType);
+            }
+            return true;
+        });
+        // Cannot be a combined direction like north-east or south-west, must be one of the four cardinal directions or 'middle'
+        let availableDirections = Object.values(_general_LocationModule__WEBPACK_IMPORTED_MODULE_3__.Direction).filter((d) => d.split('-').length == 1);
+        // Create some number of biomes
+        while (remainingSize > 0 && availableBiomeTypes.length > 0) {
+            let biomeSize = _Rand__WEBPACK_IMPORTED_MODULE_1__["default"].between(1, remainingSize, true);
+            remainingSize -= biomeSize;
+            let biomeType = _Rand__WEBPACK_IMPORTED_MODULE_1__["default"].pick(availableBiomeTypes);
+            availableBiomeTypes = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].arrayRemove(availableBiomeTypes, biomeType);
+            let biomeDirection = _Rand__WEBPACK_IMPORTED_MODULE_1__["default"].pick(availableDirections);
+            availableDirections = _Util__WEBPACK_IMPORTED_MODULE_2__["default"].arrayRemove(availableDirections, biomeDirection);
+            const biome = {
+                type: biomeType,
+                size: biomeSize,
+                direction: biomeDirection
+            };
+            this.biomes.push(biome);
+            this._realm.addTag(biomeType);
+        }
+        console.log(this.biomes.length + ' biomes');
     }
 }
 
@@ -346,6 +441,8 @@ var Humidity;
 class ClimateModule extends _Module__WEBPACK_IMPORTED_MODULE_0__["default"] {
     constructor(realm) {
         super(realm);
+        this.summerAdjectives = [];
+        this.winterAdjectives = [];
     }
     run() {
         // Temperature: Default is TEMPERATE
@@ -445,17 +542,16 @@ var Size;
 (function (Size) {
     Size["VERY_SMALL"] = "very small";
     Size["SMALL"] = "small";
-    Size["MEDIUM_SIZED"] = "medium-sized";
+    Size["MEDIUM"] = "medium";
     Size["LARGE"] = "large";
     Size["VERY_LARGE"] = "very large";
 })(Size || (Size = {}));
 class SizeModule extends _Module__WEBPACK_IMPORTED_MODULE_0__["default"] {
     constructor(realm) {
         super(realm);
-        this.size = Size.SMALL;
     }
     run() {
-        this.size = _Rand__WEBPACK_IMPORTED_MODULE_1__["default"].pick(Object.keys(Size));
+        this.size = _Rand__WEBPACK_IMPORTED_MODULE_1__["default"].pick(Object.values(Size));
         this._realm.addTag(this.size == Size.VERY_SMALL ? 'city' : 'region');
     }
 }
@@ -473,18 +569,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Realm)
 /* harmony export */ });
-/* harmony import */ var _modules_general_LocationModule__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../modules/general/LocationModule */ "./src/modules/general/LocationModule.ts");
-/* harmony import */ var _modules_geography_ClimateModule__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../modules/geography/ClimateModule */ "./src/modules/geography/ClimateModule.ts");
+/* harmony import */ var _modules_geography_SizeModule__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../modules/geography/SizeModule */ "./src/modules/geography/SizeModule.ts");
+/* harmony import */ var _modules_general_LocationModule__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../modules/general/LocationModule */ "./src/modules/general/LocationModule.ts");
 /* harmony import */ var _modules_geography_ParentEntityModule__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../modules/geography/ParentEntityModule */ "./src/modules/geography/ParentEntityModule.ts");
-/* harmony import */ var _modules_geography_SizeModule__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../modules/geography/SizeModule */ "./src/modules/geography/SizeModule.ts");
+/* harmony import */ var _modules_geography_ClimateModule__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../modules/geography/ClimateModule */ "./src/modules/geography/ClimateModule.ts");
+/* harmony import */ var _modules_geography_BiomesModule__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../modules/geography/BiomesModule */ "./src/modules/geography/BiomesModule.ts");
+
 
 
 
 
 class Realm {
     constructor() {
-        // public climate = new ClimateModule(this);
-        // public biomes = new BiomesModule(this);
         // public rivers = new RiversModule(this);
         // public heraldry = new HeraldryModule(this);
         // public government = new GovernmentModule(this);
@@ -494,10 +590,11 @@ class Realm {
     }
     runModuleSequence() {
         console.log(' === Running Module Sequence === ');
-        this.size = new _modules_geography_SizeModule__WEBPACK_IMPORTED_MODULE_3__["default"](this);
-        this.location = new _modules_general_LocationModule__WEBPACK_IMPORTED_MODULE_0__["default"](this);
+        this.size = new _modules_geography_SizeModule__WEBPACK_IMPORTED_MODULE_0__["default"](this);
+        this.location = new _modules_general_LocationModule__WEBPACK_IMPORTED_MODULE_1__["default"](this);
         this.parentEntity = new _modules_geography_ParentEntityModule__WEBPACK_IMPORTED_MODULE_2__["default"](this);
-        this.climate = new _modules_geography_ClimateModule__WEBPACK_IMPORTED_MODULE_1__["default"](this);
+        this.climate = new _modules_geography_ClimateModule__WEBPACK_IMPORTED_MODULE_3__["default"](this);
+        this.biomes = new _modules_geography_BiomesModule__WEBPACK_IMPORTED_MODULE_4__["default"](this);
     }
     addTag(tag) {
         this._tags.push(tag);
@@ -597,7 +694,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _realm_Realm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./realm/Realm */ "./src/realm/Realm.ts");
 
 
-_Rand__WEBPACK_IMPORTED_MODULE_0__["default"].seed = Math.random().toString();
+_Rand__WEBPACK_IMPORTED_MODULE_0__["default"].seed = Math.floor(Math.random() * 999).toString();
+console.log(`Seed: ${_Rand__WEBPACK_IMPORTED_MODULE_0__["default"].seed}`);
 _Rand__WEBPACK_IMPORTED_MODULE_0__["default"].seedRandomNumberGenerator();
 let realm = new _realm_Realm__WEBPACK_IMPORTED_MODULE_1__["default"]();
 console.log(realm);

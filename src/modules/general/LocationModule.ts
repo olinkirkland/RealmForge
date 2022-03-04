@@ -1,7 +1,7 @@
-import Module from '../Module';
-import Util from '../../Util';
 import Rand from '../../Rand';
 import Realm from '../../realm/Realm';
+import { BiomeType } from '../geography/BiomesModule';
+import Module from '../Module';
 
 export enum Direction {
   NORTH = 'north',
@@ -32,7 +32,7 @@ export default class LocationModule extends Module {
 
     if (Rand.next() < 0.4) {
       this.directionToCoast = this.locationWithinParentEntity;
-      this._realm.addTag('coast');
+      this._realm.addTag(BiomeType.COAST);
     }
   }
 }

@@ -8,9 +8,7 @@ export default class Module {
     this.run();
   }
 
-  protected run() {
-    console.log('module base');
-  }
+  protected run() {}
 }
 
 // Module template

@@ -5,20 +5,20 @@ import Rand from '../../Rand';
 export enum Size {
   VERY_SMALL = 'very small',
   SMALL = 'small',
-  MEDIUM_SIZED = 'medium-sized',
+  MEDIUM = 'medium',
   LARGE = 'large',
   VERY_LARGE = 'very large'
 }
 
 export default class SizeModule extends Module {
-  size: Size = Size.SMALL;
+  public size!: Size;
 
   constructor(realm: Realm) {
     super(realm);
   }
 
   protected run() {
-    this.size = Rand.pick(Object.keys(Size));
+    this.size = Rand.pick(Object.values(Size));
     this._realm.addTag(this.size == Size.VERY_SMALL ? 'city' : 'region');
   }
 }

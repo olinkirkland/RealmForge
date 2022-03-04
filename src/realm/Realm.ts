@@ -1,7 +1,8 @@
-import LocationModule from '../modules/general/LocationModule';
-import ClimateModule from '../modules/geography/ClimateModule';
-import ParentEntityModule from '../modules/geography/ParentEntityModule';
 import SizeModule from '../modules/geography/SizeModule';
+import LocationModule from '../modules/general/LocationModule';
+import ParentEntityModule from '../modules/geography/ParentEntityModule';
+import ClimateModule from '../modules/geography/ClimateModule';
+import BiomesModule from '../modules/geography/BiomesModule';
 
 export default class Realm {
   // Modules
@@ -9,8 +10,7 @@ export default class Realm {
   public location!: LocationModule;
   public parentEntity!: ParentEntityModule;
   public climate!: ClimateModule;
-  // public climate = new ClimateModule(this);
-  // public biomes = new BiomesModule(this);
+  public biomes!: BiomesModule;
   // public rivers = new RiversModule(this);
   // public heraldry = new HeraldryModule(this);
   // public government = new GovernmentModule(this);
@@ -28,6 +28,7 @@ export default class Realm {
     this.location = new LocationModule(this);
     this.parentEntity = new ParentEntityModule(this);
     this.climate = new ClimateModule(this);
+    this.biomes = new BiomesModule(this);
   }
 
   public addTag(tag: string) {

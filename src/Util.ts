@@ -69,7 +69,7 @@ export default class Util {
     });
   }
 
-  static arrayRemove(arr: string[], elementToRemove: string): string[] {
+  static arrayRemove<T>(arr: T[], elementToRemove: T): T[] {
     return arr.filter(function (element) {
       return element != elementToRemove;
     });
