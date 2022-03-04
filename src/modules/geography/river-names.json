@@ -1,4 +1,28 @@
 {
+  "tributaryPrefixes": [
+    {
+      "text": "heller",
+      "condition": "",
+      "points": 10
+    },
+    {
+      "text": "dunkler",
+      "condition": "",
+      "points": 10
+    },
+    {
+      "text": "kleiner",
+      "condition": "",
+      "points": 10
+    }
+  ],
+  "tributarySuffixes": [
+    {
+      "text": "enbach",
+      "condition": "",
+      "points": 10
+    }
+  ],
   "roots": [
     {
       "text": "reg",
@@ -46,7 +70,7 @@
       "points": 10
     }
   ],
-  "suffixes": [
+  "riverSuffixes": [
     {
       "text": "au",
       "condition": "",

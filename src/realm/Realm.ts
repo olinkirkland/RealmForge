@@ -31,6 +31,7 @@ export default class Realm {
     this.climate = new ClimateModule(this);
     this.biomes = new BiomesModule(this);
     this.rivers = new RiversModule(this);
+    // this.heraldry = new HeraldryModule(this);
   }
 
   public addTag(tag: string) {
@@ -54,8 +55,8 @@ class ConditionEvaluator {
   constructor() {}
 
   run(condition: string, t: any) {
+    // Regex instead?
     const result: boolean = eval(`(${condition})`) ? true : false;
-    console.log(`(${condition}): ${result}`);
     return result;
   }
 }

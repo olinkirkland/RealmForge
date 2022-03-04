@@ -551,6 +551,7 @@ class RiversModule extends _Module__WEBPACK_IMPORTED_MODULE_3__["default"] {
     }
     run() {
         this.rivers = [];
+        this.tributaries = [];
         // Pick a number of rivers
         let riverCount = 0;
         switch (this._realm.climate.humidity) {
@@ -565,16 +566,15 @@ class RiversModule extends _Module__WEBPACK_IMPORTED_MODULE_3__["default"] {
             riverCount = 1;
         }
         // Add rivers
-        console.log(`Add ${riverCount} rivers`);
-        for (let i = 0; i < riverCount; i++) {
-            this.addRiver();
-        }
+        for (let i = 0; i < riverCount; i++)
+            this.addNewRiver();
     }
-    addRiver() {
+    addNewRiver() {
         // Determine the directions (to and from) the river will flow
         // Rivers tend to flow from mountains towards coasts, so factor this in if those biomes are present
-        const mountains = this._realm.biomes.biomes.find((b) => b.type == _BiomesModule__WEBPACK_IMPORTED_MODULE_4__.BiomeType.MOUNTAINS);
-        const coast = this._realm.biomes.biomes.find((b) => b.type == _BiomesModule__WEBPACK_IMPORTED_MODULE_4__.BiomeType.COAST);
+        const mountains = this._realm.biomes.biomes.find((b) => b.type == _BiomesModule__WEBPACK_IMPORTED_MODULE_4__.BiomeType.MOUNTAINS) ||
+            null;
+        const coast = this._realm.biomes.biomes.find((b) => b.type == _BiomesModule__WEBPACK_IMPORTED_MODULE_4__.BiomeType.COAST) || null;
         // Only use cardinal directions
         let availableDirections = Object.values(_general_LocationModule__WEBPACK_IMPORTED_MODULE_2__.Direction).filter((d) => _general_LocationModule__WEBPACK_IMPORTED_MODULE_2__["default"].isCardinalDirection(d) &&
             (!coast || d != coast.direction) &&
@@ -588,24 +588,86 @@ class RiversModule extends _Module__WEBPACK_IMPORTED_MODULE_3__["default"] {
             ? coast.direction
             : _Rand__WEBPACK_IMPORTED_MODULE_0__["default"].pick(availableDirections);
         const riverName = this.getRiverName();
+        const tributaries = this.getTributaries(riverName);
         let river = {
             name: riverName,
             flowsTo: flowsTo,
             flowsFrom: flowsFrom,
             flowsToCoast: coast,
             flowsFromMountains: mountains,
-            tributaries: [],
-            prefix: undefined,
-            stem: undefined
+            tributaries: tributaries
         };
-        console.log(river);
+        this.rivers.push(river);
     }
     getRiverName() {
         // Roots cannot be used by an existing river
         let validRoots = _river_names_json__WEBPACK_IMPORTED_MODULE_6__.roots.filter((p) => this.rivers.every((r) => r.name.root.text != p.text) &&
             this._realm.evaluateCondition(p.condition));
-        let validSuffixes = _river_names_json__WEBPACK_IMPORTED_MODULE_6__.suffixes.filter((p) => this._realm.evaluateCondition(p.condition));
-        return { root: validRoots[0], suffix: validSuffixes[0] };
+        let validSuffixes = _river_names_json__WEBPACK_IMPORTED_MODULE_6__.riverSuffixes.filter((p) => this._realm.evaluateCondition(p.condition));
+        let riverName;
+        do {
+            let root = _Rand__WEBPACK_IMPORTED_MODULE_0__["default"].weightedPick(validRoots, (item) => item.points);
+            let suffix = _Rand__WEBPACK_IMPORTED_MODULE_0__["default"].weightedPick(validSuffixes, (item) => item.points);
+            riverName = { root: root, suffix: suffix };
+        } while (!this.isValidRiverName(riverName));
+        return riverName;
+    }
+    getTributaries(riverName) {
+        let tributaries = [];
+        const tributaryCount = _Rand__WEBPACK_IMPORTED_MODULE_0__["default"].between(0, 3);
+        for (let i = 0; i < tributaryCount; i++) {
+            const tributaryName = i == 0 && _Rand__WEBPACK_IMPORTED_MODULE_0__["default"].next() < 0.6 ? riverName : this.getRiverName();
+            // If the tributary name is the same as the stem, choose a tributary prefix and/or suffix
+            let prefix = null;
+            let suffix = null;
+            do {
+                if (riverName == tributaryName) {
+                    do {
+                        if (_Rand__WEBPACK_IMPORTED_MODULE_0__["default"].next() < 0.3)
+                            prefix = _Rand__WEBPACK_IMPORTED_MODULE_0__["default"].weightedPick(_river_names_json__WEBPACK_IMPORTED_MODULE_6__.tributaryPrefixes, (item) => item.points);
+                        if (_Rand__WEBPACK_IMPORTED_MODULE_0__["default"].next() < 0.3)
+                            suffix = _Rand__WEBPACK_IMPORTED_MODULE_0__["default"].weightedPick(_river_names_json__WEBPACK_IMPORTED_MODULE_6__.tributarySuffixes, (item) => item.points);
+                    } while (!prefix && !suffix);
+                }
+            } while (!this.isValidRiverName(tributaryName));
+            let tributary = {
+                name: tributaryName,
+                prefix: prefix,
+                suffix: suffix,
+                stem: null
+            };
+            // The more tributaries there are the lower the chance is to add a new one
+            const max = 5;
+            const remaining = max - this.tributaries.length;
+            const chance = remaining * (1 / max) + 0.1; // Always give it +10% chance
+            if (_Rand__WEBPACK_IMPORTED_MODULE_0__["default"].next() >= chance)
+                continue;
+            // Push to river tributary array (gets returned)
+            tributaries.push(tributary);
+            // Push to top level tributary array (of all tributaries)
+            this.tributaries.push(tributary);
+        }
+        return tributaries;
+    }
+    isValidRiverName(riverName) {
+        // Can't have two vowels next to each other
+        if (_Util__WEBPACK_IMPORTED_MODULE_1__["default"].endsWithVowel(riverName.root.text) &&
+            _Util__WEBPACK_IMPORTED_MODULE_1__["default"].startsWithVowel(riverName.suffix.text)) {
+            return false;
+        }
+        // No two rivers or tributaries can have the same name
+        const riverAndTributaryNames = this.tributaries
+            .map((t) => t.name)
+            .concat(this.rivers.map((r) => r.name));
+        if (riverAndTributaryNames.includes(riverName)) {
+            return false;
+        }
+        // Rivers' roots cannot end in their suffix (Hennen-en, Frau-au, etc.)
+        if (riverName.root.text.indexOf(riverName.suffix.text) ==
+            riverName.root.text.length - riverName.suffix.text.length) {
+            return false;
+        }
+        return true;
     }
 }
 
@@ -689,6 +751,7 @@ class Realm {
         this.climate = new _modules_geography_ClimateModule__WEBPACK_IMPORTED_MODULE_3__["default"](this);
         this.biomes = new _modules_geography_BiomesModule__WEBPACK_IMPORTED_MODULE_4__["default"](this);
         this.rivers = new _modules_geography_RiversModule__WEBPACK_IMPORTED_MODULE_5__["default"](this);
+        // this.heraldry = new HeraldryModule(this);
     }
     addTag(tag) {
         this._tags.push(tag);
@@ -707,8 +770,8 @@ class Realm {
 class ConditionEvaluator {
     constructor() { }
     run(condition, t) {
+        // Regex instead?
         const result = eval(`(${condition})`) ? true : false;
-        console.log(`(${condition}): ${result}`);
         return result;
     }
 }
@@ -732,7 +795,7 @@ module.exports = JSON.parse('{"templates":["`the ${adjective} ${government}`"],"
   \************************************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"roots":[{"text":"reg","condition":"","points":10},{"text":"don","condition":"","points":10},{"text":"donner","condition":"","points":10},{"text":"erden","condition":"","points":10},{"text":"weiß","condition":"","points":10},{"text":"wald","condition":"t.borealForest || t.temperateForest","points":10},{"text":"walden","condition":"t.borealForest || t.temperateForest","points":10},{"text":"vald","condition":"t.borealForest || t.temperateForest","points":10},{"text":"val","condition":"t.borealForest || t.temperateForest","points":10}],"suffixes":[{"text":"au","condition":"","points":10},{"text":"en","condition":"","points":10}]}');
+module.exports = JSON.parse('{"tributaryPrefixes":[{"text":"heller","condition":"","points":10},{"text":"dunkler","condition":"","points":10},{"text":"kleiner","condition":"","points":10}],"tributarySuffixes":[{"text":"enbach","condition":"","points":10}],"roots":[{"text":"reg","condition":"","points":10},{"text":"don","condition":"","points":10},{"text":"donner","condition":"","points":10},{"text":"erden","condition":"","points":10},{"text":"weiß","condition":"","points":10},{"text":"wald","condition":"t.borealForest || t.temperateForest","points":10},{"text":"walden","condition":"t.borealForest || t.temperateForest","points":10},{"text":"vald","condition":"t.borealForest || t.temperateForest","points":10},{"text":"val","condition":"t.borealForest || t.temperateForest","points":10}],"riverSuffixes":[{"text":"au","condition":"","points":10},{"text":"en","condition":"","points":10}]}');
 
 /***/ }),
 
@@ -818,7 +881,7 @@ _Rand__WEBPACK_IMPORTED_MODULE_0__["default"].seed = Math.floor(Math.random() * 
 console.log(`Seed: ${_Rand__WEBPACK_IMPORTED_MODULE_0__["default"].seed}`);
 _Rand__WEBPACK_IMPORTED_MODULE_0__["default"].seedRandomNumberGenerator();
 let realm = new _realm_Realm__WEBPACK_IMPORTED_MODULE_1__["default"]();
-console.log(realm);
+console.log('----------------', realm);
 
 })();
 
