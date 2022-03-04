@@ -581,9 +581,9 @@ __webpack_require__.r(__webpack_exports__);
 
 class Realm {
     constructor() {
-        // public rivers = new RiversModule(this);
-        // public heraldry = new HeraldryModule(this);
-        // public government = new GovernmentModule(this);
+        // public rivers!: RiversModule;
+        // public heraldry!: HeraldryModule;
+        // public government!: GovernmentModule;
         // Tags
         this._tags = [];
         this.runModuleSequence();

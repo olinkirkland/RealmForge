@@ -11,9 +11,9 @@ export default class Realm {
   public parentEntity!: ParentEntityModule;
   public climate!: ClimateModule;
   public biomes!: BiomesModule;
-  // public rivers = new RiversModule(this);
-  // public heraldry = new HeraldryModule(this);
-  // public government = new GovernmentModule(this);
+  // public rivers!: RiversModule;
+  // public heraldry!: HeraldryModule;
+  // public government!: GovernmentModule;
 
   // Tags
   protected _tags: string[] = [];
