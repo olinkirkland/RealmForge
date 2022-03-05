@@ -14,6 +14,7 @@ export default class GovernmentModule extends Module {
   }
 
   protected run() {
+    // Government
     let government!: Government;
     do {
       government = Rand.pick(governments);
@@ -22,6 +23,6 @@ export default class GovernmentModule extends Module {
     this.rank = government.rank;
     this.ruler = government.ruler;
 
-    this._realm.addTag(this.rank);
+    this._realm.tags.push(this.rank);
   }
 }

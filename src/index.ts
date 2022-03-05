@@ -1,11 +1,14 @@
-import LocationModule, { Direction } from './modules/general/LocationModule';
-import Rand from './Rand';
-import Realm from './realm/Realm';
+/**
+ * Hint: Use 'npm run build' from console to compile + watch the TS code on save
+ */
 
-Rand.seed = Math.floor(Math.random() * 999).toString();
-// Rand.seed = '490';
-console.log(`Seed: ${Rand.seed}`);
-Rand.seedRandomNumberGenerator();
+// Delay intro animations
+const sectionEls: NodeList = document.querySelectorAll('.container');
+sectionEls.forEach((node: Node, index: number) => {
+  const el: HTMLElement = node as HTMLElement;
+  setTimeout(() => {
+    el.classList.add('fade-in');
+  }, 100 * index);
+});
 
-let realm: Realm = new Realm();
-console.log('----------------', realm);
+const home: HomePage = new HomePage();

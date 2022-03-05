@@ -1,18 +1,15 @@
 import Rand from '../../Rand';
 import Realm from '../../realm/Realm';
-import Lang, { Word, WordPart } from '../../toponymy/Language';
+import { Word, WordPart } from '../../toponymy/Language';
 import Util from '../../Util';
 import LocationModule, { Direction } from '../general/LocationModule';
 import Module from '../Module';
 import { Biome, BiomeType } from './BiomesModule';
 import { Humidity } from './ClimateModule';
 import {
-  roots,
-  riverSuffixes,
-  tributaryPrefixes,
+  riverSuffixes, roots, tributaryPrefixes,
   tributarySuffixes
 } from './river-names.json';
-import { Size } from './SizeModule';
 
 export type River = {
   name: Word;
