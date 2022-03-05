@@ -1,3 +1,6 @@
+import Realm from './realm/Realm';
+import Lang from './toponymy/Language';
+
 export default class Util {
   public static isDarkMode: boolean = false;
 
@@ -24,7 +27,6 @@ export default class Util {
   }
 
   private static applyDarkMode() {
-    console.log('Apply dark mode');
     const mode: any = [
       { id: '--dark-text', value: '#f8f8f8' },
       { id: '--dark-text-muted', value: 'rgba(248, 248, 248, 0.6)' },
@@ -47,7 +49,6 @@ export default class Util {
   }
 
   private static applyLightMode() {
-    console.log('Apply light mode');
     const mode: any = [
       { id: '--dark-text', value: '#444444' },
       { id: '--dark-text-muted', value: 'rgba(68, 68, 68, 0.6)' },
@@ -113,19 +114,21 @@ export default class Util {
   }
 
   // Tweet a realm
-  // static shareByTweet(realm: Realm) {
-  //   let tweet: string = `Explore ${Util.capitalize(
-  //     Util.readWord(realm.realmName)
-  //   )}, a ${realm.size} ${realm.parentEntityAdj} ${realm.governmentRank}.`;
+  static shareByTweet(realm: Realm) {
+    let tweet: string = `Explore ${Util.capitalize(
+      Lang.readWord(realm.realmName.name)
+    )}, a ${realm.size} ${realm.parentEntity.adjective} ${
+      realm.government.rank
+    }.`;
 
-  //   window.open(
-  //     'https://twitter.com/intent/tweet?url=' +
-  //       window.location.href +
-  //       '&text=' +
-  //       tweet,
-  //     '_blank'
-  //   );
-  // }
+    window.open(
+      'https://twitter.com/intent/tweet?url=' +
+        window.location.href +
+        '&text=' +
+        tweet,
+      '_blank'
+    );
+  }
 
   // Capitalize first letter
   static capitalize(str: string): string {

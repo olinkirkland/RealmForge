@@ -2,13 +2,21 @@
  * Hint: Use 'npm run build' from console to compile + watch the TS code on save
  */
 
-// Delay intro animations
-const sectionEls: NodeList = document.querySelectorAll('.container');
-sectionEls.forEach((node: Node, index: number) => {
-  const el: HTMLElement = node as HTMLElement;
-  setTimeout(() => {
-    el.classList.add('fade-in');
-  }, 100 * index);
-});
+import HomePageController from './controllers/HomePageController';
+import JSONPageController from './controllers/JSONPageController';
+import PageController from './controllers/PageController';
 
-const home: HomePage = new HomePage();
+// Is it json?
+const arr: RegExpMatchArray | null = window.location.href.match(
+  /\?[a-z0-9,-]+.*\&(json)/
+);
+
+let controller: PageController;
+
+if (arr && arr.length > 1) {
+  // Show JSON
+  controller = new JSONPageController();
+} else {
+  // Show Home
+  controller = new HomePageController();
+}
