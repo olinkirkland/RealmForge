@@ -1,17 +1,4 @@
-btnFavorite.addEventListener('click', () => {
-  const f: { id: string; name: string } = {
-    id: Util.seed,
-    name: Util.readWord(realm.realmName)
-  };
 
-  if (!favorites.some((v) => f.id == v.id)) {
-    favorites.push(f);
-  } else {
-    favorites = favorites.filter((v) => v.id != f.id);
-  }
-  localStorage.setItem('favorites', JSON.stringify(favorites));
-  updateFavorites();
-});
 
 // Handle start button
 const btnStart: HTMLButtonElement = document.getElementById(
@@ -167,26 +154,6 @@ function handleJsonButtons() {
     document.getElementById('labelJson')!.style.top = '0.4rem';
     document.getElementById('labelJson')!.style.opacity = '0';
   }
-}
-
-  // Is it json?
-  const arr: RegExpMatchArray | null = window.location.href.match(
-    /\?[a-z0-9,-]+.*\&(json)/
-  );
-
-
-
-  // Delay intro animations
-  const sectionEls: NodeList = document.querySelectorAll('.container');
-  sectionEls.forEach((node: Node, index: number) => {
-    const el: HTMLElement = node as HTMLElement;
-    setTimeout(() => {
-      el.classList.add('fade-in');
-    }, 10 * index);
-  });
-
-  // testSnippets();
-}
 
 function testSnippets() {
   // Test Util.endsWith function

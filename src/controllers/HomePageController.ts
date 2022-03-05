@@ -1,3 +1,5 @@
+import Rand from '../Rand';
+import Language from '../toponymy/Language';
 import PageController from './PageController';
 
 export default class HomePageController extends PageController {
@@ -18,17 +20,17 @@ export default class HomePageController extends PageController {
       localStorage.getItem('favorites')!
     );
 
-    // Update favorites
+    // Handle the favorites badges
     const favoritesEl: HTMLElement = document.getElementById('favorites')!;
     favoritesEl.addEventListener('click', (event) => {
-      const key: string | null = (event.target as HTMLElement).getAttribute(
-        'key'
-      );
-      if (key) {
-        favorites = favorites.filter((f) => f.id != key);
+      const removeId: string | null = (
+        event.target as HTMLElement
+      ).getAttribute('removeId');
+      if (removeId) {
+        favorites = favorites.filter((f) => f.id != removeId);
         event.preventDefault();
         localStorage.setItem('favorites', JSON.stringify(favorites));
-        updateFavorites();
+        refreshFavorites();
       }
     });
 
@@ -36,21 +38,37 @@ export default class HomePageController extends PageController {
       'btnFavorite'
     )! as HTMLButtonElement;
 
+    btnFavorite.addEventListener('click', () => {
+      const f: { id: string; name: string } = {
+        id: Rand.seed,
+        name: Language.readWord(this.realm.realmName.name)
+      };
+
+      if (!favorites.some((v) => f.id == v.id)) {
+        favorites.push(f);
+      } else {
+        favorites = favorites.filter((v) => v.id != f.id);
+      }
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+      refreshFavorites();
+    });
+
     const btnFavoriteIcon: HTMLElement =
       document.querySelector('#btnFavorite i')!;
     const btnFavoriteText: HTMLElement =
       document.querySelector('#btnFavorite span')!;
 
-    function updateFavorites() {
-      // Update the favorites button
+    function refreshFavorites() {
       btnFavoriteIcon.classList.remove('fa-solid', 'fa-regular', 'selected');
 
-      const isFavorite: boolean = favorites.some((f) => f.id == Util.seed);
+      // Is the current realm already favorited?
+      const isFavorite: boolean = favorites.some((f) => f.id == Rand.seed);
       btnFavoriteIcon.classList.add(isFavorite ? 'fa-solid' : 'fa-regular');
       btnFavoriteText.innerHTML = isFavorite
         ? 'This is one of your favorites'
         : 'Add this Realm to your favorites';
 
+      // Create favorite badges
       favoritesEl.innerHTML = '';
       favorites.forEach((f) => {
         let url: string = window.location.href;
@@ -60,7 +78,7 @@ export default class HomePageController extends PageController {
   <li class="favorite-badge">
     <a href="${url}" target="_self" class="btn btn--icon capitalized">${f.name}</a>
     <a class="btn btn--icon delete-favorite">
-      <i class="fa-solid fa-xmark" key="${f.id}"></i>
+      <i class="fa-solid fa-xmark" removeId="${f.id}"></i>
     </a>
   </li>`;
       });

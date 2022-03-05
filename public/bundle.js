@@ -231,9 +231,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ HomePageController)
 /* harmony export */ });
-/* harmony import */ var _PageController__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PageController */ "./src/controllers/PageController.ts");
+/* harmony import */ var _Rand__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Rand */ "./src/Rand.ts");
+/* harmony import */ var _toponymy_Language__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../toponymy/Language */ "./src/toponymy/Language.ts");
+/* harmony import */ var _PageController__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PageController */ "./src/controllers/PageController.ts");
 
-class HomePageController extends _PageController__WEBPACK_IMPORTED_MODULE_0__["default"] {
+
+
+class HomePageController extends _PageController__WEBPACK_IMPORTED_MODULE_2__["default"] {
     constructor() {
         super();
         this.handleControls();
@@ -245,28 +249,43 @@ class HomePageController extends _PageController__WEBPACK_IMPORTED_MODULE_0__["d
         if (!localStorage.getItem('favorites'))
             localStorage.setItem('favorites', JSON.stringify([]));
         let favorites = JSON.parse(localStorage.getItem('favorites'));
-        // Update favorites
+        // Handle the favorites badges
         const favoritesEl = document.getElementById('favorites');
         favoritesEl.addEventListener('click', (event) => {
-            const key = event.target.getAttribute('key');
-            if (key) {
-                favorites = favorites.filter((f) => f.id != key);
+            const removeId = event.target.getAttribute('removeId');
+            if (removeId) {
+                favorites = favorites.filter((f) => f.id != removeId);
                 event.preventDefault();
                 localStorage.setItem('favorites', JSON.stringify(favorites));
-                updateFavorites();
+                refreshFavorites();
             }
         });
         const btnFavorite = document.getElementById('btnFavorite');
+        btnFavorite.addEventListener('click', () => {
+            const f = {
+                id: _Rand__WEBPACK_IMPORTED_MODULE_0__["default"].seed,
+                name: _toponymy_Language__WEBPACK_IMPORTED_MODULE_1__["default"].readWord(this.realm.realmName.name)
+            };
+            if (!favorites.some((v) => f.id == v.id)) {
+                favorites.push(f);
+            }
+            else {
+                favorites = favorites.filter((v) => v.id != f.id);
+            }
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            refreshFavorites();
+        });
         const btnFavoriteIcon = document.querySelector('#btnFavorite i');
         const btnFavoriteText = document.querySelector('#btnFavorite span');
-        function updateFavorites() {
-            // Update the favorites button
+        function refreshFavorites() {
             btnFavoriteIcon.classList.remove('fa-solid', 'fa-regular', 'selected');
-            const isFavorite = favorites.some((f) => f.id == Util.seed);
+            // Is the current realm already favorited?
+            const isFavorite = favorites.some((f) => f.id == _Rand__WEBPACK_IMPORTED_MODULE_0__["default"].seed);
             btnFavoriteIcon.classList.add(isFavorite ? 'fa-solid' : 'fa-regular');
             btnFavoriteText.innerHTML = isFavorite
                 ? 'This is one of your favorites'
                 : 'Add this Realm to your favorites';
+            // Create favorite badges
             favoritesEl.innerHTML = '';
             favorites.forEach((f) => {
                 let url = window.location.href;
@@ -275,7 +294,7 @@ class HomePageController extends _PageController__WEBPACK_IMPORTED_MODULE_0__["d
   <li class="favorite-badge">
     <a href="${url}" target="_self" class="btn btn--icon capitalized">${f.name}</a>
     <a class="btn btn--icon delete-favorite">
-      <i class="fa-solid fa-xmark" key="${f.id}"></i>
+      <i class="fa-solid fa-xmark" removeId="${f.id}"></i>
     </a>
   </li>`;
             });
@@ -344,7 +363,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class PageController {
-    constructor() {
+    constructor(realm) {
+        this.realm = realm;
         this.handleSeed();
         this.handleDarkMode();
         this.realm = new _realm_Realm__WEBPACK_IMPORTED_MODULE_1__["default"]();
