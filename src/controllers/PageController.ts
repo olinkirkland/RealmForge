@@ -6,22 +6,16 @@ export default class PageController {
   protected realm!: Realm;
 
   constructor() {
-
     this.handleSeed();
     this.handleDarkMode();
+
+    // Realm generates itself
     this.realm = new Realm();
 
-    // Fade in sections once the realm has been initialized
     this.fadeInSections();
   }
 
   handleSeed() {
-    // Does the url contain a seed (query)?
-    // www.google.com?foo
-    //    -> foo
-    // www.google.com?bar#
-    //    -> bar
-
     const url: string = window.location.href;
     const arr: RegExpMatchArray | null = url.match(/\?([a-z0-9,-]+)/);
     if (arr && arr.length > 1) {

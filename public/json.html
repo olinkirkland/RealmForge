@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Fontawesome Kit -->
+    <script
+      src="https://kit.fontawesome.com/ad4ec38046.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lobster+Two&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inconsolata&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <link rel="stylesheet" href="assets/css/queries.css" />
+
+    <!-- Favicon -->
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="assets/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="assets/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="assets/favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="assets/favicon/site.webmanifest" />
+
+    <title>Realm Writer | Generate Detailed Realms</title>
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="container">
+      <div class="header-text">
+        <span>Realm Writer</span>
+        <i class="fas fa-feather-alt"></i>
+        <span class="author">by Olin Kirkland</span>
+      </div>
+      <a id="btnToggleDarkMode" class="btn btn--icon"
+        ><i class="fas fa-moon"></i
+      ></a>
+    </header>
+
+    <!-- JSON VIEWER -->
+    <div class="container container--json hidden">
+      <div class="inner-json">
+        <h2>Realm Writer <span class="muted">| JSON</span></h2>
+        <p class="subtitle">
+          <span class="name muted"></span>
+        </p>
+        <div class="control-buttons">
+          <a id="btnToRealm" class="btn btn--outline btn--full">
+            <i class="fas fa-feather-alt"></i>
+            <span>Realm</span>
+          </a>
+          <a id="btnCopyJson" class="btn btn--outline btn--full">
+            <i class="fa-solid fa-copy"></i>
+            <span>Copy</span>
+          </a>
+          <a id="btnDownloadJson" class="btn btn--outline btn--full">
+            <i class="fa-solid fa-download"></i>
+            <span>Download</span>
+          </a>
+        </div>
+        <p id="labelJson" class="hover-label">&nbsp;</p>
+      </div>
+
+      <div class="json-border-and-content">
+        <div class="json-border"></div>
+        <div class="json-content"></div>
+      </div>
+    </div>
+
+    <footer class="container">
+      <ul>
+        <li class="muted"><span>Copyright &copy; 2022</span></li>
+        <li>
+          <a
+            href="https://olinkirk.land"
+            target="_blank"
+            class="btn btn--text muted"
+            >Olin Kirkland</a
+          >
+        </li>
+
+        <li>
+          <a
+            href="https://github.com/olinkirkland/realm-writer"
+            target="_blank"
+            class="btn btn--text muted"
+          >
+            Open Source
+          </a>
+        </li>
+
+        <li>
+          <a href="https://www.typescriptlang.org/" target="_blank">
+            <img
+              class="icon-footer"
+              src="./assets/images/icons/typescript.svg"
+              alt=""
+          /></a>
+        </li>
+      </ul>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="bundle.js"></script>
+  </body>
+</html>

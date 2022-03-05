@@ -6,17 +6,23 @@ import HomePageController from './controllers/HomePageController';
 import JSONPageController from './controllers/JSONPageController';
 import PageController from './controllers/PageController';
 
-// Is it json?
+// Determine the html file name
 const arr: RegExpMatchArray | null = window.location.href.match(
-  /\?[a-z0-9,-]+.*\&(json)/
+  /(?<=.*)(\w+)\.html(?=.*)/
 );
 
-let controller: PageController;
+const file = arr && arr.length > 1 ? arr[1] : '';
 
-if (arr && arr.length > 1) {
-  // Show JSON
-  controller = new JSONPageController();
-} else {
-  // Show Home
-  controller = new HomePageController();
+let controller: PageController;
+switch (file) {
+  case 'realm':
+    controller = new HomePageController();
+    break;
+  case 'json':
+    controller = new JSONPageController();
+    break;
+  default:
+    // Error!
+    console.log('Error!');
+    break;
 }

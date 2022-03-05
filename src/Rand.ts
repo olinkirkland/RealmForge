@@ -1,3 +1,4 @@
+import * as words from './seed-words.json';
 export default class Rand {
   public static seed: string;
 
@@ -6,16 +7,14 @@ export default class Rand {
   private static mask: number = 4294967295;
 
   public static generateSeed() {
-    // let arr: string[] = [];
-    // for (let i = 0; i < 3; i++) {
-    //   // Don't use a seeded value to generate the seed
-    //   arr.push(Data.words[Math.floor(Math.random() * Data.words.length)]);
-    // }
-    // Rand.seed = arr.join('-');
-    // Rand.seedRandomNumberGenerator();
-  }
+    let arr: string[] = [];
+    for (let i = 0; i < 3; i++) {
+      // Don't use a seeded value to generate the seed
+      arr.push(words[Math.floor(Math.random() * words.length)]);
+    }
+    Rand.seed = arr.join('-');
 
-  public static seedRandomNumberGenerator() {
+    // Initialize seed
     let h = 1779033703 ^ Rand.seed.length;
 
     for (var i = 0; i < Rand.seed.length; i++) {

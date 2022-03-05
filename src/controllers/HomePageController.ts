@@ -12,13 +12,23 @@ export default class HomePageController extends PageController {
     this.handleCopyLinkButton();
     this.handleTweetButton();
     this.handleJSONButton();
+    this.renderSections();
   }
+
+  renderSections() {}
 
   handleNewRealmButton() {
     const btnStart: HTMLButtonElement = document.getElementById(
       'btnStart'
     )! as HTMLButtonElement;
-    btnStart.addEventListener('click', () => {});
+    btnStart.addEventListener('click', () => {
+      // This will refresh the page
+      Rand.generateSeed();
+      console.log(Rand.seed);
+      let url: string = window.location.href;
+      url = url.substring(0, url.indexOf('?'));
+      if (window.location.href) window.location.replace(url + '?' + Rand.seed);
+    });
   }
 
   handleCopyLinkButton() {
@@ -70,7 +80,11 @@ export default class HomePageController extends PageController {
       'btnJson'
     )! as HTMLButtonElement;
     btnJson.addEventListener('click', () => {
-      window.open(window.location.href + '&json', '_self');
+      const url: string = window.location.href.replace(
+        /(?<=.*)realm.html(?=.*)/,
+        'json.html'
+      );
+      window.open(url, '_self');
     });
 
     btnJson.addEventListener('mouseover', () => {
