@@ -1,12 +1,4 @@
 function updateView() {
-  // Choose a photo for the hero
-  const heroEl: HTMLDivElement = document.getElementById(
-    'hero'
-  )! as HTMLDivElement;
-  heroEl.setAttribute(
-    'style',
-    `background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${determineHeroImageUrl()})`
-  );
 
   // Blurbs
   applyBiomesBlurb();
@@ -72,22 +64,6 @@ function updateView() {
 
   // Utility
   replaceNumbers();
-}
-
-function determineHeroImageUrl(): string {
-  // Todo use realm information to determine the image
-  const validImages: string[] = Data.heroImages
-    .filter((u) => {
-      return u.tags.some((tag) => realm.tags.includes(tag));
-    })
-    .map((j) => {
-      return j.url;
-    });
-
-  // console.log(validImages);
-
-  const image: string = Util.randomValue(validImages);
-  return image;
 }
 
 function applyText(query: string, text: string, app: string = '') {

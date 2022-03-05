@@ -7,15 +7,30 @@ export default class HomePageController extends PageController {
   constructor() {
     super();
 
+    // UI & Controls
     this.handleFavorites();
     this.handleNewRealmButton();
     this.handleCopyLinkButton();
     this.handleTweetButton();
     this.handleJSONButton();
-    this.renderSections();
+
+    // Apply Content
+    this.applyHeroImage();
+    this.writeSections();
   }
 
-  renderSections() {}
+  applyHeroImage() {
+    // Choose a photo for the hero
+    const heroEl: HTMLDivElement = document.getElementById(
+      'hero'
+    )! as HTMLDivElement;
+    heroEl.setAttribute(
+      'style',
+      `background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${this.realm.heroImageUrl})`
+    );
+  }
+
+  writeSections() {}
 
   handleNewRealmButton() {
     const btnStart: HTMLButtonElement = document.getElementById(

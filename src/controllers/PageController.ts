@@ -6,11 +6,14 @@ export default class PageController {
   protected realm!: Realm;
 
   constructor() {
-    this.handleSeed();
     this.handleDarkMode();
+    this.handleSeed();
 
     // Realm generates itself
     this.realm = new Realm();
+
+    console.log(Rand.seed);
+    console.log(this.realm);
 
     this.fadeInSections();
   }

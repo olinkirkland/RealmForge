@@ -1,10 +1,10 @@
 import * as words from './seed-words.json';
 export default class Rand {
-  public static seed: string;
-
   private static m_w: number = 123456789;
   private static m_z: number = 987654321;
   private static mask: number = 4294967295;
+
+  private static _seed: string;
 
   public static generateSeed() {
     let arr: string[] = [];
@@ -12,9 +12,16 @@ export default class Rand {
       // Don't use a seeded value to generate the seed
       arr.push(words[Math.floor(Math.random() * words.length)]);
     }
-    Rand.seed = arr.join('-');
 
-    // Initialize seed
+    Rand.seed = arr.join('-');
+  }
+
+  public static get seed() {
+    return this._seed;
+  }
+
+  public static set seed(value: string) {
+    this._seed = value;
     let h = 1779033703 ^ Rand.seed.length;
 
     for (var i = 0; i < Rand.seed.length; i++) {
@@ -27,7 +34,7 @@ export default class Rand {
   }
 
   public static next() {
-    return this.between(0, 1);
+    return Rand.between(0, 1);
   }
 
   public static between(

@@ -23,7 +23,12 @@ class Rand {
             arr.push(/*#__PURE__*/ (_seed_words_json__WEBPACK_IMPORTED_MODULE_0___namespace_cache || (_seed_words_json__WEBPACK_IMPORTED_MODULE_0___namespace_cache = __webpack_require__.t(_seed_words_json__WEBPACK_IMPORTED_MODULE_0__, 2)))[Math.floor(Math.random() * _seed_words_json__WEBPACK_IMPORTED_MODULE_0__.length)]);
         }
         Rand.seed = arr.join('-');
-        // Initialize seed
+    }
+    static get seed() {
+        return this._seed;
+    }
+    static set seed(value) {
+        this._seed = value;
         let h = 1779033703 ^ Rand.seed.length;
         for (var i = 0; i < Rand.seed.length; i++) {
             h = Math.imul(h ^ Rand.seed.charCodeAt(i), 3432918353);
@@ -33,7 +38,7 @@ class Rand {
         Rand.m_z = (987654321 - h) & Rand.mask;
     }
     static next() {
-        return this.between(0, 1);
+        return Rand.between(0, 1);
     }
     static between(min, max, floor = false) {
         Rand.m_z = (36969 * (Rand.m_z & 65535) + (Rand.m_z >> 16)) & Rand.mask;
@@ -243,14 +248,22 @@ __webpack_require__.r(__webpack_exports__);
 class HomePageController extends _PageController__WEBPACK_IMPORTED_MODULE_3__["default"] {
     constructor() {
         super();
+        // UI & Controls
         this.handleFavorites();
         this.handleNewRealmButton();
         this.handleCopyLinkButton();
         this.handleTweetButton();
         this.handleJSONButton();
-        this.renderSections();
+        // Apply Content
+        this.applyHeroImage();
+        this.writeSections();
     }
-    renderSections() { }
+    applyHeroImage() {
+        // Choose a photo for the hero
+        const heroEl = document.getElementById('hero');
+        heroEl.setAttribute('style', `background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${this.realm.heroImageUrl})`);
+    }
+    writeSections() { }
     handleNewRealmButton() {
         const btnStart = document.getElementById('btnStart');
         btnStart.addEventListener('click', () => {
@@ -515,10 +528,12 @@ __webpack_require__.r(__webpack_exports__);
 
 class PageController {
     constructor() {
-        this.handleSeed();
         this.handleDarkMode();
+        this.handleSeed();
         // Realm generates itself
         this.realm = new _realm_Realm__WEBPACK_IMPORTED_MODULE_1__["default"]();
+        console.log(_Rand__WEBPACK_IMPORTED_MODULE_0__["default"].seed);
+        console.log(this.realm);
         this.fadeInSections();
     }
     handleSeed() {
@@ -1219,6 +1234,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_general_HeraldryModule__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../modules/general/HeraldryModule */ "./src/modules/general/HeraldryModule.ts");
 /* harmony import */ var _modules_general_GovernmentModule__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../modules/general/GovernmentModule */ "./src/modules/general/GovernmentModule.ts");
 /* harmony import */ var _modules_general_RealmNameModule__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../modules/general/RealmNameModule */ "./src/modules/general/RealmNameModule.ts");
+/* harmony import */ var _hero_images_json__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./hero-images.json */ "./src/realm/hero-images.json");
+/* harmony import */ var _Rand__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../Rand */ "./src/Rand.ts");
+
+
 
 
 
@@ -1235,6 +1254,7 @@ class Realm {
         this.runModules();
     }
     runModules() {
+        console.log(_Rand__WEBPACK_IMPORTED_MODULE_10__["default"].next());
         this.size = new _modules_geography_SizeModule__WEBPACK_IMPORTED_MODULE_0__["default"](this);
         this.location = new _modules_general_LocationModule__WEBPACK_IMPORTED_MODULE_1__["default"](this);
         this.parentEntity = new _modules_geography_ParentEntityModule__WEBPACK_IMPORTED_MODULE_2__["default"](this);
@@ -1244,6 +1264,13 @@ class Realm {
         this.heraldry = new _modules_general_HeraldryModule__WEBPACK_IMPORTED_MODULE_6__["default"](this);
         this.government = new _modules_general_GovernmentModule__WEBPACK_IMPORTED_MODULE_7__["default"](this);
         this.realmName = new _modules_general_RealmNameModule__WEBPACK_IMPORTED_MODULE_8__["default"](this);
+        this.heroImageUrl = this.pickHeroImage();
+    }
+    pickHeroImage() {
+        const validImages = _hero_images_json__WEBPACK_IMPORTED_MODULE_9__.filter((u) => {
+            return this.evaluateCondition(u.condition);
+        });
+        return 'assets/images/hero/' + _Rand__WEBPACK_IMPORTED_MODULE_10__["default"].pick(validImages).url;
     }
     addTag(tag) {
         this._tags.push(tag);
@@ -1357,6 +1384,16 @@ module.exports = JSON.parse('{"tributaryPrefixes":[{"text":"heller","condition":
 /***/ ((module) => {
 
 module.exports = JSON.parse('{"summer":{"warm":["hot","blistering","stifling","long","sweltering"],"cold":["cool","mild"],"wet":["humid"],"dry":["arid"],"temperate":["pleasant","agreeable","balmy"]},"winter":{"warm":["mild","short"],"cold":["harsh","cold","brisk","biting","chilly","freezing","icy"],"wet":["snowy","damp"],"dry":["crisp","cloudless"],"temperate":["mild","pleasant"]}}');
+
+/***/ }),
+
+/***/ "./src/realm/hero-images.json":
+/*!************************************!*\
+  !*** ./src/realm/hero-images.json ***!
+  \************************************/
+/***/ ((module) => {
+
+module.exports = JSON.parse('[{"url":"boreal-forest-1.png","condition":"t.borealForest"},{"url":"boreal-forest-2.png","condition":"t.borealForest"},{"url":"temperate-forest-1.png","condition":"t.temperateForest"},{"url":"city-1.png","condition":""},{"url":"city-2.png","condition":""},{"url":"city-3.png","condition":""},{"url":"city-cold.png","condition":"t.cold"},{"url":"grassland-1.png","condition":"t.grassland"},{"url":"grassland-2.jpg","condition":"t.grassland"},{"url":"mountains-1.png","condition":"t.mountains"},{"url":"mountains-2.png","condition":"t.mountains"},{"url":"river-mountains.png","condition":"t.mountains"}]');
 
 /***/ }),
 
