@@ -1,16 +1,97 @@
 import Rand from '../Rand';
 import Language from '../toponymy/Language';
+import Util from '../Util';
 import PageController from './PageController';
 
 export default class HomePageController extends PageController {
   constructor() {
     super();
 
-    this.handleControls();
     this.handleFavorites();
+    this.handleNewRealmButton();
+    this.handleCopyLinkButton();
+    this.handleTweetButton();
+    this.handleJSONButton();
   }
 
-  handleControls() {}
+  handleNewRealmButton() {
+    const btnStart: HTMLButtonElement = document.getElementById(
+      'btnStart'
+    )! as HTMLButtonElement;
+    btnStart.addEventListener('click', () => {});
+  }
+
+  handleCopyLinkButton() {
+    const btnCopyLink: HTMLButtonElement = document.getElementById(
+      'btnCopyLink'
+    )! as HTMLButtonElement;
+    btnCopyLink.addEventListener('click', () => {
+      navigator.clipboard.writeText(window.location.href);
+
+      // Play copied animation
+      btnCopyLink.innerHTML = `<i class="fa-solid fa-check" style="color: #17b664"></i>Copied!`;
+      btnCopyLink.setAttribute('disabled', 'true');
+      document.getElementById('labelShare')!.style.opacity = '0';
+
+      setTimeout(() => {
+        // Play copied animation
+        btnCopyLink.innerHTML = `<i class="fa-solid fa-copy"></i>Copy Link`;
+        btnCopyLink.removeAttribute('disabled');
+      }, 2000);
+    });
+    btnCopyLink.addEventListener('mouseover', () => {
+      if (btnCopyLink.hasAttribute('disabled')) return;
+      document.getElementById('labelShare')!.innerHTML = window.location.href;
+      document.getElementById('labelShare')!.style.top = '0';
+      document.getElementById('labelShare')!.style.opacity = '1';
+    });
+    btnCopyLink.addEventListener('mouseout', this.fadeOutShareLabel);
+  }
+
+  handleTweetButton() {
+    const btnShareTwitter: HTMLButtonElement = document.getElementById(
+      'btnShareTwitter'
+    )! as HTMLButtonElement;
+    btnShareTwitter.addEventListener('click', () => {
+      Util.shareByTweet(this.realm);
+    });
+    btnShareTwitter.addEventListener('mouseover', () => {
+      if (btnShareTwitter.hasAttribute('disabled')) return;
+      document.getElementById('labelShare')!.innerHTML =
+        'Share this Realm on Twitter';
+      document.getElementById('labelShare')!.style.top = '0';
+      document.getElementById('labelShare')!.style.opacity = '1';
+    });
+    btnShareTwitter.addEventListener('mouseout', this.fadeOutShareLabel);
+  }
+
+  handleJSONButton() {
+    const btnJson: HTMLButtonElement = document.getElementById(
+      'btnJson'
+    )! as HTMLButtonElement;
+    btnJson.addEventListener('click', () => {
+      window.open(window.location.href + '&json', '_self');
+    });
+
+    btnJson.addEventListener('mouseover', () => {
+      if (btnJson.hasAttribute('disabled')) return;
+      document.getElementById('labelShare')!.innerHTML =
+        "View this Realm's JSON data";
+      document.getElementById('labelShare')!.style.top = '0';
+      document.getElementById('labelShare')!.style.opacity = '1';
+    });
+    btnJson.addEventListener('mouseout', this.fadeOutShareLabel);
+  }
+
+  fadeInShareLabel() {
+    document.getElementById('labelShare')!.style.top = '0';
+    document.getElementById('labelShare')!.style.opacity = '1';
+  }
+
+  fadeOutShareLabel() {
+    document.getElementById('labelShare')!.style.top = '0.4rem';
+    document.getElementById('labelShare')!.style.opacity = '0';
+  }
 
   handleFavorites() {
     // Get favorites from local storage

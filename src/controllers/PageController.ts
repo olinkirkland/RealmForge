@@ -5,8 +5,7 @@ import Util from '../Util';
 export default class PageController {
   protected realm!: Realm;
 
-  constructor(realm: Realm) {
-    this.realm = realm;
+  constructor() {
 
     this.handleSeed();
     this.handleDarkMode();
