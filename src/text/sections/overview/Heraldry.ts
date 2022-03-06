@@ -18,14 +18,8 @@ export default class Heraldry extends Section {
     // Content
     const textEl: HTMLElement = document.createElement('p');
 
-    // "The sigil of Nordland is a cross, which symbolizes piety."
-    textEl.innerHTML = `<i class="fas fa-cross inline-icon"></i>`;
 
-    textEl.innerHTML += `The sigil of ${Lang.capitalize(
-      Lang.readWord(this.realm.realmName.name)
-    )} is a ${this.realm.heraldry.sigil.name}, which symbolizes ${
-      this.realm.heraldry.sigil.meaning
-    }.`;
+    textEl.innerHTML += ``;
 
     el.append(textEl);
     return el;

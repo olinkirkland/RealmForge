@@ -1261,11 +1261,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Heraldry)
 /* harmony export */ });
-/* harmony import */ var _util_Lang__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../util/Lang */ "./src/util/Lang.ts");
-/* harmony import */ var _Section__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Section */ "./src/text/sections/Section.ts");
+/* harmony import */ var _Section__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Section */ "./src/text/sections/Section.ts");
 
-
-class Heraldry extends _Section__WEBPACK_IMPORTED_MODULE_1__["default"] {
+class Heraldry extends _Section__WEBPACK_IMPORTED_MODULE_0__["default"] {
     constructor(realm, name) {
         super(realm, name);
     }
@@ -1277,9 +1275,7 @@ class Heraldry extends _Section__WEBPACK_IMPORTED_MODULE_1__["default"] {
         el.appendChild(titleEl);
         // Content
         const textEl = document.createElement('p');
-        // "The sigil of Nordland is a cross, which symbolizes piety."
-        textEl.innerHTML = `<i class="fas fa-cross inline-icon"></i>`;
-        textEl.innerHTML += `The sigil of ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(this.realm.realmName.name))} is a ${this.realm.heraldry.sigil.name}, which symbolizes ${this.realm.heraldry.sigil.meaning}.`;
+        textEl.innerHTML += ``;
         el.append(textEl);
         return el;
     }
@@ -1314,8 +1310,9 @@ class Sigil extends _Section__WEBPACK_IMPORTED_MODULE_1__["default"] {
         el.appendChild(titleEl);
         // Content
         const textEl = document.createElement('p');
+        // Set the sigil (font-awesome)
+        textEl.innerHTML = `<i class="fas fa-xs fa-${this.realm.heraldry.sigil.icon} inline-icon"></i>`;
         // "The sigil of Nordland is a cross, which symbolizes piety."
-        textEl.innerHTML = `<i class="fas fa-cross inline-icon"></i>`;
         textEl.innerHTML += `The sigil of ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(this.realm.realmName.name))} is a ${this.realm.heraldry.sigil.name}, which symbolizes ${this.realm.heraldry.sigil.meaning}.`;
         el.append(textEl);
         return el;
