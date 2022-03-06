@@ -1,4 +1,5 @@
 import Realm from '../realm/Realm';
+import Util from '../Util';
 
 export default class Section {
   protected realm: Realm;
@@ -11,9 +12,16 @@ export default class Section {
 
   public render(): HTMLElement {
     const el: HTMLElement = document.createElement('li');
+
+    // Title
     const titleEl: HTMLElement = document.createElement('h3');
     titleEl.textContent = this.name;
     el.appendChild(titleEl);
+
+    // Placeholder content
+    const textEl: HTMLElement = document.createElement('p');
+    textEl.textContent = Util.lorem();
+    el.append(textEl);
 
     return el;
   }

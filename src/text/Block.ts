@@ -9,23 +9,26 @@ export default class Block {
   constructor(realm: Realm, name: string, sectionNames: string[]) {
     this.realm = realm;
     this.name = name;
-    this.sections = [];
-    sectionNames.forEach((sectionName) => this.getSection(sectionName));
+    this.sections = sectionNames.map((sectionName) =>
+      this.createSection(sectionName)
+    );
   }
 
-  protected getSection(sectionName: string): Section {
+  protected createSection(sectionName: string): Section {
     return new Section(this.realm, sectionName);
   }
 
   public render(): HTMLElement {
     const el: HTMLElement = document.createElement('article');
+
+    // Title
     const titleEl: HTMLElement = document.createElement('h2');
     titleEl.textContent = this.name;
     el.appendChild(titleEl);
 
+    // Sections
     const sectionListEl: HTMLElement = document.createElement('ul');
     el.appendChild(sectionListEl);
-
     this.sections.forEach((section) => {
       sectionListEl.appendChild(section.render());
     });

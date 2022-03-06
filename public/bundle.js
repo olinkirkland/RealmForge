@@ -88,12 +88,17 @@ Rand.mask = 4294967295;
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 var _number_words_json__WEBPACK_IMPORTED_MODULE_1___namespace_cache;
+var _lorem_words_json__WEBPACK_IMPORTED_MODULE_2___namespace_cache;
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Util)
 /* harmony export */ });
 /* harmony import */ var _toponymy_Language__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./toponymy/Language */ "./src/toponymy/Language.ts");
 /* harmony import */ var _number_words_json__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./number-words.json */ "./src/number-words.json");
+/* harmony import */ var _lorem_words_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./lorem-words.json */ "./src/lorem-words.json");
+/* harmony import */ var _Rand__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Rand */ "./src/Rand.ts");
+
+
 
 
 class Util {
@@ -201,6 +206,19 @@ class Util {
     // Returns any number lower than 20 as a word ('one', 'two', ... 'nineteen')
     static wordFromNumber(n) {
         return n < _number_words_json__WEBPACK_IMPORTED_MODULE_1__.length ? /*#__PURE__*/ (_number_words_json__WEBPACK_IMPORTED_MODULE_1___namespace_cache || (_number_words_json__WEBPACK_IMPORTED_MODULE_1___namespace_cache = __webpack_require__.t(_number_words_json__WEBPACK_IMPORTED_MODULE_1__, 2)))[n] : n.toString();
+    }
+    // Quick and dirty placeholder text
+    static lorem() {
+        let str = '';
+        for (let i = 1; i < 3; i++) {
+            const words = _Rand__WEBPACK_IMPORTED_MODULE_3__["default"].between(3, 10);
+            let arr = [];
+            for (let j = 0; j < words; j++) {
+                arr.push(_Rand__WEBPACK_IMPORTED_MODULE_3__["default"].pick(/*#__PURE__*/ (_lorem_words_json__WEBPACK_IMPORTED_MODULE_2___namespace_cache || (_lorem_words_json__WEBPACK_IMPORTED_MODULE_2___namespace_cache = __webpack_require__.t(_lorem_words_json__WEBPACK_IMPORTED_MODULE_2__, 2)))));
+            }
+            str += [Util.capitalize(_Rand__WEBPACK_IMPORTED_MODULE_3__["default"].pick(/*#__PURE__*/ (_lorem_words_json__WEBPACK_IMPORTED_MODULE_2___namespace_cache || (_lorem_words_json__WEBPACK_IMPORTED_MODULE_2___namespace_cache = __webpack_require__.t(_lorem_words_json__WEBPACK_IMPORTED_MODULE_2__, 2))))), ...arr].join(' ') + '. ';
+        }
+        return str;
     }
 }
 Util.isDarkMode = false;
@@ -1308,17 +1326,18 @@ class Block {
     constructor(realm, name, sectionNames) {
         this.realm = realm;
         this.name = name;
-        this.sections = [];
-        sectionNames.forEach((sectionName) => this.getSection(sectionName));
+        this.sections = sectionNames.map((sectionName) => this.createSection(sectionName));
     }
-    getSection(sectionName) {
+    createSection(sectionName) {
         return new _Section__WEBPACK_IMPORTED_MODULE_0__["default"](this.realm, sectionName);
     }
     render() {
         const el = document.createElement('article');
+        // Title
         const titleEl = document.createElement('h2');
         titleEl.textContent = this.name;
         el.appendChild(titleEl);
+        // Sections
         const sectionListEl = document.createElement('ul');
         el.appendChild(sectionListEl);
         this.sections.forEach((section) => {
@@ -1341,6 +1360,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Section)
 /* harmony export */ });
+/* harmony import */ var _Util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Util */ "./src/Util.ts");
+
 class Section {
     constructor(realm, name) {
         this.realm = realm;
@@ -1348,9 +1369,14 @@ class Section {
     }
     render() {
         const el = document.createElement('li');
+        // Title
         const titleEl = document.createElement('h3');
         titleEl.textContent = this.name;
         el.appendChild(titleEl);
+        // Placeholder content
+        const textEl = document.createElement('p');
+        textEl.textContent = _Util__WEBPACK_IMPORTED_MODULE_0__["default"].lorem();
+        el.append(textEl);
         return el;
     }
 }
@@ -1374,6 +1400,16 @@ class Language {
     }
 }
 
+
+/***/ }),
+
+/***/ "./src/lorem-words.json":
+/*!******************************!*\
+  !*** ./src/lorem-words.json ***!
+  \******************************/
+/***/ ((module) => {
+
+module.exports = JSON.parse('["lorem","ipsum","dolor","sit","amet","consectetur","adipiscing","elit","quisque","nisl","eros","pulvinar","facilisis","justo","mollis","auctor","consequat","urna","morbi","a","bibendum","metus","donec","scelerisque","sollicitudin","enim","eu","venenatis","duis","tincidunt","laoreet","ex","in","pretium","orci","vestibulum","eget","class","aptent","taciti","sociosqu","ad","litora","torquent","per","conubia","nostra","per","inceptos","himenaeos","duis","pharetra","luctus","lacus","ut","vestibulum","maecenas","ipsum","lacus","lacinia","quis","posuere","ut","pulvinar","vitae","dolor","integer","eu","nibh","at","nisi","ullamcorper","sagittis","id","vel","leo","integer","feugiat","faucibus","libero","at","maximus","nisl","suscipit","posuere","morbi","nec","enim","nunc","phasellus","bibendum","turpis","ut","ipsum","egestas","sed","sollicitudin","elit","convallis","cras","pharetra","mi","tristique","sapien","vestibulum","lobortis","nam","eget","bibendum","metus","non","dictum","mauris","nulla","at","tellus","sagittis","viverra","est","a","bibendum","metus"]');
 
 /***/ }),
 

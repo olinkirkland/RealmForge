@@ -1,6 +1,8 @@
 import Realm from './realm/Realm';
 import Lang from './toponymy/Language';
 import * as numberWords from './number-words.json';
+import * as loremWords from './lorem-words.json';
+import Rand from './Rand';
 
 export default class Util {
   public static isDarkMode: boolean = false;
@@ -139,5 +141,20 @@ export default class Util {
   // Returns any number lower than 20 as a word ('one', 'two', ... 'nineteen')
   static wordFromNumber(n: number): string {
     return n < numberWords.length ? numberWords[n] : n.toString();
+  }
+
+  // Quick and dirty placeholder text
+  static lorem() {
+    let str: string = '';
+    for (let i: number = 1; i < 3; i++) {
+      const words: number = Rand.between(3, 10);
+      let arr: string[] = [];
+      for (let j: number = 0; j < words; j++) {
+        arr.push(Rand.pick(loremWords));
+      }
+      str += [Util.capitalize(Rand.pick(loremWords)), ...arr].join(' ') + '. ';
+    }
+
+    return str;
   }
 }
