@@ -185,3 +185,11 @@ article li i {
 .under-construction {
   opacity: 0.2;
 }
+
+.inline-icon {
+  margin: 0 0.6rem;
+}
+
+.inline-icon:first-child {
+  margin-left: 0;
+}

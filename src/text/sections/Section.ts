@@ -12,6 +12,7 @@ export default class Section {
 
   public render(): HTMLElement {
     const el: HTMLElement = document.createElement('li');
+    el.classList.add('muted');
 
     // Title
     const titleEl: HTMLElement = document.createElement('h3');

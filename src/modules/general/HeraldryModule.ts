@@ -1,15 +1,14 @@
-import Module from '../Module';
 import Realm from '../../realm/Realm';
-import { sigils } from './sigils.json';
-import {
-  ordinaries,
-  layouts,
-  charges,
-  metalTinctures,
-  colorTinctures
-} from './heraldry.json';
 import Rand from '../../util/Rand';
-import Util from '../../util/Util';
+import Module from '../Module';
+import {
+  charges,
+  colorTinctures,
+  layouts,
+  metalTinctures,
+  ordinaries
+} from './heraldry.json';
+import { sigils } from './sigils.json';
 
 export type Sigil = {
   name: string;
@@ -60,8 +59,8 @@ export default class HeraldryModule extends Module {
 
   protected run() {
     // Sigil
-    let sigil: Sigil = Rand.pick(sigils);
-    sigil.meaning = Rand.pick(sigil.meaning as string[]);
+    this.sigil = Rand.pick(sigils);
+    this.sigil.meaning = Rand.pick(this.sigil.meaning as string[]);
 
     // Ordinary
     this.ordinary = Rand.weightedPick(ordinaries, (item) => item.points);
@@ -113,10 +112,11 @@ export default class HeraldryModule extends Module {
     this.charge = Rand.weightedPick(charges, (item) => item.points);
 
     if (this.chargeLayout.count < 3) {
-      this.charge = { name: sigil.name, points: 0, url: sigil.icon };
+      this.charge = { name: this.sigil.name, points: 0, url: this.sigil.icon };
     }
 
     // Is it the sigil used on the heraldry? Add a tag if it is
-    if (this.charge!.name == sigil.name) this.realm.addTag('sigilAsCharge');
+    if (this.charge!.name == this.sigil.name)
+      this.realm.addTag('sigilAsCharge');
   }
 }

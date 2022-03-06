@@ -456,33 +456,33 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ HeraldryModule)
 /* harmony export */ });
-/* harmony import */ var _Module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Module */ "./src/modules/Module.ts");
-/* harmony import */ var _sigils_json__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./sigils.json */ "./src/modules/general/sigils.json");
+/* harmony import */ var _util_Rand__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../util/Rand */ "./src/util/Rand.ts");
+/* harmony import */ var _Module__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Module */ "./src/modules/Module.ts");
 /* harmony import */ var _heraldry_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./heraldry.json */ "./src/modules/general/heraldry.json");
-/* harmony import */ var _util_Rand__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/Rand */ "./src/util/Rand.ts");
+/* harmony import */ var _sigils_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./sigils.json */ "./src/modules/general/sigils.json");
 
 
 
 
-class HeraldryModule extends _Module__WEBPACK_IMPORTED_MODULE_0__["default"] {
+class HeraldryModule extends _Module__WEBPACK_IMPORTED_MODULE_1__["default"] {
     constructor(realm) {
         super(realm);
     }
     run() {
         // Sigil
-        let sigil = _util_Rand__WEBPACK_IMPORTED_MODULE_3__["default"].pick(_sigils_json__WEBPACK_IMPORTED_MODULE_1__.sigils);
-        sigil.meaning = _util_Rand__WEBPACK_IMPORTED_MODULE_3__["default"].pick(sigil.meaning);
+        this.sigil = _util_Rand__WEBPACK_IMPORTED_MODULE_0__["default"].pick(_sigils_json__WEBPACK_IMPORTED_MODULE_3__.sigils);
+        this.sigil.meaning = _util_Rand__WEBPACK_IMPORTED_MODULE_0__["default"].pick(this.sigil.meaning);
         // Ordinary
-        this.ordinary = _util_Rand__WEBPACK_IMPORTED_MODULE_3__["default"].weightedPick(_heraldry_json__WEBPACK_IMPORTED_MODULE_2__.ordinaries, (item) => item.points);
+        this.ordinary = _util_Rand__WEBPACK_IMPORTED_MODULE_0__["default"].weightedPick(_heraldry_json__WEBPACK_IMPORTED_MODULE_2__.ordinaries, (item) => item.points);
         // Choose exactly one metal tincture and one color tincture
-        let metal = _util_Rand__WEBPACK_IMPORTED_MODULE_3__["default"].weightedPick(_heraldry_json__WEBPACK_IMPORTED_MODULE_2__.metalTinctures, (item) => item.points);
-        let color = _util_Rand__WEBPACK_IMPORTED_MODULE_3__["default"].weightedPick(_heraldry_json__WEBPACK_IMPORTED_MODULE_2__.colorTinctures, (item) => item.points);
-        this.tinctures = [metal, color].sort((t) => (_util_Rand__WEBPACK_IMPORTED_MODULE_3__["default"].next() > 0.5 ? 1 : -1));
+        let metal = _util_Rand__WEBPACK_IMPORTED_MODULE_0__["default"].weightedPick(_heraldry_json__WEBPACK_IMPORTED_MODULE_2__.metalTinctures, (item) => item.points);
+        let color = _util_Rand__WEBPACK_IMPORTED_MODULE_0__["default"].weightedPick(_heraldry_json__WEBPACK_IMPORTED_MODULE_2__.colorTinctures, (item) => item.points);
+        this.tinctures = [metal, color].sort((t) => (_util_Rand__WEBPACK_IMPORTED_MODULE_0__["default"].next() > 0.5 ? 1 : -1));
         // Charge Layout
         const availableLayouts = _heraldry_json__WEBPACK_IMPORTED_MODULE_2__.layouts.filter((l) => this.ordinary.layouts.some((m) => m.name == l.name));
         this.chargeLayout =
             this.ordinary.layouts.length > 0
-                ? _util_Rand__WEBPACK_IMPORTED_MODULE_3__["default"].weightedPick(availableLayouts, (l) => l.points)
+                ? _util_Rand__WEBPACK_IMPORTED_MODULE_0__["default"].weightedPick(availableLayouts, (l) => l.points)
                 : null;
         if (!this.chargeLayout)
             return;
@@ -497,14 +497,14 @@ class HeraldryModule extends _Module__WEBPACK_IMPORTED_MODULE_0__["default"] {
                 availableTinctures = _heraldry_json__WEBPACK_IMPORTED_MODULE_2__.colorTinctures;
             }
         }
-        this.chargeTincture = _util_Rand__WEBPACK_IMPORTED_MODULE_3__["default"].pick(availableTinctures);
+        this.chargeTincture = _util_Rand__WEBPACK_IMPORTED_MODULE_0__["default"].pick(availableTinctures);
         // Pick a charge
-        this.charge = _util_Rand__WEBPACK_IMPORTED_MODULE_3__["default"].weightedPick(_heraldry_json__WEBPACK_IMPORTED_MODULE_2__.charges, (item) => item.points);
+        this.charge = _util_Rand__WEBPACK_IMPORTED_MODULE_0__["default"].weightedPick(_heraldry_json__WEBPACK_IMPORTED_MODULE_2__.charges, (item) => item.points);
         if (this.chargeLayout.count < 3) {
-            this.charge = { name: sigil.name, points: 0, url: sigil.icon };
+            this.charge = { name: this.sigil.name, points: 0, url: this.sigil.icon };
         }
         // Is it the sigil used on the heraldry? Add a tag if it is
-        if (this.charge.name == sigil.name)
+        if (this.charge.name == this.sigil.name)
             this.realm.addTag('sigilAsCharge');
     }
 }
@@ -1124,7 +1124,6 @@ class Block {
         return {};
     }
     createSection(sectionName) {
-        console.log(Object.keys(this.sectionMap), sectionName);
         return this.sectionMap[sectionName]
             ? new this.sectionMap[sectionName](this.realm, sectionName)
             : new _sections_Section__WEBPACK_IMPORTED_MODULE_1__["default"](this.realm, sectionName);
@@ -1158,16 +1157,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Overview)
 /* harmony export */ });
-/* harmony import */ var _sections_overview_Basics__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../sections/overview/Basics */ "./src/text/sections/overview/Basics.ts");
-/* harmony import */ var _Block__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Block */ "./src/text/blocks/Block.ts");
+/* harmony import */ var _util_Lang__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../util/Lang */ "./src/util/Lang.ts");
+/* harmony import */ var _sections_overview_Basics__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../sections/overview/Basics */ "./src/text/sections/overview/Basics.ts");
+/* harmony import */ var _sections_overview_Heraldry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../sections/overview/Heraldry */ "./src/text/sections/overview/Heraldry.ts");
+/* harmony import */ var _sections_overview_Sigil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../sections/overview/Sigil */ "./src/text/sections/overview/Sigil.ts");
+/* harmony import */ var _Block__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Block */ "./src/text/blocks/Block.ts");
 
 
-class Overview extends _Block__WEBPACK_IMPORTED_MODULE_1__["default"] {
+
+
+
+class Overview extends _Block__WEBPACK_IMPORTED_MODULE_4__["default"] {
     constructor(realm, name, sectionNames) {
         super(realm, name, sectionNames);
+        this.name = `An Overview of ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(this.realm.realmName.name))}`;
     }
     createSectionMap() {
-        return { basics: _sections_overview_Basics__WEBPACK_IMPORTED_MODULE_0__["default"] };
+        return { basics: _sections_overview_Basics__WEBPACK_IMPORTED_MODULE_1__["default"], sigil: _sections_overview_Sigil__WEBPACK_IMPORTED_MODULE_3__["default"], heraldry: _sections_overview_Heraldry__WEBPACK_IMPORTED_MODULE_2__["default"] };
     }
 }
 
@@ -1193,6 +1199,7 @@ class Section {
     }
     render() {
         const el = document.createElement('li');
+        el.classList.add('muted');
         // Title
         const titleEl = document.createElement('h3');
         titleEl.textContent = this.name;
@@ -1234,7 +1241,82 @@ class Basics extends _Section__WEBPACK_IMPORTED_MODULE_1__["default"] {
         el.appendChild(titleEl);
         // Content
         const textEl = document.createElement('p');
-        textEl.textContent = `${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(this.realm.realmName.name))} is ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].prependArticle(this.realm.parentEntity.adjective)} ${this.realm.government.rank}`;
+        // "Nordland is an imperial principality."
+        textEl.innerHTML = `${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(this.realm.realmName.name))} is ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].prependArticle(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(this.realm.parentEntity.adjective))} ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(this.realm.government.rank)}.`;
+        el.append(textEl);
+        return el;
+    }
+}
+
+
+/***/ }),
+
+/***/ "./src/text/sections/overview/Heraldry.ts":
+/*!************************************************!*\
+  !*** ./src/text/sections/overview/Heraldry.ts ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Heraldry)
+/* harmony export */ });
+/* harmony import */ var _util_Lang__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../util/Lang */ "./src/util/Lang.ts");
+/* harmony import */ var _Section__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Section */ "./src/text/sections/Section.ts");
+
+
+class Heraldry extends _Section__WEBPACK_IMPORTED_MODULE_1__["default"] {
+    constructor(realm, name) {
+        super(realm, name);
+    }
+    render() {
+        const el = document.createElement('li');
+        // Title
+        const titleEl = document.createElement('h3');
+        titleEl.textContent = this.name;
+        el.appendChild(titleEl);
+        // Content
+        const textEl = document.createElement('p');
+        // "The sigil of Nordland is a cross, which symbolizes piety."
+        textEl.innerHTML = `<i class="fas fa-cross inline-icon"></i>`;
+        textEl.innerHTML += `The sigil of ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(this.realm.realmName.name))} is a ${this.realm.heraldry.sigil.name}, which symbolizes ${this.realm.heraldry.sigil.meaning}.`;
+        el.append(textEl);
+        return el;
+    }
+}
+
+
+/***/ }),
+
+/***/ "./src/text/sections/overview/Sigil.ts":
+/*!*********************************************!*\
+  !*** ./src/text/sections/overview/Sigil.ts ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Sigil)
+/* harmony export */ });
+/* harmony import */ var _util_Lang__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../util/Lang */ "./src/util/Lang.ts");
+/* harmony import */ var _Section__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Section */ "./src/text/sections/Section.ts");
+
+
+class Sigil extends _Section__WEBPACK_IMPORTED_MODULE_1__["default"] {
+    constructor(realm, name) {
+        super(realm, name);
+    }
+    render() {
+        const el = document.createElement('li');
+        // Title
+        const titleEl = document.createElement('h3');
+        titleEl.textContent = this.name;
+        el.appendChild(titleEl);
+        // Content
+        const textEl = document.createElement('p');
+        // "The sigil of Nordland is a cross, which symbolizes piety."
+        textEl.innerHTML = `<i class="fas fa-cross inline-icon"></i>`;
+        textEl.innerHTML += `The sigil of ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(this.realm.realmName.name))} is a ${this.realm.heraldry.sigil.name}, which symbolizes ${this.realm.heraldry.sigil.meaning}.`;
         el.append(textEl);
         return el;
     }

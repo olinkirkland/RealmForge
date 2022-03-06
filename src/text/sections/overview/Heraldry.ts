@@ -2,7 +2,7 @@ import Realm from '../../../realm/Realm';
 import Lang from '../../../util/Lang';
 import Section from '../Section';
 
-export default class Basics extends Section {
+export default class Heraldry extends Section {
   constructor(realm: Realm, name: string) {
     super(realm, name);
   }
@@ -18,12 +18,14 @@ export default class Basics extends Section {
     // Content
     const textEl: HTMLElement = document.createElement('p');
 
-    // "Nordland is an imperial principality."
-    textEl.innerHTML = `${Lang.capitalize(
+    // "The sigil of Nordland is a cross, which symbolizes piety."
+    textEl.innerHTML = `<i class="fas fa-cross inline-icon"></i>`;
+
+    textEl.innerHTML += `The sigil of ${Lang.capitalize(
       Lang.readWord(this.realm.realmName.name)
-    )} is ${Lang.prependArticle(
-      Lang.capitalize(this.realm.parentEntity.adjective)
-    )} ${Lang.capitalize(this.realm.government.rank)}.`;
+    )} is a ${this.realm.heraldry.sigil.name}, which symbolizes ${
+      this.realm.heraldry.sigil.meaning
+    }.`;
 
     el.append(textEl);
     return el;

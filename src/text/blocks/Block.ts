@@ -23,7 +23,6 @@ export default class Block {
   }
 
   protected createSection(sectionName: string): Section {
-    console.log(Object.keys(this.sectionMap), sectionName);
     return this.sectionMap[sectionName]
       ? new this.sectionMap[sectionName](this.realm, sectionName)
       : new Section(this.realm, sectionName);
