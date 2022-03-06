@@ -1380,7 +1380,9 @@ class Lang {
     }
     // Capitalize first letter
     static capitalize(str) {
-        return str.charAt(0).toUpperCase() + str.substring(1);
+        const arr = str.split(' ');
+        str = arr.reduce((accumulator, s) => accumulator + ' ' + s.charAt(0).toUpperCase() + s.substring(1), '');
+        return str;
     }
     // Returns any number lower than 20 as a word ('one', 'two', ... 'nineteen')
     static wordFromNumber(n) {
