@@ -197,10 +197,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _text_blocks_Geography__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../text/blocks/Geography */ "./src/text/blocks/Geography.ts");
 /* harmony import */ var _text_blocks_Overview__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../text/blocks/Overview */ "./src/text/blocks/Overview.ts");
 /* harmony import */ var _text_layout_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../text/layout.json */ "./src/text/layout.json");
-/* harmony import */ var _util_Lang__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../util/Lang */ "./src/util/Lang.ts");
-/* harmony import */ var _util_Rand__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../util/Rand */ "./src/util/Rand.ts");
-/* harmony import */ var _util_Util__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../util/Util */ "./src/util/Util.ts");
-/* harmony import */ var _PageController__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./PageController */ "./src/controllers/PageController.ts");
+/* harmony import */ var _util_Rand__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../util/Rand */ "./src/util/Rand.ts");
+/* harmony import */ var _util_Util__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../util/Util */ "./src/util/Util.ts");
+/* harmony import */ var _PageController__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./PageController */ "./src/controllers/PageController.ts");
 
 
 
@@ -208,8 +207,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-class RealmPageController extends _PageController__WEBPACK_IMPORTED_MODULE_7__["default"] {
+class RealmPageController extends _PageController__WEBPACK_IMPORTED_MODULE_6__["default"] {
     constructor() {
         super();
         // UI & Controls
@@ -229,7 +227,7 @@ class RealmPageController extends _PageController__WEBPACK_IMPORTED_MODULE_7__["
         heroEl.setAttribute('style', `background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${this.realm.heroImageUrl})`);
         // Apply the hero text
         const heroTextEl = document.querySelector('#hero > h2');
-        heroTextEl.textContent = _util_Lang__WEBPACK_IMPORTED_MODULE_4__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_4__["default"].readWord(this.realm.realmName.name));
+        heroTextEl.textContent = this.realm.name;
     }
     write() {
         const blockMap = {
@@ -253,11 +251,11 @@ class RealmPageController extends _PageController__WEBPACK_IMPORTED_MODULE_7__["
         const btnStart = document.getElementById('btnStart');
         btnStart.addEventListener('click', () => {
             // This will refresh the page with a new seed
-            _util_Rand__WEBPACK_IMPORTED_MODULE_5__["default"].generateSeed();
+            _util_Rand__WEBPACK_IMPORTED_MODULE_4__["default"].generateSeed();
             let url = window.location.href;
             url = url.substring(0, url.indexOf('?'));
             if (window.location.href)
-                window.location.replace(url + '?' + _util_Rand__WEBPACK_IMPORTED_MODULE_5__["default"].seed);
+                window.location.replace(url + '?' + _util_Rand__WEBPACK_IMPORTED_MODULE_4__["default"].seed);
         });
     }
     handleCopyLinkButton() {
@@ -286,7 +284,7 @@ class RealmPageController extends _PageController__WEBPACK_IMPORTED_MODULE_7__["
     handleTweetButton() {
         const btnShareTwitter = document.getElementById('btnShareTwitter');
         btnShareTwitter.addEventListener('click', () => {
-            _util_Util__WEBPACK_IMPORTED_MODULE_6__["default"].shareByTweet(this.realm);
+            _util_Util__WEBPACK_IMPORTED_MODULE_5__["default"].shareByTweet(this.realm);
         });
         btnShareTwitter.addEventListener('mouseover', () => {
             if (btnShareTwitter.hasAttribute('disabled'))
@@ -341,8 +339,8 @@ class RealmPageController extends _PageController__WEBPACK_IMPORTED_MODULE_7__["
         const btnFavorite = document.getElementById('btnFavorite');
         btnFavorite.addEventListener('click', () => {
             const f = {
-                id: _util_Rand__WEBPACK_IMPORTED_MODULE_5__["default"].seed,
-                name: _util_Lang__WEBPACK_IMPORTED_MODULE_4__["default"].readWord(this.realm.realmName.name)
+                id: _util_Rand__WEBPACK_IMPORTED_MODULE_4__["default"].seed,
+                name: this.realm.name
             };
             if (!favorites.some((v) => f.id == v.id)) {
                 favorites.push(f);
@@ -360,7 +358,7 @@ class RealmPageController extends _PageController__WEBPACK_IMPORTED_MODULE_7__["
         function refreshFavorites() {
             btnFavoriteIcon.classList.remove('fa-solid', 'fa-regular', 'selected');
             // Is the current realm already favorited?
-            const isFavorite = favorites.some((f) => f.id == _util_Rand__WEBPACK_IMPORTED_MODULE_5__["default"].seed);
+            const isFavorite = favorites.some((f) => f.id == _util_Rand__WEBPACK_IMPORTED_MODULE_4__["default"].seed);
             btnFavoriteIcon.classList.add(isFavorite ? 'fa-solid' : 'fa-regular');
             btnFavoriteText.innerHTML = isFavorite
                 ? 'This is one of your favorites'
@@ -1202,29 +1200,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ OverviewBlock)
 /* harmony export */ });
-/* harmony import */ var _util_Lang__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../util/Lang */ "./src/util/Lang.ts");
-/* harmony import */ var _sections_overview_Basics__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../sections/overview/Basics */ "./src/text/sections/overview/Basics.ts");
-/* harmony import */ var _sections_overview_CoatOfArms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../sections/overview/CoatOfArms */ "./src/text/sections/overview/CoatOfArms.ts");
-/* harmony import */ var _sections_overview_Heraldry__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../sections/overview/Heraldry */ "./src/text/sections/overview/Heraldry.ts");
-/* harmony import */ var _sections_overview_Sigil__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../sections/overview/Sigil */ "./src/text/sections/overview/Sigil.ts");
-/* harmony import */ var _Block__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Block */ "./src/text/blocks/Block.ts");
+/* harmony import */ var _sections_overview_Basics__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../sections/overview/Basics */ "./src/text/sections/overview/Basics.ts");
+/* harmony import */ var _sections_overview_CoatOfArms__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../sections/overview/CoatOfArms */ "./src/text/sections/overview/CoatOfArms.ts");
+/* harmony import */ var _sections_overview_Heraldry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../sections/overview/Heraldry */ "./src/text/sections/overview/Heraldry.ts");
+/* harmony import */ var _sections_overview_Sigil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../sections/overview/Sigil */ "./src/text/sections/overview/Sigil.ts");
+/* harmony import */ var _Block__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Block */ "./src/text/blocks/Block.ts");
 
 
 
 
 
-
-class OverviewBlock extends _Block__WEBPACK_IMPORTED_MODULE_5__["default"] {
+class OverviewBlock extends _Block__WEBPACK_IMPORTED_MODULE_4__["default"] {
     constructor(realm, name, sectionNames) {
         super(realm, name, sectionNames);
-        this.name = `An Overview of ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(this.realm.realmName.name))}`;
+        this.name = `An Overview of ${this.realm.name}`;
     }
     createSectionMap() {
         return {
-            basics: _sections_overview_Basics__WEBPACK_IMPORTED_MODULE_1__["default"],
-            sigil: _sections_overview_Sigil__WEBPACK_IMPORTED_MODULE_4__["default"],
-            heraldry: _sections_overview_Heraldry__WEBPACK_IMPORTED_MODULE_3__["default"],
-            coatOfArms: _sections_overview_CoatOfArms__WEBPACK_IMPORTED_MODULE_2__["default"]
+            basics: _sections_overview_Basics__WEBPACK_IMPORTED_MODULE_0__["default"],
+            sigil: _sections_overview_Sigil__WEBPACK_IMPORTED_MODULE_3__["default"],
+            heraldry: _sections_overview_Heraldry__WEBPACK_IMPORTED_MODULE_2__["default"],
+            coatOfArms: _sections_overview_CoatOfArms__WEBPACK_IMPORTED_MODULE_1__["default"]
         };
     }
 }

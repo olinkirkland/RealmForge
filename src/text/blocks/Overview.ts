@@ -10,9 +10,7 @@ export default class OverviewBlock extends Block {
   constructor(realm: Realm, name: string, sectionNames: string[]) {
     super(realm, name, sectionNames);
 
-    this.name = `An Overview of ${Lang.capitalize(
-      Lang.readWord(this.realm.realmName.name)
-    )}`;
+    this.name = `An Overview of ${this.realm.name}`;
   }
 
   protected createSectionMap() {

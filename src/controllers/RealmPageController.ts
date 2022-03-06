@@ -37,9 +37,7 @@ export default class RealmPageController extends PageController {
 
     // Apply the hero text
     const heroTextEl: HTMLSpanElement = document.querySelector('#hero > h2')!;
-    heroTextEl.textContent = Lang.capitalize(
-      Lang.readWord(this.realm.realmName.name)
-    );
+    heroTextEl.textContent = this.realm.name;
   }
 
   write() {
@@ -182,7 +180,7 @@ export default class RealmPageController extends PageController {
     btnFavorite.addEventListener('click', () => {
       const f: { id: string; name: string } = {
         id: Rand.seed,
-        name: Lang.readWord(this.realm.realmName.name)
+        name: this.realm.name
       };
 
       if (!favorites.some((v) => f.id == v.id)) {
