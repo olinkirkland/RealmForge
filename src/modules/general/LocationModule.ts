@@ -28,12 +28,12 @@ export default class LocationModule extends Module {
     // Add direction tags south-west => south, west
     this.locationWithinParentEntity
       .split('-')
-      .forEach((l) => this._realm.addTag(l));
+      .forEach((l) => this.realm.addTag(l));
 
     // 40% chance to be coastal
     if (Rand.next() < 0.4) {
       this.directionToCoast = this.locationWithinParentEntity;
-      this._realm.addTag(BiomeType.COAST);
+      this.realm.addTag(BiomeType.COAST);
     }
   }
 

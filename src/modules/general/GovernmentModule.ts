@@ -18,11 +18,11 @@ export default class GovernmentModule extends Module {
     let government!: Government;
     do {
       government = Rand.pick(governments);
-    } while (!government.size.includes(this._realm.size.sizeIndex));
+    } while (!government.size.includes(this.realm.size.sizeIndex));
 
     this.rank = government.rank;
     this.ruler = government.ruler;
 
-    this._realm.tags.push(this.rank);
+    this.realm.tags.push(this.rank);
   }
 }

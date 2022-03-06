@@ -2,6 +2,8 @@ import Rand from '../Rand';
 import Language from '../toponymy/Language';
 import Util from '../Util';
 import PageController from './PageController';
+import * as layout from '../text/layout.json';
+import Block from '../text/Block';
 
 export default class HomePageController extends PageController {
   constructor() {
@@ -16,7 +18,7 @@ export default class HomePageController extends PageController {
 
     // Apply Content
     this.applyHeroImage();
-    this.writeSections();
+    this.write();
   }
 
   applyHeroImage() {
@@ -30,7 +32,18 @@ export default class HomePageController extends PageController {
     );
   }
 
-  writeSections() {}
+  write() {
+    // Apply each block
+    let blocks: Block[] = [];
+    layout.forEach((b) => {
+      blocks.push(new Block(this.realm, b.name, b.sections));
+    });
+
+    const el: HTMLElement = document.getElementById('content')!;
+    blocks.forEach((block) => {
+      el.appendChild(block.render());
+    });
+  }
 
   handleNewRealmButton() {
     const btnStart: HTMLButtonElement = document.getElementById(

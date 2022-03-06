@@ -1,10 +1,10 @@
 import Realm from '../realm/Realm';
 
 export default class Module {
-  protected _realm: Realm;
+  protected realm: Realm;
 
   constructor(realm: Realm) {
-    this._realm = realm;
+    this.realm = realm;
     this.run();
   }
 

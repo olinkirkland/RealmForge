@@ -31,12 +31,12 @@ export default class ClimateModule extends Module {
     // If location is in the north, 60% chance COLD
     // If location is in the south, 60% chance WARM
     if (
-      this._realm.location.locationWithinParentEntity.includes(Direction.NORTH)
+      this.realm.location.locationWithinParentEntity.includes(Direction.NORTH)
     ) {
       this.temperature =
         Rand.next() < 0.6 ? Temperature.COLD : Temperature.TEMPERATE;
     } else if (
-      this._realm.location.locationWithinParentEntity.includes(Direction.SOUTH)
+      this.realm.location.locationWithinParentEntity.includes(Direction.SOUTH)
     ) {
       this.temperature =
         Rand.next() < 0.6 ? Temperature.WARM : Temperature.TEMPERATE;
@@ -44,16 +44,16 @@ export default class ClimateModule extends Module {
       this.temperature = Temperature.TEMPERATE;
     }
 
-    this._realm.addTag(this.temperature);
+    this.realm.addTag(this.temperature);
 
     // Humidity
-    if (this._realm.tags.includes('coast')) {
+    if (this.realm.tags.includes('coast')) {
       this.humidity = Humidity.WET;
     } else {
       this.humidity = Rand.pick(Object.values(Humidity));
     }
 
-    this._realm.addTag(this.humidity);
+    this.realm.addTag(this.humidity);
 
     // Choose words to describe summer and winter
     this.summerAdjectives = this.chooseSeasonAdjectives(

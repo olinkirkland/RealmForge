@@ -87,11 +87,14 @@ Rand.mask = 4294967295;
   \*********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+var _number_words_json__WEBPACK_IMPORTED_MODULE_1___namespace_cache;
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Util)
 /* harmony export */ });
 /* harmony import */ var _toponymy_Language__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./toponymy/Language */ "./src/toponymy/Language.ts");
+/* harmony import */ var _number_words_json__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./number-words.json */ "./src/number-words.json");
+
 
 class Util {
     static download(name, text) {
@@ -197,29 +200,7 @@ class Util {
     }
     // Returns any number lower than 20 as a word ('one', 'two', ... 'nineteen')
     static wordFromNumber(n) {
-        const words = [
-            'zero',
-            'one',
-            'two',
-            'three',
-            'four',
-            'five',
-            'six',
-            'seven',
-            'eight',
-            'nine',
-            'ten',
-            'eleven',
-            'twelve',
-            'thirteen',
-            'fourteen',
-            'fifteen',
-            'sixteen',
-            'seventeen',
-            'eighteen',
-            'nineteen'
-        ];
-        return n < words.length ? words[n] : n.toString();
+        return n < _number_words_json__WEBPACK_IMPORTED_MODULE_1__.length ? /*#__PURE__*/ (_number_words_json__WEBPACK_IMPORTED_MODULE_1___namespace_cache || (_number_words_json__WEBPACK_IMPORTED_MODULE_1___namespace_cache = __webpack_require__.t(_number_words_json__WEBPACK_IMPORTED_MODULE_1__, 2)))[n] : n.toString();
     }
 }
 Util.isDarkMode = false;
@@ -241,6 +222,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _toponymy_Language__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../toponymy/Language */ "./src/toponymy/Language.ts");
 /* harmony import */ var _Util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Util */ "./src/Util.ts");
 /* harmony import */ var _PageController__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./PageController */ "./src/controllers/PageController.ts");
+/* harmony import */ var _text_layout_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../text/layout.json */ "./src/text/layout.json");
+/* harmony import */ var _text_Block__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../text/Block */ "./src/text/Block.ts");
+
+
 
 
 
@@ -256,14 +241,24 @@ class HomePageController extends _PageController__WEBPACK_IMPORTED_MODULE_3__["d
         this.handleJSONButton();
         // Apply Content
         this.applyHeroImage();
-        this.writeSections();
+        this.write();
     }
     applyHeroImage() {
         // Choose a photo for the hero
         const heroEl = document.getElementById('hero');
         heroEl.setAttribute('style', `background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${this.realm.heroImageUrl})`);
     }
-    writeSections() { }
+    write() {
+        // Apply each block
+        let blocks = [];
+        _text_layout_json__WEBPACK_IMPORTED_MODULE_4__.forEach((b) => {
+            blocks.push(new _text_Block__WEBPACK_IMPORTED_MODULE_5__["default"](this.realm, b.name, b.sections));
+        });
+        const el = document.getElementById('content');
+        blocks.forEach((block) => {
+            el.appendChild(block.render());
+        });
+    }
     handleNewRealmButton() {
         const btnStart = document.getElementById('btnStart');
         btnStart.addEventListener('click', () => {
@@ -532,7 +527,6 @@ class PageController {
         this.handleSeed();
         // Realm generates itself
         this.realm = new _realm_Realm__WEBPACK_IMPORTED_MODULE_1__["default"]();
-        console.log(_Rand__WEBPACK_IMPORTED_MODULE_0__["default"].seed);
         console.log(this.realm);
         this.fadeInSections();
     }
@@ -594,7 +588,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 class Module {
     constructor(realm) {
-        this._realm = realm;
+        this.realm = realm;
         this.run();
     }
     run() { }
@@ -638,10 +632,10 @@ class GovernmentModule extends _Module__WEBPACK_IMPORTED_MODULE_0__["default"] {
         let government;
         do {
             government = _Rand__WEBPACK_IMPORTED_MODULE_2__["default"].pick(_governments_json__WEBPACK_IMPORTED_MODULE_1__.governments);
-        } while (!government.size.includes(this._realm.size.sizeIndex));
+        } while (!government.size.includes(this.realm.size.sizeIndex));
         this.rank = government.rank;
         this.ruler = government.ruler;
-        this._realm.tags.push(this.rank);
+        this.realm.tags.push(this.rank);
     }
 }
 
@@ -707,7 +701,7 @@ class HeraldryModule extends _Module__WEBPACK_IMPORTED_MODULE_0__["default"] {
         }
         // Is it the sigil used on the heraldry? Add a tag if it is
         if (this.charge.name == sigil.name)
-            this._realm.addTag('sigilAsCharge');
+            this.realm.addTag('sigilAsCharge');
     }
 }
 
@@ -753,11 +747,11 @@ class LocationModule extends _Module__WEBPACK_IMPORTED_MODULE_2__["default"] {
         // Add direction tags south-west => south, west
         this.locationWithinParentEntity
             .split('-')
-            .forEach((l) => this._realm.addTag(l));
+            .forEach((l) => this.realm.addTag(l));
         // 40% chance to be coastal
         if (_Rand__WEBPACK_IMPORTED_MODULE_0__["default"].next() < 0.4) {
             this.directionToCoast = this.locationWithinParentEntity;
-            this._realm.addTag(_geography_BiomesModule__WEBPACK_IMPORTED_MODULE_1__.BiomeType.COAST);
+            this.realm.addTag(_geography_BiomesModule__WEBPACK_IMPORTED_MODULE_1__.BiomeType.COAST);
         }
     }
     static isCardinalDirection(direction) {
@@ -791,10 +785,10 @@ class RealmNameModule extends _Module__WEBPACK_IMPORTED_MODULE_1__["default"] {
     run() {
         // Roots cannot be used by an existing river
         const roots = [..._place_names_json__WEBPACK_IMPORTED_MODULE_2__.placeRoots];
-        let validRoots = roots.filter((p) => this._realm.evaluateCondition(p.condition));
+        let validRoots = roots.filter((p) => this.realm.evaluateCondition(p.condition));
         const root = Object.assign({}, _Rand__WEBPACK_IMPORTED_MODULE_0__["default"].weightedPick(validRoots, (item) => item.points));
         const suffixes = [..._place_names_json__WEBPACK_IMPORTED_MODULE_2__.placeSuffixes];
-        let validSuffixes = suffixes.filter((p) => this._realm.evaluateCondition(p.condition));
+        let validSuffixes = suffixes.filter((p) => this.realm.evaluateCondition(p.condition));
         let suffix;
         do {
             suffix = _Rand__WEBPACK_IMPORTED_MODULE_0__["default"].weightedPick(validSuffixes, (item) => item.points);
@@ -850,19 +844,19 @@ class BiomesModule extends _Module__WEBPACK_IMPORTED_MODULE_0__["default"] {
     run() {
         this.biomes = [];
         // Add a coast biome
-        let remainingSize = this._realm.size.sizeIndex + 1;
-        if (this._realm.tags.includes(BiomeType.COAST)) {
+        let remainingSize = this.realm.size.sizeIndex + 1;
+        if (this.realm.tags.includes(BiomeType.COAST)) {
             const coastBiome = {
                 type: BiomeType.COAST,
                 size: _Rand__WEBPACK_IMPORTED_MODULE_1__["default"].between(1, remainingSize, true),
-                direction: this._realm.location.directionToCoast
+                direction: this.realm.location.directionToCoast
             };
         }
         // Limit available biome types
         let availableBiomeTypes = Object.values(BiomeType).filter((biomeType) => {
             if (biomeType == BiomeType.COAST)
                 return false;
-            switch (this._realm.climate.humidity) {
+            switch (this.realm.climate.humidity) {
                 case _ClimateModule__WEBPACK_IMPORTED_MODULE_4__.Humidity.DRY:
                     // Dry? Remove boreal-forest and temperate-forest
                     return ![
@@ -875,7 +869,7 @@ class BiomesModule extends _Module__WEBPACK_IMPORTED_MODULE_0__["default"] {
                     return ![BiomeType.GRASSLAND, BiomeType.TUNDRA].includes(biomeType);
                     break;
             }
-            if (this._realm.climate.temperature == _ClimateModule__WEBPACK_IMPORTED_MODULE_4__.Temperature.WARM) {
+            if (this.realm.climate.temperature == _ClimateModule__WEBPACK_IMPORTED_MODULE_4__.Temperature.WARM) {
                 // Warm? Remove boreal-forest and tundra
                 return ![BiomeType.BOREAL_FOREST, BiomeType.TUNDRA].includes(biomeType);
             }
@@ -897,7 +891,7 @@ class BiomesModule extends _Module__WEBPACK_IMPORTED_MODULE_0__["default"] {
                 direction: biomeDirection
             };
             this.biomes.push(biome);
-            this._realm.addTag(biomeType);
+            this.realm.addTag(biomeType);
         }
     }
 }
@@ -948,26 +942,26 @@ class ClimateModule extends _Module__WEBPACK_IMPORTED_MODULE_0__["default"] {
         // Temperature: Default is TEMPERATE
         // If location is in the north, 60% chance COLD
         // If location is in the south, 60% chance WARM
-        if (this._realm.location.locationWithinParentEntity.includes(_general_LocationModule__WEBPACK_IMPORTED_MODULE_3__.Direction.NORTH)) {
+        if (this.realm.location.locationWithinParentEntity.includes(_general_LocationModule__WEBPACK_IMPORTED_MODULE_3__.Direction.NORTH)) {
             this.temperature =
                 _Rand__WEBPACK_IMPORTED_MODULE_1__["default"].next() < 0.6 ? Temperature.COLD : Temperature.TEMPERATE;
         }
-        else if (this._realm.location.locationWithinParentEntity.includes(_general_LocationModule__WEBPACK_IMPORTED_MODULE_3__.Direction.SOUTH)) {
+        else if (this.realm.location.locationWithinParentEntity.includes(_general_LocationModule__WEBPACK_IMPORTED_MODULE_3__.Direction.SOUTH)) {
             this.temperature =
                 _Rand__WEBPACK_IMPORTED_MODULE_1__["default"].next() < 0.6 ? Temperature.WARM : Temperature.TEMPERATE;
         }
         else {
             this.temperature = Temperature.TEMPERATE;
         }
-        this._realm.addTag(this.temperature);
+        this.realm.addTag(this.temperature);
         // Humidity
-        if (this._realm.tags.includes('coast')) {
+        if (this.realm.tags.includes('coast')) {
             this.humidity = Humidity.WET;
         }
         else {
             this.humidity = _Rand__WEBPACK_IMPORTED_MODULE_1__["default"].pick(Object.values(Humidity));
         }
-        this._realm.addTag(this.humidity);
+        this.realm.addTag(this.humidity);
         // Choose words to describe summer and winter
         this.summerAdjectives = this.chooseSeasonAdjectives(_season_descriptions_json__WEBPACK_IMPORTED_MODULE_4__.summer[this.temperature].concat(_season_descriptions_json__WEBPACK_IMPORTED_MODULE_4__.summer[this.humidity]));
         this.winterAdjectives = this.chooseSeasonAdjectives(_season_descriptions_json__WEBPACK_IMPORTED_MODULE_4__.winter[this.temperature].concat(_season_descriptions_json__WEBPACK_IMPORTED_MODULE_4__.winter[this.humidity]));
@@ -1056,7 +1050,7 @@ class RiversModule extends _Module__WEBPACK_IMPORTED_MODULE_3__["default"] {
         this.tributaries = [];
         // Pick a number of rivers
         let riverCount = 0;
-        switch (this._realm.climate.humidity) {
+        switch (this.realm.climate.humidity) {
             case _ClimateModule__WEBPACK_IMPORTED_MODULE_5__.Humidity.DRY:
                 riverCount = _Rand__WEBPACK_IMPORTED_MODULE_0__["default"].between(0, 2, true);
                 break;
@@ -1064,7 +1058,7 @@ class RiversModule extends _Module__WEBPACK_IMPORTED_MODULE_3__["default"] {
                 riverCount = _Rand__WEBPACK_IMPORTED_MODULE_0__["default"].between(2, 4, true);
         }
         // For small realms, there should only be one river
-        if (this._realm.size.sizeIndex < 2) {
+        if (this.realm.size.sizeIndex < 2) {
             riverCount = 1;
         }
         // Add rivers
@@ -1074,9 +1068,9 @@ class RiversModule extends _Module__WEBPACK_IMPORTED_MODULE_3__["default"] {
     addNewRiver() {
         // Determine the directions (to and from) the river will flow
         // Rivers tend to flow from mountains towards coasts, so factor this in if those biomes are present
-        const mountains = this._realm.biomes.biomes.find((b) => b.type == _BiomesModule__WEBPACK_IMPORTED_MODULE_4__.BiomeType.MOUNTAINS) ||
+        const mountains = this.realm.biomes.biomes.find((b) => b.type == _BiomesModule__WEBPACK_IMPORTED_MODULE_4__.BiomeType.MOUNTAINS) ||
             null;
-        const coast = this._realm.biomes.biomes.find((b) => b.type == _BiomesModule__WEBPACK_IMPORTED_MODULE_4__.BiomeType.COAST) || null;
+        const coast = this.realm.biomes.biomes.find((b) => b.type == _BiomesModule__WEBPACK_IMPORTED_MODULE_4__.BiomeType.COAST) || null;
         // Only use cardinal directions
         let availableDirections = Object.values(_general_LocationModule__WEBPACK_IMPORTED_MODULE_2__.Direction).filter((d) => _general_LocationModule__WEBPACK_IMPORTED_MODULE_2__["default"].isCardinalDirection(d) &&
             (!coast || d != coast.direction) &&
@@ -1104,8 +1098,8 @@ class RiversModule extends _Module__WEBPACK_IMPORTED_MODULE_3__["default"] {
     getRiverName() {
         // Roots cannot be used by an existing river
         let validRoots = _river_names_json__WEBPACK_IMPORTED_MODULE_6__.roots.filter((p) => this.rivers.every((r) => r.name.root.text != p.text) &&
-            this._realm.evaluateCondition(p.condition));
-        let validSuffixes = _river_names_json__WEBPACK_IMPORTED_MODULE_6__.riverSuffixes.filter((p) => this._realm.evaluateCondition(p.condition));
+            this.realm.evaluateCondition(p.condition));
+        let validSuffixes = _river_names_json__WEBPACK_IMPORTED_MODULE_6__.riverSuffixes.filter((p) => this.realm.evaluateCondition(p.condition));
         let riverName;
         do {
             let root = _Rand__WEBPACK_IMPORTED_MODULE_0__["default"].weightedPick(validRoots, (item) => item.points);
@@ -1205,7 +1199,7 @@ class SizeModule extends _Module__WEBPACK_IMPORTED_MODULE_0__["default"] {
     }
     run() {
         this.size = _Rand__WEBPACK_IMPORTED_MODULE_1__["default"].pick(Object.values(Size));
-        this._realm.addTag(this.size == Size.VERY_SMALL ? 'city' : 'region');
+        this.realm.addTag(this.size == Size.VERY_SMALL ? 'city' : 'region');
     }
     get sizeIndex() {
         return Object.values(Size).indexOf(this.size);
@@ -1292,6 +1286,72 @@ class ConditionEvaluator {
         // Regex instead?
         const result = eval(`(${condition})`) ? true : false;
         return result;
+    }
+}
+
+
+/***/ }),
+
+/***/ "./src/text/Block.ts":
+/*!***************************!*\
+  !*** ./src/text/Block.ts ***!
+  \***************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Block)
+/* harmony export */ });
+/* harmony import */ var _Section__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Section */ "./src/text/Section.ts");
+
+class Block {
+    constructor(realm, name, sectionNames) {
+        this.realm = realm;
+        this.name = name;
+        this.sections = [];
+        sectionNames.forEach((sectionName) => this.getSection(sectionName));
+    }
+    getSection(sectionName) {
+        return new _Section__WEBPACK_IMPORTED_MODULE_0__["default"](this.realm, sectionName);
+    }
+    render() {
+        const el = document.createElement('article');
+        const titleEl = document.createElement('h2');
+        titleEl.textContent = this.name;
+        el.appendChild(titleEl);
+        const sectionListEl = document.createElement('ul');
+        el.appendChild(sectionListEl);
+        this.sections.forEach((section) => {
+            sectionListEl.appendChild(section.render());
+        });
+        return el;
+    }
+}
+
+
+/***/ }),
+
+/***/ "./src/text/Section.ts":
+/*!*****************************!*\
+  !*** ./src/text/Section.ts ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Section)
+/* harmony export */ });
+class Section {
+    constructor(realm, name) {
+        this.realm = realm;
+        this.name = name;
+    }
+    render() {
+        const el = document.createElement('li');
+        const titleEl = document.createElement('h3');
+        titleEl.textContent = this.name;
+        el.appendChild(titleEl);
+        return el;
     }
 }
 
@@ -1387,6 +1447,16 @@ module.exports = JSON.parse('{"summer":{"warm":["hot","blistering","stifling","l
 
 /***/ }),
 
+/***/ "./src/number-words.json":
+/*!*******************************!*\
+  !*** ./src/number-words.json ***!
+  \*******************************/
+/***/ ((module) => {
+
+module.exports = JSON.parse('["zero","one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"]');
+
+/***/ }),
+
 /***/ "./src/realm/hero-images.json":
 /*!************************************!*\
   !*** ./src/realm/hero-images.json ***!
@@ -1404,6 +1474,16 @@ module.exports = JSON.parse('[{"url":"boreal-forest-1.png","condition":"t.boreal
 /***/ ((module) => {
 
 module.exports = JSON.parse('["a","ability","able","about","above","abroad","absence","absent","absolute","accept","accident","accord","account","accuse","accustom","ache","across","act","action","active","actor","actress","actual","add","address","admire","admission","admit","adopt","adoption","advance","advantage","adventure","advertise","advice","advise","affair","afford","afraid","after","afternoon","again","against","age","agency","agent","ago","agree","agriculture","ahead","aim","air","airplane","alike","alive","all","allow","allowance","almost","alone","along","aloud","already","also","although","altogether","always","ambition","ambitious","among","amongst","amount","amuse","ancient","and","anger","angle","angry","animal","annoy","annoyance","another","answer","anxiety","anxious","any","anybody","anyhow","anyone","anything","anyway","anywhere","apart","apology","appear","appearance","applaud","applause","apple","application","apply","appoint","approve","arch","argue","arise","arm","army","around","arrange","arrest","arrive","arrow","art","article","artificial","as","ash","ashamed","aside","ask","asleep","association","astonish","at","attack","attempt","attend","attention","attentive","attract","attraction","attractive","audience","aunt","autumn","avenue","average","avoid","avoidance","awake","away","awkward","axe","baby","back","backward","bad","bag","baggage","bake","balance","ball","band","bank","bar","barber","bare","bargain","barrel","base","basic","basin","basis","basket","bath","bathe","battery","battle","bay","be","beak","beam","bean","bear","beard","beast","beat","beauty","because","become","bed","bedroom","before","beg","begin","behave","behavior","behind","being","belief","believe","bell","belong","below","belt","bend","beneath","berry","beside","besides","best","better","between","beyond","bicycle","big","bill","bind","bird","birth","bit","bite","bitter","black","blade","blame","bleed","bless","blind","block","blood","blow","blue","board","boast","boat","body","boil","bold","bone","book","border","borrow","both","bottle","bottom","bound","boundary","bow","bowl","box","boy","brain","branch","brass","brave","bravery","bread","breadth","break","breakfast","breath","breathe","bribe","bribery","brick","bridge","bright","brighten","bring","broad","broadcast","brother","brown","brush","bucket","build","bunch","bundle","burn","burst","bury","bus","bush","business","businesslike","businessman","busy","but","butter","button","buy","by","cage","cake","calculate","calculation","calculator","call","calm","camera","camp","can","canal","cap","cape","capital","captain","car","card","care","carriage","carry","cart","case","castle","cat","catch","cattle","cause","caution","cautious","cave","cent","center","century","ceremony","certain","certainty","chain","chair","chairman","chalk","chance","change","character","charge","charm","cheap","cheat","check","cheer","cheese","chest","chicken","chief","child","childhood","chimney","choice","choose","christmas","church","circle","circular","citizen","city","civilize","claim","class","classification","classify","clay","clean","clear","clerk","clever","cliff","climb","clock","close","cloth","clothe","cloud","club","coal","coarse","coast","coat","coffee","coin","cold","collar","collect","collection","collector","college","colony","color","comb","combine","come","comfort","command","commerce","commercial","committee","common","companion","companionship","company","compare","comparison","compete","competition","competitor","complain","complaint","complete","completion","complicate","complication","compose","composition","concern","condition","confess","confession","confidence","confident","confidential","confuse","confusion","congratulate","congratulation","connect","connection","conquer","conqueror","conquest","conscience","conscious","consider","contain","content","continue","control","convenience","convenient","conversation","cook","cool","copper","copy","cork","corn","corner","correct","correction","cost","cottage","cotton","cough","could","council","count","country","courage","course","court","cousin","cover","cow","coward","cowardice","crack","crash","cream","creature","creep","crime","criminal","critic","crop","cross","crowd","crown","cruel","crush","cry","cultivate","cultivation","cultivator","cup","cupboard","cure","curious","curl","current","curse","curtain","curve","cushion","custom","customary","customer","cut","daily","damage","damp","dance","danger","dare","dark","darken","date","daughter","day","daylight","dead","deaf","deafen","deal","dear","death","debt","decay","deceit","deceive","decide","decision","decisive","declare","decrease","deed","deep","deepen","deer","defeat","defend","defendant","defense","degree","delay","delicate","delight","deliver","delivery","demand","department","depend","dependence","dependent","depth","descend","descendant","descent","describe","description","desert","deserve","desire","desk","despair","destroy","destruction","destructive","detail","determine","develop","devil","diamond","dictionary","die","difference","different","difficult","difficulty","dig","dine","dinner","dip","direct","direction","director","dirt","disagree","disappear","disappearance","disappoint","disapprove","discipline","discomfort","discontent","discover","discovery","discuss","discussion","disease","disgust","dish","dismiss","disregard","disrespect","dissatisfaction","dissatisfy","distance","distant","distinguish","district","disturb","ditch","dive","divide","division","do","doctor","dog","dollar","donkey","door","dot","double","doubt","down","dozen","drag","draw","drawer","dream","dress","drink","drive","drop","drown","drum","dry","duck","due","dull","during","dust","duty","each","eager","ear","early","earn","earnest","earth","ease","east","eastern","easy","eat","edge","educate","education","educator","effect","effective","efficiency","efficient","effort","egg","either","elastic","elder","elect","election","electric","electrician","elephant","else","elsewhere","empire","employ","employee","empty","enclose","enclosure","encourage","end","enemy","engine","engineer","english","enjoy","enough","enter","entertain","entire","entrance","envelope","envy","equal","escape","especially","essence","essential","even","evening","event","ever","everlasting","every","everybody","everyday","everyone","everything","everywhere","evil","exact","examine","example","excellence","excellent","except","exception","excess","excessive","exchange","excite","excuse","exercise","exist","existence","expect","expense","expensive","experience","experiment","explain","explode","explore","explosion","explosive","express","expression","extend","extension","extensive","extent","extra","extraordinary","extreme","eye","face","fact","factory","fade","fail","failure","faint","fair","faith","fall","FALSE","fame","familiar","family","fan","fancy","far","farm","fashion","fast","fasten","fat","fate","father","fatten","fault","favor","favorite","fear","feast","feather","feed","feel","fellow","fellowship","female","fence","fever","few","field","fierce","fight","figure","fill","film","find","fine","finger","finish","fire","firm","first","fish","fit","fix","flag","flame","flash","flat","flatten","flavor","flesh","float","flood","floor","flour","flow","flower","fly","fold","follow","fond","food","fool","foot","for","forbid","force","foreign","forest","forget","forgive","fork","form","formal","former","forth","fortunate","fortune","forward","frame","framework","free","freedom","freeze","frequency","frequent","fresh","friend","friendly","friendship","fright","frighten","from","front","fruit","fry","full","fun","funeral","funny","fur","furnish","furniture","further","future","gaiety","gain","gallon","game","gap","garage","garden","gas","gate","gather","gay","general","generous","gentle","gentleman","get","gift","girl","give","glad","glass","glory","go","goat","god","gold","golden","good","govern","governor","grace","gradual","grain","grammar","grammatical","grand","grass","grateful","grave","gray","grease","great","greed","green","greet","grind","ground","group","grow","growth","guard","guess","guest","guide","guilt","gun","habit","hair","half","hall","hammer","hand","handkerchief","handle","handshake","handwriting","hang","happen","happy","harbor","hard","harden","hardly","harm","harvest","haste","hasten","hat","hate","hatred","have","hay","he","head","headache","headdress","heal","health","heap","hear","heart","heat","heaven","heavenly","heavy","height","heighten","hello","help","here","hesitate","hesitation","hide","high","highway","hill","hinder","hindrance","hire","history","hit","hold","hole","holiday","hollow","holy","home","homecoming","homemade","homework","honest","honesty","honor","hook","hope","horizon","horizontal","horse","hospital","host","hot","hotel","hour","house","how","however","human","humble","hunger","hunt","hurrah","hurry","hurt","husband","hut","I","ice","idea","ideal","idle","if","ill","imaginary","imaginative","imagine","imitate","imitation","immediate","immense","importance","important","impossible","improve","in","inch","include","inclusive","increase","indeed","indoor","industry","influence","influential","inform","ink","inn","inquire","inquiry","insect","inside","instant","instead","instrument","insult","insurance","insure","intend","intention","interest","interfere","interference","international","interrupt","interruption","into","introduce","introduction","invent","invention","inventor","invite","inward","iron","island","it","jaw","jealous","jealousy","jewel","join","joint","joke","journey","joy","judge","juice","jump","just","justice","keep","key","kick","kill","kind","king","kingdom","kiss","kitchen","knee","kneel","knife","knock","knot","know","knowledge","lack","ladder","lady","lake","lamp","land","landlord","language","large","last","late","lately","latter","laugh","laughter","law","lawyer","lay","lazy","lead","leadership","leaf","lean","learn","least","leather","leave","left","leg","lend","length","lengthen","less","lessen","lesson","let","letter","level","liar","liberty","librarian","library","lid","lie","life","lift","light","lighten","like","likely","limb","limit","line","lip","lipstick","liquid","list","listen","literary","literature","little","live","load","loaf","loan","local","lock","lodge","log","lonely","long","look","loose","loosen","lord","lose","loss","lot","loud","love","lovely","low","loyal","loyalty","luck","lump","lunch","lung","machine","machinery","mad","madden","mail","main","make","male","man","manage","mankind","manner","manufacture","many","map","march","mark","market","marriage","marry","mass","master","mat","match","material","matter","may","maybe","meal","mean","meantime","meanwhile","measure","meat","mechanic","mechanism","medical","medicine","meet","melt","member","membership","memory","mend","mention","merchant","mercy","mere","merry","message","messenger","metal","middle","might","mild","mile","milk","mill","mind","mine","mineral","minister","minute","miserable","misery","miss","mistake","mix","mixture","model","moderate","moderation","modern","modest","modesty","moment","momentary","money","monkey","month","moon","moonlight","moral","more","moreover","morning","most","mother","motherhood","motherly","motion","motor","mountain","mouse","mouth","move","much","mud","multiplication","multiply","murder","music","musician","must","mystery","nail","name","narrow","nation","native","nature","near","neat","necessary","necessity","neck","need","needle","neglect","neighbor","neighborhood","neither","nephew","nest","net","network","never","new","news","newspaper","next","nice","niece","night","no","noble","nobody","noise","none","noon","nor","north","northern","nose","not","note","notebook","nothing","notice","noun","now","nowadays","nowhere","nuisance","number","numerous","nurse","nursery","nut","oar","obedience","obedient","obey","object","objection","observe","occasion","ocean","of","off","offend","offense","offer","office","officer","official","often","oil","old","old-fashioned","omission","omit","on","once","one","only","onto","open","operate","operation","operator","opinion","opportunity","oppose","opposite","opposition","or","orange","order","ordinary","organ","organize","origin","ornament","other","otherwise","ought","ounce","out","outline","outside","outward","over","overcome","overflow","owe","own","ownership","pack","package","pad","page","pain","paint","pair","pale","pan","paper","parcel","pardon","parent","park","part","particle","particular","partner","party","pass","passage","passenger","past","paste","pastry","path","patience","patient","patriotic","pattern","pause","paw","pay","peace","pearl","peculiar","pen","pencil","penny","people","per","perfect","perfection","perform","performance","perhaps","permanent","permission","permit","person","persuade","persuasion","pet","photograph","photography","pick","picture","piece","pig","pigeon","pile","pin","pinch","pink","pint","pipe","pity","place","plain","plan","plant","plaster","plate","play","pleasant","please","pleasure","plenty","plow","plural","pocket","poem","poet","point","poison","police","polish","polite","political","politician","politics","pool","poor","popular","population","position","possess","possession","possessor","possible","post","postpone","pot","pound","pour","poverty","powder","power","practical","practice","praise","pray","preach","precious","prefer","preference","prejudice","prepare","presence","present","preserve","president","press","pressure","pretend","pretense","pretty","prevent","prevention","price","pride","priest","print","prison","private","prize","probable","problem","procession","produce","product","production","profession","profit","program","progress","promise","prompt","pronounce","pronunciation","proof","proper","property","proposal","propose","protect","protection","proud","prove","provide","public","pull","pump","punctual","punish","pupil","pure","purple","purpose","push","put","puzzle","qualification","qualify","quality","quantity","quarrel","quart","quarter","queen","question","quick","quiet","quite","rabbit","race","radio","rail","railroad","rain","raise","rake","rank","rapid","rare","rate","rather","raw","ray","razor","reach","read","ready","real","realize","reason","reasonable","receipt","receive","recent","recognition","recognize","recommend","record","red","redden","reduce","reduction","refer","reference","reflect","reflection","refresh","refuse","regard","regret","regular","rejoice","relate","relation","relative","relief","relieve","religion","remain","remark","remedy","remember","remind","rent","repair","repeat","repetition","replace","reply","report","represent","representative","reproduce","reproduction","republic","reputation","request","rescue","reserve","resign","resist","resistance","respect","responsible","rest","restaurant","result","retire","return","revenge","review","reward","ribbon","rice","rich","rid","ride","right","ring","ripe","ripen","rise","risk","rival","rivalry","river","road","roar","roast","rob","robbery","rock","rod","roll","roof","room","root","rope","rot","rotten","rough","round","row","royal","royalty","rub","rubber","rubbish","rude","rug","ruin","rule","run","rush","rust","sacred","sacrifice","sad","sadden","saddle","safe","safety","sail","sailor","sake","salary","sale","salesman","salt","same","sample","sand","satisfaction","satisfactory","satisfy","sauce","saucer","save","saw","say","scale","scarce","scatter","scene","scenery","scent","school","science","scientific","scientist","scissors","scold","scorn","scrape","scratch","screen","screw","sea","search","season","seat","second","secrecy","secret","secretary","see","seed","seem","seize","seldom","self","selfish","sell","send","sense","sensitive","sentence","separate","separation","serious","servant","serve","service","set","settle","several","severe","sew","shade","shadow","shake","shall","shallow","shame","shape","share","sharp","sharpen","shave","she","sheep","sheet","shelf","shell","shelter","shield","shilling","shine","ship","shirt","shock","shoe","shoot","shop","shore","short","shorten","should","shoulder","shout","show","shower","shut","sick","side","sight","sign","signal","signature","silence","silent","silk","silver","simple","simplicity","since","sincere","sing","single","sink","sir","sister","sit","situation","size","skill","skin","skirt","sky","slave","slavery","sleep","slide","slight","slip","slippery","slope","slow","small","smell","smile","smoke","smooth","snake","snow","so","soap","social","society","sock","soft","soften","soil","soldier","solemn","solid","solution","solve","some","somebody","somehow","someone","something","sometime","sometimes","somewhere","son","song","soon","sore","sorrow","sorry","sort","soul","sound","soup","sour","south","sow","space","spade","spare","speak","special","speech","speed","spell","spend","spill","spin","spirit","spit","spite","splendid","split","spoil","spoon","sport","spot","spread","spring","square","staff","stage","stain","stair","stamp","stand","standard","staple","star","start","state","station","stay","steady","steam","steel","steep","steer","stem","step","stick","stiff","stiffen","still","sting","stir","stock","stocking","stomach","stone","stop","store","storm","story","stove","straight","straighten","strange","strap","straw","stream","street","strength","strengthen","stretch","strict","strike","string","strip","stripe","stroke","strong","struggle","student","study","stuff","stupid","subject","substance","succeed","success","such","suck","sudden","suffer","sugar","suggest","suggestion","suit","summer","sun","supper","supply","support","suppose","sure","surface","surprise","surround","suspect","suspicion","suspicious","swallow","swear","sweat","sweep","sweet","sweeten","swell","swim","swing","sword","sympathetic","sympathy","system","table","tail","tailor","take","talk","tall","tame","tap","taste","tax","taxi","tea","teach","tear","telegraph","telephone","tell","temper","temperature","temple","tempt","tend","tender","tent","term","terrible","test","than","thank","that","the","theater","theatrical","then","there","therefore","these","they","thick","thicken","thief","thin","thing","think","thirst","this","thorn","thorough","those","though","thread","threat","threaten","throat","through","throw","thumb","thunder","thus","ticket","tide","tidy","tie","tight","tighten","till","time","tin","tip","tire","title","to","tobacco","today","toe","together","tomorrow","ton","tongue","tonight","too","tool","tooth","top","total","touch","tough","tour","toward","towel","tower","town","toy","track","trade","train","translate","translation","translator","trap","travel","tray","treasure","treasury","treat","tree","tremble","trial","tribe","trick","trip","trouble","true","trunk","trust","truth","try","tube","tune","turn","twist","type","ugly","umbrella","uncle","under","underneath","understand","union","unit","unite","unity","universal","universe","university","unless","until","up","upon","upper","uppermost","upright","upset","urge","urgent","use","usual","vain","valley","valuable","value","variety","various","veil","verb","verse","very","vessel","victory","view","village","violence","violent","virtue","visit","visitor","voice","vote","vowel","voyage","wage","waist","wait","waiter","wake","walk","wall","wander","want","war","warm","warmth","warn","wash","waste","watch","water","wave","wax","way","we","weak","weaken","wealth","weapon","wear","weather","weave","weed","week","weekday","weekend","weigh","weight","welcome","well","west","western","wet","what","whatever","wheat","wheel","when","whenever","where","wherever","whether","which","whichever","while","whip","whisper","whistle","white","whiten","who","whoever","whole","whom","whose","why","wicked","wide","widen","widow","widower","width","wife","wild","will","win","wind","window","wine","wing","winter","wipe","wire","wisdom","wise","wish","with","within","without","witness","woman","wonder","wood","wooden","wool","woolen","word","work","world","worm","worry","worse","worship","worth","would","wound","wrap","wreck","wrist","write","wrong","yard","year","yellow","yes","yesterday","yet","yield","you","young","youth","zero"]');
+
+/***/ }),
+
+/***/ "./src/text/layout.json":
+/*!******************************!*\
+  !*** ./src/text/layout.json ***!
+  \******************************/
+/***/ ((module) => {
+
+module.exports = JSON.parse('[{"name":"overview","sections":["basics","sigil","heraldry","heraldry-pattern"]},{"name":"geography","sections":["location","neighboring-realms","climate","ecoregions","rivers","biodiversity"]},{"name":"economy","sections":["infrastructure","natural-resouces"]},{"name":"government","sections":["government-structure","political-regions"]},{"name":"demographics","sections":["language","education","religion"]},{"name":"culture","sections":["landmarks","music-and-art","literature","cuisine","sports"]}]');
 
 /***/ })
 

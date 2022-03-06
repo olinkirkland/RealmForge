@@ -15,7 +15,7 @@ export default class RealmNameModule extends Module {
     // Roots cannot be used by an existing river
     const roots: WordPart[] = [...placeRoots];
     let validRoots: WordPart[] = roots.filter((p) =>
-      this._realm.evaluateCondition(p.condition)
+      this.realm.evaluateCondition(p.condition)
     );
 
     const root: WordPart = {
@@ -24,7 +24,7 @@ export default class RealmNameModule extends Module {
 
     const suffixes: WordPart[] = [...placeSuffixes];
     let validSuffixes: WordPart[] = suffixes.filter((p) =>
-      this._realm.evaluateCondition(p.condition)
+      this.realm.evaluateCondition(p.condition)
     );
 
     let suffix: WordPart;

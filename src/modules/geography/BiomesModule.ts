@@ -32,13 +32,13 @@ export default class BiomesModule extends Module {
     this.biomes = [];
 
     // Add a coast biome
-    let remainingSize: number = this._realm.size.sizeIndex + 1;
+    let remainingSize: number = this.realm.size.sizeIndex + 1;
 
-    if (this._realm.tags.includes(BiomeType.COAST)) {
+    if (this.realm.tags.includes(BiomeType.COAST)) {
       const coastBiome = {
         type: BiomeType.COAST,
         size: Rand.between(1, remainingSize, true),
-        direction: this._realm.location.directionToCoast
+        direction: this.realm.location.directionToCoast
       };
     }
 
@@ -47,7 +47,7 @@ export default class BiomesModule extends Module {
       (biomeType) => {
         if (biomeType == BiomeType.COAST) return false;
 
-        switch (this._realm.climate.humidity) {
+        switch (this.realm.climate.humidity) {
           case Humidity.DRY:
             // Dry? Remove boreal-forest and temperate-forest
             return ![
@@ -61,7 +61,7 @@ export default class BiomesModule extends Module {
             break;
         }
 
-        if (this._realm.climate.temperature == Temperature.WARM) {
+        if (this.realm.climate.temperature == Temperature.WARM) {
           // Warm? Remove boreal-forest and tundra
           return ![BiomeType.BOREAL_FOREST, BiomeType.TUNDRA].includes(
             biomeType
@@ -98,7 +98,7 @@ export default class BiomesModule extends Module {
       };
 
       this.biomes.push(biome);
-      this._realm.addTag(biomeType);
+      this.realm.addTag(biomeType);
     }
   }
 }

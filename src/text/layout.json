@@ -1,0 +1,39 @@
+[
+  {
+    "name": "overview",
+    "sections": ["basics", "sigil", "heraldry", "heraldry-pattern"]
+  },
+  {
+    "name": "geography",
+    "sections": [
+      "location",
+      "neighboring-realms",
+      "climate",
+      "ecoregions",
+      "rivers",
+      "biodiversity"
+    ]
+  },
+  {
+    "name": "economy",
+    "sections": ["infrastructure", "natural-resouces"]
+  },
+  {
+    "name": "government",
+    "sections": ["government-structure", "political-regions"]
+  },
+  {
+    "name": "demographics",
+    "sections": ["language", "education", "religion"]
+  },
+  {
+    "name": "culture",
+    "sections": [
+      "landmarks",
+      "music-and-art",
+      "literature",
+      "cuisine",
+      "sports"
+    ]
+  }
+]

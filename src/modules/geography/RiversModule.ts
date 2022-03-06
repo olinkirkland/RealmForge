@@ -41,7 +41,7 @@ export default class RiversModule extends Module {
 
     // Pick a number of rivers
     let riverCount: number = 0;
-    switch (this._realm.climate.humidity) {
+    switch (this.realm.climate.humidity) {
       case Humidity.DRY:
         riverCount = Rand.between(0, 2, true);
         break;
@@ -50,7 +50,7 @@ export default class RiversModule extends Module {
     }
 
     // For small realms, there should only be one river
-    if (this._realm.size.sizeIndex < 2) {
+    if (this.realm.size.sizeIndex < 2) {
       riverCount = 1;
     }
 
@@ -62,11 +62,11 @@ export default class RiversModule extends Module {
     // Determine the directions (to and from) the river will flow
     // Rivers tend to flow from mountains towards coasts, so factor this in if those biomes are present
     const mountains: Biome | null =
-      this._realm.biomes.biomes.find((b) => b.type == BiomeType.MOUNTAINS) ||
+      this.realm.biomes.biomes.find((b) => b.type == BiomeType.MOUNTAINS) ||
       null;
 
     const coast: Biome | null =
-      this._realm.biomes.biomes.find((b) => b.type == BiomeType.COAST) || null;
+      this.realm.biomes.biomes.find((b) => b.type == BiomeType.COAST) || null;
 
     // Only use cardinal directions
     let availableDirections: Direction[] = Object.values(Direction).filter(
@@ -108,11 +108,11 @@ export default class RiversModule extends Module {
     let validRoots: WordPart[] = roots.filter(
       (p) =>
         this.rivers.every((r) => r.name.root.text != p.text) &&
-        this._realm.evaluateCondition(p.condition)
+        this.realm.evaluateCondition(p.condition)
     );
 
     let validSuffixes: WordPart[] = riverSuffixes.filter((p) =>
-      this._realm.evaluateCondition(p.condition)
+      this.realm.evaluateCondition(p.condition)
     );
 
     let riverName: Word;

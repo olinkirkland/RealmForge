@@ -1,5 +1,6 @@
 import Realm from './realm/Realm';
 import Lang from './toponymy/Language';
+import * as numberWords from './number-words.json';
 
 export default class Util {
   public static isDarkMode: boolean = false;
@@ -137,29 +138,6 @@ export default class Util {
 
   // Returns any number lower than 20 as a word ('one', 'two', ... 'nineteen')
   static wordFromNumber(n: number): string {
-    const words: string[] = [
-      'zero',
-      'one',
-      'two',
-      'three',
-      'four',
-      'five',
-      'six',
-      'seven',
-      'eight',
-      'nine',
-      'ten',
-      'eleven',
-      'twelve',
-      'thirteen',
-      'fourteen',
-      'fifteen',
-      'sixteen',
-      'seventeen',
-      'eighteen',
-      'nineteen'
-    ];
-
-    return n < words.length ? words[n] : n.toString();
+    return n < numberWords.length ? numberWords[n] : n.toString();
   }
 }
