@@ -1,8 +1,11 @@
+import BiomesModule, {
+  BiomeType
+} from '../../../modules/geography/BiomesModule';
 import Realm from '../../../realm/Realm';
 import Lang from '../../../util/Lang';
 import Section from '../Section';
 
-export default class BasicsSection extends Section {
+export default class LocationSection extends Section {
   constructor(realm: Realm, name: string) {
     super(realm, name);
   }
@@ -18,12 +21,16 @@ export default class BasicsSection extends Section {
     // Content
     const textEl: HTMLElement = document.createElement('p');
 
-    // "Nordland is an imperial principality."
+    // "Nordland is a very small free city located on the coast in the north-eastern part of the Holy Empire."
     textEl.innerHTML = `${Lang.capitalize(
       Lang.readWord(this.realm.realmName.name)
-    )} is ${Lang.prependArticle(
-      Lang.capitalize(this.realm.parentEntity.government.adj)
-    )} ${Lang.capitalize(this.realm.government.rank)}.`;
+    )} is a ${this.realm.size.size} ${Lang.capitalize(
+      this.realm.government.rank
+    )} located ${
+      this.realm.tags.includes(BiomeType.COAST) ? `on the coast ` : ``
+    }in the ${
+      this.realm.location.locationWithinParentEntity
+    }ern part of the ${Lang.capitalize(this.realm.parentEntity.name)}.`;
 
     el.append(textEl);
     return el;

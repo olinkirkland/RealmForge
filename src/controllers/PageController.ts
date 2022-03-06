@@ -12,8 +12,6 @@ export default class PageController {
     // Realm generates itself
     this.realm = new Realm();
 
-    console.log(this.realm);
-
     this.fadeInSections();
   }
 

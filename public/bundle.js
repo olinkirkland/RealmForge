@@ -135,7 +135,6 @@ class PageController {
         this.handleSeed();
         // Realm generates itself
         this.realm = new _realm_Realm__WEBPACK_IMPORTED_MODULE_1__["default"]();
-        console.log(this.realm);
         this.fadeInSections();
     }
     handleSeed() {
@@ -194,13 +193,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ RealmPageController)
 /* harmony export */ });
-/* harmony import */ var _util_Rand__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/Rand */ "./src/util/Rand.ts");
-/* harmony import */ var _util_Lang__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/Lang */ "./src/util/Lang.ts");
-/* harmony import */ var _util_Util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../util/Util */ "./src/util/Util.ts");
-/* harmony import */ var _PageController__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./PageController */ "./src/controllers/PageController.ts");
-/* harmony import */ var _text_layout_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../text/layout.json */ "./src/text/layout.json");
-/* harmony import */ var _text_blocks_Block__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../text/blocks/Block */ "./src/text/blocks/Block.ts");
-/* harmony import */ var _text_blocks_Overview__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../text/blocks/Overview */ "./src/text/blocks/Overview.ts");
+/* harmony import */ var _text_blocks_Block__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../text/blocks/Block */ "./src/text/blocks/Block.ts");
+/* harmony import */ var _text_blocks_Geography__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../text/blocks/Geography */ "./src/text/blocks/Geography.ts");
+/* harmony import */ var _text_blocks_Overview__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../text/blocks/Overview */ "./src/text/blocks/Overview.ts");
+/* harmony import */ var _text_layout_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../text/layout.json */ "./src/text/layout.json");
+/* harmony import */ var _util_Lang__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../util/Lang */ "./src/util/Lang.ts");
+/* harmony import */ var _util_Rand__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../util/Rand */ "./src/util/Rand.ts");
+/* harmony import */ var _util_Util__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../util/Util */ "./src/util/Util.ts");
+/* harmony import */ var _PageController__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./PageController */ "./src/controllers/PageController.ts");
 
 
 
@@ -208,7 +208,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class RealmPageController extends _PageController__WEBPACK_IMPORTED_MODULE_3__["default"] {
+
+class RealmPageController extends _PageController__WEBPACK_IMPORTED_MODULE_7__["default"] {
     constructor() {
         super();
         // UI & Controls
@@ -220,6 +221,7 @@ class RealmPageController extends _PageController__WEBPACK_IMPORTED_MODULE_3__["
         // Apply Content
         this.applyHeroImage();
         this.write();
+        console.log(this.realm);
     }
     applyHeroImage() {
         // Choose a photo for the hero
@@ -227,16 +229,19 @@ class RealmPageController extends _PageController__WEBPACK_IMPORTED_MODULE_3__["
         heroEl.setAttribute('style', `background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${this.realm.heroImageUrl})`);
         // Apply the hero text
         const heroTextEl = document.querySelector('#hero > h2');
-        heroTextEl.textContent = _util_Lang__WEBPACK_IMPORTED_MODULE_1__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_1__["default"].readWord(this.realm.realmName.name));
+        heroTextEl.textContent = _util_Lang__WEBPACK_IMPORTED_MODULE_4__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_4__["default"].readWord(this.realm.realmName.name));
     }
     write() {
-        const blockMap = { overview: _text_blocks_Overview__WEBPACK_IMPORTED_MODULE_6__["default"] };
+        const blockMap = {
+            overview: _text_blocks_Overview__WEBPACK_IMPORTED_MODULE_2__["default"],
+            geography: _text_blocks_Geography__WEBPACK_IMPORTED_MODULE_1__["default"]
+        };
         // Apply each block
         let blocks = [];
-        _text_layout_json__WEBPACK_IMPORTED_MODULE_4__.forEach((b) => {
+        _text_layout_json__WEBPACK_IMPORTED_MODULE_3__.forEach((b) => {
             let block = blockMap[b.name]
                 ? new blockMap[b.name](this.realm, b.name, b.sections)
-                : new _text_blocks_Block__WEBPACK_IMPORTED_MODULE_5__["default"](this.realm, b.name, b.sections);
+                : new _text_blocks_Block__WEBPACK_IMPORTED_MODULE_0__["default"](this.realm, b.name, b.sections);
             blocks.push(block);
         });
         const el = document.getElementById('content');
@@ -248,11 +253,11 @@ class RealmPageController extends _PageController__WEBPACK_IMPORTED_MODULE_3__["
         const btnStart = document.getElementById('btnStart');
         btnStart.addEventListener('click', () => {
             // This will refresh the page with a new seed
-            _util_Rand__WEBPACK_IMPORTED_MODULE_0__["default"].generateSeed();
+            _util_Rand__WEBPACK_IMPORTED_MODULE_5__["default"].generateSeed();
             let url = window.location.href;
             url = url.substring(0, url.indexOf('?'));
             if (window.location.href)
-                window.location.replace(url + '?' + _util_Rand__WEBPACK_IMPORTED_MODULE_0__["default"].seed);
+                window.location.replace(url + '?' + _util_Rand__WEBPACK_IMPORTED_MODULE_5__["default"].seed);
         });
     }
     handleCopyLinkButton() {
@@ -281,7 +286,7 @@ class RealmPageController extends _PageController__WEBPACK_IMPORTED_MODULE_3__["
     handleTweetButton() {
         const btnShareTwitter = document.getElementById('btnShareTwitter');
         btnShareTwitter.addEventListener('click', () => {
-            _util_Util__WEBPACK_IMPORTED_MODULE_2__["default"].shareByTweet(this.realm);
+            _util_Util__WEBPACK_IMPORTED_MODULE_6__["default"].shareByTweet(this.realm);
         });
         btnShareTwitter.addEventListener('mouseover', () => {
             if (btnShareTwitter.hasAttribute('disabled'))
@@ -336,8 +341,8 @@ class RealmPageController extends _PageController__WEBPACK_IMPORTED_MODULE_3__["
         const btnFavorite = document.getElementById('btnFavorite');
         btnFavorite.addEventListener('click', () => {
             const f = {
-                id: _util_Rand__WEBPACK_IMPORTED_MODULE_0__["default"].seed,
-                name: _util_Lang__WEBPACK_IMPORTED_MODULE_1__["default"].readWord(this.realm.realmName.name)
+                id: _util_Rand__WEBPACK_IMPORTED_MODULE_5__["default"].seed,
+                name: _util_Lang__WEBPACK_IMPORTED_MODULE_4__["default"].readWord(this.realm.realmName.name)
             };
             if (!favorites.some((v) => f.id == v.id)) {
                 favorites.push(f);
@@ -355,7 +360,7 @@ class RealmPageController extends _PageController__WEBPACK_IMPORTED_MODULE_3__["
         function refreshFavorites() {
             btnFavoriteIcon.classList.remove('fa-solid', 'fa-regular', 'selected');
             // Is the current realm already favorited?
-            const isFavorite = favorites.some((f) => f.id == _util_Rand__WEBPACK_IMPORTED_MODULE_0__["default"].seed);
+            const isFavorite = favorites.some((f) => f.id == _util_Rand__WEBPACK_IMPORTED_MODULE_5__["default"].seed);
             btnFavoriteIcon.classList.add(isFavorite ? 'fa-solid' : 'fa-regular');
             btnFavoriteText.innerHTML = isFavorite
                 ? 'This is one of your favorites'
@@ -504,7 +509,7 @@ class HeraldryModule extends _Module__WEBPACK_IMPORTED_MODULE_1__["default"] {
             this.charge = { name: this.sigil.name, points: 0, url: this.sigil.icon };
         }
         // Is it the sigil used on the heraldry? Add a tag if it is
-        if (this.charge.name == this.sigil.name)
+        if (this.charge.name == this.sigil.name && this.chargeLayout)
             this.realm.addTag('sigilAsCharge');
     }
 }
@@ -543,8 +548,6 @@ var Direction;
 class LocationModule extends _Module__WEBPACK_IMPORTED_MODULE_2__["default"] {
     constructor(realm) {
         super(realm);
-        this.locationWithinParentEntity = Direction.NORTH;
-        this.directionToCoast = null;
     }
     run() {
         this.locationWithinParentEntity = _util_Rand__WEBPACK_IMPORTED_MODULE_0__["default"].pick(Object.values(Direction));
@@ -1146,6 +1149,45 @@ class Block {
 
 /***/ }),
 
+/***/ "./src/text/blocks/Geography.ts":
+/*!**************************************!*\
+  !*** ./src/text/blocks/Geography.ts ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ GeographyBlock)
+/* harmony export */ });
+/* harmony import */ var _sections_geography_Climate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../sections/geography/Climate */ "./src/text/sections/geography/Climate.ts");
+/* harmony import */ var _sections_geography_Ecoregions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../sections/geography/Ecoregions */ "./src/text/sections/geography/Ecoregions.ts");
+/* harmony import */ var _sections_geography_Location__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../sections/geography/Location */ "./src/text/sections/geography/Location.ts");
+/* harmony import */ var _sections_geography_Rivers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../sections/geography/Rivers */ "./src/text/sections/geography/Rivers.ts");
+/* harmony import */ var _Block__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Block */ "./src/text/blocks/Block.ts");
+
+
+
+
+
+class GeographyBlock extends _Block__WEBPACK_IMPORTED_MODULE_4__["default"] {
+    constructor(realm, name, sectionNames) {
+        super(realm, name, sectionNames);
+        this.name = `Geography`;
+    }
+    createSectionMap() {
+        return {
+            location: _sections_geography_Location__WEBPACK_IMPORTED_MODULE_2__["default"],
+            ecoregions: _sections_geography_Ecoregions__WEBPACK_IMPORTED_MODULE_1__["default"],
+            rivers: _sections_geography_Rivers__WEBPACK_IMPORTED_MODULE_3__["default"],
+            climate: _sections_geography_Climate__WEBPACK_IMPORTED_MODULE_0__["default"]
+            // biodiversity: BiodiversitySection
+        };
+    }
+}
+
+
+/***/ }),
+
 /***/ "./src/text/blocks/Overview.ts":
 /*!*************************************!*\
   !*** ./src/text/blocks/Overview.ts ***!
@@ -1154,7 +1196,7 @@ class Block {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ Overview)
+/* harmony export */   "default": () => (/* binding */ OverviewBlock)
 /* harmony export */ });
 /* harmony import */ var _util_Lang__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../util/Lang */ "./src/util/Lang.ts");
 /* harmony import */ var _sections_overview_Basics__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../sections/overview/Basics */ "./src/text/sections/overview/Basics.ts");
@@ -1168,7 +1210,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class Overview extends _Block__WEBPACK_IMPORTED_MODULE_5__["default"] {
+class OverviewBlock extends _Block__WEBPACK_IMPORTED_MODULE_5__["default"] {
     constructor(realm, name, sectionNames) {
         super(realm, name, sectionNames);
         this.name = `An Overview of ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(this.realm.realmName.name))}`;
@@ -1217,6 +1259,167 @@ class Section {
         return el;
     }
 }
+// Section Template
+// import Realm from '../../../realm/Realm';
+// import Section from '../Section';
+// export default class LocationSection extends Section {
+//   constructor(realm: Realm, name: string) {
+//     super(realm, name);
+//   }
+//   public render(): HTMLElement {
+//     const el: HTMLElement = document.createElement('li');
+//     // Title
+//     const titleEl: HTMLElement = document.createElement('h3');
+//     titleEl.textContent = this.name;
+//     el.appendChild(titleEl);
+//     // Content
+//     const textEl: HTMLElement = document.createElement('p');
+//     // ""
+//     textEl.innerHTML = ``;
+//     el.append(textEl);
+//     return el;
+//   }
+// }
+
+
+/***/ }),
+
+/***/ "./src/text/sections/geography/Climate.ts":
+/*!************************************************!*\
+  !*** ./src/text/sections/geography/Climate.ts ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ ClimateSection)
+/* harmony export */ });
+/* harmony import */ var _Section__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Section */ "./src/text/sections/Section.ts");
+
+class ClimateSection extends _Section__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    constructor(realm, name) {
+        super(realm, name);
+    }
+    render() {
+        const el = document.createElement('li');
+        // Title
+        const titleEl = document.createElement('h3');
+        titleEl.textContent = this.name;
+        el.appendChild(titleEl);
+        // Content
+        const textEl = document.createElement('p');
+        // ""
+        textEl.innerHTML = ``;
+        el.append(textEl);
+        return el;
+    }
+}
+
+
+/***/ }),
+
+/***/ "./src/text/sections/geography/Ecoregions.ts":
+/*!***************************************************!*\
+  !*** ./src/text/sections/geography/Ecoregions.ts ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ EcoregionsSection)
+/* harmony export */ });
+/* harmony import */ var _Section__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Section */ "./src/text/sections/Section.ts");
+
+class EcoregionsSection extends _Section__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    constructor(realm, name) {
+        super(realm, name);
+    }
+    render() {
+        const el = document.createElement('li');
+        // Title
+        const titleEl = document.createElement('h3');
+        titleEl.textContent = this.name;
+        el.appendChild(titleEl);
+        // Content
+        const textEl = document.createElement('p');
+        // ""
+        textEl.innerHTML = ``;
+        el.append(textEl);
+        return el;
+    }
+}
+
+
+/***/ }),
+
+/***/ "./src/text/sections/geography/Location.ts":
+/*!*************************************************!*\
+  !*** ./src/text/sections/geography/Location.ts ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ LocationSection)
+/* harmony export */ });
+/* harmony import */ var _modules_geography_BiomesModule__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../modules/geography/BiomesModule */ "./src/modules/geography/BiomesModule.ts");
+/* harmony import */ var _util_Lang__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../util/Lang */ "./src/util/Lang.ts");
+/* harmony import */ var _Section__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Section */ "./src/text/sections/Section.ts");
+
+
+
+class LocationSection extends _Section__WEBPACK_IMPORTED_MODULE_2__["default"] {
+    constructor(realm, name) {
+        super(realm, name);
+    }
+    render() {
+        const el = document.createElement('li');
+        // Title
+        const titleEl = document.createElement('h3');
+        titleEl.textContent = this.name;
+        el.appendChild(titleEl);
+        // Content
+        const textEl = document.createElement('p');
+        // "Nordland is a very small free city located on the coast in the north-eastern part of the Holy Empire."
+        textEl.innerHTML = `${_util_Lang__WEBPACK_IMPORTED_MODULE_1__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_1__["default"].readWord(this.realm.realmName.name))} is a ${this.realm.size.size} ${_util_Lang__WEBPACK_IMPORTED_MODULE_1__["default"].capitalize(this.realm.government.rank)} located ${this.realm.tags.includes(_modules_geography_BiomesModule__WEBPACK_IMPORTED_MODULE_0__.BiomeType.COAST) ? `on the coast ` : ``}in the ${this.realm.location.locationWithinParentEntity}ern part of the ${_util_Lang__WEBPACK_IMPORTED_MODULE_1__["default"].capitalize(this.realm.parentEntity.name)}.`;
+        el.append(textEl);
+        return el;
+    }
+}
+
+
+/***/ }),
+
+/***/ "./src/text/sections/geography/Rivers.ts":
+/*!***********************************************!*\
+  !*** ./src/text/sections/geography/Rivers.ts ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ RiversSection)
+/* harmony export */ });
+/* harmony import */ var _Section__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Section */ "./src/text/sections/Section.ts");
+
+class RiversSection extends _Section__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    constructor(realm, name) {
+        super(realm, name);
+    }
+    render() {
+        const el = document.createElement('li');
+        // Title
+        const titleEl = document.createElement('h3');
+        titleEl.textContent = this.name;
+        el.appendChild(titleEl);
+        // Content
+        const textEl = document.createElement('p');
+        // ""
+        textEl.innerHTML = ``;
+        el.append(textEl);
+        return el;
+    }
+}
 
 
 /***/ }),
@@ -1229,13 +1432,13 @@ class Section {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ Basics)
+/* harmony export */   "default": () => (/* binding */ BasicsSection)
 /* harmony export */ });
 /* harmony import */ var _util_Lang__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../util/Lang */ "./src/util/Lang.ts");
 /* harmony import */ var _Section__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Section */ "./src/text/sections/Section.ts");
 
 
-class Basics extends _Section__WEBPACK_IMPORTED_MODULE_1__["default"] {
+class BasicsSection extends _Section__WEBPACK_IMPORTED_MODULE_1__["default"] {
     constructor(realm, name) {
         super(realm, name);
     }
@@ -1265,11 +1468,11 @@ class Basics extends _Section__WEBPACK_IMPORTED_MODULE_1__["default"] {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ CoatOfArms)
+/* harmony export */   "default": () => (/* binding */ CoatOfArmsSection)
 /* harmony export */ });
 /* harmony import */ var _Section__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Section */ "./src/text/sections/Section.ts");
 
-class CoatOfArms extends _Section__WEBPACK_IMPORTED_MODULE_0__["default"] {
+class CoatOfArmsSection extends _Section__WEBPACK_IMPORTED_MODULE_0__["default"] {
     constructor(realm, name) {
         super(realm, name);
     }
@@ -1316,13 +1519,13 @@ class CoatOfArms extends _Section__WEBPACK_IMPORTED_MODULE_0__["default"] {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ Heraldry)
+/* harmony export */   "default": () => (/* binding */ HeraldrySection)
 /* harmony export */ });
 /* harmony import */ var _util_Lang__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../util/Lang */ "./src/util/Lang.ts");
 /* harmony import */ var _Section__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Section */ "./src/text/sections/Section.ts");
 
 
-class Heraldry extends _Section__WEBPACK_IMPORTED_MODULE_1__["default"] {
+class HeraldrySection extends _Section__WEBPACK_IMPORTED_MODULE_1__["default"] {
     constructor(realm, name) {
         super(realm, name);
     }
@@ -1337,14 +1540,14 @@ class Heraldry extends _Section__WEBPACK_IMPORTED_MODULE_1__["default"] {
         // Vars
         const tincture1 = `<span class="tincture inline-icon" style="background-color: ${this.realm.heraldry.tinctures[0].color}"></span>${this.realm.heraldry.tinctures[0].name}`;
         const tincture2 = `<span class="tincture inline-icon" style="background-color: ${this.realm.heraldry.tinctures[1].color}"></span>${this.realm.heraldry.tinctures[1].name}`;
-        // if (this.realm.heraldry.charge) {
-        const chargeTincture = `<span class="tincture inline-icon" style="background-color: ${this.realm.heraldry.chargeTincture.color}"></span>${this.realm.heraldry.chargeTincture.name}`;
-        const chargeName = this.realm.heraldry.charge.name;
-        // }
         // "The design of Nordland's coat of arms resembles a centered, red chevron on a silver field. Three gold circles are evenly spaced in the corners of the design."
         textEl.innerHTML += `The design of ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(this.realm.realmName.name))}'s coat of arms resembles ${eval(`\`${this.realm.heraldry.ordinary.description}\``)}.`;
         if (this.realm.heraldry.chargeLayout) {
-            textEl.innerHTML += ` ${eval(`\`${this.realm.heraldry.chargeLayout.description}\``)}`;
+            const chargeTincture = `<span class="tincture inline-icon" style="background-color: ${this.realm.heraldry.chargeTincture.color}"></span>${this.realm.heraldry.chargeTincture.name}`;
+            const chargeName = this.realm.heraldry.charge.name;
+            if (this.realm.heraldry.chargeLayout) {
+                textEl.innerHTML += ` ${eval(`\`${this.realm.heraldry.chargeLayout.description}\``)}`;
+            }
         }
         el.append(textEl);
         return el;
@@ -1362,13 +1565,13 @@ class Heraldry extends _Section__WEBPACK_IMPORTED_MODULE_1__["default"] {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ Sigil)
+/* harmony export */   "default": () => (/* binding */ SigilSection)
 /* harmony export */ });
 /* harmony import */ var _util_Lang__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../util/Lang */ "./src/util/Lang.ts");
 /* harmony import */ var _Section__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Section */ "./src/text/sections/Section.ts");
 
 
-class Sigil extends _Section__WEBPACK_IMPORTED_MODULE_1__["default"] {
+class SigilSection extends _Section__WEBPACK_IMPORTED_MODULE_1__["default"] {
     constructor(realm, name) {
         super(realm, name);
     }

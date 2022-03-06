@@ -116,7 +116,7 @@ export default class HeraldryModule extends Module {
     }
 
     // Is it the sigil used on the heraldry? Add a tag if it is
-    if (this.charge!.name == this.sigil.name)
+    if (this.charge!.name == this.sigil.name && this.chargeLayout)
       this.realm.addTag('sigilAsCharge');
   }
 }

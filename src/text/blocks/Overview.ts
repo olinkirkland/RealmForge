@@ -1,12 +1,12 @@
 import Realm from '../../realm/Realm';
 import Lang from '../../util/Lang';
-import Basics from '../sections/overview/Basics';
-import CoatOfArms from '../sections/overview/CoatOfArms';
-import Heraldry from '../sections/overview/Heraldry';
-import Sigil from '../sections/overview/Sigil';
+import BasicsSection from '../sections/overview/Basics';
+import CoatOfArmsSection from '../sections/overview/CoatOfArms';
+import HeraldrySection from '../sections/overview/Heraldry';
+import SigilSection from '../sections/overview/Sigil';
 import Block from './Block';
 
-export default class Overview extends Block {
+export default class OverviewBlock extends Block {
   constructor(realm: Realm, name: string, sectionNames: string[]) {
     super(realm, name, sectionNames);
 
@@ -17,10 +17,10 @@ export default class Overview extends Block {
 
   protected createSectionMap() {
     return {
-      basics: Basics,
-      sigil: Sigil,
-      heraldry: Heraldry,
-      coatOfArms: CoatOfArms
+      basics: BasicsSection,
+      sigil: SigilSection,
+      heraldry: HeraldrySection,
+      coatOfArms: CoatOfArmsSection
     };
   }
 }

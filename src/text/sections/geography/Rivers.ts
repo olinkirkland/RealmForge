@@ -1,8 +1,7 @@
 import Realm from '../../../realm/Realm';
-import Lang from '../../../util/Lang';
 import Section from '../Section';
 
-export default class BasicsSection extends Section {
+export default class RiversSection extends Section {
   constructor(realm: Realm, name: string) {
     super(realm, name);
   }
@@ -18,12 +17,8 @@ export default class BasicsSection extends Section {
     // Content
     const textEl: HTMLElement = document.createElement('p');
 
-    // "Nordland is an imperial principality."
-    textEl.innerHTML = `${Lang.capitalize(
-      Lang.readWord(this.realm.realmName.name)
-    )} is ${Lang.prependArticle(
-      Lang.capitalize(this.realm.parentEntity.government.adj)
-    )} ${Lang.capitalize(this.realm.government.rank)}.`;
+    // ""
+    textEl.innerHTML = ``;
 
     el.append(textEl);
     return el;

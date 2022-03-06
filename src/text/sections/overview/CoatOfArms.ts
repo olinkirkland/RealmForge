@@ -1,7 +1,7 @@
 import Realm from '../../../realm/Realm';
 import Section from '../Section';
 
-export default class CoatOfArms extends Section {
+export default class CoatOfArmsSection extends Section {
   constructor(realm: Realm, name: string) {
     super(realm, name);
   }

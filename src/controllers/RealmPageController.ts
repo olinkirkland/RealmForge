@@ -1,10 +1,11 @@
-import Rand from '../util/Rand';
+import Block from '../text/blocks/Block';
+import GeographyBlock from '../text/blocks/Geography';
+import OverviewBlock from '../text/blocks/Overview';
+import * as layout from '../text/layout.json';
 import Lang from '../util/Lang';
+import Rand from '../util/Rand';
 import Util from '../util/Util';
 import PageController from './PageController';
-import * as layout from '../text/layout.json';
-import Block from '../text/blocks/Block';
-import Overview from '../text/blocks/Overview';
 
 export default class RealmPageController extends PageController {
   constructor() {
@@ -20,6 +21,8 @@ export default class RealmPageController extends PageController {
     // Apply Content
     this.applyHeroImage();
     this.write();
+
+    console.log(this.realm);
   }
 
   applyHeroImage() {
@@ -40,7 +43,10 @@ export default class RealmPageController extends PageController {
   }
 
   write() {
-    const blockMap: any = { overview: Overview };
+    const blockMap: any = {
+      overview: OverviewBlock,
+      geography: GeographyBlock
+    };
 
     // Apply each block
     let blocks: Block[] = [];

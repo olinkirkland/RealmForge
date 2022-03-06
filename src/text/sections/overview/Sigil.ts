@@ -2,7 +2,7 @@ import Realm from '../../../realm/Realm';
 import Lang from '../../../util/Lang';
 import Section from '../Section';
 
-export default class Sigil extends Section {
+export default class SigilSection extends Section {
   constructor(realm: Realm, name: string) {
     super(realm, name);
   }

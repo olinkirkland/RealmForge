@@ -1,5 +1,5 @@
-import Rand from '../../util/Rand';
 import Realm from '../../realm/Realm';
+import Rand from '../../util/Rand';
 import { BiomeType } from '../geography/BiomesModule';
 import Module from '../Module';
 
@@ -15,8 +15,8 @@ export enum Direction {
 }
 
 export default class LocationModule extends Module {
-  locationWithinParentEntity: Direction = Direction.NORTH;
-  directionToCoast: Direction | null = null;
+  public locationWithinParentEntity!: Direction;
+  public directionToCoast!: Direction | null;
 
   constructor(realm: Realm) {
     super(realm);

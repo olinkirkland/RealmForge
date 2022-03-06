@@ -2,7 +2,7 @@ import Realm from '../../../realm/Realm';
 import Lang from '../../../util/Lang';
 import Section from '../Section';
 
-export default class Heraldry extends Section {
+export default class HeraldrySection extends Section {
   constructor(realm: Realm, name: string) {
     super(realm, name);
   }
@@ -22,11 +22,6 @@ export default class Heraldry extends Section {
     const tincture1: string = `<span class="tincture inline-icon" style="background-color: ${this.realm.heraldry.tinctures[0].color}"></span>${this.realm.heraldry.tinctures[0].name}`;
     const tincture2: string = `<span class="tincture inline-icon" style="background-color: ${this.realm.heraldry.tinctures[1].color}"></span>${this.realm.heraldry.tinctures[1].name}`;
 
-    // if (this.realm.heraldry.charge) {
-      const chargeTincture: string = `<span class="tincture inline-icon" style="background-color: ${this.realm.heraldry.chargeTincture.color}"></span>${this.realm.heraldry.chargeTincture.name}`;
-      const chargeName: string = this.realm.heraldry.charge.name;
-    // }
-
     // "The design of Nordland's coat of arms resembles a centered, red chevron on a silver field. Three gold circles are evenly spaced in the corners of the design."
     textEl.innerHTML += `The design of ${Lang.capitalize(
       Lang.readWord(this.realm.realmName.name)
@@ -35,9 +30,13 @@ export default class Heraldry extends Section {
     )}.`;
 
     if (this.realm.heraldry.chargeLayout) {
-      textEl.innerHTML += ` ${eval(
-        `\`${this.realm.heraldry.chargeLayout.description}\``
-      )}`;
+      const chargeTincture: string = `<span class="tincture inline-icon" style="background-color: ${this.realm.heraldry.chargeTincture.color}"></span>${this.realm.heraldry.chargeTincture.name}`;
+      const chargeName: string = this.realm.heraldry.charge.name;
+      if (this.realm.heraldry.chargeLayout) {
+        textEl.innerHTML += ` ${eval(
+          `\`${this.realm.heraldry.chargeLayout.description}\``
+        )}`;
+      }
     }
 
     el.append(textEl);
