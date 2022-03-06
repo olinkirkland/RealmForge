@@ -1,4 +1,4 @@
-import Rand from '../../Rand';
+import Rand from '../../util/Rand';
 import Realm from '../../realm/Realm';
 import Module from '../Module';
 import { adjectives, governments, templates } from './parent-entity.json';

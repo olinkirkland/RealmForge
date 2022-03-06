@@ -1,7 +1,7 @@
 import Module from '../Module';
-import Rand from '../../Rand';
+import Rand from '../../util/Rand';
 import Realm from '../../realm/Realm';
-import Util from '../../Util';
+import Util from '../../util/Util';
 import { Direction } from '../general/LocationModule';
 import { Humidity, Temperature } from './ClimateModule';
 import { Size } from './SizeModule';

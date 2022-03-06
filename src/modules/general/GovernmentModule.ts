@@ -1,7 +1,7 @@
 import Module from '../Module';
 import Realm from '../../realm/Realm';
 import { governments } from './governments.json';
-import Rand from '../../Rand';
+import Rand from '../../util/Rand';
 
 export type Government = { rank: string; ruler: string; size: number[] };
 

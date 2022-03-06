@@ -1,6 +1,6 @@
-import Rand from '../../Rand';
 import Realm from '../../realm/Realm';
-import { Word, WordPart } from '../../toponymy/Language';
+import { Word, WordPart } from '../../util/Lang';
+import Rand from '../../util/Rand';
 import Module from '../Module';
 import { placeRoots, placeSuffixes } from './place-names.json';
 

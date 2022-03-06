@@ -8,8 +8,8 @@ import {
   metalTinctures,
   colorTinctures
 } from './heraldry.json';
-import Rand from '../../Rand';
-import Util from '../../Util';
+import Rand from '../../util/Rand';
+import Util from '../../util/Util';
 
 export type Sigil = {
   name: string;

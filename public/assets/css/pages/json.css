@@ -1,0 +1,60 @@
+/* JSON VIEW */
+.container.container--json {
+  max-width: 64rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 6.4rem;
+}
+
+.inner-json {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 6.4rem 1.2rem;
+  border: 1px dashed var(--dark-text);
+}
+
+.container.container--json h2 {
+  margin-bottom: 1.2rem;
+}
+
+.container.container--json p.subtitle {
+  margin-bottom: 4.2rem;
+}
+
+.json-border-and-content {
+  margin-top: 2rem;
+  display: flex;
+  width: 100%;
+}
+
+.json-border {
+  flex: 0 0 5px;
+  border-radius: 5px 0 0 5px;
+  background-color: orangered;
+}
+
+.json-content {
+  flex: 1 0 0;
+}
+
+.json-format {
+  border: 1px solid rgba(248, 248, 248, 0.1);
+  background-color: var(--light-background);
+  border-radius: 0 5px 5px 0;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 25px 0px;
+  color: var(--dark-text);
+  page-break-inside: avoid;
+  font-family: 'Inconsolata', monospace !important;
+  font-size: 1.4rem;
+  line-height: 1.2;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 1rem 2rem;
+  display: block;
+  white-space: pre;
+  width: 100%;
+}

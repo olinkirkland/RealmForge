@@ -1,6 +1,6 @@
-import Rand from '../Rand';
-import Language from '../toponymy/Language';
-import Util from '../Util';
+import Rand from '../util/Rand';
+import Lang from '../util/Lang';
+import Util from '../util/Util';
 import PageController from './PageController';
 import * as layout from '../text/layout.json';
 import Block from '../text/Block';
@@ -30,6 +30,12 @@ export default class HomePageController extends PageController {
       'style',
       `background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${this.realm.heroImageUrl})`
     );
+
+    // Apply the hero text
+    const heroTextEl: HTMLSpanElement = document.querySelector('#hero > h2')!;
+    heroTextEl.textContent = Lang.capitalize(
+      Lang.readWord(this.realm.realmName.name)
+    );
   }
 
   write() {
@@ -50,9 +56,8 @@ export default class HomePageController extends PageController {
       'btnStart'
     )! as HTMLButtonElement;
     btnStart.addEventListener('click', () => {
-      // This will refresh the page
+      // This will refresh the page with a new seed
       Rand.generateSeed();
-      console.log(Rand.seed);
       let url: string = window.location.href;
       url = url.substring(0, url.indexOf('?'));
       if (window.location.href) window.location.replace(url + '?' + Rand.seed);
@@ -164,7 +169,7 @@ export default class HomePageController extends PageController {
     btnFavorite.addEventListener('click', () => {
       const f: { id: string; name: string } = {
         id: Rand.seed,
-        name: Language.readWord(this.realm.realmName.name)
+        name: Lang.readWord(this.realm.realmName.name)
       };
 
       if (!favorites.some((v) => f.id == v.id)) {
@@ -180,6 +185,9 @@ export default class HomePageController extends PageController {
       document.querySelector('#btnFavorite i')!;
     const btnFavoriteText: HTMLElement =
       document.querySelector('#btnFavorite span')!;
+
+    // Do this the first time the page loads
+    refreshFavorites();
 
     function refreshFavorites() {
       btnFavoriteIcon.classList.remove('fa-solid', 'fa-regular', 'selected');

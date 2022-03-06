@@ -9,7 +9,7 @@ import GovernmentModule from '../modules/general/GovernmentModule';
 import RealmNameModule from '../modules/general/RealmNameModule';
 
 import * as heroImageUrls from './hero-images.json';
-import Rand from '../Rand';
+import Rand from '../util/Rand';
 
 export default class Realm {
   // Modules

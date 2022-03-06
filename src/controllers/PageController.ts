@@ -1,6 +1,6 @@
-import Rand from '../Rand';
+import Rand from '../util/Rand';
 import Realm from '../realm/Realm';
-import Util from '../Util';
+import Util from '../util/Util';
 
 export default class PageController {
   protected realm!: Realm;

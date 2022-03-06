@@ -1,7 +1,7 @@
-import Rand from '../../Rand';
 import Realm from '../../realm/Realm';
-import { Word, WordPart } from '../../toponymy/Language';
-import Util from '../../Util';
+import { Word, WordPart } from '../../util/Lang';
+import Rand from '../../util/Rand';
+import Util from '../../util/Util';
 import LocationModule, { Direction } from '../general/LocationModule';
 import Module from '../Module';
 import { Biome, BiomeType } from './BiomesModule';

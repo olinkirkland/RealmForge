@@ -1,5 +1,5 @@
 import Realm from '../realm/Realm';
-import Util from '../Util';
+import Lang from '../util/Lang';
 
 export default class Section {
   protected realm: Realm;
@@ -20,7 +20,7 @@ export default class Section {
 
     // Placeholder content
     const textEl: HTMLElement = document.createElement('p');
-    textEl.textContent = Util.lorem();
+    textEl.textContent = Lang.lorem();
     el.append(textEl);
 
     return el;

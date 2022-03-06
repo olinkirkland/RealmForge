@@ -1,4 +1,4 @@
-import Rand from '../../Rand';
+import Rand from '../../util/Rand';
 import Realm from '../../realm/Realm';
 import { BiomeType } from '../geography/BiomesModule';
 import Module from '../Module';

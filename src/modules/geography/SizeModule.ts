@@ -1,6 +1,6 @@
 import Module from '../Module';
 import Realm from '../../realm/Realm';
-import Rand from '../../Rand';
+import Rand from '../../util/Rand';
 
 export enum Size {
   VERY_SMALL = 'very small',

@@ -1,4 +1,5 @@
 import Realm from '../realm/Realm';
+import Lang from '../util/Lang';
 import Section from './Section';
 
 export default class Block {
@@ -23,7 +24,7 @@ export default class Block {
 
     // Title
     const titleEl: HTMLElement = document.createElement('h2');
-    titleEl.textContent = this.name;
+    titleEl.textContent = Lang.capitalize(this.name);
     el.appendChild(titleEl);
 
     // Sections

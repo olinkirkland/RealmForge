@@ -1,7 +1,7 @@
 import Module from '../Module';
 import Realm from '../../realm/Realm';
-import Rand from '../../Rand';
-import Util from '../../Util';
+import Rand from '../../util/Rand';
+import Util from '../../util/Util';
 import { Direction } from '../general/LocationModule';
 import { summer, winter } from './season-descriptions.json';
 
