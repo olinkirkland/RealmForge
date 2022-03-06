@@ -742,8 +742,6 @@ var Humidity;
 class ClimateModule extends _Module__WEBPACK_IMPORTED_MODULE_0__["default"] {
     constructor(realm) {
         super(realm);
-        this.summerAdjectives = [];
-        this.winterAdjectives = [];
     }
     run() {
         // Temperature: Default is TEMPERATE
@@ -772,6 +770,7 @@ class ClimateModule extends _Module__WEBPACK_IMPORTED_MODULE_0__["default"] {
         // Choose words to describe summer and winter
         this.summerAdjectives = this.chooseSeasonAdjectives(_season_descriptions_json__WEBPACK_IMPORTED_MODULE_4__.summer[this.temperature].concat(_season_descriptions_json__WEBPACK_IMPORTED_MODULE_4__.summer[this.humidity]));
         this.winterAdjectives = this.chooseSeasonAdjectives(_season_descriptions_json__WEBPACK_IMPORTED_MODULE_4__.winter[this.temperature].concat(_season_descriptions_json__WEBPACK_IMPORTED_MODULE_4__.winter[this.humidity]));
+        console.log(this.summerAdjectives, this.winterAdjectives);
     }
     chooseSeasonAdjectives(adjectives) {
         let arr = [];
@@ -1039,6 +1038,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_general_RealmNameModule__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../modules/general/RealmNameModule */ "./src/modules/general/RealmNameModule.ts");
 /* harmony import */ var _hero_images_json__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./hero-images.json */ "./src/realm/hero-images.json");
 /* harmony import */ var _util_Rand__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../util/Rand */ "./src/util/Rand.ts");
+/* harmony import */ var _util_Lang__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../util/Lang */ "./src/util/Lang.ts");
+
 
 
 
@@ -1086,6 +1087,9 @@ class Realm {
         let u = {};
         this.tags.forEach((t) => (u[t] = true));
         return new ConditionEvaluator().run(condition, u);
+    }
+    get name() {
+        return _util_Lang__WEBPACK_IMPORTED_MODULE_11__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_11__["default"].readWord(this.realmName.name));
     }
 }
 class ConditionEvaluator {
@@ -1308,8 +1312,8 @@ class ClimateSection extends _Section__WEBPACK_IMPORTED_MODULE_0__["default"] {
         el.appendChild(titleEl);
         // Content
         const textEl = document.createElement('p');
-        // ""
-        textEl.innerHTML = ``;
+        // "The climate of Nordland is cold and wet, with brisk winters and mild, cool summers."
+        textEl.innerHTML = `The climate of ${this.realm.name} is ${this.realm.climate.temperature} and ${this.realm.climate.humidity}, with ${this.realm.climate.summerAdjectives.join(', ')} summers and ${this.realm.climate.winterAdjectives.join(', ')} winters.`;
         el.append(textEl);
         return el;
     }
@@ -1342,8 +1346,12 @@ class EcoregionsSection extends _Section__WEBPACK_IMPORTED_MODULE_0__["default"]
         el.appendChild(titleEl);
         // Content
         const textEl = document.createElement('p');
-        // ""
-        textEl.innerHTML = ``;
+        // "The ecoregions of Nordland consist mostly of boreal-forest with a very small temperate-forest region in the west."
+        if (this.realm.biomes.biomes.length == 1) {
+            textEl.innerHTML = `The ecoregions of ${this.realm.name}`;
+        }
+        else {
+        }
         el.append(textEl);
         return el;
     }
@@ -1451,7 +1459,7 @@ class BasicsSection extends _Section__WEBPACK_IMPORTED_MODULE_1__["default"] {
         // Content
         const textEl = document.createElement('p');
         // "Nordland is an imperial principality."
-        textEl.innerHTML = `${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(this.realm.realmName.name))} is ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].prependArticle(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(this.realm.parentEntity.government.adj))} ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(this.realm.government.rank)}.`;
+        textEl.innerHTML = `${this.realm.name} is ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].prependArticle(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(this.realm.parentEntity.government.adj))} ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(this.realm.government.rank)}.`;
         el.append(textEl);
         return el;
     }
@@ -1521,11 +1529,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ HeraldrySection)
 /* harmony export */ });
-/* harmony import */ var _util_Lang__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../util/Lang */ "./src/util/Lang.ts");
-/* harmony import */ var _Section__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Section */ "./src/text/sections/Section.ts");
+/* harmony import */ var _Section__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Section */ "./src/text/sections/Section.ts");
 
-
-class HeraldrySection extends _Section__WEBPACK_IMPORTED_MODULE_1__["default"] {
+class HeraldrySection extends _Section__WEBPACK_IMPORTED_MODULE_0__["default"] {
     constructor(realm, name) {
         super(realm, name);
     }
@@ -1541,7 +1547,7 @@ class HeraldrySection extends _Section__WEBPACK_IMPORTED_MODULE_1__["default"] {
         const tincture1 = `<span class="tincture inline-icon" style="background-color: ${this.realm.heraldry.tinctures[0].color}"></span>${this.realm.heraldry.tinctures[0].name}`;
         const tincture2 = `<span class="tincture inline-icon" style="background-color: ${this.realm.heraldry.tinctures[1].color}"></span>${this.realm.heraldry.tinctures[1].name}`;
         // "The design of Nordland's coat of arms resembles a centered, red chevron on a silver field. Three gold circles are evenly spaced in the corners of the design."
-        textEl.innerHTML += `The design of ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(this.realm.realmName.name))}'s coat of arms resembles ${eval(`\`${this.realm.heraldry.ordinary.description}\``)}.`;
+        textEl.innerHTML += `The design of ${this.realm.name}'s coat of arms resembles ${eval(`\`${this.realm.heraldry.ordinary.description}\``)}.`;
         if (this.realm.heraldry.chargeLayout) {
             const chargeTincture = `<span class="tincture inline-icon" style="background-color: ${this.realm.heraldry.chargeTincture.color}"></span>${this.realm.heraldry.chargeTincture.name}`;
             const chargeName = this.realm.heraldry.charge.name;
@@ -1567,11 +1573,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ SigilSection)
 /* harmony export */ });
-/* harmony import */ var _util_Lang__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../util/Lang */ "./src/util/Lang.ts");
-/* harmony import */ var _Section__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Section */ "./src/text/sections/Section.ts");
+/* harmony import */ var _Section__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Section */ "./src/text/sections/Section.ts");
 
-
-class SigilSection extends _Section__WEBPACK_IMPORTED_MODULE_1__["default"] {
+class SigilSection extends _Section__WEBPACK_IMPORTED_MODULE_0__["default"] {
     constructor(realm, name) {
         super(realm, name);
     }
@@ -1584,7 +1588,7 @@ class SigilSection extends _Section__WEBPACK_IMPORTED_MODULE_1__["default"] {
         // Content
         const textEl = document.createElement('p');
         // "The sigil of Nordland is a cross, which symbolizes piety."
-        textEl.innerHTML += `The sigil of ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(this.realm.realmName.name))} is a ${this.realm.heraldry.sigil.name}, and symbolizes ${this.realm.heraldry.sigil.meaning}.`;
+        textEl.innerHTML += `The sigil of ${this.realm.name} is a ${this.realm.heraldry.sigil.name}, and symbolizes ${this.realm.heraldry.sigil.meaning}.`;
         el.append(textEl);
         // <i class="fas fa-${this.realm.heraldry.sigil.icon}"></i>
         return el;
@@ -1906,7 +1910,7 @@ module.exports = JSON.parse('{"tributaryPrefixes":[{"text":"heller","condition":
   \********************************************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"summer":{"warm":["hot","blistering","stifling","long","sweltering"],"cold":["cool","mild"],"wet":["humid"],"dry":["arid"],"temperate":["pleasant","agreeable","balmy"]},"winter":{"warm":["mild","short"],"cold":["harsh","cold","brisk","biting","chilly","freezing","icy"],"wet":["snowy","damp"],"dry":["crisp","cloudless"],"temperate":["mild","pleasant"]}}');
+module.exports = JSON.parse('{"summer":{"warm":["hot","blistering","stifling","long","sweltering"],"cold":["cool","mild"],"wet":["humid"],"dry":["arid"],"temperate":["pleasant","agreeable","balmy"]},"winter":{"warm":["mild","short"],"cold":["harsh","cold","brisk","biting","chilly","freezing","icy"],"wet":["snowy","damp"],"dry":["crisp","cloudless"],"temperate":["mild","clement"]}}');
 
 /***/ }),
 

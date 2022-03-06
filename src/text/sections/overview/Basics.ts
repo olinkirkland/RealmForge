@@ -19,9 +19,7 @@ export default class BasicsSection extends Section {
     const textEl: HTMLElement = document.createElement('p');
 
     // "Nordland is an imperial principality."
-    textEl.innerHTML = `${Lang.capitalize(
-      Lang.readWord(this.realm.realmName.name)
-    )} is ${Lang.prependArticle(
+    textEl.innerHTML = `${this.realm.name} is ${Lang.prependArticle(
       Lang.capitalize(this.realm.parentEntity.government.adj)
     )} ${Lang.capitalize(this.realm.government.rank)}.`;
 

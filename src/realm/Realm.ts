@@ -10,6 +10,7 @@ import RealmNameModule from '../modules/general/RealmNameModule';
 
 import * as heroImageUrls from './hero-images.json';
 import Rand from '../util/Rand';
+import Lang from '../util/Lang';
 
 export default class Realm {
   // Modules
@@ -69,6 +70,10 @@ export default class Realm {
     let u: any = {};
     this.tags.forEach((t) => (u[t] = true));
     return new ConditionEvaluator().run(condition, u);
+  }
+
+  public get name() {
+    return Lang.capitalize(Lang.readWord(this.realmName.name));
   }
 }
 
