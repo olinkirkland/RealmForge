@@ -3,9 +3,10 @@ import Lang from '../util/Lang';
 import Util from '../util/Util';
 import PageController from './PageController';
 import * as layout from '../text/layout.json';
-import Block from '../text/Block';
+import Block from '../text/blocks/Block';
+import Overview from '../text/blocks/Overview';
 
-export default class HomePageController extends PageController {
+export default class RealmPageController extends PageController {
   constructor() {
     super();
 
@@ -39,10 +40,16 @@ export default class HomePageController extends PageController {
   }
 
   write() {
+    const blockMap: any = { overview: Overview };
+
     // Apply each block
     let blocks: Block[] = [];
     layout.forEach((b) => {
-      blocks.push(new Block(this.realm, b.name, b.sections));
+      let block: Block = blockMap[b.name]
+        ? new blockMap[b.name](this.realm, b.name, b.sections)
+        : new Block(this.realm, b.name, b.sections);
+
+      blocks.push(block);
     });
 
     const el: HTMLElement = document.getElementById('content')!;

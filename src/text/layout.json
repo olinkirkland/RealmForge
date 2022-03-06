@@ -1,13 +1,13 @@
 [
   {
     "name": "overview",
-    "sections": ["basics", "sigil", "heraldry", "heraldry-pattern"]
+    "sections": ["basics", "sigil", "heraldry", "heraldryPattern"]
   },
   {
     "name": "geography",
     "sections": [
       "location",
-      "neighboring-realms",
+      "neighboringRealms",
       "climate",
       "ecoregions",
       "rivers",
@@ -16,11 +16,11 @@
   },
   {
     "name": "economy",
-    "sections": ["infrastructure", "natural-resouces"]
+    "sections": ["infrastructure", "naturalResouces"]
   },
   {
     "name": "government",
-    "sections": ["government-structure", "political-regions"]
+    "sections": ["government-structure", "politicalRegions"]
   },
   {
     "name": "demographics",
@@ -28,12 +28,6 @@
   },
   {
     "name": "culture",
-    "sections": [
-      "landmarks",
-      "music-and-art",
-      "literature",
-      "cuisine",
-      "sports"
-    ]
+    "sections": ["landmarks", "musicAndAart", "literature", "cuisine", "sports"]
   }
 ]

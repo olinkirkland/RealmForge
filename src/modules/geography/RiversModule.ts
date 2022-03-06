@@ -1,5 +1,5 @@
 import Realm from '../../realm/Realm';
-import { Word, WordPart } from '../../util/Lang';
+import Lang, { Word, WordPart } from '../../util/Lang';
 import Rand from '../../util/Rand';
 import Util from '../../util/Util';
 import LocationModule, { Direction } from '../general/LocationModule';
@@ -7,7 +7,9 @@ import Module from '../Module';
 import { Biome, BiomeType } from './BiomesModule';
 import { Humidity } from './ClimateModule';
 import {
-  riverSuffixes, roots, tributaryPrefixes,
+  riverSuffixes,
+  roots,
+  tributaryPrefixes,
   tributarySuffixes
 } from './river-names.json';
 
@@ -182,8 +184,8 @@ export default class RiversModule extends Module {
   private isValidRiverName(riverName: Word): boolean {
     // Can't have two vowels next to each other
     if (
-      Util.endsWithVowel(riverName.root.text) &&
-      Util.startsWithVowel(riverName.suffix.text)
+      Lang.endsWithVowel(riverName.root.text) &&
+      Lang.startsWithVowel(riverName.suffix.text)
     ) {
       return false;
     }

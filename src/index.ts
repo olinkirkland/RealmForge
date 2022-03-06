@@ -2,7 +2,7 @@
  * Hint: Use 'npm run build' from console to compile + watch the TS code on save
  */
 
-import HomePageController from './controllers/HomePageController';
+import RealmPageController from './controllers/RealmPageController';
 import JSONPageController from './controllers/JSONPageController';
 import PageController from './controllers/PageController';
 
@@ -16,7 +16,7 @@ const file = arr && arr.length > 1 ? arr[1] : '';
 let controller: PageController;
 switch (file) {
   case 'realm':
-    controller = new HomePageController();
+    controller = new RealmPageController();
     break;
   case 'json':
     controller = new JSONPageController();

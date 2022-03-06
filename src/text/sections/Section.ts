@@ -1,5 +1,5 @@
-import Realm from '../realm/Realm';
-import Lang from '../util/Lang';
+import Realm from '../../realm/Realm';
+import Lang from '../../util/Lang';
 
 export default class Section {
   protected realm: Realm;
