@@ -21,8 +21,11 @@ export default class Heraldry extends Section {
     // Vars
     const tincture1: string = `<span class="tincture inline-icon" style="background-color: ${this.realm.heraldry.tinctures[0].color}"></span>${this.realm.heraldry.tinctures[0].name}`;
     const tincture2: string = `<span class="tincture inline-icon" style="background-color: ${this.realm.heraldry.tinctures[1].color}"></span>${this.realm.heraldry.tinctures[1].name}`;
-    const chargeTincture: string = this.realm.heraldry.chargeTincture.name;
-    const chargeName: string = this.realm.heraldry.charge.name;
+
+    // if (this.realm.heraldry.charge) {
+      const chargeTincture: string = `<span class="tincture inline-icon" style="background-color: ${this.realm.heraldry.chargeTincture.color}"></span>${this.realm.heraldry.chargeTincture.name}`;
+      const chargeName: string = this.realm.heraldry.charge.name;
+    // }
 
     // "The design of Nordland's coat of arms resembles a centered, red chevron on a silver field. Three gold circles are evenly spaced in the corners of the design."
     textEl.innerHTML += `The design of ${Lang.capitalize(

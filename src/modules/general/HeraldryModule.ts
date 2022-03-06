@@ -101,7 +101,7 @@ export default class HeraldryModule extends Module {
     if (tinctureOverlapIndexes.length > 0) {
       const overlapTincture: Tincture =
         this.tinctures[tinctureOverlapIndexes[0]];
-      if (overlapTincture.type == 'color') {
+      if (overlapTincture.type == 'metal') {
         availableTinctures = colorTinctures;
       }
     }

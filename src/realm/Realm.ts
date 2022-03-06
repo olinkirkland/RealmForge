@@ -33,7 +33,6 @@ export default class Realm {
   }
 
   private runModules() {
-    console.log(Rand.next());
     this.size = new SizeModule(this);
     this.location = new LocationModule(this);
     this.parentEntity = new ParentEntityModule(this);

@@ -493,7 +493,7 @@ class HeraldryModule extends _Module__WEBPACK_IMPORTED_MODULE_1__["default"] {
         let availableTinctures = _heraldry_json__WEBPACK_IMPORTED_MODULE_2__.metalTinctures;
         if (tinctureOverlapIndexes.length > 0) {
             const overlapTincture = this.tinctures[tinctureOverlapIndexes[0]];
-            if (overlapTincture.type == 'color') {
+            if (overlapTincture.type == 'metal') {
                 availableTinctures = _heraldry_json__WEBPACK_IMPORTED_MODULE_2__.colorTinctures;
             }
         }
@@ -1054,7 +1054,6 @@ class Realm {
         this.runModules();
     }
     runModules() {
-        console.log(_util_Rand__WEBPACK_IMPORTED_MODULE_10__["default"].next());
         this.size = new _modules_geography_SizeModule__WEBPACK_IMPORTED_MODULE_0__["default"](this);
         this.location = new _modules_general_LocationModule__WEBPACK_IMPORTED_MODULE_1__["default"](this);
         this.parentEntity = new _modules_geography_ParentEntityModule__WEBPACK_IMPORTED_MODULE_2__["default"](this);
@@ -1296,7 +1295,7 @@ class CoatOfArms extends _Section__WEBPACK_IMPORTED_MODULE_0__["default"] {
         if (this.realm.heraldry.chargeLayout) {
             let str = `<div class="charge-layout charge-layout-${this.realm.heraldry.chargeLayout.name}">`;
             for (let i = 0; i < this.realm.heraldry.chargeLayout.count; i++) {
-                str += `<i class="fa-solid fa-${this.realm.heraldry.charge.url} ${'fa-' + this.realm.heraldry.chargeLayout.size}" style="color:${this.realm.heraldry.chargeTincture}"></i>`;
+                str += `<i class="fa-solid fa-${this.realm.heraldry.charge.url} ${'fa-' + this.realm.heraldry.chargeLayout.size}" style="color:${this.realm.heraldry.chargeTincture.color}"></i>`;
             }
             str += `</div>`;
             artEl.innerHTML += str;
@@ -1338,8 +1337,10 @@ class Heraldry extends _Section__WEBPACK_IMPORTED_MODULE_1__["default"] {
         // Vars
         const tincture1 = `<span class="tincture inline-icon" style="background-color: ${this.realm.heraldry.tinctures[0].color}"></span>${this.realm.heraldry.tinctures[0].name}`;
         const tincture2 = `<span class="tincture inline-icon" style="background-color: ${this.realm.heraldry.tinctures[1].color}"></span>${this.realm.heraldry.tinctures[1].name}`;
-        const chargeTincture = this.realm.heraldry.chargeTincture.name;
+        // if (this.realm.heraldry.charge) {
+        const chargeTincture = `<span class="tincture inline-icon" style="background-color: ${this.realm.heraldry.chargeTincture.color}"></span>${this.realm.heraldry.chargeTincture.name}`;
         const chargeName = this.realm.heraldry.charge.name;
+        // }
         // "The design of Nordland's coat of arms resembles a centered, red chevron on a silver field. Three gold circles are evenly spaced in the corners of the design."
         textEl.innerHTML += `The design of ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(this.realm.realmName.name))}'s coat of arms resembles ${eval(`\`${this.realm.heraldry.ordinary.description}\``)}.`;
         if (this.realm.heraldry.chargeLayout) {
@@ -1380,8 +1381,9 @@ class Sigil extends _Section__WEBPACK_IMPORTED_MODULE_1__["default"] {
         // Content
         const textEl = document.createElement('p');
         // "The sigil of Nordland is a cross, which symbolizes piety."
-        textEl.innerHTML += `<i class="fas fa-${this.realm.heraldry.sigil.icon}"></i>The sigil of ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(this.realm.realmName.name))} is a ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(this.realm.heraldry.sigil.name)}, which symbolizes ${this.realm.heraldry.sigil.meaning}.`;
+        textEl.innerHTML += `The sigil of ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(this.realm.realmName.name))} is a ${this.realm.heraldry.sigil.name}, and symbolizes ${this.realm.heraldry.sigil.meaning}.`;
         el.append(textEl);
+        // <i class="fas fa-${this.realm.heraldry.sigil.icon}"></i>
         return el;
     }
 }

@@ -9,7 +9,7 @@ export default class CoatOfArms extends Section {
   public render(): HTMLElement {
     const el: HTMLElement = document.createElement('li');
     el.classList.add('li-coatOfArms');
-    
+
     const artEl: HTMLElement = document.createElement('div');
     artEl.classList.add('coatOfArms');
 
@@ -35,7 +35,7 @@ export default class CoatOfArms extends Section {
       for (let i: number = 0; i < this.realm.heraldry.chargeLayout.count; i++) {
         str += `<i class="fa-solid fa-${this.realm.heraldry.charge.url} ${
           'fa-' + this.realm.heraldry.chargeLayout.size
-        }" style="color:${this.realm.heraldry.chargeTincture}"></i>`;
+        }" style="color:${this.realm.heraldry.chargeTincture.color}"></i>`;
       }
 
       str += `</div>`;

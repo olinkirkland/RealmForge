@@ -19,15 +19,16 @@ export default class Sigil extends Section {
     const textEl: HTMLElement = document.createElement('p');
 
     // "The sigil of Nordland is a cross, which symbolizes piety."
-    textEl.innerHTML += `<i class="fas fa-${
-      this.realm.heraldry.sigil.icon
-    }"></i>The sigil of ${Lang.capitalize(
+    textEl.innerHTML += `The sigil of ${Lang.capitalize(
       Lang.readWord(this.realm.realmName.name)
-    )} is a ${Lang.capitalize(
-      this.realm.heraldry.sigil.name
-    )}, which symbolizes ${this.realm.heraldry.sigil.meaning}.`;
+    )} is a ${this.realm.heraldry.sigil.name}, and symbolizes ${
+      this.realm.heraldry.sigil.meaning
+    }.`;
 
     el.append(textEl);
+
+    // <i class="fas fa-${this.realm.heraldry.sigil.icon}"></i>
+
     return el;
   }
 }
