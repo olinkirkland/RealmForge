@@ -1159,21 +1159,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _util_Lang__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../util/Lang */ "./src/util/Lang.ts");
 /* harmony import */ var _sections_overview_Basics__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../sections/overview/Basics */ "./src/text/sections/overview/Basics.ts");
-/* harmony import */ var _sections_overview_Heraldry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../sections/overview/Heraldry */ "./src/text/sections/overview/Heraldry.ts");
-/* harmony import */ var _sections_overview_Sigil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../sections/overview/Sigil */ "./src/text/sections/overview/Sigil.ts");
-/* harmony import */ var _Block__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Block */ "./src/text/blocks/Block.ts");
+/* harmony import */ var _sections_overview_CoatOfArms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../sections/overview/CoatOfArms */ "./src/text/sections/overview/CoatOfArms.ts");
+/* harmony import */ var _sections_overview_Heraldry__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../sections/overview/Heraldry */ "./src/text/sections/overview/Heraldry.ts");
+/* harmony import */ var _sections_overview_Sigil__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../sections/overview/Sigil */ "./src/text/sections/overview/Sigil.ts");
+/* harmony import */ var _Block__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Block */ "./src/text/blocks/Block.ts");
 
 
 
 
 
-class Overview extends _Block__WEBPACK_IMPORTED_MODULE_4__["default"] {
+
+class Overview extends _Block__WEBPACK_IMPORTED_MODULE_5__["default"] {
     constructor(realm, name, sectionNames) {
         super(realm, name, sectionNames);
         this.name = `An Overview of ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(this.realm.realmName.name))}`;
     }
     createSectionMap() {
-        return { basics: _sections_overview_Basics__WEBPACK_IMPORTED_MODULE_1__["default"], sigil: _sections_overview_Sigil__WEBPACK_IMPORTED_MODULE_3__["default"], heraldry: _sections_overview_Heraldry__WEBPACK_IMPORTED_MODULE_2__["default"] };
+        return {
+            basics: _sections_overview_Basics__WEBPACK_IMPORTED_MODULE_1__["default"],
+            sigil: _sections_overview_Sigil__WEBPACK_IMPORTED_MODULE_4__["default"],
+            heraldry: _sections_overview_Heraldry__WEBPACK_IMPORTED_MODULE_3__["default"],
+            coatOfArms: _sections_overview_CoatOfArms__WEBPACK_IMPORTED_MODULE_2__["default"]
+        };
     }
 }
 
@@ -1244,6 +1251,57 @@ class Basics extends _Section__WEBPACK_IMPORTED_MODULE_1__["default"] {
         // "Nordland is an imperial principality."
         textEl.innerHTML = `${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(this.realm.realmName.name))} is ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].prependArticle(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(this.realm.parentEntity.government.adj))} ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(this.realm.government.rank)}.`;
         el.append(textEl);
+        return el;
+    }
+}
+
+
+/***/ }),
+
+/***/ "./src/text/sections/overview/CoatOfArms.ts":
+/*!**************************************************!*\
+  !*** ./src/text/sections/overview/CoatOfArms.ts ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ CoatOfArms)
+/* harmony export */ });
+/* harmony import */ var _Section__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Section */ "./src/text/sections/Section.ts");
+
+class CoatOfArms extends _Section__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    constructor(realm, name) {
+        super(realm, name);
+    }
+    render() {
+        const el = document.createElement('li');
+        el.classList.add('li-coatOfArms');
+        const artEl = document.createElement('div');
+        artEl.classList.add('coatOfArms');
+        this.realm.heraldry.ordinary.svg.forEach((svg) => {
+            // Draw layer
+            artEl.innerHTML += `<svg
+        xmlns="http://www.w3.org/2000/svg" fill="${this.realm.heraldry.tinctures[svg.tinctureIndex].color}" viewBox="0 0 12 12">
+          <mask id="myMask">
+            <path d="M 2 1 
+            L 2 7
+            c 0 6 8 6 8 0
+            V 1 H 2" fill="white" />
+          </mask>
+          <path d="${svg.path}" mask="url(#myMask)" />
+        </svg>`;
+        });
+        // Draw the charges
+        if (this.realm.heraldry.chargeLayout) {
+            let str = `<div class="charge-layout charge-layout-${this.realm.heraldry.chargeLayout.name}">`;
+            for (let i = 0; i < this.realm.heraldry.chargeLayout.count; i++) {
+                str += `<i class="fa-solid fa-${this.realm.heraldry.charge.url} ${'fa-' + this.realm.heraldry.chargeLayout.size}" style="color:${this.realm.heraldry.chargeTincture}"></i>`;
+            }
+            str += `</div>`;
+            artEl.innerHTML += str;
+        }
+        el.appendChild(artEl);
         return el;
     }
 }
@@ -1663,7 +1721,7 @@ module.exports = JSON.parse('[{"url":"boreal-forest-1.png","condition":"t.boreal
   \******************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('[{"name":"overview","sections":["basics","sigil","heraldry","heraldryPattern"]},{"name":"geography","sections":["location","neighboringRealms","climate","ecoregions","rivers","biodiversity"]},{"name":"economy","sections":["infrastructure","naturalResouces"]},{"name":"government","sections":["government-structure","politicalRegions"]},{"name":"demographics","sections":["language","education","religion"]},{"name":"culture","sections":["landmarks","musicAndAart","literature","cuisine","sports"]}]');
+module.exports = JSON.parse('[{"name":"overview","sections":["basics","sigil","heraldry","coatOfArms"]},{"name":"geography","sections":["location","neighboringRealms","climate","ecoregions","rivers","biodiversity"]},{"name":"economy","sections":["infrastructure","naturalResouces"]},{"name":"government","sections":["government-structure","politicalRegions"]},{"name":"demographics","sections":["language","education","religion"]},{"name":"culture","sections":["landmarks","musicAndAart","literature","cuisine","sports"]}]');
 
 /***/ }),
 

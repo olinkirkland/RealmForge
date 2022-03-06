@@ -9,13 +9,14 @@
   border-radius: 4px;
 }
 
-.li-coatOfArmsArt {
+.li-coatOfArms {
   display: flex;
   flex-direction: row;
+  justify-content: center;
   align-items: center;
 }
 
-.coatOfArmsArt {
+.coatOfArms {
   flex-shrink: 0;
   position: relative;
   width: 12rem;
@@ -27,12 +28,12 @@
   filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.2));
 }
 
-.coatOfArmsArt > svg {
+.coatOfArms > svg {
   position: absolute;
   z-index: -1;
 }
 
-.coatOfArmsArt i {
+.coatOfArms i {
   margin: 0;
 }
 

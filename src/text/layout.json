@@ -1,7 +1,7 @@
 [
   {
     "name": "overview",
-    "sections": ["basics", "sigil", "heraldry", "heraldryPattern"]
+    "sections": ["basics", "sigil", "heraldry", "coatOfArms"]
   },
   {
     "name": "geography",

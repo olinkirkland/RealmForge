@@ -1,6 +1,7 @@
 import Realm from '../../realm/Realm';
 import Lang from '../../util/Lang';
 import Basics from '../sections/overview/Basics';
+import CoatOfArms from '../sections/overview/CoatOfArms';
 import Heraldry from '../sections/overview/Heraldry';
 import Sigil from '../sections/overview/Sigil';
 import Block from './Block';
@@ -15,6 +16,11 @@ export default class Overview extends Block {
   }
 
   protected createSectionMap() {
-    return { basics: Basics, sigil: Sigil, heraldry: Heraldry };
+    return {
+      basics: Basics,
+      sigil: Sigil,
+      heraldry: Heraldry,
+      coatOfArms: CoatOfArms
+    };
   }
 }
