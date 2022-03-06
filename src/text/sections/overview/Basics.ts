@@ -22,7 +22,7 @@ export default class Basics extends Section {
     textEl.innerHTML = `${Lang.capitalize(
       Lang.readWord(this.realm.realmName.name)
     )} is ${Lang.prependArticle(
-      Lang.capitalize(this.realm.parentEntity.adjective)
+      Lang.capitalize(this.realm.parentEntity.government.adj)
     )} ${Lang.capitalize(this.realm.government.rank)}.`;
 
     el.append(textEl);

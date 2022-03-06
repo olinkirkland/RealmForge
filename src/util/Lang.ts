@@ -33,13 +33,13 @@ export default class Lang {
   // Returns true if the string starts with a vowel
   static startsWithVowel(str: string): boolean {
     const regex = new RegExp('^[aeiou].*', 'i');
-    return regex.test(str);
+    return regex.test(str.trim());
   }
 
   // Returns true if the string starts with a vowel
   static endsWithVowel(str: string): boolean {
     const regex = new RegExp('.*[aeiou]$', 'i');
-    return regex.test(str);
+    return regex.test(str.trim());
   }
 
   // Returns a string joining an array of at least two entries

@@ -182,14 +182,6 @@ article li i {
   margin-right: 0.4rem;
 }
 
-.under-construction {
+.work-in-progress {
   opacity: 0.2;
-}
-
-.inline-icon {
-  margin: 0 0.6rem;
-}
-
-.inline-icon:first-child {
-  margin-left: 0;
 }

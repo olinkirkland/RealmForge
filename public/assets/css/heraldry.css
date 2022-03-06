@@ -1,17 +1,12 @@
-.tincture-primary,
-.tincture-secondary,
-.tincture-charge-color {
-  white-space: nowrap;
-}
-
 .tincture {
   position: relative;
   display: inline-block;
+  margin: 0 0.4rem;
+  bottom: -0.25rem;
+  white-space: nowrap;
   width: 1.6rem;
   height: 1.6rem;
-  margin: 0 0.2rem;
   border-radius: 4px;
-  bottom: -0.2rem;
 }
 
 .li-coatOfArmsArt {

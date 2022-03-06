@@ -16,70 +16,70 @@
       "count": 1,
       "size": "2xl",
       "points": 40,
-      "description": "Positioned in the center is a large <span class=\"tincture-charge\"></span> <span class=\"charge-name\"></span>."
+      "description": "Positioned in the center is a large ${chargeTincture} ${chargeName}."
     },
     {
       "name": "single-center",
       "count": 1,
       "size": "",
       "points": 10,
-      "description": "Positioned in the center is a <span class=\"tincture-charge\"></span> <span class=\"charge-name\"></span>."
+      "description": "Positioned in the center is a ${chargeTincture} ${chargeName}."
     },
     {
       "name": "single-center-raised",
       "count": 1,
       "size": "",
       "points": 10,
-      "description": "Positioned in the center is a <span class=\"tincture-charge\"></span> <span class=\"charge-name\"></span>."
+      "description": "Positioned in the center is a ${chargeTincture} ${chargeName}."
     },
     {
       "name": "single-corner",
       "count": 1,
       "size": "",
       "points": 10,
-      "description": "Positioned in the top-left corner is a <span class=\"tincture-charge\"></span> <span class=\"charge-name\"></span>."
+      "description": "Positioned in the top-left corner is a ${chargeTincture} ${chargeName}."
     },
     {
       "name": "double",
       "count": 2,
       "size": "lg",
       "points": 10,
-      "description": "Positioned in the center is a column containing two <span class=\"tincture-charge\"></span> <span class=\"charge-name\"></span>s."
+      "description": "Positioned in the center is a column containing two ${chargeTincture} ${chargeName}s."
     },
     {
       "name": "triple-spaced",
       "count": 3,
       "size": "",
       "points": 10,
-      "description": "Three <span class=\"tincture-charge\"></span> <span class=\"charge-name\"></span>s are evenly spaced in the corners of the design."
+      "description": "Three ${chargeTincture} ${chargeName}s are evenly spaced in the corners of the design."
     },
     {
       "name": "triple-top",
       "count": 3,
       "size": "",
       "points": 10,
-      "description": "Three <span class=\"tincture-charge\"></span> <span class=\"charge-name\"></span>s are positioned in a row at the top of the design."
+      "description": "Three ${chargeTincture} ${chargeName}s are positioned in a row at the top of the design."
     },
     {
       "name": "triple-center-row",
       "count": 3,
       "size": "",
       "points": 10,
-      "description": "Three <span class=\"tincture-charge\"></span> <span class=\"charge-name\"></span>s are positioned in a row at the center of the design."
+      "description": "Three ${chargeTincture} ${chargeName}s are positioned in a row at the center of the design."
     },
     {
       "name": "triple-center-col",
       "count": 3,
       "size": "",
       "points": 10,
-      "description": "Three <span class=\"tincture-charge\"></span> <span class=\"charge-name\"></span>s are positioned in a column at the center of the design."
+      "description": "Three ${chargeTincture} ${chargeName}s are positioned in a column at the center of the design."
     }
   ],
   "ordinaries": [
     {
       "name": "",
       "points": 10,
-      "description": "a <span class=\"tincture-primary\"></span> field",
+      "description": "a ${tincture1} field",
       "layouts": [
         { "name": "single-center-lg", "overlap": [0] },
         { "name": "double", "overlap": [0] },
@@ -90,7 +90,7 @@
     {
       "name": "pale",
       "points": 10,
-      "description": "a centered, vertical, <span class=\"tincture-primary\"></span> stripe on a <span class=\"tincture-secondary\"></span> field",
+      "description": "a centered, vertical, ${tincture1} stripe on a ${tincture2} field",
       "layouts": [
         { "name": "single-center", "overlap": [1] },
         { "name": "triple-center-col", "overlap": [1] }
@@ -103,7 +103,7 @@
     {
       "name": "fess",
       "points": 10,
-      "description": "a centered, horizontal, <span class=\"tincture-primary\"></span> stripe on a <span class=\"tincture-secondary\"></span> field",
+      "description": "a centered, horizontal, ${tincture1} stripe on a ${tincture2} field",
       "layouts": [
         { "name": "single-center", "overlap": [1] },
         { "name": "triple-center-row", "overlap": [1] }
@@ -116,7 +116,7 @@
     {
       "name": "chevron",
       "points": 10,
-      "description": "a centered, <span class=\"tincture-primary\"></span> chevron on a <span class=\"tincture-secondary\"></span> field",
+      "description": "a centered, ${tincture1} chevron on a ${tincture2} field",
       "layouts": [{ "name": "triple-spaced", "overlap": [0, 1] }],
       "svg": [
         { "path": "M 0 0 H 12 V 12 H 0 V 0", "tinctureIndex": 0 },
@@ -129,7 +129,7 @@
     {
       "name": "bend",
       "points": 10,
-      "description": "a diagonal, <span class=\"tincture-primary\"></span> stripe on a <span class=\"tincture-secondary\"></span> field",
+      "description": "a diagonal, ${tincture1} stripe on a ${tincture2} field",
       "layouts": [],
       "svg": [
         { "path": "M 0 0 H 12 V 12 H 0 V 0", "tinctureIndex": 0 },
@@ -139,7 +139,7 @@
     {
       "name": "chief",
       "points": 10,
-      "description": "a horizontal, <span class=\"tincture-primary\"></span> stripe positioned at the top of a <span class=\"tincture-secondary\"></span> field",
+      "description": "a horizontal, ${tincture1} stripe positioned at the top of a ${tincture2} field",
       "layouts": [{ "name": "triple-top", "overlap": [0] }],
       "svg": [
         { "path": "M 0 0 H 12 V 12 H 0 V 0", "tinctureIndex": 1 },
@@ -149,7 +149,7 @@
     {
       "name": "per pale",
       "points": 10,
-      "description": "a vertically partitioned, <span class=\"tincture-primary\"></span> and <span class=\"tincture-secondary\"></span> field",
+      "description": "a vertically partitioned, ${tincture1} and ${tincture2} field",
       "layouts": [
         { "name": "single-center-lg", "overlap": [0, 1] },
         { "name": "double", "overlap": [0, 1] }
@@ -162,7 +162,7 @@
     {
       "name": "per fess",
       "points": 10,
-      "description": "a horizontally partitioned, <span class=\"tincture-primary\"></span> and <span class=\"tincture-secondary\"></span> field",
+      "description": "a horizontally partitioned, ${tincture1} and ${tincture2} field",
       "layouts": [
         { "name": "single-center-lg", "overlap": [0, 1] },
         { "name": "double", "overlap": [0, 1] }
@@ -175,7 +175,7 @@
     {
       "name": "per chevron",
       "points": 10,
-      "description": "a chevron-shaped, horizontally partitioned, <span class=\"tincture-primary\"></span> and <span class=\"tincture-secondary\"></span> field",
+      "description": "a chevron-shaped, horizontally partitioned, ${tincture1} and ${tincture2} field",
       "layouts": [
         { "name": "single-center-lg", "overlap": [1] },
         { "name": "triple-center-row", "overlap": [1] }
@@ -188,7 +188,7 @@
     {
       "name": "pile",
       "points": 10,
-      "description": "an upside-down, <span class=\"tincture-primary\"></span> triangle positioned at the top of a <span class=\"tincture-secondary\"></span> field",
+      "description": "an upside-down, ${tincture1} triangle positioned at the top of a ${tincture2} field",
       "layouts": [{ "name": "single-center-raised", "overlap": [1] }],
       "svg": [
         { "path": "M 0 0 H 12 V 12 H 0 V 0", "tinctureIndex": 0 },
@@ -198,7 +198,7 @@
     {
       "name": "saltire",
       "points": 10,
-      "description": "a <span class=\"tincture-primary\"></span> diagonal-cross on a <span class=\"tincture-secondary\"></span> field",
+      "description": "a ${tincture1} diagonal-cross on a ${tincture2} field",
       "layouts": [],
       "svg": [
         { "path": "M 0 0 H 12 V 12 H 0 V 0", "tinctureIndex": 1 },
@@ -209,7 +209,7 @@
     {
       "name": "cross",
       "points": 10,
-      "description": "a <span class=\"tincture-primary\"></span> cross on a <span class=\"tincture-secondary\"></span> field",
+      "description": "a ${tincture1} cross on a ${tincture2} field",
       "layouts": [],
       "svg": [
         { "path": "M 0 0 H 12 V 12 H 0 V 0", "tinctureIndex": 0 },
