@@ -1,0 +1,98 @@
+.tincture {
+  position: relative;
+  display: inline-block;
+  margin: 0 0.4rem;
+  bottom: -0.25rem;
+  white-space: nowrap;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 4px;
+}
+
+.li-coatOfArms {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.coatOfArms {
+  flex-shrink: 0;
+  position: relative;
+  width: 12rem;
+  height: 12rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.2));
+}
+
+.coatOfArms > svg {
+  position: absolute;
+  z-index: -1;
+}
+
+.coatOfArms i {
+  margin: 0;
+}
+
+.charge-layout {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 1rem 2rem;
+}
+
+.charge-layout-single-center-raised {
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  align-self: flex-start;
+  height: 80%;
+}
+
+.charge-layout-single-corner {
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  width: 80%;
+}
+
+.charge-layout-double {
+  grid-template-rows: repeat(2, 1fr);
+  height: 80%;
+}
+
+.charge-layout-triple-center-row {
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(1, 1fr);
+  width: 90%;
+}
+
+.charge-layout-triple-center-col {
+  grid-template-rows: repeat(3, 1fr);
+  height: 90%;
+}
+
+.charge-layout-triple-spaced {
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  width: 80%;
+  height: 80%;
+}
+
+.charge-layout-triple-spaced > :nth-child(2) {
+  grid-column: 2;
+  grid-row: 3;
+}
+
+.charge-layout-triple-spaced > :nth-child(3) {
+  grid-column: 3;
+}
+
+.charge-layout-triple-top {
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  width: 90%;
+}

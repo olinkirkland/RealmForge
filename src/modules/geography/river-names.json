@@ -1,0 +1,85 @@
+{
+  "tributaryPrefixes": [
+    {
+      "text": "heller",
+      "condition": "",
+      "points": 10
+    },
+    {
+      "text": "dunkler",
+      "condition": "",
+      "points": 10
+    },
+    {
+      "text": "kleiner",
+      "condition": "",
+      "points": 10
+    }
+  ],
+  "tributarySuffixes": [
+    {
+      "text": "enbach",
+      "condition": "",
+      "points": 10
+    }
+  ],
+  "roots": [
+    {
+      "text": "reg",
+      "condition": "",
+      "points": 10
+    },
+    {
+      "text": "don",
+      "condition": "",
+      "points": 10
+    },
+    {
+      "text": "donner",
+      "condition": "",
+      "points": 10
+    },
+    {
+      "text": "erden",
+      "condition": "",
+      "points": 10
+    },
+    {
+      "text": "weiß",
+      "condition": "",
+      "points": 10
+    },
+    {
+      "text": "wald",
+      "condition": "t.borealForest || t.temperateForest",
+      "points": 10
+    },
+    {
+      "text": "walden",
+      "condition": "t.borealForest || t.temperateForest",
+      "points": 10
+    },
+    {
+      "text": "vald",
+      "condition": "t.borealForest || t.temperateForest",
+      "points": 10
+    },
+    {
+      "text": "val",
+      "condition": "t.borealForest || t.temperateForest",
+      "points": 10
+    }
+  ],
+  "riverSuffixes": [
+    {
+      "text": "au",
+      "condition": "",
+      "points": 10
+    },
+    {
+      "text": "en",
+      "condition": "",
+      "points": 10
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+[
+  { "url": "boreal-forest-1.png", "condition": "t.borealForest" },
+  { "url": "boreal-forest-2.png", "condition": "t.borealForest" },
+  { "url": "temperate-forest-1.png", "condition": "t.temperateForest" },
+  { "url": "city-1.png", "condition": "" },
+  { "url": "city-2.png", "condition": "" },
+  { "url": "city-3.png", "condition": "" },
+  { "url": "city-cold.png", "condition": "t.cold" },
+  { "url": "grassland-1.png", "condition": "t.grassland" },
+  { "url": "grassland-2.jpg", "condition": "t.grassland" },
+  { "url": "mountains-1.png", "condition": "t.mountains" },
+  { "url": "mountains-2.png", "condition": "t.mountains" },
+  { "url": "river-mountains.png", "condition": "t.mountains" }
+]

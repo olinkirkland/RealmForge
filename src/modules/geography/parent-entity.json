@@ -1,0 +1,11 @@
+{
+  "templates": ["`the ${adjective} ${government}`"],
+  "adjectives": ["divine", "holy", "royal"],
+  "governments": [
+    { "noun": "empire", "adj": "imperial" },
+    { "noun": "kingdom", "adj": "royal" },
+    { "noun": "imperium", "adj": "imperial" },
+    { "noun": "dominion", "adj": "dominion" },
+    { "noun": "commonwealth", "adj": "commonwealth" }
+  ]
+}

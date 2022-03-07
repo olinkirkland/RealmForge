@@ -1,0 +1,218 @@
+function updateView() {
+
+  // Blurbs
+  applyBiomesBlurb();
+  applyRiversBlurb();
+  applyCoatBlurb();
+  toggleVisibility('sigil-present-on-heraldry', realm.sigilPresentOnHeraldry);
+  toggleVisibility('on-the-coast', realm.coast);
+  toggleVisibility('not-on-the-coast', !realm.coast);
+
+  // Art
+  document
+    .querySelectorAll('.coatOfArmsArt')
+    .forEach((el) => realm.heraldry.draw(el));
+
+  // Words
+  applyText('name', Util.readWord(realm.realmName));
+  applyText('government-rank', realm.governmentRank);
+  applyText('parent-entity', realm.parentEntityName);
+  applyText('parent-entity-adj', realm.parentEntityAdj);
+  applyText(
+    'direction-within-parent-entity',
+    realm.directionWithinParentEntity.noun
+  );
+  applyText(
+    'direction-adj-within-parent-entity',
+    realm.directionWithinParentEntity.adj
+  );
+  applyText('coast-direction', realm.coastDirection.adj);
+  applyText('capital-city', realm.capitalCityName);
+  applyText('sigil-name', realm.sigilName);
+  applyText('sigil-meaning', realm.sigilMeaning);
+
+  applyText('size', realm.size);
+
+  applyText('temperature', realm.temperature);
+  applyText('humidity', realm.humidity);
+  applyText('season-summer', realm.seasonSummer.join(', '));
+  applyText('season-winter', realm.seasonWinter.join(', '));
+
+  applyText(
+    'tincture-primary',
+    realm.heraldry.tinctures[0].name,
+    ' <span class="tincture tincture-primary-color"></span>'
+  );
+  applyText(
+    'tincture-secondary',
+    realm.heraldry.tinctures[1].name,
+    ' <span class="tincture tincture-secondary-color"></span>'
+  );
+
+  if (realm.heraldry.charge) {
+    applyText('charge-name', realm.heraldry.charge.name);
+    applyText(
+      'tincture-charge',
+      realm.heraldry.chargeTincture!.name,
+      ' <span class="tincture tincture-charge-color"></span>'
+    );
+  }
+
+  applyTinctureColors();
+
+  applyIcon('sigil', realm.sigilIcon);
+
+  // Utility
+  replaceNumbers();
+}
+
+function applyText(query: string, text: string, app: string = '') {
+  const els: NodeList = document.querySelectorAll('span.' + query);
+  els.forEach((node: Node) => {
+    const el: HTMLElement = node as HTMLElement;
+    if (el.classList.contains('prepend-article')) {
+      el.textContent = Util.aOrAn(text) + ' ' + text + app;
+    } else {
+      el.innerHTML = text + app;
+    }
+  });
+}
+
+function toggleVisibility(query: string, visible: boolean) {
+  const els: NodeList = document.querySelectorAll('span.' + query);
+  els.forEach((node: Node) => {
+    const el: HTMLElement = node as HTMLElement;
+    if (visible) {
+      el.classList.remove('hidden');
+    } else {
+      el.classList.add('hidden');
+    }
+  });
+}
+
+function applyIcon(query: string, icon: string) {
+  const els: NodeList = document.querySelectorAll('i.' + query);
+  els.forEach((node: Node) => {
+    const el: HTMLElement = node as HTMLElement;
+
+    // Remove the previous icon
+    el.classList.forEach((className) => {
+      let text: string = '';
+      if (className.includes('fa-') && className !== 'fa-2x') {
+        el.classList.remove(className);
+      }
+    });
+
+    el.classList.add('fa-' + icon);
+  });
+}
+
+function applyBiomesBlurb() {
+  let text: string = '';
+
+  if (realm.biomes.length == 1) {
+    let b: Biome = realm.biomes[0];
+    text = `Much of <span class="name"></span> is occupied by a ${b.type} ecoregion.`;
+  } else if (realm.biomes.length == 2) {
+    let b1: Biome = realm.biomes[0];
+    let b2: Biome = realm.biomes[1];
+    text = `The ecoregions of <span class="name"></span> consist mostly of ${b1.type} with a ${b2.size} ${b2.type} region in the ${b2.direction.noun}.`;
+  }
+
+  const el: HTMLElement = document.querySelector('.biomes-blurb')!;
+  el.innerHTML = text;
+}
+
+function applyRiversBlurb() {
+  let text: string = '';
+
+  if (realm.rivers.length == 0) {
+    // No rivers
+    text = `No notable rivers pass through <span class="name"></span>.`;
+  } else if (realm.rivers.length == 1) {
+    // One river
+    let r: River = realm.rivers[0];
+    text = `The main river that flows through <span class="name"></span> is the <span class="capitalized">${Util.readWord(
+      r.name
+    )}</span>. `;
+
+    // Flows from...
+    text += `The <span class="capitalized">${Util.readWord(r.name)}</span> `;
+    if (r.flowsFromMountains) {
+      text += `begins in the ${r.flowsFrom.adj} mountains `;
+    } else {
+      text += `enters <span class="name"></span> in the ${r.flowsFrom.noun} `;
+    }
+
+    // Flows to...
+    if (r.flowsToCoast) {
+      text += `and forms an estuary on the ${r.flowsTo.adj} coast. `;
+    } else {
+      text += `and flows toward the ${r.flowsTo.noun}. `;
+    }
+  } else {
+    // More than one river
+    text = `<span class="word-number capitalized">${
+      realm.rivers.length
+    }</span> rivers pass through <span class="name"></span>: ${Util.joinArrayWithAnd(
+      realm.rivers.map((river) => {
+        return `the <span class="capitalized">${Util.readWord(
+          river.name
+        )}</span>`;
+      })
+    )}. `;
+  }
+
+  if (realm.tributaries.length > 0) {
+    text +=
+      'Notable tributaries include the rivers ' +
+      Util.joinArrayWithAnd(
+        realm.tributaries.map((tributary) => {
+          let prefix: string =
+            tributary.prefix != null ? tributary.prefix.name + ' ' : '';
+          return `<span class="capitalized">${prefix}</span><span class="capitalized">${Util.readWord(
+            tributary.name
+          )}</span>`;
+        })
+      ) +
+      '.';
+  }
+
+  const el: HTMLElement = document.querySelector('.rivers-blurb')!;
+  el.innerHTML = text;
+}
+
+function applyCoatBlurb() {
+  let text: string = '';
+  text = `<span>The design of <span class="name"></span>'s coat of arms resembles `;
+  text += realm.heraldry.ordinary.description + `</span>.`;
+
+  if (realm.heraldry.chargeLayout) {
+    text += ' ' + realm.heraldry.chargeLayout.description;
+  }
+
+  const el: HTMLElement = document.querySelector('.coat-of-arms-blurb')!;
+  el.innerHTML = text;
+}
+
+function applyTinctureColors() {
+  const el1: HTMLElement = document.querySelector('.tincture-primary-color')!;
+  if (el1) el1.style.backgroundColor = realm.heraldry.tinctures[0].color;
+  const el2: HTMLElement = document.querySelector('.tincture-secondary-color')!;
+  if (el2) el2.style.backgroundColor = realm.heraldry.tinctures[1].color;
+
+  if (realm.heraldry.chargeTincture) {
+    const el3: HTMLElement = document.querySelector('.tincture-charge-color')!;
+    if (el3) el3.style.backgroundColor = realm.heraldry.chargeTincture.color;
+  }
+}
+
+function replaceNumbers() {
+  const els: NodeList = document.querySelectorAll('.word-number');
+  els.forEach((node: Node) => {
+    const el: HTMLElement = node as HTMLElement;
+    el.textContent = Util.wordFromNumber(
+      Number.parseInt(el.textContent ? el.textContent : '0')
+    );
+  });
+}

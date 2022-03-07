@@ -1,0 +1,33 @@
+[
+  {
+    "name": "overview",
+    "sections": ["basics", "sigil", "heraldry", "coatOfArms"]
+  },
+  {
+    "name": "geography",
+    "sections": [
+      "location",
+      "neighboringRealms",
+      "climate",
+      "ecoregions",
+      "rivers",
+      "biodiversity"
+    ]
+  },
+  {
+    "name": "economy",
+    "sections": ["infrastructure", "naturalResouces"]
+  },
+  {
+    "name": "government",
+    "sections": ["government-structure", "politicalRegions"]
+  },
+  {
+    "name": "demographics",
+    "sections": ["language", "education", "religion"]
+  },
+  {
+    "name": "culture",
+    "sections": ["landmarks", "musicAndAart", "literature", "cuisine", "sports"]
+  }
+]
