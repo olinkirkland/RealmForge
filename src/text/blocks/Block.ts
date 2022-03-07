@@ -5,6 +5,7 @@ import Section from '../sections/Section';
 export default class Block {
   protected realm: Realm;
   protected name: string;
+  protected description: string;
   protected sections: Section[];
 
   protected sectionMap: any = {};
@@ -12,6 +13,7 @@ export default class Block {
   constructor(realm: Realm, name: string, sectionNames: string[]) {
     this.realm = realm;
     this.name = name;
+    this.description = Lang.lorem(1);
     this.sectionMap = this.createSectionMap();
     this.sections = sectionNames.map((sectionName) =>
       this.createSection(sectionName)
@@ -33,7 +35,9 @@ export default class Block {
 
     // Title
     const titleEl: HTMLElement = document.createElement('h2');
-    titleEl.textContent = Lang.capitalize(this.name);
+    titleEl.innerHTML = `<span>${this.name.toUpperCase()}</span><br/><span style="word-wrap: break-word" class="muted">${
+      this.description
+    }</span>`;
     el.appendChild(titleEl);
 
     // Sections

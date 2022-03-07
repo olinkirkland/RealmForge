@@ -45,7 +45,7 @@ export default class RiversSection extends Section {
       if (r.flowsToCoast) {
         text += `and forms an estuary on the ${r.flowsTo} coast. `;
       } else {
-        text += `and flows toward the ${r.flowsTo}. `;
+        text += `and flows toward the ${r.flowsTo}.`;
       }
     } else {
       // More than one river
@@ -53,14 +53,16 @@ export default class RiversSection extends Section {
         Lang.wordFromNumber(this.realm.rivers.rivers.length)
       )} rivers pass through ${this.realm.name}: ${Lang.joinArrayWithAnd(
         this.realm.rivers.rivers.map((r) => {
-          return `the ${Lang.capitalize(Lang.readWord(r.name))}</span>`;
-        })
-      )}. `;
+          return `the ${Lang.capitalize(Lang.readWord(r.name))}`;
+        }),
+        ', ',
+        ', and the '
+      )}.`;
     }
 
     if (this.realm.rivers.tributaries.length > 0) {
       text +=
-        'Notable tributaries include the rivers ' +
+        ' Notable tributaries include the rivers ' +
         Lang.joinArrayWithAnd(
           this.realm.rivers.tributaries.map((t) => {
             if (t.prefix)

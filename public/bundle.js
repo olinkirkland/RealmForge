@@ -931,7 +931,7 @@ class RiversModule extends _Module__WEBPACK_IMPORTED_MODULE_4__["default"] {
             do {
                 if (riverName == tributaryName) {
                     do {
-                        if (_util_Rand__WEBPACK_IMPORTED_MODULE_1__["default"].next() < 0.3)
+                        if (tributaryName == riverName)
                             prefix = _util_Rand__WEBPACK_IMPORTED_MODULE_1__["default"].weightedPick(_river_names_json__WEBPACK_IMPORTED_MODULE_7__.tributaryPrefixes, (item) => item.points);
                         if (_util_Rand__WEBPACK_IMPORTED_MODULE_1__["default"].next() < 0.3)
                             suffix = _util_Rand__WEBPACK_IMPORTED_MODULE_1__["default"].weightedPick(_river_names_json__WEBPACK_IMPORTED_MODULE_7__.tributarySuffixes, (item) => item.points);
@@ -1130,6 +1130,7 @@ class Block {
         this.sectionMap = {};
         this.realm = realm;
         this.name = name;
+        this.description = _util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].lorem(1);
         this.sectionMap = this.createSectionMap();
         this.sections = sectionNames.map((sectionName) => this.createSection(sectionName));
     }
@@ -1145,7 +1146,7 @@ class Block {
         const el = document.createElement('article');
         // Title
         const titleEl = document.createElement('h2');
-        titleEl.textContent = _util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(this.name);
+        titleEl.innerHTML = `<span>${this.name.toUpperCase()}</span><br/><span style="word-wrap: break-word" class="muted">${this.description}</span>`;
         el.appendChild(titleEl);
         // Sections
         const sectionListEl = document.createElement('ul');
@@ -1184,6 +1185,7 @@ class GeographyBlock extends _Block__WEBPACK_IMPORTED_MODULE_4__["default"] {
     constructor(realm, name, sectionNames) {
         super(realm, name, sectionNames);
         this.name = `Geography`;
+        this.description = `The study of places and their environments`;
     }
     createSectionMap() {
         return {
@@ -1209,27 +1211,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ OverviewBlock)
 /* harmony export */ });
-/* harmony import */ var _sections_overview_Basics__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../sections/overview/Basics */ "./src/text/sections/overview/Basics.ts");
-/* harmony import */ var _sections_overview_CoatOfArms__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../sections/overview/CoatOfArms */ "./src/text/sections/overview/CoatOfArms.ts");
-/* harmony import */ var _sections_overview_Heraldry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../sections/overview/Heraldry */ "./src/text/sections/overview/Heraldry.ts");
-/* harmony import */ var _sections_overview_Sigil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../sections/overview/Sigil */ "./src/text/sections/overview/Sigil.ts");
-/* harmony import */ var _Block__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Block */ "./src/text/blocks/Block.ts");
+/* harmony import */ var _util_Lang__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../util/Lang */ "./src/util/Lang.ts");
+/* harmony import */ var _sections_overview_Basics__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../sections/overview/Basics */ "./src/text/sections/overview/Basics.ts");
+/* harmony import */ var _sections_overview_CoatOfArms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../sections/overview/CoatOfArms */ "./src/text/sections/overview/CoatOfArms.ts");
+/* harmony import */ var _sections_overview_Heraldry__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../sections/overview/Heraldry */ "./src/text/sections/overview/Heraldry.ts");
+/* harmony import */ var _sections_overview_Sigil__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../sections/overview/Sigil */ "./src/text/sections/overview/Sigil.ts");
+/* harmony import */ var _Block__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Block */ "./src/text/blocks/Block.ts");
 
 
 
 
 
-class OverviewBlock extends _Block__WEBPACK_IMPORTED_MODULE_4__["default"] {
+
+class OverviewBlock extends _Block__WEBPACK_IMPORTED_MODULE_5__["default"] {
     constructor(realm, name, sectionNames) {
         super(realm, name, sectionNames);
-        this.name = `An Overview of ${this.realm.name}`;
+        this.name = `An Overview`;
+        this.description = `Facts and figures of the ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(realm.government.rank)} of ${realm.name}`;
     }
     createSectionMap() {
         return {
-            basics: _sections_overview_Basics__WEBPACK_IMPORTED_MODULE_0__["default"],
-            sigil: _sections_overview_Sigil__WEBPACK_IMPORTED_MODULE_3__["default"],
-            heraldry: _sections_overview_Heraldry__WEBPACK_IMPORTED_MODULE_2__["default"],
-            coatOfArms: _sections_overview_CoatOfArms__WEBPACK_IMPORTED_MODULE_1__["default"]
+            basics: _sections_overview_Basics__WEBPACK_IMPORTED_MODULE_1__["default"],
+            sigil: _sections_overview_Sigil__WEBPACK_IMPORTED_MODULE_4__["default"],
+            heraldry: _sections_overview_Heraldry__WEBPACK_IMPORTED_MODULE_3__["default"],
+            coatOfArms: _sections_overview_CoatOfArms__WEBPACK_IMPORTED_MODULE_2__["default"]
         };
     }
 }
@@ -1465,18 +1470,18 @@ class RiversSection extends _Section__WEBPACK_IMPORTED_MODULE_1__["default"] {
                 text += `and forms an estuary on the ${r.flowsTo} coast. `;
             }
             else {
-                text += `and flows toward the ${r.flowsTo}. `;
+                text += `and flows toward the ${r.flowsTo}.`;
             }
         }
         else {
             // More than one river
             text = `${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].wordFromNumber(this.realm.rivers.rivers.length))} rivers pass through ${this.realm.name}: ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].joinArrayWithAnd(this.realm.rivers.rivers.map((r) => {
-                return `the ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(r.name))}</span>`;
-            }))}. `;
+                return `the ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(r.name))}`;
+            }), ', ', ', and the ')}.`;
         }
         if (this.realm.rivers.tributaries.length > 0) {
             text +=
-                'Notable tributaries include the rivers ' +
+                ' Notable tributaries include the rivers ' +
                     _util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].joinArrayWithAnd(this.realm.rivers.tributaries.map((t) => {
                         if (t.prefix)
                             return `${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(t.prefix.text)} ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(t.name))}`;
@@ -1704,13 +1709,13 @@ class Lang {
     }
     // Returns a string joining an array of at least two entries
     // with commas and the word 'and' between the last two entries
-    static joinArrayWithAnd(arr, joiningString = ', ', lastJoiningString = ', and ') {
+    static joinArrayWithAnd(arr, joiningString = ', ', lastJoiningString = ' and ') {
         const last = arr.pop();
         if (arr.length == 1) {
-            return arr[0] + ' and ' + last;
+            return arr[0] + lastJoiningString + last;
         }
         let str = arr.join(joiningString);
-        str += lastJoiningString + last;
+        str += `, ${lastJoiningString} ${last}`;
         return str;
     }
     // Capitalize first letter
@@ -1724,9 +1729,9 @@ class Lang {
         return n < _number_words_json__WEBPACK_IMPORTED_MODULE_1__.length ? /*#__PURE__*/ (_number_words_json__WEBPACK_IMPORTED_MODULE_1___namespace_cache || (_number_words_json__WEBPACK_IMPORTED_MODULE_1___namespace_cache = __webpack_require__.t(_number_words_json__WEBPACK_IMPORTED_MODULE_1__, 2)))[n] : n.toString();
     }
     // Quick and dirty placeholder text
-    static lorem() {
+    static lorem(max = 3) {
         let str = '';
-        for (let i = 1; i < 3; i++) {
+        for (let i = 1; i <= max; i++) {
             const words = _Rand__WEBPACK_IMPORTED_MODULE_2__["default"].between(3, 10);
             let arr = [];
             for (let j = 0; j < words; j++) {
@@ -1974,7 +1979,7 @@ module.exports = JSON.parse('{"templates":["`the ${adjective} ${government}`"],"
   \************************************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"tributaryPrefixes":[{"text":"heller","condition":"","points":10},{"text":"dunkler","condition":"","points":10},{"text":"kleiner","condition":"","points":10}],"tributarySuffixes":[{"text":"enbach","condition":"","points":10}],"roots":[{"text":"reg","condition":"","points":10},{"text":"don","condition":"","points":10},{"text":"donner","condition":"","points":10},{"text":"erden","condition":"","points":10},{"text":"weiß","condition":"","points":10},{"text":"wald","condition":"t.borealForest || t.temperateForest","points":10},{"text":"walden","condition":"t.borealForest || t.temperateForest","points":10},{"text":"vald","condition":"t.borealForest || t.temperateForest","points":10},{"text":"val","condition":"t.borealForest || t.temperateForest","points":10}],"riverSuffixes":[{"text":"au","condition":"","points":10},{"text":"en","condition":"","points":10}]}');
+module.exports = JSON.parse('{"tributaryPrefixes":[{"text":"helle","condition":"","points":10},{"text":"dunkle","condition":"","points":10},{"text":"kleine","condition":"","points":10}],"tributarySuffixes":[{"text":"enbach","condition":"","points":10}],"roots":[{"text":"reg","condition":"","points":10},{"text":"don","condition":"","points":10},{"text":"donner","condition":"","points":10},{"text":"erden","condition":"","points":10},{"text":"weiß","condition":"","points":10},{"text":"wald","condition":"t.borealForest || t.temperateForest","points":10},{"text":"walden","condition":"t.borealForest || t.temperateForest","points":10},{"text":"vald","condition":"t.borealForest || t.temperateForest","points":10},{"text":"val","condition":"t.borealForest || t.temperateForest","points":10}],"riverSuffixes":[{"text":"au","condition":"","points":10},{"text":"en","condition":"","points":10}]}');
 
 /***/ }),
 

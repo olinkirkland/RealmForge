@@ -47,16 +47,16 @@ export default class Lang {
   static joinArrayWithAnd(
     arr: string[],
     joiningString: string = ', ',
-    lastJoiningString: string = ', and '
+    lastJoiningString: string = ' and '
   ): string {
     const last = arr.pop();
 
     if (arr.length == 1) {
-      return arr[0] + ' and ' + last;
+      return arr[0] + lastJoiningString + last;
     }
 
     let str: string = arr.join(joiningString);
-    str += lastJoiningString + last;
+    str += `, ${lastJoiningString} ${last}`;
     return str;
   }
 
@@ -78,9 +78,9 @@ export default class Lang {
   }
 
   // Quick and dirty placeholder text
-  static lorem() {
+  static lorem(max:number = 3) {
     let str: string = '';
-    for (let i: number = 1; i < 3; i++) {
+    for (let i: number = 1; i <= max; i++) {
       const words: number = Rand.between(3, 10);
       let arr: string[] = [];
       for (let j: number = 0; j < words; j++) {
