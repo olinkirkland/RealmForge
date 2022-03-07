@@ -7,11 +7,13 @@ import JSONPageController from './controllers/JSONPageController';
 import PageController from './controllers/PageController';
 
 // Determine the html file name
+console.log(window.location.href);
 const arr: RegExpMatchArray | null = window.location.href.match(
-  /(?<=.*)(\w+)\.html(?=.*)/
+  /(.*\/)(\w+)\.html(.*)/
 );
+console.log(arr);
 
-const file = arr && arr.length > 1 ? arr[1] : '';
+const file = arr && arr.length > 2 ? arr[2] : '';
 
 let controller: PageController;
 switch (file) {

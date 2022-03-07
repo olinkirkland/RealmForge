@@ -1477,7 +1477,7 @@ class RiversSection extends _Section__WEBPACK_IMPORTED_MODULE_1__["default"] {
             // More than one river
             text = `${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].wordFromNumber(this.realm.rivers.rivers.length))} rivers pass through ${this.realm.name}: ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].joinArrayWithAnd(this.realm.rivers.rivers.map((r) => {
                 return `the ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(r.name))}`;
-            }), ', ', ', and the ')}.`;
+            }), ', ', ' and ')}.`;
         }
         if (this.realm.rivers.tributaries.length > 0) {
             text +=
@@ -1487,7 +1487,7 @@ class RiversSection extends _Section__WEBPACK_IMPORTED_MODULE_1__["default"] {
                             return `${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(t.prefix.text)} ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(t.name))}`;
                         else
                             return `${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(t.name))}`;
-                    }), ', ', ', and the ') +
+                    }), ', ', ' and the ') +
                     '.';
         }
         textEl.innerHTML = text;
@@ -2144,8 +2144,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 // Determine the html file name
-const arr = window.location.href.match(/(?<=.*)(\w+)\.html(?=.*)/);
-const file = arr && arr.length > 1 ? arr[1] : '';
+console.log(window.location.href);
+const arr = window.location.href.match(/(.*\/)(\w+)\.html(.*)/);
+console.log(arr);
+const file = arr && arr.length > 2 ? arr[2] : '';
 let controller;
 switch (file) {
     case 'realm':

@@ -56,7 +56,7 @@ export default class RiversSection extends Section {
           return `the ${Lang.capitalize(Lang.readWord(r.name))}`;
         }),
         ', ',
-        ', and the '
+        ' and '
       )}.`;
     }
 
@@ -72,7 +72,7 @@ export default class RiversSection extends Section {
             else return `${Lang.capitalize(Lang.readWord(t.name))}`;
           }),
           ', ',
-          ', and the '
+          ' and the '
         ) +
         '.';
     }

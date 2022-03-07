@@ -78,7 +78,7 @@ export default class Lang {
   }
 
   // Quick and dirty placeholder text
-  static lorem(max:number = 3) {
+  static lorem(max: number = 3) {
     let str: string = '';
     for (let i: number = 1; i <= max; i++) {
       const words: number = Rand.between(3, 10);
