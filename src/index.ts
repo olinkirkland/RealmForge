@@ -11,7 +11,6 @@ console.log(window.location.href);
 const arr: RegExpMatchArray | null = window.location.href.match(
   /(.*\/)(\w+)\.html(.*)/
 );
-console.log(arr);
 
 const file = arr && arr.length > 2 ? arr[2] : '';
 

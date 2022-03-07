@@ -299,8 +299,11 @@ class RealmPageController extends _PageController__WEBPACK_IMPORTED_MODULE_6__["
     handleJSONButton() {
         const btnJson = document.getElementById('btnJson');
         btnJson.addEventListener('click', () => {
-            const url = window.location.href.replace(/(?<=.*)realm.html(?=.*)/, 'json.html');
-            window.open(url, '_self');
+            // const url: string = window.location.href.replace(
+            //   /(?<=.*)realm.html(?=.*)/,
+            //   'json.html'
+            // );
+            // window.open(url, '_self');
         });
         btnJson.addEventListener('mouseover', () => {
             if (btnJson.hasAttribute('disabled'))
@@ -2146,7 +2149,6 @@ __webpack_require__.r(__webpack_exports__);
 // Determine the html file name
 console.log(window.location.href);
 const arr = window.location.href.match(/(.*\/)(\w+)\.html(.*)/);
-console.log(arr);
 const file = arr && arr.length > 2 ? arr[2] : '';
 let controller;
 switch (file) {

@@ -124,11 +124,11 @@ export default class RealmPageController extends PageController {
       'btnJson'
     )! as HTMLButtonElement;
     btnJson.addEventListener('click', () => {
-      const url: string = window.location.href.replace(
-        /(?<=.*)realm.html(?=.*)/,
-        'json.html'
-      );
-      window.open(url, '_self');
+      // const url: string = window.location.href.replace(
+      //   /(?<=.*)realm.html(?=.*)/,
+      //   'json.html'
+      // );
+      // window.open(url, '_self');
     });
 
     btnJson.addEventListener('mouseover', () => {
