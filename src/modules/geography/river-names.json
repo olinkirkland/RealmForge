@@ -1,17 +1,17 @@
 {
   "tributaryPrefixes": [
     {
-      "text": "heller",
+      "text": "helle",
       "condition": "",
       "points": 10
     },
     {
-      "text": "dunkler",
+      "text": "dunkle",
       "condition": "",
       "points": 10
     },
     {
-      "text": "kleiner",
+      "text": "kleine",
       "condition": "",
       "points": 10
     }

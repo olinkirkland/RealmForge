@@ -145,7 +145,7 @@ export default class RiversModule extends Module {
       do {
         if (riverName == tributaryName) {
           do {
-            if (Rand.next() < 0.3)
+            if (tributaryName == riverName )
               prefix = Rand.weightedPick(
                 tributaryPrefixes,
                 (item) => item.points

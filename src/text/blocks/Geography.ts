@@ -11,6 +11,7 @@ export default class GeographyBlock extends Block {
     super(realm, name, sectionNames);
 
     this.name = `Geography`;
+    this.description = `The study of places and their environments`;
   }
 
   protected createSectionMap() {

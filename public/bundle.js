@@ -931,7 +931,7 @@ class RiversModule extends _Module__WEBPACK_IMPORTED_MODULE_4__["default"] {
             do {
                 if (riverName == tributaryName) {
                     do {
-                        if (_util_Rand__WEBPACK_IMPORTED_MODULE_1__["default"].next() < 0.3)
+                        if (tributaryName == riverName)
                             prefix = _util_Rand__WEBPACK_IMPORTED_MODULE_1__["default"].weightedPick(_river_names_json__WEBPACK_IMPORTED_MODULE_7__.tributaryPrefixes, (item) => item.points);
                         if (_util_Rand__WEBPACK_IMPORTED_MODULE_1__["default"].next() < 0.3)
                             suffix = _util_Rand__WEBPACK_IMPORTED_MODULE_1__["default"].weightedPick(_river_names_json__WEBPACK_IMPORTED_MODULE_7__.tributarySuffixes, (item) => item.points);
@@ -1130,6 +1130,7 @@ class Block {
         this.sectionMap = {};
         this.realm = realm;
         this.name = name;
+        this.description = _util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].lorem(1);
         this.sectionMap = this.createSectionMap();
         this.sections = sectionNames.map((sectionName) => this.createSection(sectionName));
     }
@@ -1145,7 +1146,7 @@ class Block {
         const el = document.createElement('article');
         // Title
         const titleEl = document.createElement('h2');
-        titleEl.textContent = _util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(this.name);
+        titleEl.innerHTML = `<span>${this.name.toUpperCase()}</span><br/><span style="word-wrap: break-word" class="muted">${this.description}</span>`;
         el.appendChild(titleEl);
         // Sections
         const sectionListEl = document.createElement('ul');
@@ -1184,6 +1185,7 @@ class GeographyBlock extends _Block__WEBPACK_IMPORTED_MODULE_4__["default"] {
     constructor(realm, name, sectionNames) {
         super(realm, name, sectionNames);
         this.name = `Geography`;
+        this.description = `The study of places and their environments`;
     }
     createSectionMap() {
         return {
@@ -1209,27 +1211,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ OverviewBlock)
 /* harmony export */ });
-/* harmony import */ var _sections_overview_Basics__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../sections/overview/Basics */ "./src/text/sections/overview/Basics.ts");
-/* harmony import */ var _sections_overview_CoatOfArms__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../sections/overview/CoatOfArms */ "./src/text/sections/overview/CoatOfArms.ts");
-/* harmony import */ var _sections_overview_Heraldry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../sections/overview/Heraldry */ "./src/text/sections/overview/Heraldry.ts");
-/* harmony import */ var _sections_overview_Sigil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../sections/overview/Sigil */ "./src/text/sections/overview/Sigil.ts");
-/* harmony import */ var _Block__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Block */ "./src/text/blocks/Block.ts");
+/* harmony import */ var _util_Lang__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../util/Lang */ "./src/util/Lang.ts");
+/* harmony import */ var _sections_overview_Basics__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../sections/overview/Basics */ "./src/text/sections/overview/Basics.ts");
+/* harmony import */ var _sections_overview_CoatOfArms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../sections/overview/CoatOfArms */ "./src/text/sections/overview/CoatOfArms.ts");
+/* harmony import */ var _sections_overview_Heraldry__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../sections/overview/Heraldry */ "./src/text/sections/overview/Heraldry.ts");
+/* harmony import */ var _sections_overview_Sigil__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../sections/overview/Sigil */ "./src/text/sections/overview/Sigil.ts");
+/* harmony import */ var _Block__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Block */ "./src/text/blocks/Block.ts");
 
 
 
 
 
-class OverviewBlock extends _Block__WEBPACK_IMPORTED_MODULE_4__["default"] {
+
+class OverviewBlock extends _Block__WEBPACK_IMPORTED_MODULE_5__["default"] {
     constructor(realm, name, sectionNames) {
         super(realm, name, sectionNames);
-        this.name = `An Overview of ${this.realm.name}`;
+        this.name = `An Overview`;
+        this.description = `Facts and figures of the ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(realm.government.rank)} of ${realm.name}`;
     }
     createSectionMap() {
         return {
-            basics: _sections_overview_Basics__WEBPACK_IMPORTED_MODULE_0__["default"],
-            sigil: _sections_overview_Sigil__WEBPACK_IMPORTED_MODULE_3__["default"],
-            heraldry: _sections_overview_Heraldry__WEBPACK_IMPORTED_MODULE_2__["default"],
-            coatOfArms: _sections_overview_CoatOfArms__WEBPACK_IMPORTED_MODULE_1__["default"]
+            basics: _sections_overview_Basics__WEBPACK_IMPORTED_MODULE_1__["default"],
+            sigil: _sections_overview_Sigil__WEBPACK_IMPORTED_MODULE_4__["default"],
+            heraldry: _sections_overview_Heraldry__WEBPACK_IMPORTED_MODULE_3__["default"],
+            coatOfArms: _sections_overview_CoatOfArms__WEBPACK_IMPORTED_MODULE_2__["default"]
         };
     }
 }
@@ -1465,18 +1470,18 @@ class RiversSection extends _Section__WEBPACK_IMPORTED_MODULE_1__["default"] {
                 text += `and forms an estuary on the ${r.flowsTo} coast. `;
             }
             else {
-                text += `and flows toward the ${r.flowsTo}. `;
+                text += `and flows toward the ${r.flowsTo}.`;
             }
         }
         else {
             // More than one river
             text = `${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].wordFromNumber(this.realm.rivers.rivers.length))} rivers pass through ${this.realm.name}: ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].joinArrayWithAnd(this.realm.rivers.rivers.map((r) => {
-                return `the ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(r.name))}</span>`;
-            }))}. `;
+                return `the ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(r.name))}`;
+            }), ', ', ', and the ')}.`;
         }
         if (this.realm.rivers.tributaries.length > 0) {
             text +=
-                'Notable tributaries include the rivers ' +
+                ' Notable tributaries include the rivers ' +
                     _util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].joinArrayWithAnd(this.realm.rivers.tributaries.map((t) => {
                         if (t.prefix)
                             return `${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(t.prefix.text)} ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(t.name))}`;
@@ -1704,13 +1709,13 @@ class Lang {
     }
     // Returns a string joining an array of at least two entries
     // with commas and the word 'and' between the last two entries
-    static joinArrayWithAnd(arr, joiningString = ', ', lastJoiningString = ', and ') {
+    static joinArrayWithAnd(arr, joiningString = ', ', lastJoiningString = ' and ') {
         const last = arr.pop();
         if (arr.length == 1) {
-            return arr[0] + ' and ' + last;
+            return arr[0] + lastJoiningString + last;
         }
         let str = arr.join(joiningString);
-        str += lastJoiningString + last;
+        str += `, ${lastJoiningString} ${last}`;
         return str;
     }
     // Capitalize first letter
@@ -1724,9 +1729,9 @@ class Lang {
         return n < _number_words_json__WEBPACK_IMPORTED_MODULE_1__.length ? /*#__PURE__*/ (_number_words_json__WEBPACK_IMPORTED_MODULE_1___namespace_cache || (_number_words_json__WEBPACK_IMPORTED_MODULE_1___namespace_cache = __webpack_require__.t(_number_words_json__WEBPACK_IMPORTED_MODULE_1__, 2)))[n] : n.toString();
     }
     // Quick and dirty placeholder text
-    static lorem() {
+    static lorem(max = 3) {
         let str = '';
-        for (let i = 1; i < 3; i++) {
+        for (let i = 1; i <= max; i++) {
             const words = _Rand__WEBPACK_IMPORTED_MODULE_2__["default"].between(3, 10);
             let arr = [];
             for (let j = 0; j < words; j++) {
@@ -1924,7 +1929,7 @@ module.exports = JSON.parse('{"governments":[{"rank":"free city","ruler":"mayor"
   \*******************************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"charges":[{"name":"ring","points":10,"url":"ring"},{"name":"flower","points":10,"url":"spa"},{"name":"cross","points":10,"url":"cross"},{"name":"star","points":10,"url":"star"},{"name":"tower","points":10,"url":"chess-rook"},{"name":"circle","points":10,"url":"circle"},{"name":"crown","points":10,"url":"chess-queen"},{"name":"apple","points":10,"url":"apple-whole"},{"name":"bell","points":10,"url":"bell"}],"layouts":[{"name":"single-center-lg","count":1,"size":"2xl","points":40,"description":"Positioned in the center is a large ${chargeTincture} ${chargeName}."},{"name":"single-center","count":1,"size":"","points":10,"description":"Positioned in the center is a ${chargeTincture} ${chargeName}."},{"name":"single-center-raised","count":1,"size":"","points":10,"description":"Positioned in the center is a ${chargeTincture} ${chargeName}."},{"name":"single-corner","count":1,"size":"","points":10,"description":"Positioned in the top-left corner is a ${chargeTincture} ${chargeName}."},{"name":"double","count":2,"size":"lg","points":10,"description":"Positioned in the center is a column containing two ${chargeTincture} ${chargeName}s."},{"name":"triple-spaced","count":3,"size":"","points":10,"description":"Three ${chargeTincture} ${chargeName}s are evenly spaced in the corners of the design."},{"name":"triple-top","count":3,"size":"","points":10,"description":"Three ${chargeTincture} ${chargeName}s are positioned in a row at the top of the design."},{"name":"triple-center-row","count":3,"size":"","points":10,"description":"Three ${chargeTincture} ${chargeName}s are positioned in a row at the center of the design."},{"name":"triple-center-col","count":3,"size":"","points":10,"description":"Three ${chargeTincture} ${chargeName}s are positioned in a column at the center of the design."}],"ordinaries":[{"name":"","points":10,"description":"a ${tincture1} field","layouts":[{"name":"single-center-lg","overlap":[0]},{"name":"double","overlap":[0]},{"name":"triple-spaced","overlap":[0]}],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":0}]},{"name":"pale","points":10,"description":"a centered, vertical, ${tincture1} stripe on a ${tincture2} field","layouts":[{"name":"single-center","overlap":[1]},{"name":"triple-center-col","overlap":[1]}],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":0},{"path":"M 4.5 0 h 3 v 12 h -3 V 0","tinctureIndex":1}]},{"name":"fess","points":10,"description":"a centered, horizontal, ${tincture1} stripe on a ${tincture2} field","layouts":[{"name":"single-center","overlap":[1]},{"name":"triple-center-row","overlap":[1]}],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":0},{"path":"M 0 4.5 H 12 v 3 H 0 v -3","tinctureIndex":1}]},{"name":"chevron","points":10,"description":"a centered, ${tincture1} chevron on a ${tincture2} field","layouts":[{"name":"triple-spaced","overlap":[0,1]}],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":0},{"path":"M 0 6.7 l 6 -2 l 6 2 v 2 l -6 -2 l -6 2 v -2","tinctureIndex":1}]},{"name":"bend","points":10,"description":"a diagonal, ${tincture1} stripe on a ${tincture2} field","layouts":[],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":0},{"path":"M 0 0 H 3 L 12 10 h -3 L 0 0","tinctureIndex":1}]},{"name":"chief","points":10,"description":"a horizontal, ${tincture1} stripe positioned at the top of a ${tincture2} field","layouts":[{"name":"triple-top","overlap":[0]}],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":1},{"path":"M 0 0 v 4.5 h 12 v -4.5 H 0","tinctureIndex":0}]},{"name":"per pale","points":10,"description":"a vertically partitioned, ${tincture1} and ${tincture2} field","layouts":[{"name":"single-center-lg","overlap":[0,1]},{"name":"double","overlap":[0,1]}],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":0},{"path":"M 6 0 H 12 V 12 h -6 V 0","tinctureIndex":1}]},{"name":"per fess","points":10,"description":"a horizontally partitioned, ${tincture1} and ${tincture2} field","layouts":[{"name":"single-center-lg","overlap":[0,1]},{"name":"double","overlap":[0,1]}],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":0},{"path":"M 0 6 H 12 v 6 H 0 v -6","tinctureIndex":1}]},{"name":"per chevron","points":10,"description":"a chevron-shaped, horizontally partitioned, ${tincture1} and ${tincture2} field","layouts":[{"name":"single-center-lg","overlap":[1]},{"name":"triple-center-row","overlap":[1]}],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":0},{"path":"M 0 6 L 6 3 L 12 6 v 9 H 0 V 6","tinctureIndex":1}]},{"name":"pile","points":10,"description":"an upside-down, ${tincture1} triangle positioned at the top of a ${tincture2} field","layouts":[{"name":"single-center-raised","overlap":[1]}],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":0},{"path":"M 2 0 L 6 10 L 10 0 H 2","tinctureIndex":1}]},{"name":"saltire","points":10,"description":"a ${tincture1} diagonal-cross on a ${tincture2} field","layouts":[],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":1},{"path":"M 0 1 h 3 l 9 10 h -3 l -9 -10","tinctureIndex":0},{"path":"M 12 1 h -3 l -9 10 h 3 l 9 -10","tinctureIndex":0}]},{"name":"cross","points":10,"description":"a ${tincture1} cross on a ${tincture2} field","layouts":[],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":0},{"path":"M 0 4 h 12 v 2 h -12 v -2","tinctureIndex":1},{"path":"M 5 0 h 2 v 12 h -2 v -12","tinctureIndex":1}]}],"metalTinctures":[{"type":"metal","name":"silver","color":"#dfe6d0","points":5},{"type":"metal","name":"gold","color":"#d5ab5b","points":5}],"colorTinctures":[{"type":"color","name":"red","color":"#e44747","points":5},{"type":"color","name":"black","color":"#454141","points":5},{"type":"color","name":"blue","color":"#6b75e2","points":5},{"type":"color","name":"violet","color":"#895cca","points":2},{"type":"color","name":"green","color":"#90ac5f","points":5},{"type":"color","name":"mulberry","color":"#d06ea3","points":1}]}');
+module.exports = JSON.parse('{"charges":[{"name":"ring","points":10,"url":"ring"},{"name":"flower","points":10,"url":"spa"},{"name":"cross","points":10,"url":"cross"},{"name":"star","points":10,"url":"star"},{"name":"tower","points":10,"url":"chess-rook"},{"name":"circle","points":10,"url":"circle"},{"name":"crown","points":10,"url":"chess-queen"},{"name":"apple","points":10,"url":"apple-whole"},{"name":"bell","points":10,"url":"bell"}],"layouts":[{"name":"single-center-lg","count":1,"size":"2xl","points":40,"description":"Positioned in the center is a large ${chargeTincture} ${chargeName}."},{"name":"single-center","count":1,"size":"","points":10,"description":"Positioned in the center is a ${chargeTincture} ${chargeName}."},{"name":"single-center-raised","count":1,"size":"","points":10,"description":"Positioned in the center is a ${chargeTincture} ${chargeName}."},{"name":"single-corner","count":1,"size":"","points":10,"description":"Positioned in the top-left corner is a ${chargeTincture} ${chargeName}."},{"name":"double","count":2,"size":"lg","points":10,"description":"Positioned in the center is a column containing two ${chargeTincture} ${chargeName}s."},{"name":"triple-spaced","count":3,"size":"","points":10,"description":"Three ${chargeTincture} ${chargeName}s are evenly spaced in the corners of the design."},{"name":"triple-top","count":3,"size":"","points":10,"description":"Three ${chargeTincture} ${chargeName}s are positioned in a row at the top of the design."},{"name":"triple-center-row","count":3,"size":"","points":10,"description":"Three ${chargeTincture} ${chargeName}s are positioned in a row at the center of the design."},{"name":"triple-center-col","count":3,"size":"","points":10,"description":"Three ${chargeTincture} ${chargeName}s are positioned in a column at the center of the design."}],"ordinaries":[{"name":"","points":10,"description":"a ${tincture2} field","layouts":[{"name":"single-center-lg","overlap":[0]},{"name":"double","overlap":[0]},{"name":"triple-spaced","overlap":[0]}],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":0}]},{"name":"pale","points":10,"description":"a centered, vertical, ${tincture2} stripe on a ${tincture1} field","layouts":[{"name":"single-center","overlap":[1]},{"name":"triple-center-col","overlap":[1]}],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":0},{"path":"M 4.5 0 h 3 v 12 h -3 V 0","tinctureIndex":1}]},{"name":"fess","points":10,"description":"a centered, horizontal, ${tincture2} stripe on a ${tincture1} field","layouts":[{"name":"single-center","overlap":[1]},{"name":"triple-center-row","overlap":[1]}],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":0},{"path":"M 0 4.5 H 12 v 3 H 0 v -3","tinctureIndex":1}]},{"name":"chevron","points":10,"description":"a centered, ${tincture2} chevron on a ${tincture1} field","layouts":[{"name":"triple-spaced","overlap":[0,1]}],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":0},{"path":"M 0 6.7 l 6 -2 l 6 2 v 2 l -6 -2 l -6 2 v -2","tinctureIndex":1}]},{"name":"bend","points":10,"description":"a diagonal, ${tincture2} stripe on a ${tincture1} field","layouts":[],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":0},{"path":"M 0 0 H 3 L 12 10 h -3 L 0 0","tinctureIndex":1}]},{"name":"chief","points":10,"description":"a horizontal, ${tincture2} stripe positioned at the top of a ${tincture1} field","layouts":[{"name":"triple-top","overlap":[0]}],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":1},{"path":"M 0 0 v 4.5 h 12 v -4.5 H 0","tinctureIndex":0}]},{"name":"per pale","points":10,"description":"a vertically partitioned, ${tincture2} and ${tincture1} field","layouts":[{"name":"single-center-lg","overlap":[0,1]},{"name":"double","overlap":[0,1]}],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":0},{"path":"M 6 0 H 12 V 12 h -6 V 0","tinctureIndex":1}]},{"name":"per fess","points":10,"description":"a horizontally partitioned, ${tincture2} and ${tincture1} field","layouts":[{"name":"single-center-lg","overlap":[0,1]},{"name":"double","overlap":[0,1]}],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":0},{"path":"M 0 6 H 12 v 6 H 0 v -6","tinctureIndex":1}]},{"name":"per chevron","points":10,"description":"a chevron-shaped, horizontally partitioned, ${tincture2} and ${tincture1} field","layouts":[{"name":"single-center-lg","overlap":[1]},{"name":"triple-center-row","overlap":[1]}],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":0},{"path":"M 0 6 L 6 3 L 12 6 v 9 H 0 V 6","tinctureIndex":1}]},{"name":"pile","points":10,"description":"an upside-down, ${tincture2} triangle positioned at the top of a ${tincture1} field","layouts":[{"name":"single-center-raised","overlap":[1]}],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":0},{"path":"M 2 0 L 6 10 L 10 0 H 2","tinctureIndex":1}]},{"name":"saltire","points":10,"description":"a ${tincture2} diagonal-cross on a ${tincture1} field","layouts":[],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":1},{"path":"M 0 1 h 3 l 9 10 h -3 l -9 -10","tinctureIndex":0},{"path":"M 12 1 h -3 l -9 10 h 3 l 9 -10","tinctureIndex":0}]},{"name":"cross","points":10,"description":"a ${tincture2} cross on a ${tincture1} field","layouts":[],"svg":[{"path":"M 0 0 H 12 V 12 H 0 V 0","tinctureIndex":0},{"path":"M 0 4 h 12 v 2 h -12 v -2","tinctureIndex":1},{"path":"M 5 0 h 2 v 12 h -2 v -12","tinctureIndex":1}]}],"metalTinctures":[{"type":"metal","name":"silver","color":"#dfe6d0","points":5},{"type":"metal","name":"gold","color":"#d5ab5b","points":5}],"colorTinctures":[{"type":"color","name":"red","color":"#e44747","points":5},{"type":"color","name":"black","color":"#454141","points":5},{"type":"color","name":"blue","color":"#6b75e2","points":5},{"type":"color","name":"violet","color":"#895cca","points":2},{"type":"color","name":"green","color":"#90ac5f","points":5},{"type":"color","name":"mulberry","color":"#d06ea3","points":1}]}');
 
 /***/ }),
 
@@ -1974,7 +1979,7 @@ module.exports = JSON.parse('{"templates":["`the ${adjective} ${government}`"],"
   \************************************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"tributaryPrefixes":[{"text":"heller","condition":"","points":10},{"text":"dunkler","condition":"","points":10},{"text":"kleiner","condition":"","points":10}],"tributarySuffixes":[{"text":"enbach","condition":"","points":10}],"roots":[{"text":"reg","condition":"","points":10},{"text":"don","condition":"","points":10},{"text":"donner","condition":"","points":10},{"text":"erden","condition":"","points":10},{"text":"weiß","condition":"","points":10},{"text":"wald","condition":"t.borealForest || t.temperateForest","points":10},{"text":"walden","condition":"t.borealForest || t.temperateForest","points":10},{"text":"vald","condition":"t.borealForest || t.temperateForest","points":10},{"text":"val","condition":"t.borealForest || t.temperateForest","points":10}],"riverSuffixes":[{"text":"au","condition":"","points":10},{"text":"en","condition":"","points":10}]}');
+module.exports = JSON.parse('{"tributaryPrefixes":[{"text":"helle","condition":"","points":10},{"text":"dunkle","condition":"","points":10},{"text":"kleine","condition":"","points":10}],"tributarySuffixes":[{"text":"enbach","condition":"","points":10}],"roots":[{"text":"reg","condition":"","points":10},{"text":"don","condition":"","points":10},{"text":"donner","condition":"","points":10},{"text":"erden","condition":"","points":10},{"text":"weiß","condition":"","points":10},{"text":"wald","condition":"t.borealForest || t.temperateForest","points":10},{"text":"walden","condition":"t.borealForest || t.temperateForest","points":10},{"text":"vald","condition":"t.borealForest || t.temperateForest","points":10},{"text":"val","condition":"t.borealForest || t.temperateForest","points":10}],"riverSuffixes":[{"text":"au","condition":"","points":10},{"text":"en","condition":"","points":10}]}');
 
 /***/ }),
 
