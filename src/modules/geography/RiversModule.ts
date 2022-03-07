@@ -148,8 +148,7 @@ export default class RiversModule extends Module {
       let prefix: WordPart | null = null;
       let suffix: WordPart | null = null;
 
-      // do {
-      if (tributaryName == river.name) {
+      if (Lang.readWord(tributaryName) == Lang.readWord(river.name)) {
         do {
           if (Rand.next() < 0.3) {
             prefix = Rand.weightedPick(
@@ -164,7 +163,6 @@ export default class RiversModule extends Module {
             );
         } while (!prefix && !suffix);
       }
-      // } while (!this.isValidRiverName(tributaryName));
 
       let tributary: Tributary = {
         name: tributaryName,

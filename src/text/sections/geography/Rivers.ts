@@ -69,9 +69,13 @@ export default class RiversSection extends Section {
           this.realm.rivers.tributaries.map((t) => {
             if (t.prefix)
               return `${Lang.capitalize(t.prefix.text)} ${Lang.capitalize(
-                Lang.readWord(t.name)
+                Lang.readWord(t.name) + (t.suffix ? t.suffix.text : '')
               )}`;
-            else return `${Lang.capitalize(Lang.readWord(t.name))}`;
+            else
+              return `${
+                Lang.capitalize(Lang.readWord(t.name)) +
+                (t.suffix ? t.suffix.text : '')
+              }`;
           }),
           ', ',
           ' and the '

@@ -936,8 +936,7 @@ class RiversModule extends _Module__WEBPACK_IMPORTED_MODULE_4__["default"] {
             // If the tributary name is the same as the stem, choose a tributary prefix and/or suffix
             let prefix = null;
             let suffix = null;
-            // do {
-            if (tributaryName == river.name) {
+            if (_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(tributaryName) == _util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(river.name)) {
                 do {
                     if (_util_Rand__WEBPACK_IMPORTED_MODULE_1__["default"].next() < 0.3) {
                         prefix = _util_Rand__WEBPACK_IMPORTED_MODULE_1__["default"].weightedPick(_river_names_json__WEBPACK_IMPORTED_MODULE_7__.tributaryPrefixes, (item) => item.points);
@@ -946,7 +945,6 @@ class RiversModule extends _Module__WEBPACK_IMPORTED_MODULE_4__["default"] {
                         suffix = _util_Rand__WEBPACK_IMPORTED_MODULE_1__["default"].weightedPick(_river_names_json__WEBPACK_IMPORTED_MODULE_7__.tributarySuffixes, (item) => item.points);
                 } while (!prefix && !suffix);
             }
-            // } while (!this.isValidRiverName(tributaryName));
             let tributary = {
                 name: tributaryName,
                 prefix: prefix,
@@ -1495,9 +1493,10 @@ class RiversSection extends _Section__WEBPACK_IMPORTED_MODULE_1__["default"] {
                     : ' Notable tributaries include the rivers ') +
                     _util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].joinArrayWithAnd(this.realm.rivers.tributaries.map((t) => {
                         if (t.prefix)
-                            return `${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(t.prefix.text)} ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(t.name))}`;
+                            return `${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(t.prefix.text)} ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(t.name) + (t.suffix ? t.suffix.text : ''))}`;
                         else
-                            return `${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(t.name))}`;
+                            return `${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(t.name)) +
+                                (t.suffix ? t.suffix.text : '')}`;
                     }), ', ', ' and the ') +
                     '.';
         }
@@ -1993,7 +1992,7 @@ module.exports = JSON.parse('{"templates":["`the ${adjective} ${government}`"],"
   \************************************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"tributaryPrefixes":[{"text":"helle","condition":"","points":10},{"text":"dunkle","condition":"","points":10},{"text":"kleine","condition":"","points":10}],"tributarySuffixes":[{"text":"enbach","condition":"","points":10}],"roots":[{"text":"reg","condition":"","points":10},{"text":"don","condition":"","points":10},{"text":"donner","condition":"","points":10},{"text":"erden","condition":"","points":10},{"text":"weiß","condition":"","points":10},{"text":"wald","condition":"t.borealForest || t.temperateForest","points":10},{"text":"walden","condition":"t.borealForest || t.temperateForest","points":10},{"text":"vald","condition":"t.borealForest || t.temperateForest","points":10},{"text":"val","condition":"t.borealForest || t.temperateForest","points":10}],"riverSuffixes":[{"text":"au","condition":"","points":10},{"text":"en","condition":"","points":10}]}');
+module.exports = JSON.parse('{"tributaryPrefixes":[{"text":"heller","condition":"","points":10},{"text":"dunkler","condition":"","points":10},{"text":"kleiner","condition":"","points":10}],"tributarySuffixes":[{"text":"bach","condition":"","points":10}],"roots":[{"text":"reg","condition":"","points":10},{"text":"don","condition":"","points":10},{"text":"donner","condition":"","points":10},{"text":"erden","condition":"","points":10},{"text":"weiß","condition":"","points":10},{"text":"wald","condition":"t.borealForest || t.temperateForest","points":10},{"text":"walden","condition":"t.borealForest || t.temperateForest","points":10},{"text":"vald","condition":"t.borealForest || t.temperateForest","points":10},{"text":"val","condition":"t.borealForest || t.temperateForest","points":10}],"riverSuffixes":[{"text":"au","condition":"","points":10},{"text":"en","condition":"","points":10}]}');
 
 /***/ }),
 

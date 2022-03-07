@@ -1,24 +1,24 @@
 {
   "tributaryPrefixes": [
     {
-      "text": "helle",
+      "text": "heller",
       "condition": "",
       "points": 10
     },
     {
-      "text": "dunkle",
+      "text": "dunkler",
       "condition": "",
       "points": 10
     },
     {
-      "text": "kleine",
+      "text": "kleiner",
       "condition": "",
       "points": 10
     }
   ],
   "tributarySuffixes": [
     {
-      "text": "enbach",
+      "text": "bach",
       "condition": "",
       "points": 10
     }
