@@ -79,7 +79,7 @@
     {
       "name": "",
       "points": 10,
-      "description": "a ${tincture2} field",
+      "description": "a ${tincture1} field",
       "layouts": [
         { "name": "single-center-lg", "overlap": [0] },
         { "name": "double", "overlap": [0] },
@@ -139,7 +139,7 @@
     {
       "name": "chief",
       "points": 10,
-      "description": "a horizontal, ${tincture2} stripe positioned at the top of a ${tincture1} field",
+      "description": "a horizontal, ${tincture1} stripe positioned at the top of a ${tincture2} field",
       "layouts": [{ "name": "triple-top", "overlap": [0] }],
       "svg": [
         { "path": "M 0 0 H 12 V 12 H 0 V 0", "tinctureIndex": 1 },
@@ -149,7 +149,7 @@
     {
       "name": "per pale",
       "points": 10,
-      "description": "a vertically partitioned, ${tincture2} and ${tincture1} field",
+      "description": "a vertically partitioned, ${tincture1} and ${tincture2} field",
       "layouts": [
         { "name": "single-center-lg", "overlap": [0, 1] },
         { "name": "double", "overlap": [0, 1] }

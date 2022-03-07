@@ -90,8 +90,8 @@ export default class RiversModule extends Module {
       ? coast.direction
       : Rand.pick(availableDirections);
 
+    console.log('river');
     const riverName: Word = this.getRiverName();
-    const tributaries: Tributary[] = this.getTributaries(riverName);
 
     let river: River = {
       name: riverName,
@@ -99,19 +99,25 @@ export default class RiversModule extends Module {
       flowsFrom: flowsFrom,
       flowsToCoast: coast,
       flowsFromMountains: mountains,
-      tributaries: tributaries
+      tributaries: []
     };
 
     this.rivers.push(river);
+
+    river.tributaries = this.getTributaries(river);
   }
 
   private getRiverName(): Word {
     // Roots cannot be used by an existing river
-    let validRoots: WordPart[] = roots.filter(
-      (p) =>
+    let validRoots: WordPart[] = roots.filter((p) => {
+      console.log(this.rivers.map((r) => r.name.root.text));
+      return (
         this.rivers.every((r) => r.name.root.text != p.text) &&
         this.realm.evaluateCondition(p.condition)
-    );
+      );
+    });
+
+    console.log(validRoots.length);
 
     let validSuffixes: WordPart[] = riverSuffixes.filter((p) =>
       this.realm.evaluateCondition(p.condition)
@@ -128,42 +134,45 @@ export default class RiversModule extends Module {
       riverName = { root: root, suffix: suffix };
     } while (!this.isValidRiverName(riverName));
 
+    console.log('  river name: ' + Lang.readWord(riverName));
     return riverName;
   }
 
-  private getTributaries(riverName: Word): Tributary[] {
+  private getTributaries(river: River): Tributary[] {
     let tributaries: Tributary[] = [];
     const tributaryCount: number = Rand.between(0, 3);
 
     for (let i = 0; i < tributaryCount; i++) {
+      console.log('tributary');
       const tributaryName: Word =
-        i == 0 && Rand.next() < 0.6 ? riverName : this.getRiverName();
+        i == 0 && Rand.next() < 0.6 ? river.name : this.getRiverName();
 
       // If the tributary name is the same as the stem, choose a tributary prefix and/or suffix
       let prefix: WordPart | null = null;
       let suffix: WordPart | null = null;
-      do {
-        if (riverName == tributaryName) {
-          do {
-            if (tributaryName == riverName)
-              prefix = Rand.weightedPick(
-                tributaryPrefixes,
-                (item) => item.points
-              );
-            if (Rand.next() < 0.3)
-              suffix = Rand.weightedPick(
-                tributarySuffixes,
-                (item) => item.points
-              );
-          } while (!prefix && !suffix);
-        }
-      } while (!this.isValidRiverName(tributaryName));
+      // do {
+      //   if (tributaryName == river.name) {
+      //     do {
+      //       if (Rand.next() < 0.3) {
+      //         prefix = Rand.weightedPick(
+      //           tributaryPrefixes,
+      //           (item) => item.points
+      //         );
+      //       }
+      //       if (Rand.next() < 0.3)
+      //         suffix = Rand.weightedPick(
+      //           tributarySuffixes,
+      //           (item) => item.points
+      //         );
+      //     } while (!prefix && !suffix);
+      //   }
+      // } while (!this.isValidRiverName(tributaryName));
 
       let tributary: Tributary = {
         name: tributaryName,
         prefix: prefix,
         suffix: suffix,
-        stem: null
+        stem: river
       };
 
       // The more tributaries there are the lower the chance is to add a new one
@@ -178,6 +187,7 @@ export default class RiversModule extends Module {
       // Push to top level tributary array (of all tributaries)
       this.tributaries.push(tributary);
     }
+
     return tributaries;
   }
 
