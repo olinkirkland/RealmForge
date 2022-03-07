@@ -110,14 +110,11 @@ export default class RiversModule extends Module {
   private getRiverName(): Word {
     // Roots cannot be used by an existing river
     let validRoots: WordPart[] = roots.filter((p) => {
-      console.log(this.rivers.map((r) => r.name.root.text));
       return (
         this.rivers.every((r) => r.name.root.text != p.text) &&
         this.realm.evaluateCondition(p.condition)
       );
     });
-
-    console.log(validRoots.length);
 
     let validSuffixes: WordPart[] = riverSuffixes.filter((p) =>
       this.realm.evaluateCondition(p.condition)
@@ -134,7 +131,7 @@ export default class RiversModule extends Module {
       riverName = { root: root, suffix: suffix };
     } while (!this.isValidRiverName(riverName));
 
-    console.log('  river name: ' + Lang.readWord(riverName));
+    console.log('  name: ' + Lang.readWord(riverName));
     return riverName;
   }
 
@@ -150,22 +147,23 @@ export default class RiversModule extends Module {
       // If the tributary name is the same as the stem, choose a tributary prefix and/or suffix
       let prefix: WordPart | null = null;
       let suffix: WordPart | null = null;
+
       // do {
-      //   if (tributaryName == river.name) {
-      //     do {
-      //       if (Rand.next() < 0.3) {
-      //         prefix = Rand.weightedPick(
-      //           tributaryPrefixes,
-      //           (item) => item.points
-      //         );
-      //       }
-      //       if (Rand.next() < 0.3)
-      //         suffix = Rand.weightedPick(
-      //           tributarySuffixes,
-      //           (item) => item.points
-      //         );
-      //     } while (!prefix && !suffix);
-      //   }
+      if (tributaryName == river.name) {
+        do {
+          if (Rand.next() < 0.3) {
+            prefix = Rand.weightedPick(
+              tributaryPrefixes,
+              (item) => item.points
+            );
+          }
+          if (Rand.next() < 0.3)
+            suffix = Rand.weightedPick(
+              tributarySuffixes,
+              (item) => item.points
+            );
+        } while (!prefix && !suffix);
+      }
       // } while (!this.isValidRiverName(tributaryName));
 
       let tributary: Tributary = {

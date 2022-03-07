@@ -914,11 +914,9 @@ class RiversModule extends _Module__WEBPACK_IMPORTED_MODULE_4__["default"] {
     getRiverName() {
         // Roots cannot be used by an existing river
         let validRoots = _river_names_json__WEBPACK_IMPORTED_MODULE_7__.roots.filter((p) => {
-            console.log(this.rivers.map((r) => r.name.root.text));
             return (this.rivers.every((r) => r.name.root.text != p.text) &&
                 this.realm.evaluateCondition(p.condition));
         });
-        console.log(validRoots.length);
         let validSuffixes = _river_names_json__WEBPACK_IMPORTED_MODULE_7__.riverSuffixes.filter((p) => this.realm.evaluateCondition(p.condition));
         let riverName;
         do {
@@ -926,7 +924,7 @@ class RiversModule extends _Module__WEBPACK_IMPORTED_MODULE_4__["default"] {
             let suffix = _util_Rand__WEBPACK_IMPORTED_MODULE_1__["default"].weightedPick(validSuffixes, (item) => item.points);
             riverName = { root: root, suffix: suffix };
         } while (!this.isValidRiverName(riverName));
-        console.log('  river name: ' + _util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(riverName));
+        console.log('  name: ' + _util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(riverName));
         return riverName;
     }
     getTributaries(river) {
@@ -939,21 +937,15 @@ class RiversModule extends _Module__WEBPACK_IMPORTED_MODULE_4__["default"] {
             let prefix = null;
             let suffix = null;
             // do {
-            //   if (tributaryName == river.name) {
-            //     do {
-            //       if (Rand.next() < 0.3) {
-            //         prefix = Rand.weightedPick(
-            //           tributaryPrefixes,
-            //           (item) => item.points
-            //         );
-            //       }
-            //       if (Rand.next() < 0.3)
-            //         suffix = Rand.weightedPick(
-            //           tributarySuffixes,
-            //           (item) => item.points
-            //         );
-            //     } while (!prefix && !suffix);
-            //   }
+            if (tributaryName == river.name) {
+                do {
+                    if (_util_Rand__WEBPACK_IMPORTED_MODULE_1__["default"].next() < 0.3) {
+                        prefix = _util_Rand__WEBPACK_IMPORTED_MODULE_1__["default"].weightedPick(_river_names_json__WEBPACK_IMPORTED_MODULE_7__.tributaryPrefixes, (item) => item.points);
+                    }
+                    if (_util_Rand__WEBPACK_IMPORTED_MODULE_1__["default"].next() < 0.3)
+                        suffix = _util_Rand__WEBPACK_IMPORTED_MODULE_1__["default"].weightedPick(_river_names_json__WEBPACK_IMPORTED_MODULE_7__.tributarySuffixes, (item) => item.points);
+                } while (!prefix && !suffix);
+            }
             // } while (!this.isValidRiverName(tributaryName));
             let tributary = {
                 name: tributaryName,
@@ -1498,7 +1490,9 @@ class RiversSection extends _Section__WEBPACK_IMPORTED_MODULE_1__["default"] {
         }
         if (this.realm.rivers.tributaries.length > 0) {
             text +=
-                ' Notable tributaries include the rivers ' +
+                (this.realm.rivers.tributaries.length == 1
+                    ? ' A notable tributary is the river '
+                    : ' Notable tributaries include the rivers ') +
                     _util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].joinArrayWithAnd(this.realm.rivers.tributaries.map((t) => {
                         if (t.prefix)
                             return `${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(t.prefix.text)} ${_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(t.name))}`;
@@ -1728,6 +1722,9 @@ class Lang {
     // with commas and the word 'and' between the last two entries
     static joinArrayWithAnd(arr, joiningString = ', ', lastJoiningString = ' and ') {
         const last = arr.pop();
+        if (arr.length == 0) {
+            return last;
+        }
         if (arr.length == 1) {
             return arr[0] + lastJoiningString + last;
         }

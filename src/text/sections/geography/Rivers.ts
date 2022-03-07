@@ -62,7 +62,9 @@ export default class RiversSection extends Section {
 
     if (this.realm.rivers.tributaries.length > 0) {
       text +=
-        ' Notable tributaries include the rivers ' +
+        (this.realm.rivers.tributaries.length == 1
+          ? ' A notable tributary is the river '
+          : ' Notable tributaries include the rivers ') +
         Lang.joinArrayWithAnd(
           this.realm.rivers.tributaries.map((t) => {
             if (t.prefix)

@@ -49,7 +49,11 @@ export default class Lang {
     joiningString: string = ', ',
     lastJoiningString: string = ' and '
   ): string {
-    const last = arr.pop();
+    const last: string = arr.pop()!;
+
+    if (arr.length == 0) {
+      return last;
+    }
 
     if (arr.length == 1) {
       return arr[0] + lastJoiningString + last;
