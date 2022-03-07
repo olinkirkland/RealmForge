@@ -1,3 +1,4 @@
+import { BiomeType } from '../modules/geography/BiomesModule';
 import Realm from '../realm/Realm';
 import Lang from './Lang';
 export default class Util {
@@ -79,9 +80,13 @@ export default class Util {
   static shareByTweet(realm: Realm) {
     let tweet: string = `Explore ${Lang.capitalize(
       Lang.readWord(realm.realmName.name)
-    )}, a ${realm.size} ${realm.parentEntity.adjective} ${
+    )}, a ${realm.size.size} ${Lang.capitalize(
       realm.government.rank
-    }.`;
+    )} located ${
+      realm.tags.includes(BiomeType.COAST) ? `on the coast ` : ``
+    }in the ${
+      realm.location.locationWithinParentEntity
+    }ern part of the ${Lang.capitalize(realm.parentEntity.name)}.`;
 
     window.open(
       'https://twitter.com/intent/tweet?url=' +

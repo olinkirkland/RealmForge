@@ -1717,7 +1717,7 @@ class Lang {
     static capitalize(str) {
         const arr = str.split(' ');
         str = arr.reduce((accumulator, s) => accumulator + ' ' + s.charAt(0).toUpperCase() + s.substring(1), '');
-        return str;
+        return str.trim();
     }
     // Returns any number lower than 20 as a word ('one', 'two', ... 'nineteen')
     static wordFromNumber(n) {
@@ -1830,7 +1830,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Util)
 /* harmony export */ });
-/* harmony import */ var _Lang__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Lang */ "./src/util/Lang.ts");
+/* harmony import */ var _modules_geography_BiomesModule__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../modules/geography/BiomesModule */ "./src/modules/geography/BiomesModule.ts");
+/* harmony import */ var _Lang__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Lang */ "./src/util/Lang.ts");
+
 
 class Util {
     static download(name, text) {
@@ -1894,7 +1896,7 @@ class Util {
     }
     // Tweet a realm
     static shareByTweet(realm) {
-        let tweet = `Explore ${_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].capitalize(_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(realm.realmName.name))}, a ${realm.size} ${realm.parentEntity.adjective} ${realm.government.rank}.`;
+        let tweet = `Explore ${_Lang__WEBPACK_IMPORTED_MODULE_1__["default"].capitalize(_Lang__WEBPACK_IMPORTED_MODULE_1__["default"].readWord(realm.realmName.name))}, a ${realm.size.size} ${_Lang__WEBPACK_IMPORTED_MODULE_1__["default"].capitalize(realm.government.rank)} located ${realm.tags.includes(_modules_geography_BiomesModule__WEBPACK_IMPORTED_MODULE_0__.BiomeType.COAST) ? `on the coast ` : ``}in the ${realm.location.locationWithinParentEntity}ern part of the ${_Lang__WEBPACK_IMPORTED_MODULE_1__["default"].capitalize(realm.parentEntity.name)}.`;
         window.open('https://twitter.com/intent/tweet?url=' +
             window.location.href +
             '&text=' +

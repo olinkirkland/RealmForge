@@ -69,7 +69,7 @@ export default class Lang {
       ''
     );
 
-    return str;
+    return str.trim();
   }
 
   // Returns any number lower than 20 as a word ('one', 'two', ... 'nineteen')
