@@ -44,15 +44,19 @@ export default class Lang {
 
   // Returns a string joining an array of at least two entries
   // with commas and the word 'and' between the last two entries
-  static joinArrayWithAnd(arr: string[]): string {
+  static joinArrayWithAnd(
+    arr: string[],
+    joiningString: string = ', ',
+    lastJoiningString: string = ', and '
+  ): string {
     const last = arr.pop();
 
     if (arr.length == 1) {
       return arr[0] + ' and ' + last;
     }
 
-    let str: string = arr.join(', ');
-    str += ', and ' + last;
+    let str: string = arr.join(joiningString);
+    str += lastJoiningString + last;
     return str;
   }
 

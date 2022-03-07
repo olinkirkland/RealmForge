@@ -1,10 +1,11 @@
-import Module from '../Module';
-import Rand from '../../util/Rand';
 import Realm from '../../realm/Realm';
+import Rand from '../../util/Rand';
 import Util from '../../util/Util';
 import { Direction } from '../general/LocationModule';
+import Module from '../Module';
 import { Humidity, Temperature } from './ClimateModule';
-import { Size } from './SizeModule';
+import SizeModule, { Size } from './SizeModule';
+import * as ecoregionDescriptions from './ecoregion-descriptions.json';
 
 export enum BiomeType {
   GRASSLAND = 'grassland',
@@ -16,8 +17,9 @@ export enum BiomeType {
 }
 
 export type Biome = {
+  name: string;
   type: BiomeType;
-  size: number;
+  size: Size;
   direction: Direction;
 };
 
@@ -36,8 +38,9 @@ export default class BiomesModule extends Module {
 
     if (this.realm.tags.includes(BiomeType.COAST)) {
       const coastBiome = {
+        name: ecoregionDescriptions[BiomeType.COAST],
         type: BiomeType.COAST,
-        size: Rand.between(1, remainingSize, true),
+        size: SizeModule.getSizeFromIndex(Rand.between(1, remainingSize, true)),
         direction: this.realm.location.directionToCoast
       };
     }
@@ -92,8 +95,9 @@ export default class BiomesModule extends Module {
       );
 
       const biome: Biome = {
+        name: ecoregionDescriptions[biomeType].text,
         type: biomeType,
-        size: biomeSize,
+        size: SizeModule.getSizeFromIndex(biomeSize),
         direction: biomeDirection
       };
 

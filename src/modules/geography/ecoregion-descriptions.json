@@ -1,0 +1,20 @@
+{
+  "grassland": {
+    "text": "grassland"
+  },
+  "tundra": {
+    "text": "tundra"
+  },
+  "borealForest": {
+    "text": "forest"
+  },
+  "temperateForest": {
+    "text": "forest"
+  },
+  "mountains": {
+    "text": "mountain range"
+  },
+  "coast": {
+    "text": "coast"
+  }
+}

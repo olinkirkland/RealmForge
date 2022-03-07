@@ -16,7 +16,7 @@ export default class RealmPageController extends PageController {
     this.handleNewRealmButton();
     this.handleCopyLinkButton();
     this.handleTweetButton();
-    this.handleJSONButton();
+    // this.handleJSONButton();
 
     // Apply Content
     this.applyHeroImage();

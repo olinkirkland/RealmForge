@@ -5,7 +5,7 @@ import Rand from '../../util/Rand';
 export enum Size {
   VERY_SMALL = 'very small',
   SMALL = 'small',
-  MEDIUM = 'medium',
+  MEDIUM = 'medium-sized',
   LARGE = 'large',
   VERY_LARGE = 'very large'
 }
@@ -24,5 +24,9 @@ export default class SizeModule extends Module {
 
   get sizeIndex() {
     return Object.values(Size).indexOf(this.size);
+  }
+
+  static getSizeFromIndex(i: number): Size {
+    return Object.values(Size)[i];
   }
 }

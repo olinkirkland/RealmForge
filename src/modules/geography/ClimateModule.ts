@@ -62,8 +62,6 @@ export default class ClimateModule extends Module {
     this.winterAdjectives = this.chooseSeasonAdjectives(
       winter[this.temperature].concat(winter[this.humidity])
     );
-
-    console.log(this.summerAdjectives, this.winterAdjectives);
   }
 
   private chooseSeasonAdjectives(adjectives: string[]): string[] {
