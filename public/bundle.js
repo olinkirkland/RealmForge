@@ -506,8 +506,7 @@ class HeraldryModule extends _Module__WEBPACK_IMPORTED_MODULE_1__["default"] {
         this.chargeTincture = _util_Rand__WEBPACK_IMPORTED_MODULE_0__["default"].pick(availableTinctures);
         // Pick a charge
         this.charge = _util_Rand__WEBPACK_IMPORTED_MODULE_0__["default"].weightedPick(_heraldry_json__WEBPACK_IMPORTED_MODULE_2__.charges, (item) => item.points);
-        console.log(this.chargeLayout.count);
-        if (this.chargeLayout.count < 3) {
+        if (this.chargeLayout.count < 3 || _util_Rand__WEBPACK_IMPORTED_MODULE_0__["default"].next() < 0.3) {
             this.charge = { name: this.sigil.name, points: 0, url: this.sigil.icon };
         }
         // Is it the sigil used on the heraldry? Add a tag if it is
@@ -1664,6 +1663,9 @@ class SigilSection extends _Section__WEBPACK_IMPORTED_MODULE_0__["default"] {
         const textEl = document.createElement('p');
         // "The sigil of Nordland is a cross, which symbolizes piety."
         textEl.innerHTML += `The sigil of ${this.realm.name} is a ${this.realm.heraldry.sigil.name}, and symbolizes ${this.realm.heraldry.sigil.meaning}.`;
+        if (this.realm.tags.includes('sigilAsCharge')) {
+            textEl.innerHTML += ` The ${this.realm.heraldry.sigil.name} of ${this.realm.name} is also featured prominently on the ${this.realm.name} coat of arms.`;
+        }
         el.append(textEl);
         // <i class="fas fa-${this.realm.heraldry.sigil.icon}"></i>
         return el;

@@ -111,8 +111,7 @@ export default class HeraldryModule extends Module {
     // Pick a charge
     this.charge = Rand.weightedPick(charges, (item) => item.points);
 
-    console.log(this.chargeLayout.count);
-    if (this.chargeLayout.count < 3) {
+    if (this.chargeLayout.count < 3 || Rand.next() < 0.3) {
       this.charge = { name: this.sigil.name, points: 0, url: this.sigil.icon };
     }
 

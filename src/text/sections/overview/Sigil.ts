@@ -21,6 +21,10 @@ export default class SigilSection extends Section {
     // "The sigil of Nordland is a cross, which symbolizes piety."
     textEl.innerHTML += `The sigil of ${this.realm.name} is a ${this.realm.heraldry.sigil.name}, and symbolizes ${this.realm.heraldry.sigil.meaning}.`;
 
+    if (this.realm.tags.includes('sigilAsCharge')) {
+      textEl.innerHTML += ` The ${this.realm.heraldry.sigil.name} of ${this.realm.name} is also featured prominently on the ${this.realm.name} coat of arms.`;
+    }
+
     el.append(textEl);
 
     // <i class="fas fa-${this.realm.heraldry.sigil.icon}"></i>
