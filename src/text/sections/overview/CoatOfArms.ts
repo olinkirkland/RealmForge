@@ -20,10 +20,7 @@ export default class CoatOfArmsSection extends Section {
           this.realm.heraldry.tinctures[svg.tinctureIndex].color
         }" viewBox="0 0 12 12">
           <mask id="myMask">
-            <path d="M 2 1 
-            L 2 7
-            c 0 6 8 6 8 0
-            V 1 H 2" fill="white" />
+            <path d="M 2 1.5 l 0 6 c 0 4 2 2 4 4 c 2 -2 4 0 4 -4 v -6 l -4 -0.75 l -4 0.75" fill="white" />
           </mask>
           <path d="${svg.path}" mask="url(#myMask)" />
         </svg>`;
