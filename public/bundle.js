@@ -506,6 +506,7 @@ class HeraldryModule extends _Module__WEBPACK_IMPORTED_MODULE_1__["default"] {
         this.chargeTincture = _util_Rand__WEBPACK_IMPORTED_MODULE_0__["default"].pick(availableTinctures);
         // Pick a charge
         this.charge = _util_Rand__WEBPACK_IMPORTED_MODULE_0__["default"].weightedPick(_heraldry_json__WEBPACK_IMPORTED_MODULE_2__.charges, (item) => item.points);
+        console.log(this.chargeLayout.count);
         if (this.chargeLayout.count < 3) {
             this.charge = { name: this.sigil.name, points: 0, url: this.sigil.icon };
         }
@@ -898,7 +899,6 @@ class RiversModule extends _Module__WEBPACK_IMPORTED_MODULE_4__["default"] {
         let flowsTo = coast
             ? coast.direction
             : _util_Rand__WEBPACK_IMPORTED_MODULE_1__["default"].pick(availableDirections);
-        console.log('river');
         const riverName = this.getRiverName();
         let river = {
             name: riverName,
@@ -924,14 +924,12 @@ class RiversModule extends _Module__WEBPACK_IMPORTED_MODULE_4__["default"] {
             let suffix = _util_Rand__WEBPACK_IMPORTED_MODULE_1__["default"].weightedPick(validSuffixes, (item) => item.points);
             riverName = { root: root, suffix: suffix };
         } while (!this.isValidRiverName(riverName));
-        console.log('  name: ' + _util_Lang__WEBPACK_IMPORTED_MODULE_0__["default"].readWord(riverName));
         return riverName;
     }
     getTributaries(river) {
         let tributaries = [];
         const tributaryCount = _util_Rand__WEBPACK_IMPORTED_MODULE_1__["default"].between(0, 3);
         for (let i = 0; i < tributaryCount; i++) {
-            console.log('tributary');
             const tributaryName = i == 0 && _util_Rand__WEBPACK_IMPORTED_MODULE_1__["default"].next() < 0.6 ? river.name : this.getRiverName();
             // If the tributary name is the same as the stem, choose a tributary prefix and/or suffix
             let prefix = null;

@@ -90,7 +90,6 @@ export default class RiversModule extends Module {
       ? coast.direction
       : Rand.pick(availableDirections);
 
-    console.log('river');
     const riverName: Word = this.getRiverName();
 
     let river: River = {
@@ -131,7 +130,6 @@ export default class RiversModule extends Module {
       riverName = { root: root, suffix: suffix };
     } while (!this.isValidRiverName(riverName));
 
-    console.log('  name: ' + Lang.readWord(riverName));
     return riverName;
   }
 
@@ -140,7 +138,6 @@ export default class RiversModule extends Module {
     const tributaryCount: number = Rand.between(0, 3);
 
     for (let i = 0; i < tributaryCount; i++) {
-      console.log('tributary');
       const tributaryName: Word =
         i == 0 && Rand.next() < 0.6 ? river.name : this.getRiverName();
 
