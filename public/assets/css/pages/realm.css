@@ -175,6 +175,7 @@ article.big {
 article h2 {
   font-size: 2rem;
   margin-bottom: 2.4rem;
+  line-height: 1.25;
 }
 
 article h2:first-letter {
@@ -182,7 +183,7 @@ article h2:first-letter {
   font-weight: normal;
   font-size: 415%;
   float: left;
-  margin: 0.2rem;
+  margin: 0.4rem;
   margin-bottom: 0;
 }
 

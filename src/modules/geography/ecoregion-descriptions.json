@@ -1,20 +1,28 @@
 {
-  "grassland": {
-    "text": "grassland"
-  },
-  "tundra": {
-    "text": "tundra"
-  },
-  "borealForest": {
-    "text": "forest"
-  },
-  "temperateForest": {
-    "text": "forest"
-  },
-  "mountains": {
-    "text": "mountain range"
-  },
-  "coast": {
-    "text": "coast"
+  "descriptions": {
+    "grassland": {
+      "text": "grassland",
+      "trees": []
+    },
+    "tundra": {
+      "text": "tundra",
+      "trees": []
+    },
+    "borealForest": {
+      "text": "coniferous forest",
+      "trees": ["pine", "spruce", "fir", "cedar"]
+    },
+    "temperateForest": {
+      "text": "broadleaf forest",
+      "trees": ["oak", "maple", "beech", "elm", "birch"]
+    },
+    "mountains": {
+      "text": "mountain range",
+      "trees": []
+    },
+    "coast": {
+      "text": "coast",
+      "trees": []
+    }
   }
 }

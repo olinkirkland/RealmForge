@@ -5,7 +5,7 @@ import { Direction } from '../general/LocationModule';
 import Module from '../Module';
 import { Humidity, Temperature } from './ClimateModule';
 import SizeModule, { Size } from './SizeModule';
-import * as ecoregionDescriptions from './ecoregion-descriptions.json';
+import { descriptions as ecoregionDescriptions } from './ecoregion-descriptions.json';
 
 export enum BiomeType {
   GRASSLAND = 'grassland',
@@ -21,6 +21,7 @@ export type Biome = {
   type: BiomeType;
   size: Size;
   direction: Direction;
+  trees: string[];
 };
 
 export default class BiomesModule extends Module {
@@ -88,17 +89,32 @@ export default class BiomesModule extends Module {
       let biomeType: BiomeType = Rand.pick(availableBiomeTypes);
       availableBiomeTypes = Util.arrayRemove(availableBiomeTypes, biomeType);
 
-      let biomeDirection = Rand.pick(availableDirections);
+      let biomeDirection: Direction = Rand.pick(availableDirections);
       availableDirections = Util.arrayRemove(
         availableDirections,
         biomeDirection
       );
 
+      const description = ecoregionDescriptions[biomeType];
+      let trees: string[] = [];
+
+      if (description.trees.length > 0) {
+        let validTrees: string[] = description.trees;
+        let chance: number = 1;
+        // do {
+          const tree: string = Rand.pick(validTrees);
+          Util.arrayRemove(validTrees, tree);
+          trees.push(tree);
+          chance *= 0.6;
+        // } while (Rand.next() < chance && validTrees.length > 0);
+      }
+
       const biome: Biome = {
         name: ecoregionDescriptions[biomeType].text,
         type: biomeType,
         size: SizeModule.getSizeFromIndex(biomeSize),
-        direction: biomeDirection
+        direction: biomeDirection,
+        trees: trees
       };
 
       this.biomes.push(biome);

@@ -21,7 +21,11 @@ export default class EcoregionsSection extends Section {
 
     // "The ecoregions of Nordland consist mostly of boreal-forest with a very small temperate-forest region in the west."
     if (this.realm.biomes.biomes.length == 1) {
-      textEl.innerHTML = `${this.realm.name} consists entirely of ${this.realm.biomes.biomes[0].name}.`;
+      textEl.innerHTML = `${
+        this.realm.name
+      } consists entirely of ${Lang.prependArticle(
+        this.realm.biomes.biomes[0].name
+      )}.`;
     } else {
       textEl.innerHTML = `The ecoregions of ${this.realm.name} include `;
       // todo: sort by size

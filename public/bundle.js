@@ -621,7 +621,6 @@ class RealmNameModule extends _Module__WEBPACK_IMPORTED_MODULE_1__["default"] {
   \***********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-var _ecoregion_descriptions_json__WEBPACK_IMPORTED_MODULE_6___namespace_cache;
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "BiomeType": () => (/* binding */ BiomeType),
@@ -660,7 +659,7 @@ class BiomesModule extends _Module__WEBPACK_IMPORTED_MODULE_3__["default"] {
         let remainingSize = this.realm.size.sizeIndex + 1;
         if (this.realm.tags.includes(BiomeType.COAST)) {
             const coastBiome = {
-                name: /*#__PURE__*/ (_ecoregion_descriptions_json__WEBPACK_IMPORTED_MODULE_6___namespace_cache || (_ecoregion_descriptions_json__WEBPACK_IMPORTED_MODULE_6___namespace_cache = __webpack_require__.t(_ecoregion_descriptions_json__WEBPACK_IMPORTED_MODULE_6__, 2)))[BiomeType.COAST],
+                name: _ecoregion_descriptions_json__WEBPACK_IMPORTED_MODULE_6__.descriptions[BiomeType.COAST],
                 type: BiomeType.COAST,
                 size: _SizeModule__WEBPACK_IMPORTED_MODULE_5__["default"].getSizeFromIndex(_util_Rand__WEBPACK_IMPORTED_MODULE_0__["default"].between(1, remainingSize, true)),
                 direction: this.realm.location.directionToCoast
@@ -699,11 +698,24 @@ class BiomesModule extends _Module__WEBPACK_IMPORTED_MODULE_3__["default"] {
             availableBiomeTypes = _util_Util__WEBPACK_IMPORTED_MODULE_1__["default"].arrayRemove(availableBiomeTypes, biomeType);
             let biomeDirection = _util_Rand__WEBPACK_IMPORTED_MODULE_0__["default"].pick(availableDirections);
             availableDirections = _util_Util__WEBPACK_IMPORTED_MODULE_1__["default"].arrayRemove(availableDirections, biomeDirection);
+            const description = _ecoregion_descriptions_json__WEBPACK_IMPORTED_MODULE_6__.descriptions[biomeType];
+            let trees = [];
+            if (description.trees.length > 0) {
+                let validTrees = description.trees;
+                let chance = 1;
+                // do {
+                const tree = _util_Rand__WEBPACK_IMPORTED_MODULE_0__["default"].pick(validTrees);
+                _util_Util__WEBPACK_IMPORTED_MODULE_1__["default"].arrayRemove(validTrees, tree);
+                trees.push(tree);
+                chance *= 0.6;
+                // } while (Rand.next() < chance && validTrees.length > 0);
+            }
             const biome = {
-                name: /*#__PURE__*/ (_ecoregion_descriptions_json__WEBPACK_IMPORTED_MODULE_6___namespace_cache || (_ecoregion_descriptions_json__WEBPACK_IMPORTED_MODULE_6___namespace_cache = __webpack_require__.t(_ecoregion_descriptions_json__WEBPACK_IMPORTED_MODULE_6__, 2)))[biomeType].text,
+                name: _ecoregion_descriptions_json__WEBPACK_IMPORTED_MODULE_6__.descriptions[biomeType].text,
                 type: biomeType,
                 size: _SizeModule__WEBPACK_IMPORTED_MODULE_5__["default"].getSizeFromIndex(biomeSize),
-                direction: biomeDirection
+                direction: biomeDirection,
+                trees: trees
             };
             this.biomes.push(biome);
             this.realm.addTag(biomeType);
@@ -1366,7 +1378,7 @@ class EcoregionsSection extends _Section__WEBPACK_IMPORTED_MODULE_2__["default"]
         const textEl = document.createElement('p');
         // "The ecoregions of Nordland consist mostly of boreal-forest with a very small temperate-forest region in the west."
         if (this.realm.biomes.biomes.length == 1) {
-            textEl.innerHTML = `${this.realm.name} consists entirely of ${this.realm.biomes.biomes[0].name}.`;
+            textEl.innerHTML = `${this.realm.name} consists entirely of ${_util_Lang__WEBPACK_IMPORTED_MODULE_1__["default"].prependArticle(this.realm.biomes.biomes[0].name)}.`;
         }
         else {
             textEl.innerHTML = `The ecoregions of ${this.realm.name} include `;
@@ -1969,7 +1981,7 @@ module.exports = JSON.parse('{"sigils":[{"name":"stallion","icon":"chess-knight"
   \***********************************************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"grassland":{"text":"grassland"},"tundra":{"text":"tundra"},"borealForest":{"text":"forest"},"temperateForest":{"text":"forest"},"mountains":{"text":"mountain range"},"coast":{"text":"coast"}}');
+module.exports = JSON.parse('{"descriptions":{"grassland":{"text":"grassland","trees":[]},"tundra":{"text":"tundra","trees":[]},"borealForest":{"text":"coniferous forest","trees":["pine","spruce","fir","cedar"]},"temperateForest":{"text":"broadleaf forest","trees":["oak","maple","beech","elm","birch"]},"mountains":{"text":"mountain range","trees":[]},"coast":{"text":"coast","trees":[]}}}');
 
 /***/ }),
 
